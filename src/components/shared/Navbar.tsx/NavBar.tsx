@@ -16,7 +16,7 @@ const Navbar = () => {
 
   return (
     <header className="relative z-50 w-full">
-      <nav className="flex h-[72px] items-center justify-between bg-white px-6 shadow-md huge-px-[162px] lg-custom:px-12">
+      <nav className="flex h-18 items-center justify-between bg-white px-6 shadow-md huge-px-[162px] lg-custom:px-12">
         <NavLink to="/" className="flex items-center">
           {/* <img src={logo} alt="LSA Logo" className="h-10 w-auto" /> */}
         </NavLink>
@@ -56,7 +56,7 @@ const Navbar = () => {
       </nav>
 
       {open && (
-        <div className="absolute left-0 right-0 top-[72px] z-50 mx-3.5 rounded-bl-3xl rounded-br-3xl bg-white px-6 py-5 shadow-md lg:hidden">
+        <div className="absolute left-0 right-0 top-18 z-50 mx-3.5 rounded-bl-3xl rounded-br-3xl bg-white px-6 py-5 shadow-md lg:hidden">
           <ul className="flex flex-col items-center gap-4">
             {navLinks.map((link) => (
               <li key={link.name} className="w-full">
