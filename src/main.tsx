@@ -18,8 +18,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "about", element: <AboutPage /> },
-      { path: "engineering-services", element: <EngineeringServicesPage /> },
-      { path: "engineering-services/:id", element: <EngineeringServiceDeatilsPage /> },
+      { path: "services", element: <EngineeringServicesPage /> },
+      { path: "services/:id", element: <EngineeringServiceDeatilsPage /> },
       { path: "projects", element: <ProjectPage /> },
       { path: "projects/:id", element: <ProjectDetailsPage /> },
       { path: "careers", element: <CareersPage /> },
