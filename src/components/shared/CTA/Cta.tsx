@@ -15,7 +15,6 @@ const CTASection = () => {
 
                     {/* Horizontal Dashed Lines */}
                     <div className="absolute left-1/2 top-[20%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15" />
-
                     <div className="absolute left-1/2 top-[50%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15" />
 
                     <div className="absolute left-1/2 top-[90%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15" />
