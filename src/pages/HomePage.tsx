@@ -1,7 +1,10 @@
+import CTASection from "../components/shared/CTA/Cta"
 
 const HomePage = () => {
   return (
-    <div>HomePage</div>
+    <>
+        <CTASection />
+    </>
   )
 }
 
