@@ -1,15 +1,42 @@
 import CTASection from "../components/shared/CTA/Cta"
+import FAQSection from "../sections/FAQSection"
+import HeroSection from "../sections/HeroSection"
+import CounterSection from "../sections/Home/CounterSection"
 import Testimonials from "../sections/Home/Testimonials"
 import TrustedCompanies from "../sections/Home/TrustedCompanies"
 import OurCoreCapabilities from "../sections/HomePageSections/OurCoreCapabilities/OurCoreCapabilities"
+import heroImage from "../assets/imgs/homeHero.webp";
 
 const HomePage = () => {
   return (
-    <div className="space-y-12">
-      <TrustedCompanies />
-      <OurCoreCapabilities/>
-      <Testimonials />
-      <CTASection />
+    <div >
+      <HeroSection
+        image={heroImage}
+        title="Building Iraq's Energy Backbone"
+        description="Delivering world-class EPC services, civil engineering, and specialized pipeline solutions to power the future of the region's oil and gas sector."
+        buttons={[
+          {
+            text: "Get In Touch",
+            to: "/contact",
+            variant: "primary",
+          },
+          {
+            text: "Explore Our Projects",
+            to: "/projects",
+            variant: "outline",
+          },
+        ]}
+      />
+      <CounterSection />
+      <div className="space-y-12">
+        <TrustedCompanies />
+        <OurCoreCapabilities />
+        <FAQSection />
+        <Testimonials />
+        <CTASection />
+      </div>
+
+
     </div>
   )
 }
