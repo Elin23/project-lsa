@@ -4,7 +4,7 @@ import ButtonComponent from "../ButtonComponent";
 
 const CTASection = () => {
     return (
-        <section className="bg-[#F7F8FC]">
+        <section className="bg-[#F7F8FC] mb-12">
             <div className="relative overflow-hidden rounded-[22px] bg-blue-03 px-6 py-16 text-center shadow-lg md:px-12 lg:py-20">
 
                 {/* Background Lines */}
