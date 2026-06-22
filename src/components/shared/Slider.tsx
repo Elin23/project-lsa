@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface SliderProps<T> {
   items: T[];
@@ -8,16 +8,29 @@ interface SliderProps<T> {
 const Slider = <T,>({ items, renderItem }: SliderProps<T>) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
+  useEffect(() => {
+    if (items.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % items.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [items.length]);
+
   const active = items[activeIndex];
 
   return (
     <>
-      {renderItem(active)}
+      <div key={activeIndex} className="animate-[fadeSlide_0.6s_ease-in-out]">
+        {renderItem(active)}
+      </div>
 
       <div className="mt-9 flex justify-center gap-2">
         {items.map((_, index) => (
           <button
             key={index}
+            type="button"
             onClick={() => setActiveIndex(index)}
             className={`h-3 w-3 rounded-full transition ${
               activeIndex === index
