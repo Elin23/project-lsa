@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ctaData } from "../../../data/ctaData";
+import ButtonComponent from "../ButtonComponent";
 
 const CTASection = () => {
     return (
@@ -51,12 +52,11 @@ const CTASection = () => {
                         {ctaData.description}
                     </p>
 
-                    <Link
+                    <ButtonComponent
                         to={ctaData.buttonLink}
-                        className="mt-8 inline-flex h-[46px] items-center justify-center rounded-full bg-red-01 px-8 text-sm font-semibold text-white transition hover:bg-[#c9162d]"
-                    >
+                        className="mt-8">
                         {ctaData.buttonText}
-                    </Link>
+                    </ButtonComponent>
                 </div>
             </div>
         </section>
