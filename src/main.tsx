@@ -1,7 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import MainLayout from './layouts/MainLayout.tsx'
 import HomePage from './pages/HomePage.tsx'
 import CareersPage from './pages/CareersPage.tsx'
 import ContactPage from './pages/ContactPage.tsx'
@@ -10,6 +9,7 @@ import EngineeringServicesPage from './pages/EngineeringServicesPage.tsx'
 import ProjectPage from './pages/ProjectPage.tsx'
 import ProjectDetailsPage from './pages/ProjectDetails.tsx'
 import EngineeringServiceDeatilsPage from './pages/EngineeringServiceDeatilsPage.tsx'
+import MainLayout from './layouts/MainLayout.tsx'
 
 const router = createBrowserRouter([
   {
