@@ -1,7 +1,11 @@
 
 const EngineeringServiceDeatilsPage = () => {
   return (
-    <div>EngineeringServiceDeatilsPage</div>
+    <>
+    <div className="space-y-12">
+hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+    </div>
+    </>
   )
 }
 

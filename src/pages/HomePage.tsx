@@ -7,6 +7,7 @@ import TrustedCompanies from "../sections/Home/TrustedCompanies"
 import heroImage from "../assets/imgs/homeHero.webp";
 import OurCoreCapabilities from "../sections/Home/OurCoreCapabilities"
 import FeaturedProjects from "../sections/Home/FeaturedProjects"
+import AboutUsHomeSection from "../sections/Home/AboutUsHomeSection"
 
 const HomePage = () => {
   return (
@@ -31,6 +32,7 @@ const HomePage = () => {
       <CounterSection />
       <div className="space-y-12">
         <TrustedCompanies />
+        <AboutUsHomeSection />
         <OurCoreCapabilities />
         <FeaturedProjects/>
         <FAQSection />
