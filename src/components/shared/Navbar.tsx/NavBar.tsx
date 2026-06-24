@@ -15,7 +15,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="relative z-50 w-full">
+    <header className="fixed z-50 w-full">
       <nav className="flex h-18 items-center justify-between bg-white px-6 shadow-md huge-px-[162px] lg-custom:px-12">
         <NavLink to="/" className="flex items-center">
           {/* <img src={logo} alt="LSA Logo" className="h-10 w-auto" /> */}

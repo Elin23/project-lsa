@@ -1,0 +1,63 @@
+import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
+import { timelineData } from "../../data/timelineData";
+
+const OurJourney = () => {
+  return (
+    <section className="bg-[#f7f7fb] py-16 md:py-24">
+      <div >
+
+          <TitleComponent title="Our Journey" description="Tracing our evolution through milestone achievements and continuous commitment to engineering excellence." />
+
+        <div className="relative">
+          <div className="absolute left-4 top-0 h-full w-px bg-indigo-100 md:left-1/2 md:-translate-x-1/2" />
+
+          <div className="space-y-10 md:space-y-8">
+            {timelineData.map((item, index) => {
+              const Icon = item.icon;
+              const isLeft = item.side === "left";
+
+              return (
+                <div
+                  key={index}
+                  className={`relative flex items-center md:min-h-[150px] ${
+                    isLeft ? "md:justify-start" : "md:justify-end"
+                  }`}
+                >
+                  <div
+                    className={`absolute left-4 top-6 z-10 h-3 w-3 -translate-x-1/2 rounded-full ${item.dotColor} md:left-1/2`}
+                  />
+
+                  <div
+                    className="ml-10 w-full rounded-xl bg-white p-6 shadow-[0_8px_30px_rgba(31,63,147,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_35px_rgba(31,63,147,0.14)] md:ml-0 md:w-[46%]"
+                  >
+                    <div className="mb-3 flex items-center gap-2">
+                      <Icon size={15} className="text-[#1f3f93]" />
+
+                      <span className="text-sm font-bold text-blue-02">
+                        {item.year}
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg font-bold text-blue-02">
+                      {item.title}
+                    </h3>
+
+                    <p className="mt-3 text-sm leading-6 text-gray-600">
+                      {item.description}
+                    </p>
+
+                    <span className="mt-4 inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-03">
+                      {item.badge}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default OurJourney;

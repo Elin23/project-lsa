@@ -1,7 +1,12 @@
+import CertificationsStandards from "../sections/About/CertificationsStandards"
+import OurJourney from "../sections/About/OurJourney"
 
 const AboutPage = () => {
   return (
-    <div>AboutPage</div>
+    <div>
+      <OurJourney />
+      <CertificationsStandards />
+    </div>
   )
 }
 
