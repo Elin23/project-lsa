@@ -5,7 +5,7 @@ import { hotTappingProcessData } from '../../data/hotTappingProcessData';
 
 export default function HotTappingProcess() {
     return (
-        <div>
+        <div className=' mt-24'>
             <TitleComponent
                 title="The Hot Tapping Process"
                 description="A meticulous, multi-stage engineering procedure designed to penetrate active pipelines without disrupting flow or compromising safety."
