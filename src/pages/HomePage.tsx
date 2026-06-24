@@ -10,6 +10,7 @@ import FeaturedProjects from "../sections/Home/FeaturedProjects"
 import WhyPartnerSection from "../sections/Home/WhyPartnerSection"
 import { partnerItems } from "../data/partnerData"
 import partnerImage from "../assets/imgs/Industrial_trunkline_construction.jpg"
+import AboutUsHomeSection from "../sections/Home/AboutUsHomeSection"
 
 
 const HomePage = () => {
@@ -35,6 +36,7 @@ const HomePage = () => {
       <CounterSection />
       <div className="space-y-12">
         <TrustedCompanies />
+        <AboutUsHomeSection />
         <OurCoreCapabilities />
         <WhyPartnerSection
           title="Why Partner With Us?"

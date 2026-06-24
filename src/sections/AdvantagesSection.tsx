@@ -46,8 +46,8 @@ const advantagesData: AdvantageItem[] = [
 
 export default function AdvantagesSection() {
   return (
-    <section className="bg-[#F7F8FC] py-16 lg:py-20">
-      <div className="container mx-auto px-4 lg:px-20">
+    <section className="py-16 lg:py-20">
+      <div className="">
         <div className="mb-12">
           <TitleComponent
             title="Our Advantages"
