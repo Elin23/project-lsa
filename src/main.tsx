@@ -9,7 +9,7 @@ import ProjectPage from './pages/ProjectPage.tsx'
 import ProjectDetailsPage from './pages/ProjectDetails.tsx'
 import EngineeringServiceDeatilsPage from './pages/EngineeringServiceDeatilsPage.tsx'
 import MainLayout from './layouts/MainLayout.tsx'
-import ServicesPage from './pages/ServicesPage.tsx'
+import EngineeringServicesPage from './pages/EngineeringServicesPage.tsx'
 
 const router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "about", element: <AboutPage /> },
-      { path: "services", element: <ServicesPage /> },
+      { path: "services", element: <EngineeringServicesPage /> },
       { path: "services/:id", element: <EngineeringServiceDeatilsPage /> },
       { path: "projects", element: <ProjectPage /> },
       { path: "projects/:id", element: <ProjectDetailsPage /> },
