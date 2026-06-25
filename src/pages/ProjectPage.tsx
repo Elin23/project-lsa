@@ -1,8 +1,22 @@
+import HeroSection from "../sections/HeroSection"
+import projectHero from "../assets/imgs/projectHero.webp"
+import ProjectsSection from "../sections/ProjectPortflio/ProjectsSection"
+import HotTappingBanner from "../components/shared/CTA/HotTappingBanner"
 
 const ProjectPage = () => {
   return (
-    <div>ProjectPage</div>
+    <div className="space-y-20">
+            <HeroSection
+                image={projectHero}
+                title="Project Portfolio"
+                description="Showcasing engineering excellence and infrastructure development across the energy sector in Iraq."
+            />
+            <ProjectsSection />
+            <HotTappingBanner />
+
+
+    </div>
   )
 }
 
-export default ProjectPage
+export default ProjectPage        

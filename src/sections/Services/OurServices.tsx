@@ -1,14 +1,10 @@
-
 import { useState } from "react";
-import {
-  ChevronRight,
-  ChevronDown,
-  ChevronUp,
-  CheckCircle,
-} from "lucide-react";
+import { ChevronRight, CheckCircle } from "lucide-react";
+
 import { servicesData } from "../../data/servicesData";
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
 import ButtonComponent from "../../components/shared/ButtonComponent";
+import LoadMoreButton from "../../components/shared/LoadMoreButton";
 
 const OurServices = () => {
   const [visibleCount, setVisibleCount] = useState(3);
@@ -34,7 +30,7 @@ const OurServices = () => {
         {servicesData.slice(0, visibleCount).map((service, index) => (
           <div
             key={index}
-            className="grid gap-6 rounded-xl bg-white p-6 shadow-md ring-1 ring-gray-100 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl md:grid-cols-2 "
+            className="grid gap-6 rounded-xl bg-white p-6 shadow-md ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl md:grid-cols-2"
           >
             {/* Image */}
             <div
@@ -94,24 +90,10 @@ const OurServices = () => {
       </div>
 
       <div className="mt-10 flex justify-center">
-<ButtonComponent
-  onClick={handleToggleServices}
-  className="w-fit"
-  bg="bg-[#1f3f93]"
-  hoverBg="hover:bg-red-600"
-  icon={
-    visibleCount >= servicesData.length ? (
-      <ChevronUp size={16} />
-    ) : (
-      <ChevronDown size={16} />
-    )
-  }
-  iconPosition="right"
->
-  {visibleCount >= servicesData.length
-    ? "Show Less"
-    : "Load More"}
-</ButtonComponent>
+        <LoadMoreButton
+          isExpanded={visibleCount >= servicesData.length}
+          onClick={handleToggleServices}
+        />
       </div>
     </section>
   );
