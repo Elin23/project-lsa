@@ -2,10 +2,12 @@ import StrategicDirectionsSection from "../sections/About/StrategicDirectionsSec
 import TeamSection from "../sections/About/TeamSection"
 import HeroSection from "../sections/HeroSection"
 import aboutHero from "../assets/imgs/aboutHero.webp"
+import CertificationsStandards from "../sections/About/CertificationsStandards"
+import OurJourney from "../sections/About/OurJourney"
 
 const AboutPage = () => {
   return (
-    <div>
+    <div className="space-y-12">
       <HeroSection
         image={aboutHero}
         title="A Legacy of Industrial Reliability"
@@ -21,6 +23,9 @@ Our approach is rooted in rigorous planning and execution. We leverage advanced 
         ]}
       />
       <StrategicDirectionsSection />
+      <OurJourney />
+       <CertificationsStandards />
+
       <TeamSection />
     </div>
   )

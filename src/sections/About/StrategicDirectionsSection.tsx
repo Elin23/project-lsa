@@ -5,7 +5,7 @@ import { directionsData } from "../../data/stratigicData";
 
 const StrategicDirectionsSection = () => {
     return (
-        <section className=" py-16 lg:py-20">
+        <section>
             <div className="">
                 <div className="mb-12">
                     <TitleComponent

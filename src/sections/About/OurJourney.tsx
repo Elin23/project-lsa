@@ -3,7 +3,7 @@ import { timelineData } from "../../data/timelineData";
 
 const OurJourney = () => {
   return (
-    <section className="bg-[#f7f7fb] py-16 md:py-24">
+    <section>
       <div >
 
           <TitleComponent title="Our Journey" description="Tracing our evolution through milestone achievements and continuous commitment to engineering excellence." />

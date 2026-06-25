@@ -6,7 +6,7 @@ import CTASection from "../components/shared/CTA/Cta"
 
 const EngineeringServicesPage = () => {
     return (
-        <div>
+        <div className="space-y-12">
             <HeroSection
                 image={engineeringHero}
                 title="Engineering Services"

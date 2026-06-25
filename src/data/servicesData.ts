@@ -5,36 +5,82 @@ export const servicesData = [
     title: "Pipeline Construction",
     description:
       "Expertise in the fabrication, laying, and testing of complex pipeline networks for oil, gas, and water distribution.",
-    image: "/images/services/pipeline.jpg",
+    image: "/Images/ourservices/pipeline.png",
     features: [
       "Flowline Installation",
       "Trunklines & Export Lines",
       "Pipeline Rehabilitation",
     ],
+    path: "/",
     reverse: false,
   },
   {
     title: "Hot Tapping & Stopple",
     description:
       "Uninterrupted operations are critical. Our specialized hot tapping services allow tie-ins without halting production flow.",
-    image: "/images/services/hot-tapping.jpg",
+    image: "/Images/ourservices/hot-tapping.png",
     features: [
       "Live Pipeline Interventions",
       "Under-pressure Drilling",
       "Zero Downtime Maintenance",
     ],
+    path: "/",
+
     reverse: true,
   },
   {
     title: "Structural Fabrication",
     description:
       "Heavy steel fabrication for industrial plants, platforms, and structural supports with strict quality standards.",
-    image: "/images/services/structural.jpg",
+    image: "/Images/ourservices/structural.png",
     features: [
       "Heavy Duty Steel Frameworks",
       "Skids & Modular Assemblies",
       "On-site Erection Services",
     ],
+    path: "/",
+
+    reverse: false,
+  },
+    {
+    title: "Pipeline Construction",
+    description:
+      "Expertise in the fabrication, laying, and testing of complex pipeline networks for oil, gas, and water distribution.",
+    image: "/Images/ourservices/pipeline.png",
+    features: [
+      "Flowline Installation",
+      "Trunklines & Export Lines",
+      "Pipeline Rehabilitation",
+    ],
+    path: "/",
+    reverse: false,
+  },
+  {
+    title: "Hot Tapping & Stopple",
+    description:
+      "Uninterrupted operations are critical. Our specialized hot tapping services allow tie-ins without halting production flow.",
+    image: "/Images/ourservices/hot-tapping.png",
+    features: [
+      "Live Pipeline Interventions",
+      "Under-pressure Drilling",
+      "Zero Downtime Maintenance",
+    ],
+    path: "/",
+
+    reverse: true,
+  },
+  {
+    title: "Structural Fabrication",
+    description:
+      "Heavy steel fabrication for industrial plants, platforms, and structural supports with strict quality standards.",
+    image: "/Images/ourservices/structural.png",
+    features: [
+      "Heavy Duty Steel Frameworks",
+      "Skids & Modular Assemblies",
+      "On-site Erection Services",
+    ],
+    path: "/",
+
     reverse: false,
   },
 ];

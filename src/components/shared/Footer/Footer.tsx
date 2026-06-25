@@ -6,7 +6,7 @@ import { footerData } from "../../../data/footerData";
 const Footer = () => {
     return (
         <footer className="bg-blue-02 text-white ">
-            <div className="mx-auto huge:px-[162px] lg-custom:px-12 px-6 py-20 max-w-[1440px]">
+            <div className="mx-auto huge:px-[162px] lg-custom:px-12 px-6 py-20 max-w-[1920px]">
                 <div className="grid grid-cols-1 gap-12 lg-custom:grid-cols-4   ">
                     <div>
                         <Link to="/">

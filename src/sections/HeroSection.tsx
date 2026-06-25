@@ -27,7 +27,7 @@ const HeroSection = ({
 }: HeroSectionProps) => {
   return (
     <section
-      className={`relative left-1/2 min-h-[520px] w-screen -translate-x-1/2 overflow-hidden ${className}`}
+      className={`relative left-1/2 min-h-[520px] h-[calc(100vh-72px)] w-screen -translate-x-1/2 overflow-hidden ${className}`}
     >
       <img
         src={image}
@@ -38,7 +38,7 @@ const HeroSection = ({
       <div className="absolute inset-0 bg-black/55" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-[#0B1020]/40 to-[#071225]" />
 
-      <div className="relative z-10 mx-auto flex min-h-[520px] max-w-[950px] flex-col items-center justify-center px-5 text-center">
+      <div className="relative z-10 mx-auto flex h-full max-w-[950px] flex-col items-center justify-center px-5 text-center">
         <h1 className="max-w-[800px] text-[36px] font-extrabold leading-[1] tracking-[-0.02em] text-white sm:text-5xl md:text-6xl lg:text-[64px]">
           {title}
         </h1>
