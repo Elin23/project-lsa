@@ -43,7 +43,6 @@ const advantagesData: AdvantageItem[] = [
 ];
 
 
-
 export default function AdvantagesSection() {
   return (
     <section>
@@ -54,7 +53,6 @@ export default function AdvantagesSection() {
             description="Guiding principles that drive our engineering solutions and corporate growth."
           />
         </div>
-
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {advantagesData.map((item) => (
             <AdvantageCard key={item.title} {...item} />
