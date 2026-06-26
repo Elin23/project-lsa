@@ -7,7 +7,7 @@ const FAQSection = () => {
   const rightItems = faqData.filter((_, index) => index % 2 !== 0);
 
   return (
-    <section className="bg-[#F7F8FC] py-16 lg:py-[72px]">
+    <section className="py-16 lg:py-[72px]">
       <div>
         <div className="mb-8">
           <TitleComponent
