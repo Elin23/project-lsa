@@ -1,29 +1,35 @@
+import type { LucideIcon } from "lucide-react";
+
 interface SharedCardProps {
-    icon: string;
-    title: string;
-    description: string;
+  icon?: string;
+  icon2?: LucideIcon;
+  title: string;
+  description: string;
 }
 
 export default function SharedCard({
-    icon,
-    title,
-    description,
+  icon,
+  icon2: Icon,
+  title,
+  description,
 }: SharedCardProps) {
-    return (
-        <div className=" rounded-xl p-7 2xl:p-8 border border-[#C5C5D333] shadow-[0px_4px_20px_0px_#1E3A8A14]">
-            <div className="flex gap-4">
-                <div className="basis-14 w-14 h-14 shrink-0 grow-0 flex justify-center items-center rounded-lg bg-blue-01">
-                    <img src={icon} alt={title} />
-                </div>
+  return (
+    <div className="rounded-xl border border-[#C5C5D333] p-7 shadow-[0px_4px_20px_0px_#1E3A8A14] 2xl:p-8">
+      <div className="flex gap-4">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-blue-01">
+          {icon && <img src={icon} alt={title} className="h-7 w-7" />}
 
-                <h4 className="text-2xl text-blue-01 font-bold">
-                    {title}
-                </h4>
-            </div>
-
-            <p className="text-lg text-muted-blue font-normal mt-4">
-                {description}
-            </p>
+          {Icon && <Icon className="h-7 w-7 text-white" strokeWidth={2} />}
         </div>
-    );
+
+        <h4 className="text-2xl font-bold text-blue-01">
+          {title}
+        </h4>
+      </div>
+
+      <p className="mt-4 text-lg font-normal text-muted-blue">
+        {description}
+      </p>
+    </div>
+  );
 }
