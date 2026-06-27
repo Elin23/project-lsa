@@ -2,12 +2,16 @@ import TitleComponent from "../components/common/TitleComponent/TitleComponent";
 import FAQItem from "../components/FAQItem";
 import { faqData } from "../data/faqData";
 
-const FAQSection = () => {
+interface FAQSectionProps {
+  className?: string;
+}
+
+const FAQSection = ({ className = "" }: FAQSectionProps) => {
   const leftItems = faqData.filter((_, index) => index % 2 === 0);
   const rightItems = faqData.filter((_, index) => index % 2 !== 0);
 
   return (
-    <section >
+    <section className={className}>
       <div>
         <div className="mb-8">
           <TitleComponent

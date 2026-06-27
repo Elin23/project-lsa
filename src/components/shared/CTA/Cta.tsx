@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { ctaData } from "../../../data/ctaData";
 import ButtonComponent from "../ButtonComponent";
 
