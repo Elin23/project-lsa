@@ -7,10 +7,11 @@ const MainLayout = () => {
     return (
         <div className="min-h-screen bg-white-gray-04 font-urbanist">
             <Navbar />
-            <main className="">
+            <main data-scroll-container className="">
                 <div className="mx-auto pt-[72px] max-w-[1920px] px-container ">
-                    <ScrollToTopButton />
                     <Outlet />
+                    <ScrollToTopButton />
+
                 </div>
             </main>
             <Footer />
