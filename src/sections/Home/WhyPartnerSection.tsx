@@ -22,7 +22,7 @@ const WhyPartnerSection = ({
     items,
 }: WhyPartnerSectionProps) => {
     return (
-        <section className="py-16">
+        <section>
             <div className=" grid gap-1 lg:grid-cols-2 lg:items-center">
                 <div>
                     <div className="mb-8">

@@ -4,7 +4,7 @@ import ButtonComponent from "../ButtonComponent";
 const HotTappingBanner = () => {
   return (
     <section >
-      <div className=" pb-20">
+      <div className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
         <div className="flex flex-col items-start justify-between gap-10 overflow-hidden rounded-[28px] bg-[#28459A] px-8 py-10 shadow-[0_20px_50px_rgba(0,0,0,0.18)] md:flex-row md:items-center md:px-12 md:py-14">
           {/* Content */}
           <div className="max-w-3xl">

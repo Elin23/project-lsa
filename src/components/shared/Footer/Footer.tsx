@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import { Camera, Mail, MapPin, Phone, Users } from "lucide-react";
 import { footerData } from "../../../data/footerData";
 // import logo from "../../../assets/logo.png";
 
 const Footer = () => {
     return (
         <footer className="bg-blue-02 text-white ">
-            <div className="mx-auto huge:px-[162px] lg-custom:px-12 px-6 py-20 max-w-[1920px]">
+            <div className="mx-auto pt-[72px] max-w-[1920px] px-container  py-20 ">
                 <div className="grid grid-cols-1 gap-12 lg-custom:grid-cols-4   ">
                     <div>
                         <Link to="/">

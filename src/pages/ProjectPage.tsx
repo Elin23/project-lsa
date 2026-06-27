@@ -5,7 +5,7 @@ import HotTappingBanner from "../components/shared/CTA/HotTappingBanner"
 
 const ProjectPage = () => {
   return (
-    <div className="space-y-20">
+    <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
             <HeroSection
                 image={projectHero}
                 title="Project Portfolio"
