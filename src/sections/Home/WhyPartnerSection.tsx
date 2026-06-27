@@ -23,7 +23,7 @@ const WhyPartnerSection = ({
 }: WhyPartnerSectionProps) => {
     return (
         <section>
-            <div className=" grid gap-1 lg:grid-cols-2 lg:items-center">
+            <div className="grid gap-10 lg:grid-cols-2 lg:items-center xl:gap-14 2xl:gap-20">
                 <div>
                     <div className="mb-8">
                         <TitleComponent
