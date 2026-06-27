@@ -34,7 +34,7 @@ const HomePage = () => {
         ]}
       />
       <CounterSection />
-      <div className="space-y-12">
+      <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
         <TrustedCompanies />
         <AboutUsHomeSection />
         <OurCoreCapabilities />

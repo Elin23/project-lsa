@@ -6,7 +6,7 @@ import contactHero from "../assets/imgs/contactHero.webp"
 
 const ContactPage = () => {
   return (
-    <div>
+    <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
        <HeroSection
                 image={contactHero}
                 title="Contact Us"

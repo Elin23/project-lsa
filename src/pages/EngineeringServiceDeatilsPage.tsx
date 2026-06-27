@@ -7,13 +7,11 @@ import HeroSection from "../sections/HeroSection"
 const EngineeringServiceDeatilsPage = () => {
   return (
     <>
-      <div className="space-y-24">
+      <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
         <HeroSection
           image={serviceHero}
           title='"24" Pipeline Najaf to Basra'
-          description="A monumental 18-month infrastructure project connecting Iraq's
-energy hubs through advanced EPC engineering and specialized
-pipeline construction.."
+          description="A monumental 18-month infrastructure project connecting Iraq's energy hubs through advanced EPC engineering and specialized pipeline construction.."
         />
         <HotTappingProcess />
         <OperationalRangesSection />

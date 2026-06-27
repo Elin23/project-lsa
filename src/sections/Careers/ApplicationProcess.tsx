@@ -15,7 +15,7 @@ const ApplicationProcess = () => {
   const ActiveIcon = activeItem.icon;
 
   return (
-    <section className="relative overflow-hidden mb-20">
+    <section className="relative overflow-hidden pb-16 md:pb-20 lg:pb-24 xl:pb-28">
       <div className="absolute left-0 top-0 h-80 w-80 rounded-full" />
       <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full" />
 

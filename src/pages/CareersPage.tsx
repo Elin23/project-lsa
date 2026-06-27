@@ -6,7 +6,7 @@ import ApplicationProcess from "../sections/Careers/ApplicationProcess"
 
 const CareersPage = () => {
   return (
-    <div className="space-y-20">
+    <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
             <HeroSection
                 image={careersHero}
                 title="Build Your Future with L.S.A"
