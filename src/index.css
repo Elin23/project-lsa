@@ -37,7 +37,9 @@ body {
     background-color: var(--color-white-gray-04);
     overflow-x: hidden;
 }
-
+html {
+  scroll-behavior: smooth !important;
+}
 @media (max-width: 1280px) {
     :root {
         --spacing-container: 48px;
@@ -59,5 +61,40 @@ body {
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes pumpMinimal {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+
+  50% {
+    transform: rotate(6deg);
+  }
+}
+
+@keyframes rodMinimal {
+  0%,
+  100% {
+    transform: translateY(-5px);
+  }
+
+  50% {
+    transform: translateY(7px);
+  }
+}
+
+@keyframes dotMinimal {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+
+  50% {
+    transform: translateY(-8px);
+    opacity: 1;
   }
 }

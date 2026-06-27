@@ -7,7 +7,7 @@ import OurJourney from "../sections/About/OurJourney"
 
 const AboutPage = () => {
   return (
-    <div className="space-y-12">
+    <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
       <HeroSection
         image={aboutHero}
         title="A Legacy of Industrial Reliability"
@@ -25,7 +25,6 @@ Our approach is rooted in rigorous planning and execution. We leverage advanced 
       <StrategicDirectionsSection />
       <OurJourney />
        <CertificationsStandards />
-
       <TeamSection />
     </div>
   )

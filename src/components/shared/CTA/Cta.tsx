@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
 import { ctaData } from "../../../data/ctaData";
 import ButtonComponent from "../ButtonComponent";
 
 const CTASection = () => {
     return (
-        <section className="bg-[#F7F8FC] mb-12">
+        <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
             <div className="relative overflow-hidden rounded-[22px] bg-blue-03 px-6 py-12 text-center shadow-lg md:px-12 lg:py-20">
 
                 {/* Background Lines */}

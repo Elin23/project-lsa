@@ -55,7 +55,7 @@ const teamData: TeamMember[] = [
 
 export default function TeamSection() {
   return (
-    <section className=" py-14 lg:py-16">
+    <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
       <div className="">
         <div className="mb-10">
           <TitleComponent

@@ -1,15 +1,22 @@
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import HomePage from './pages/HomePage.tsx'
-import CareersPage from './pages/CareersPage.tsx'
-import ContactPage from './pages/ContactPage.tsx'
-import AboutPage from './pages/AboutPage.tsx'
-import ProjectPage from './pages/ProjectPage.tsx'
-import ProjectDetailsPage from './pages/ProjectDetails.tsx'
-import EngineeringServiceDeatilsPage from './pages/EngineeringServiceDeatilsPage.tsx'
-import MainLayout from './layouts/MainLayout.tsx'
-import EngineeringServicesPage from './pages/EngineeringServicesPage.tsx'
+import { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import "./index.css";
+
+
+import MainLayout from "./layouts/MainLayout";
+
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import CareersPage from "./pages/CareersPage";
+import ContactPage from "./pages/ContactPage";
+import EngineeringServicesPage from "./pages/EngineeringServicesPage";
+import EngineeringServiceDeatilsPage from "./pages/EngineeringServiceDeatilsPage";
+import ProjectPage from "./pages/ProjectPage";
+import ProjectDetailsPage from "./pages/ProjectDetails";
+import Loader from "./components/common/Loader";
+import EquipmentsPage from "./pages/EquipmentsPage";
 
 const router = createBrowserRouter([
   {
@@ -24,10 +31,27 @@ const router = createBrowserRouter([
       { path: "projects/:id", element: <ProjectDetailsPage /> },
       { path: "careers", element: <CareersPage /> },
       { path: "contact", element: <ContactPage /> },
+      { path: "equipment", element: <EquipmentsPage/>}
     ],
   },
-])
+]);
 
-createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />
-);
+function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2200);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  return <RouterProvider router={router} />;
+}
+
+createRoot(document.getElementById("root")!).render(<App />);
