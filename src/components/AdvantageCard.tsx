@@ -1,10 +1,19 @@
-import type { AdvantageItem } from "../sections/AdvantagesSection";
+import type { LucideIcon } from "lucide-react";
+
+export interface AdvantageItem {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  isActive?: boolean;
+  features?: string[];
+}
 
 export const AdvantageCard = ({
   title,
   description,
   icon: Icon,
   isActive = false,
+  features = [],
 }: AdvantageItem) => {
   return (
     <article
@@ -15,7 +24,7 @@ export const AdvantageCard = ({
         ${
           isActive
             ? "border-blue-01 bg-blue-01 text-white shadow-xl"
-            : "border-transparent bg-white text-muted-blue hover:border-blue-01/20"
+            : "border-white-gray-01 bg-white text-muted-blue hover:border-blue-01/20"
         }
       `}
     >
@@ -30,16 +39,14 @@ export const AdvantageCard = ({
         `}
       />
 
-      <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/5 transition-transform duration-500 group-hover:scale-125" />
-
       <div
         className={`
           mb-5 flex h-10 w-10 items-center justify-center rounded-lg
           transition-all duration-300 group-hover:scale-110
-          ${isActive ? "bg-white text-blue-01" : "bg-blue-01 text-white"}
+          ${isActive ? "bg-white text-blue-01" : "bg-blue-01/10 text-blue-01"}
         `}
       >
-        <Icon size={20} />
+        <Icon size={20} strokeWidth={2.4} />
       </div>
 
       <h3
@@ -59,6 +66,30 @@ export const AdvantageCard = ({
       >
         {description}
       </p>
+
+      {features.length > 0 && (
+        <ul className="mt-5 space-y-2">
+          {features.map((feature) => (
+            <li
+              key={feature}
+              className={`
+                flex items-center gap-2 text-xs font-bold
+                ${isActive ? "text-white/85" : "text-blue-01"}
+              `}
+            >
+              <span
+                className={`
+                  flex h-3.5 w-3.5 items-center justify-center rounded-full border text-[9px]
+                  ${isActive ? "border-white/60" : "border-blue-01"}
+                `}
+              >
+                ✓
+              </span>
+              {feature}
+            </li>
+          ))}
+        </ul>
+      )}
     </article>
   );
 };
