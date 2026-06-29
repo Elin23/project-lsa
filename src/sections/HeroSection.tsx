@@ -49,17 +49,17 @@ const HeroSection = ({
       <div className="relative z-10 flex h-full flex-col">
         <div
           className={`
-            mx-auto flex w-full max-w-[950px] flex-1 flex-col items-center
+            mx-auto flex w-full max-w-237.5 flex-1 flex-col items-center
             justify-center px-5 text-center
             ${hasBottomContent ? "pb-6" : ""}
           `}
         >
-          <h1 className="max-w-[800px] text-[36px] font-extrabold leading-[1] tracking-[-0.02em] text-white sm:text-5xl md:text-6xl lg:text-[64px]">
+          <h1 className="max-w-200 text-white font-extrabold text-[40px] leading-12 md:text-[56px] md:leading-16 2xl:text-[72px] 2xl:leading-20.5">
             {title}
           </h1>
 
           {description && (
-            <p className="mt-6 max-w-[750px] text-sm leading-7 text-white/80 sm:text-base md:text-lg">
+            <p className="mt-6 max-w-187.5 text-white/80 text-[18px] leading-7.5 md:text-5 md:leading-8.5 2xl:text-[22px] 2xl:leading-[38x]">
               {description}
             </p>
           )}
@@ -76,8 +76,8 @@ const HeroSection = ({
                     href={button.href}
                     icon={button.icon}
                     iconPosition={button.iconPosition}
-                    height="h-[48px]"
-                    padding="px-8"
+                    height="2xl:h-[18px]"
+                    padding="px-5.5 md:px-7 2xl:px-8.5 py-4 md:py-4.5 2xl:py-5"
                     fontSize="text-sm"
                     fontWeight="font-bold"
                     bg={isOutline ? "bg-transparent" : "bg-red-01"}
