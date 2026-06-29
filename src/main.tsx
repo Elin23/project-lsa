@@ -16,6 +16,7 @@ import EngineeringServiceDeatilsPage from "./pages/EngineeringServiceDeatilsPage
 import ProjectPage from "./pages/ProjectPage";
 import ProjectDetailsPage from "./pages/ProjectDetails";
 import Loader from "./components/common/Loader";
+import EquipmentsPage from "./pages/EquipmentsPage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: "projects/:id", element: <ProjectDetailsPage /> },
       { path: "careers", element: <CareersPage /> },
       { path: "contact", element: <ContactPage /> },
+      { path: "equipment", element: <EquipmentsPage/>}
     ],
   },
 ]);

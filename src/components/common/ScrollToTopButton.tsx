@@ -9,22 +9,50 @@ const ScrollToTop = () => {
       setIsVisible(window.scrollY > 250);
     };
 
-    window.addEventListener("scroll", toggleVisibility, { passive: true });
     toggleVisibility();
+
+    window.addEventListener("scroll", toggleVisibility, {
+      passive: true,
+    });
 
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
   const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const start = window.scrollY;
+    const duration = 900;
+    const startTime = performance.now();
+
+    const easeInOutCubic = (t: number) =>
+      t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const animateScroll = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeInOutCubic(progress);
+
+      window.scrollTo(0, start * (1 - easedProgress));
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
   };
 
   return (
     <div
       className={`
-        group fixed bottom-6 right-6 z-50
+        group fixed bottom-8 right-8 z-[9999]
         transition-all duration-500 ease-out
-        ${isVisible ? "translate-x-0 opacity-100" : "translate-x-24 opacity-0"}
+        ${
+          isVisible
+            ? "translate-x-0 opacity-100"
+            : "pointer-events-none translate-x-24 opacity-0"
+        }
       `}
     >
       <button
@@ -32,19 +60,33 @@ const ScrollToTop = () => {
         onClick={handleScrollToTop}
         aria-label="Back to top"
         className="
-          relative flex h-[50px] w-[50px] items-center justify-center
-          overflow-hidden rounded-full
-          bg-blue-02 text-white
-          shadow-[0_0_0_4px_rgba(200,16,46,0.18),0_12px_30px_rgba(10,18,42,0.35)]
+          relative
+          flex h-[52px] w-[52px] items-center justify-center
+          overflow-hidden
+          rounded-full
+
+          border border-4 border-blue-01/15
+
+          bg-[#F8FAFC]
+          text-blue-03
+
+          shadow-[0_8px_24px_rgba(10,18,42,0.12)]
+
           transition-all duration-300 ease-out
-          hover:w-[145px] hover:bg-red-01
+
+          hover:w-[155px]
+          hover:bg-blue-01
+          hover:text-white
+          hover:shadow-[0_14px_35px_rgba(30,60,153,0.22)]
+
           active:scale-95
         "
       >
         <ArrowUp
-          size={18}
-          strokeWidth={2.8}
+          size={20}
+          strokeWidth={2.6}
           className="
+            relative z-10
             transition-all duration-300
             group-hover:-translate-y-[180%]
           "
@@ -52,9 +94,15 @@ const ScrollToTop = () => {
 
         <span
           className="
-            absolute translate-y-[180%]
-            whitespace-nowrap text-[13px] font-bold text-white
-            transition-all duration-300
+            absolute
+            translate-y-[180%]
+            whitespace-nowrap
+            text-[13px]
+            font-medium
+            tracking-wide
+            text-white
+            transition-all
+            duration-300
             group-hover:translate-y-0
           "
         >

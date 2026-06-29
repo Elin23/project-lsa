@@ -5,7 +5,7 @@ import { relatedProjectsData } from "../../data/RelatedProjectsData";
 
 export default function RelatedProjects() {
     return (
-        <>
+        <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
             <TitleComponent
                 title="Related Projects"
                 description="Specialized interventions across Iraq."
@@ -38,6 +38,6 @@ export default function RelatedProjects() {
                     />
                 ))}
             </div>
-        </>
+        </section>
     );
 }

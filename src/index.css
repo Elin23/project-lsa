@@ -37,7 +37,9 @@ body {
     background-color: var(--color-white-gray-04);
     overflow-x: hidden;
 }
-
+html {
+  scroll-behavior: smooth !important;
+}
 @media (max-width: 1280px) {
     :root {
         --spacing-container: 48px;
