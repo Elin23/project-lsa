@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import TitleComponent from "../components/common/TitleComponent/TitleComponent";
 import { AdvantageCard } from "../components/AdvantageCard";
+import { DirectionCard } from "../components/StratigicDirectionsCard";
 
 export interface AdvantageItem {
   title: string;
@@ -53,11 +54,16 @@ export default function AdvantagesSection() {
             description="Guiding principles that drive our engineering solutions and corporate growth."
           />
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {advantagesData.map((item) => (
-            <AdvantageCard key={item.title} {...item} />
-          ))}
-        </div>
+<div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+  {advantagesData.map((item, index) => (
+    <DirectionCard
+      key={item.title}
+      title={item.title}
+      description={item.description}
+      icon={item.icon}
+    />
+  ))}
+</div>
       </div>
     </section>
   );

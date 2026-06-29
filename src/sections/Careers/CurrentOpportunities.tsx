@@ -14,6 +14,7 @@ import {
 import { careersData, type CareerJob } from "../../data/careersData";
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
 import LoadMoreButton from "../../components/shared/LoadMoreButton";
+import ButtonComponent from "../../components/shared/ButtonComponent";
 
 const tabs = ["all", "open", "closed"] as const;
 
@@ -104,26 +105,26 @@ const displayedJobs = isExpanded
           return (
             <div
               key={job.id}
-              className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-01/30 hover:shadow-xl"
+              className="group rounded-2xl border border-slate-200 bg-white  p-5 md:p-7 2xl:p-9 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-01/30 hover:shadow-xl"
             >
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                   <div className="mb-3 flex flex-wrap items-center gap-3">
-                    <h3 className="text-2xl font-bold text-blue-01">
+                    <h3 className="text-xl font-bold md:text-[22px] 2xl:text-[24px] text-blue-01">
                       {job.title}
                     </h3>
 
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-bold uppercase ${isOpen
                         ? "bg-blue-01/10 text-blue-01"
-                        : "bg-red-100 text-red-500"
+                        : "bg-red-100 text-red-01"
                         }`}
                     >
                       {job.status}
                     </span>
                   </div>
 
-                  <p className="mb-4 max-w-2xl text-sm leading-6 text-slate-500">
+                  <p className="mb-4 max-w-2xl text-sm leading-6 md:text-base text-muted-blue">
                     {job.overview}
                   </p>
 
@@ -145,18 +146,19 @@ const displayedJobs = isExpanded
                   </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => isOpen && openModal(job)}
-                  disabled={!isOpen}
-                  className={`inline-flex h-12 items-center justify-center gap-2 rounded-xl border px-6 text-sm font-bold transition-all duration-300 ${isOpen
-                    ? "border-blue-01/30 text-blue-01 hover:border-red-01 hover:bg-red-01 hover:text-white"
-                    : "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400"
-                    }`}
-                >
-                  {isOpen ? "View Details" : "Closed"}
-                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                </button>
+<ButtonComponent
+  onClick={() => isOpen && openModal(job)}
+  disabled={!isOpen}
+  icon={<ArrowRight className="h-4 w-4" />}
+  iconPosition="right"
+
+  hoverBg=""
+  height="h-12"
+  padding="px-6"
+  rounded="rounded-xl"
+>
+  {isOpen ? "View Details" : "Closed"}
+</ButtonComponent>
               </div>
             </div>
           );
@@ -190,7 +192,7 @@ const displayedJobs = isExpanded
             <button
               type="button"
               onClick={closeModal}
-              className="absolute right-5 top-5 z-10 rounded-full bg-slate-100 p-2 text-slate-500 transition hover:bg-red-100 hover:text-red-500"
+              className="absolute right-5 top-5 z-10 rounded-full bg-slate-100 p-2 text-slate-500 transition hover:bg-red-100 hover:text-red-01"
             >
               <X className="h-5 w-5" />
             </button>

@@ -9,13 +9,13 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="overflow-hidden rounded-[7px] border border-[#DDE8F7] bg-white shadow-sm transition-all duration-300 hover:shadow-md">
+    <div className="overflow-hidden flex flex-col rounded-xl border border-[#DDE8F7] bg-white shadow-sm transition-all duration-300 hover:shadow-md p-2 ">
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="flex w-full items-center justify-between gap-4 px-4 py-[15px] text-left"
       >
-        <span className="text-[13px] font-extrabold leading-5 text-[#1F3F93] md:text-sm">
+        <span className="text-[13px] md:text-base 2xl:text-lg font-semibold leading-5 text-[#1F3F93]  ">
           {question}
         </span>
 
@@ -34,7 +34,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
         }`}
       >
         <div className="overflow-hidden">
-          <p className="px-4 pb-5 text-sm leading-6 text-slate-600">
+          <p className="px-4 pb-5 text-[12px] md:text-[12px] 2xl:text-[14px]  leading-5 text-muted-blue">
             {answer}
           </p>
         </div>
