@@ -1,5 +1,5 @@
 import HeroSection from "../sections/HeroSection"
-import projectHero from "../assets/imgs/projectHero.webp"
+import projectHero from "../assets/imgs/projectPortfolioHero.webp"
 import ProjectsSection from "../sections/ProjectPortflio/ProjectsSection"
 import HotTappingBanner from "../components/shared/CTA/HotTappingBanner"
 

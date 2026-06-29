@@ -4,52 +4,54 @@
 
 @theme {
 
-    /* Fonts */
-    --font-poppins: "Poppins", sans-serif;
+  /* Fonts */
+  --font-poppins: "Poppins", sans-serif;
 
 
-    /* Colors */
-    --color-white: #ffffff;
+  /* Colors */
+  --color-white: #ffffff;
 
-    --color-red-01: #c8102e;
+  --color-red-01: #c8102e;
 
-    --color-blue-01: #1e3c99;
-    --color-blue-02: #0a122a;
-    --color-blue-03: #122968;
+  --color-blue-01: #1e3c99;
+  --color-blue-02: #0a122a;
+  --color-blue-03: #122968;
 
-    --color-muted-blue: #4b5563;
+  --color-muted-blue: #4b5563;
 
-    --color-white-gray-01: #e5e7eb;
-    --color-white-gray-02: #f4f4f4;
-    --color-white-gray-03: #e9ecef;
-    --color-white-gray-04: #f9f9ff;
+  --color-white-gray-01: #e5e7eb;
+  --color-white-gray-02: #f4f4f4;
+  --color-white-gray-03: #e9ecef;
+  --color-white-gray-04: #f9f9ff;
 
-    /* Container */
-    --spacing-container: 162px;
+  /* Container */
+  --spacing-container: 162px;
 
-    --font-urbanist: "Poppins", sans-serif;
-    --breakpoint-lg-custom: 992px;
-    --breakpoint-huge: 1921px;
+  --font-urbanist: "Poppins", sans-serif;
+  --breakpoint-lg-custom: 992px;
+  --breakpoint-huge: 1921px;
 }
 
 body {
-    font-family: var(--font-poppins);
-    background-color: var(--color-white-gray-04);
-    overflow-x: hidden;
+  font-family: var(--font-poppins);
+  background-color: var(--color-white-gray-04);
+  overflow-x: hidden;
 }
+
 html {
   scroll-behavior: smooth !important;
 }
+
 @media (max-width: 1280px) {
-    :root {
-        --spacing-container: 48px;
-    }
+  :root {
+    --spacing-container: 48px;
+  }
 }
 
 @media (max-width: 540px) {
-    :root {
-        --spacing-container: 24px;
-    }
+  :root {
+    --spacing-container: 24px;
+  }
 }
 
 @keyframes fadeSlide {
@@ -64,7 +66,18 @@ html {
   }
 }
 
+@keyframes fade {
+  from {
+    opacity: 0.85;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes pumpMinimal {
+
   0%,
   100% {
     transform: rotate(-5deg);
@@ -76,6 +89,7 @@ html {
 }
 
 @keyframes rodMinimal {
+
   0%,
   100% {
     transform: translateY(-5px);
@@ -87,6 +101,7 @@ html {
 }
 
 @keyframes dotMinimal {
+
   0%,
   100% {
     transform: translateY(0);
