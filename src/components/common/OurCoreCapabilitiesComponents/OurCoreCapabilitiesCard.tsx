@@ -10,7 +10,7 @@ export default function OurCoreCapabilitiesCard({
     description,
 }: OurCoreCapabilitiesCardProps) {
     return (
-        <div className="w-full md:w-[48.21%] xl:w-[31.53%] 2xl:w-[32.01%] rounded-xl border border-[#F3F4F6] p-8 bg-white relative space-y-2 md:space-y-3  ">
+        <div className="w-full md:w-[48.21%] xl:w-[31.53%] 2xl:w-[32.01%] rounded-xl border border-muted-blue/30 p-5 md:p-7 2xl:p-9 bg-white relative space-y-2 md:space-y-3  ">
             <span className=" hidden sm:block absolute top-8 right-8 text-[40px] md:text-5xl 2xl:text-6xl text-white-gray-03 font-bold leading-none">
                 {id}
             </span>
