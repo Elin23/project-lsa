@@ -37,7 +37,7 @@ export default function ProjectGallery() {
     }, []);
 
     return (
-        <>
+        <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
             <TitleComponent
                 title="Project Gallery"
                 description="On-site captures of the engineering excellence in progress."
@@ -53,6 +53,6 @@ export default function ProjectGallery() {
                     />
                 )}
             />
-        </>
+        </section>
     );
 }
