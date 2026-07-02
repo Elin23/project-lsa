@@ -26,9 +26,7 @@ const WhyPartnerSection = ({
     <section>
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center xl:gap-14 2xl:gap-20">
         <div>
-          <div className="mb-8">
             <TitleComponent title={title} description={description} />
-          </div>
 
           <div className="space-y-6">
             {items.map((item) => {
@@ -42,7 +40,7 @@ const WhyPartnerSection = ({
                   <div
                     className="
                       flex h-14 w-14 shrink-0 items-center justify-center
-                      rounded-lg border border-white-gray-01 bg-white
+                      rounded-2xl border border-muted-blue/30 bg-white
                       text-red-01 transition-all duration-300
                       group-hover:border-blue-01/20
                       group-hover:bg-blue-01

@@ -25,12 +25,12 @@ const ApplicationProcess = () => {
           description="A transparent, structured journey toward joining the LSA family."
         />
 
-        <div className="mt-16 rounded-[2rem] shadow-sm  border border-slate-200 bg-white   md:p-10">
+        <div className="mt-16 rounded-4xl shadow-sm  border border-slate-200 bg-white   md:p-10">
           <div className="relative grid gap-6 md:grid-cols-4">
             <div className="absolute left-[12.5%] right-[12.5%] top-[42px] hidden h-[3px] rounded-full bg-[#d8e0f3] md:block" />
 
             <div
-              className="absolute left-[12.5%] top-[42px] hidden h-[3px] rounded-full bg-gradient-to-r from-blue-01 to-red-01 transition-all duration-500 md:block"
+              className="absolute left-[12.5%] top-10.5 hidden h-[3px] rounded-full bg-gradient-to-r from-blue-01 to-red-01 transition-all duration-500 md:block"
               style={{
                 width: `${((activeStep - 1) / 3) * 75}%`,
               }}
@@ -53,7 +53,7 @@ const ApplicationProcess = () => {
                       isActive
                         ? "scale-110 border-white bg-blue-01 text-white shadow-[0_18px_40px_rgba(30,58,138,0.28)]"
                         : isDone
-                        ? "border-white bg-red-01 text-white"
+                        ? "border-white bg-green-800 text-white"
                         : "border-white bg-white text-blue-01"
                     }`}
                   >

@@ -14,6 +14,7 @@ import {
   type AdvantageItem,
 } from "../../components/AdvantageCard";
 import Pagination from "../../components/shared/Pagination";
+import { DirectionCard } from "../../components/StratigicDirectionsCard";
 
 const equipmentData: AdvantageItem[] = [
   {
@@ -108,8 +109,13 @@ export default function SpecializedEquipmentSection() {
           xl:grid-cols-3
         "
       >
-        {currentItems.map((item) => (
-          <AdvantageCard key={item.title} {...item} />
+        {currentItems.map((item, index) => (
+<DirectionCard
+  title={item.title}
+  description={item.description}
+  icon={item.icon}
+  features={item.features}
+/>
         ))}
       </div>
 

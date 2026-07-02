@@ -29,7 +29,7 @@ export default function LSAAdvantageCard({ item }: LSAAdvantageCardProps) {
 
       <h3
         className="
-          mt-6 text-base font-bold text-blue-02
+          mt-6  text-xl font-bold md:text-[22px] 2xl:text-[24px] text-blue-01
           transition-colors duration-300
           group-hover:text-blue-01
         "
@@ -37,7 +37,7 @@ export default function LSAAdvantageCard({ item }: LSAAdvantageCardProps) {
         {item.title}
       </h3>
 
-      <p className="mt-3 max-w-[300px] text-sm leading-6 text-muted-blue">
+      <p className="mt-3 max-w-[300px] text-sm leading-6 md:text-base  text-muted-blue">
         {item.description}
       </p>
     </article>

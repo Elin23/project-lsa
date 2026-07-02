@@ -41,7 +41,7 @@ export default function OurCoreCapabilities() {
   }, [currentPage, itemsPerPage]);
 
   return (
-    <>
+    <div>
       <TitleComponent
         title="Our Core Capabilities"
         description="Comprehensive engineering solutions tailored to the oil and gas sector."
@@ -50,12 +50,8 @@ export default function OurCoreCapabilities() {
       <div
         key={currentPage}
         className="
-          mt-16
           flex flex-wrap gap-6
           animate-[fadeSlide_0.45s_ease-out]
-          md:mt-12
-          xl:mt-16
-          2xl:mt-20
         "
       >
         {currentItems.map((item) => (
@@ -77,6 +73,6 @@ export default function OurCoreCapabilities() {
           />
         </div>
       )}
-    </>
+        </div>
   );
 }

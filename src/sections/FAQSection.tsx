@@ -13,14 +13,12 @@ const FAQSection = ({ className = "" }: FAQSectionProps) => {
   return (
     <section className={className}>
       <div>
-        <div className="mb-8">
           <TitleComponent
             title="Frequently Asked Questions"
             description="Clarifying our processes and capabilities for prospective partners."
           />
-        </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           <div className="flex flex-col gap-8">
             {leftItems.map((item) => (
               <FAQItem

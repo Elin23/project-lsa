@@ -4,7 +4,7 @@ import ButtonComponent from "../ButtonComponent";
 const CTASection = () => {
     return (
         <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
-            <div className="relative overflow-hidden rounded-[22px] bg-blue-03 px-6 py-12 text-center shadow-lg md:px-12 lg:py-20">
+            <div className="relative overflow-hidden rounded-xl bg-blue-03 px-6 py-12 text-center shadow-lg md:px-12 2xl:py-14 ">
 
                 {/* Background Lines */}
                 <div className="absolute inset-0 overflow-hidden">
@@ -38,22 +38,22 @@ const CTASection = () => {
 
 
                 {/* Content */}
-                <div className="relative z-10 mx-auto flex max-w-[720px] flex-col items-center">
-                    <span className="mb-6 text-xs font-bold uppercase tracking-[0.18em] text-white">
+                <div className="relative z-10 mx-auto flex max-w-180 flex-col gap-4 md:gap-5 items-center">
+                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-white">
                         {ctaData.label}
                     </span>
 
-                    <h2 className="max-w-[650px] text-4xl font-extrabold leading-tight text-white md:text-5xl lg:text-[52px]">
+                    <h2 className="max-w-162.5 font-bold text-white text-[28px] leading-9.5 md:text-[38px] md:leading-11.5 2xl:text-[46px] 2xl:leading-14.5">
                         {ctaData.title}
                     </h2>
 
-                    <p className="mt-7 max-w-[620px] text-base leading-7 text-white/90 md:text-xl">
+                    <p className="max-w-155 md:text-lg 2xl:text-[20px] leading-7 text-white/80 ">
                         {ctaData.description}
                     </p>
 
                     <ButtonComponent
                         to={ctaData.buttonLink}
-                        className="mt-8">
+>
                         {ctaData.buttonText}
                     </ButtonComponent>
                 </div>

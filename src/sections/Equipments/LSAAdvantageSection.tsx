@@ -34,7 +34,7 @@ export default function LSAAdvantageSection() {
     <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
       <TitleComponent
         title="The LSA Advantage"
-        description=""
+        description="Delivering greater reliability, faster mobilization, and exceptional project performance through our integrated capabilities and experienced team."
       />
 
       <div className="mt-12 grid gap-10 md:grid-cols-3">
