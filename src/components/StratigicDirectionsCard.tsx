@@ -20,7 +20,7 @@ export const DirectionCard = ({
   return (
     <div
       className={`
-        group relative overflow-hidden rounded-xl border p-5 md:p-7 2xl:p-9 shadow-md
+        group relative overflow-hidden rounded-xl border p-5 md:p-6 2xl:p-7 shadow-md
         transition-all duration-300 ease-out 
         hover:-translate-y-2 hover:shadow-2xl
         ${
@@ -46,7 +46,7 @@ export const DirectionCard = ({
       <div className="relative mb-4 flex items-center gap-4 2xl:mb-5">
         <div
           className={`
-            flex h-10 w-10 shrink-0 items-center justify-center rounded-lg
+            flex h-11 w-11 shrink-0 items-center justify-center rounded-lg
             transition-all duration-300 group-hover:scale-110
             ${isActive ? "bg-white text-blue-01" : "bg-blue-01 text-white"}
           `}
@@ -56,7 +56,7 @@ export const DirectionCard = ({
 
         <h3
           className={`
-            text-xl font-bold md:text-[22px] 2xl:text-[24px] transition-colors duration-300 
+            text-xl md:text-[22px] 2xl:text-[24px] font-bold transition-colors duration-300 
             ${isActive ? "text-white" : "text-blue-01"}
           `}
         >
@@ -66,7 +66,7 @@ export const DirectionCard = ({
 
       <p
         className={`
-          relative text-sm leading-6 md:text-base
+          relative text-sm leading-5 md:text-base md:leading-6 2xl:text-base 2xl:leading-6.5 
           ${isActive ? "text-white/80" : "text-muted-blue"}
         `}
       >

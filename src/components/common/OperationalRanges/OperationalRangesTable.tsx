@@ -1,61 +1,64 @@
 // OperationalRangesTable.tsx
 import React from "react";
-import type { TableRow } from "../../../data/operationalRangesData";
 
 interface OperationalRangesTableProps {
-    headers: [string, string, string];
-    rows: TableRow[];
+  headers: string[];
+  rows: string[][];
 }
 
 const OperationalRangesTable: React.FC<OperationalRangesTableProps> = ({
-    headers,
-    rows,
+  headers,
+  rows,
 }) => {
-    return (
-        <div className="w-full h-max lg:w-[67.11%]  2xl:w-[65.66%] overflow-hidden rounded-xl border border-[#CFDAF180] bg-[#F9F9FF] shadow-[0px_4px_6px_-4px_#0000001A,0px_10px_15px_-3px_#0000001A]">
-            <div className="w-full overflow-x-auto">
-                <table className="w-full  min-w-155 border-collapse ">
-                    <thead>
-                        <tr className="bg-[#00236F]">
-                            <th className="w-6 bg-[#00236F] text-start text-[18px] font-bold text-white">
-                            </th>
-                            <th className="p-6 bg-[#00236F] text-start text-[18px] font-bold text-white">
-                                {headers[0]}
-                            </th>
-                            <th className="p-6 bg-[#00236F] text-start text-[18px] font-bold text-white">
-                                {headers[1]}
-                            </th>
-                            <th className="p-6 bg-[#00236F] text-start text-[18px] font-bold text-white">
-                                {headers[2]}
-                            </th>
-                            <th className="w-6 bg-[#00236F] text-start text-[18px] font-bold text-white">
-                            </th>
-                        </tr>
-                    </thead>
+  return (
+    <div className="w-full h-max lg:w-[67.11%] 2xl:w-[65.66%] overflow-hidden rounded-2xl border border-[#CFDAF180] bg-white shadow-[0px_8px_30px_rgba(0,35,111,0.08)]">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full min-w-155 border-collapse">
+          <thead>
+            <tr className="bg-[#00236F]">
+              <th className="w-4 md:w-6 bg-[#00236F]" />
 
-                    <tbody>
-                        {rows.map((row) => (
-                            <tr key={row.parameter} className="border-t border-[#CFDAF1]">
-                                <td className="p-6 text-start ">
-                                </td>
-                                <td className="p-6 text-start text-[16px] font-bold text-blue-03">
-                                    {row.parameter}
-                                </td>
-                                <td className="p-6 text-start text-[16px] text-muted-blue">
-                                    {row.standardCapacity}
-                                </td>
-                                <td className="p-6 text-start text-[16px] text-muted-blue">
-                                    {row.customEngineered}
-                                </td>
-                                <td className="p-6 text-start ">
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
+              {headers.map((header, index) => (
+                <th
+                  key={index}
+                  className="p-5 md:p-6 text-start text-[15px] md:text-[18px] font-bold text-white whitespace-nowrap"
+                >
+                  {header}
+                </th>
+              ))}
+
+              <th className="w-4 md:w-6 bg-[#00236F]" />
+            </tr>
+          </thead>
+
+          <tbody>
+            {rows.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className="border-t border-[#CFDAF1] bg-[#F9F9FF] transition-all duration-300 hover:bg-white hover:shadow-[inset_4px_0_0_#C8102E]"
+              >
+                <td className="p-5 md:p-6" />
+
+                <td className="p-5 md:p-6 text-start text-[15px] md:text-[16px] font-bold text-blue-03">
+                  {row[0]}
+                </td>
+
+                <td className="p-5 md:p-6 text-start text-[15px] md:text-[16px] leading-relaxed text-muted-blue">
+                  {row[1]}
+                </td>
+
+                <td className="p-5 md:p-6 text-start text-[15px] md:text-[16px] leading-relaxed text-muted-blue">
+                  {row[2]}
+                </td>
+
+                <td className="p-5 md:p-6" />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default OperationalRangesTable;

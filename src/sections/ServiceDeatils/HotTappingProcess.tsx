@@ -1,41 +1,46 @@
-import TitleComponent from '../../components/common/TitleComponent/TitleComponent';
-import SharedCard from '../../components/shared/SharedCard';
-import Slider from '../../components/shared/Slider';
-import { hotTappingProcessData } from '../../data/hotTappingProcessData';
+import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
+import Slider from "../../components/shared/Slider";
+import { DirectionCard } from "../../components/StratigicDirectionsCard";
+import { servicesData2 } from "../../data/servicesData2";
 
-export default function HotTappingProcess() {
-    return (
-        <div className=' mt-24'>
-            <TitleComponent
-                title="The Hot Tapping Process"
-                description="A meticulous, multi-stage engineering procedure designed to penetrate active pipelines without disrupting flow or compromising safety."
+type HotTappingProcessProps = {
+  service: (typeof servicesData2)[number];
+};
+
+export default function HotTappingProcess({ service }: HotTappingProcessProps) {
+  const {
+    processTitle,
+    processDescription,
+    process: processData,
+  } = service.details;
+
+  return (
+    <div className="mt-24">
+      <TitleComponent title={processTitle} description={processDescription} />
+
+      <div className="mt-8 md:hidden">
+        <Slider
+          items={processData}
+          renderItem={(item) => (
+            <DirectionCard
+              icon={item.icon}
+              title={item.title}
+              description={item.description}
             />
+          )}
+        />
+      </div>
 
-            {/* Mobile Slider */}
-            <div className="mt-8 md:hidden">
-                <Slider
-                    items={hotTappingProcessData}
-                    renderItem={(item) => (
-                        <SharedCard
-                            icon={item.icon}
-                            title={item.title}
-                            description={item.description}
-                        />
-                    )}
-                />
-            </div>
-
-            {/* Tablet & Desktop Grid */}
-            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8 mt-20">
-                {hotTappingProcessData.map((item) => (
-                    <SharedCard
-                        key={item.id}
-                        icon={item.icon}
-                        title={item.title}
-                        description={item.description}
-                    />
-                ))}
-            </div>
-        </div>
-    );
+      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8 mt-20">
+        {processData.map((item) => (
+          <DirectionCard
+            key={item.id}
+            icon={item.icon}
+            title={item.title}
+            description={item.description}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }

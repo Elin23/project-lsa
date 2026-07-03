@@ -4,7 +4,7 @@ import ButtonComponent from "../ButtonComponent";
 const HotTappingBanner = () => {
   return (
     <section >
-      <div className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
+      <div className="pb-16 md:pb-24 2xl:pb-28">
         <div className="flex flex-col items-start justify-between gap-10 overflow-hidden rounded-[28px] bg-[#28459A] px-8 py-10 shadow-[0_20px_50px_rgba(0,0,0,0.18)] md:flex-row md:items-center md:px-12 md:py-14">
           {/* Content */}
           <div className="max-w-3xl">
@@ -12,15 +12,15 @@ const HotTappingBanner = () => {
               Specialized Division
             </span>
 
-            <h2 className="mt-6 text-xl md:text-4xl font-bold leading-tight text-white lg:text-5xl">
+            <h2 className="mt-2 font-bold text-white text-[28px] leading-9.5 md:text-[38px] md:leading-11.5 2xl:text-[46px] 2xl:leading-14.5 ">
               Hot Tapping up to 42"
             </h2>
 
-            <h3 className="mt-2 text-xl md:text-4xl font-bold leading-tight text-[#9FC6FF] lg:text-5xl">
+            <h3 className="mt-2 font-bold  text-[28px] leading-9.5 md:text-[38px] md:leading-11.5 2xl:text-[46px] 2xl:leading-14.5 text-[#9FC6FF] ">
               — Zero Service Disruption
             </h3>
 
-            <p className="mt-3 md:mt-6 max-w-2xl text-sm md:text-lg leading-6 md:leading-8 text-white/85">
+            <p className="mt-3 md:text-lg leading-7 text-white/80 ">
               Industry-leading intervention techniques that allow for modifications, tie-ins, and repairs on live pipelines without shutting down the system.
             </p>
           </div>

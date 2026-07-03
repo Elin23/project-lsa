@@ -30,19 +30,19 @@ const OurJourney = () => {
                   <div
                     className="ml-10 w-full rounded-xl bg-white p-5 md:p-7 2xl-p-9 shadow-[0_8px_30px_rgba(31,63,147,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_35px_rgba(31,63,147,0.14)] md:ml-0 md:w-[46%]"
                   >
-                    <div className="mb-3 flex items-center gap-2">
-                      <Icon size={20} className="text-[#1f3f93]" />
+                    <div className="mb-3 flex items-center gap-2 ">
+                      <Icon size={20} className="text-[#1f3f93] " />
 
                       <span className="text-[12px] md:text-sm 2xl:text-base font-bold text-blue-02">
                         {item.year}
                       </span>
                     </div>
 
-                    <h3 className="text-xl md:text-[22px] 2xl:text-[24px] font-bold text-blue-01">
+                    <h3 className=" text-blue-01 text-xl md:text-[22px] 2xl:text-[24px] font-bold">
                       {item.title}
                     </h3>
 
-                    <p className="mt-3 text-sm md:text-base text-muted-blue  leading-6">
+                    <p className="mt-3 text-sm leading-5 md:text-base md:leading-6 2xl:text-base 2xl:leading-6.5  text-muted-blue ">
                       {item.description}
                     </p>
 
