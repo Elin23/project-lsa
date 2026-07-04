@@ -20,7 +20,7 @@ const CertificationsStandards = () => {
         {certificationStats.map((stat, index) => (
           <div
             key={index}
-            className="rounded-xl bg-white px-6 py-6 text-center shadow-[0_8px_30px_rgba(31,63,147,0.08)] transition duration-300 hover:-translate-y-1"
+            className="rounded-2xl bg-white px-6 py-6 text-center shadow-[0_8px_30px_rgba(31,63,147,0.08)] transition duration-300 hover:-translate-y-1"
           >
             <h3 className={`text-4xl md:text-[40px] font-bold ${stat.color}`}>
               {stat.value}
@@ -42,7 +42,7 @@ const CertificationsStandards = () => {
             description={item.description}
             icon={item.icon}
           />
-        ))}{" "}
+        ))}
       </div>
 
       {/* Mobile Slider */}

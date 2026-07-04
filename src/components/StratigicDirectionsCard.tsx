@@ -20,7 +20,7 @@ export const DirectionCard = ({
   return (
     <div
       className={`
-        group relative overflow-hidden rounded-xl border p-5 md:p-6 2xl:p-7 shadow-md
+        group relative overflow-hidden rounded-2xl border p-5 md:p-6 2xl:p-7 shadow-md
         transition-all duration-300 ease-out 
         hover:-translate-y-2 hover:shadow-2xl
         ${

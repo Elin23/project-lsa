@@ -8,7 +8,7 @@ export default function TeamCard({ member }: TeamCardProps) {
     return (
         <article
             className="
-        group relative aspect-[4/5] overflow-hidden rounded-2xl bg-slate-900
+        group relative aspect-[4/5] overflow-hidden rounded-3xl bg-slate-900
         shadow-md transition-all duration-500 ease-out
         hover:-translate-y-2 hover:shadow-2xl
       "

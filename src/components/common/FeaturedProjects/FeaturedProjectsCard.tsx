@@ -10,7 +10,7 @@ export default function FeaturedProjectsCard({
   title,
 }: FeaturedProjectsCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-xl bg-black">
+    <div className="group relative overflow-hidden rounded-2xl bg-black">
 
       {/* Image */}
       <img

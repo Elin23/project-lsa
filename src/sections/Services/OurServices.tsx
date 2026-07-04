@@ -29,7 +29,7 @@ const OurServices = () => {
         {servicesData2.slice(0, visibleCount).map((service) => (
           <div
             key={service.id}
-            className="grid gap-6 rounded-xl bg-white p-6 shadow-md ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl md:grid-cols-2"
+            className="grid gap-6 rounded-3xl bg-white p-6 shadow-md ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl md:grid-cols-2"
           >
             <div className={`${service.reverse ? "md:order-2" : "md:order-1"}`}>
               <img

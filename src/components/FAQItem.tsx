@@ -9,7 +9,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="overflow-hidden flex flex-col rounded-xl border border-[#DDE8F7] bg-white shadow-sm transition-all duration-300 hover:shadow-md p-2 ">
+    <div className="overflow-hidden flex flex-col rounded-2xl border border-[#DDE8F7] bg-white shadow-sm transition-all duration-300 hover:shadow-md p-2 ">
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}

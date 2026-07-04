@@ -70,7 +70,7 @@ const WhyPartnerSection = ({
             src={image}
             alt={imageAlt}
             className="
-              h-[280px] w-full rounded-xl object-cover shadow-xl
+              h-[280px] w-full rounded-2xl object-cover shadow-xl
               md:h-[420px]
               lg:h-auto lg:max-w-[560px]
             "

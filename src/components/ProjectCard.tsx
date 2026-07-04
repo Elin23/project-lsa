@@ -9,7 +9,7 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
-    <div className="overflow-hidden rounded-xl bg-white shadow-[0_8px_30px_rgba(31,63,147,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_30px_rgba(31,63,147,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="relative h-[190px] overflow-hidden">
         <img
           src={project.image}

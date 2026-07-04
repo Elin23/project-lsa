@@ -11,6 +11,7 @@ import WhyPartnerSection from "../sections/Home/WhyPartnerSection";
 import { partnerItems } from "../data/partnerData";
 import partnerImage from "../assets/imgs/Industrial_trunkline_construction.jpg";
 import AboutUsHomeSection from "../sections/Home/AboutUsHomeSection";
+import { counterData } from "../data/counterData";
 
 const HomePage = () => {
   return (
@@ -31,7 +32,7 @@ const HomePage = () => {
             variant: "outline",
           },
         ]}
-        bottomContent={<CounterSection />}
+        bottomContent={<CounterSection data={counterData} />}
       />
 
       <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">

@@ -4,7 +4,7 @@ import ButtonComponent from "../ButtonComponent";
 const CTASection = () => {
     return (
         <section className="pb-16 md:pb-24 2xl:pb-28">
-            <div className="relative overflow-hidden rounded-xl bg-blue-03 px-6 py-12 text-center shadow-lg md:px-12 2xl:py-14 ">
+            <div className="relative overflow-hidden rounded-3xl bg-blue-03 px-6 py-12 text-center shadow-lg md:px-12 2xl:py-14 ">
 
                 {/* Background Lines */}
                 <div className="absolute inset-0 overflow-hidden">

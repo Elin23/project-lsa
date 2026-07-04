@@ -8,7 +8,7 @@ const serviceOptions = [
 
 export default function ContactFormCard() {
   return (
-    <div className="relative overflow-hidden rounded-xl bg-white p-6 shadow-xl md:p-8">
+    <div className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-xl md:p-8">
       <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-[#F3F5FA]" />
 
       <form className="relative z-10">
