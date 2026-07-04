@@ -59,7 +59,7 @@ const HeroSection = ({
           </h1>
 
           {description && (
-            <p className="mt-6 max-w-187.5 text-white/80 text-[18px] leading-7.5 md:text-5 md:leading-8.5 2xl:text-[22px] 2xl:leading-[38x]">
+            <p className="mt-6 max-w-187.5 text-white/80 text-[14px] leading-6.5 md:text-base md:leading-6.5 2xl:text-[18px] 2xl:leading-7.5">
               {description}
             </p>
           )}
@@ -76,7 +76,6 @@ const HeroSection = ({
                     href={button.href}
                     icon={button.icon}
                     iconPosition={button.iconPosition}
-                    height="2xl:h-[18px]"
                     padding="px-5.5 md:px-7 2xl:px-8.5 py-4 md:py-4.5 2xl:py-5"
                     fontSize="text-sm"
                     fontWeight="font-bold"

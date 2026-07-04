@@ -151,7 +151,6 @@ const displayedJobs = isExpanded
   disabled={!isOpen}
   icon={<ArrowRight className="h-4 w-4" />}
   iconPosition="right"
-
   hoverBg=""
   height="h-12"
   padding="px-6"

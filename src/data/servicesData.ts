@@ -2,6 +2,7 @@ import { CheckCircle } from "lucide-react";
 
 export const servicesData = [
   {
+    id: 1,
     title: "Pipeline Construction",
     description:
       "Expertise in the fabrication, laying, and testing of complex pipeline networks for oil, gas, and water distribution.",
@@ -11,7 +12,7 @@ export const servicesData = [
       "Trunklines & Export Lines",
       "Pipeline Rehabilitation",
     ],
-    path: "/",
+    path: "services/:id",
     reverse: false,
   },
   {

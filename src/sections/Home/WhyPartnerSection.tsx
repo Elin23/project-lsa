@@ -26,7 +26,7 @@ const WhyPartnerSection = ({
     <section>
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center xl:gap-14 2xl:gap-20">
         <div>
-            <TitleComponent title={title} description={description} />
+            <TitleComponent title={title} description={description} className="text-start items-start" />
 
           <div className="space-y-6">
             {items.map((item) => {

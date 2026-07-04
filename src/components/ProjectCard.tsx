@@ -1,5 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import type { Project } from "../data/projectsData";
+import { Link } from "react-router-dom";
+import { GoArrowRight } from "react-icons/go";
 
 interface ProjectCardProps {
   project: Project;
@@ -21,21 +23,31 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       </div>
 
       <div className="p-6">
-        <h3 className="text-xl font-bold text-[#111827]">
+        <h3 className="text-blue-01 text-xl md:text-[22px] 2xl:text-[24px] font-bold">
           {project.title}
         </h3>
 
-        <p className="mt-3 line-clamp-2 text-sm leading-6 text-gray-500">
+        <p className="mt-2 text-muted-blue text-sm leading-6.5 md:text-base md:leading-5.5  2xl:leading-6 ">
           {project.description}
         </p>
 
-        <a
+        {/* <a
           href={project.path}
-          className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#1f3f93] transition hover:gap-3"
+          className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-red-01 transition hover:gap-3"
         >
           View Details
           <ArrowRight size={16} />
-        </a>
+        </a> */}
+        <Link
+          to={project.path}
+          className="group relative mt-4 mx-auto lg:mx-0 inline-flex items-center gap-2 text-base  text-red-01 font-semibold "
+        >
+          <span className="relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-red-01 after:transition-all after:duration-300 group-hover:after:w-full">
+            View Details
+          </span>
+
+          <GoArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+        </Link>
       </div>
     </div>
   );

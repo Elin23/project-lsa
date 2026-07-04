@@ -1,25 +1,31 @@
 // OperationalRangesSection.tsx
 import React from "react";
 
-import { operationalRangesData } from "../../data/operationalRangesData";
 import OperationalRangesContent from "../../components/common/OperationalRanges/OperationalRangesLeft";
 import OperationalRangesTable from "../../components/common/OperationalRanges/OperationalRangesTable";
+import { servicesData2 } from "../../data/servicesData2";
 
-const OperationalRangesSection: React.FC = () => {
-    const { title, description, sideNotes, tableHeaders, tableRows } =
-        operationalRangesData;
+type OperationalRangesSectionProps = {
+  service: (typeof servicesData2)[number];
+};
 
-    return (
-                <div className=" w-full flex flex-col lg:flex-row gap-8">
-                    <OperationalRangesContent
-                        title={title}
-                        description={description}
-                        sideNotes={sideNotes}
-                    />
+const OperationalRangesSection: React.FC<OperationalRangesSectionProps> = ({
+  service,
+}) => {
+  const { title, description, sideNotes, tableHeaders, tableRows } =
+    service.details.operationalRanges;
 
-                    <OperationalRangesTable headers={tableHeaders} rows={tableRows} />
-                </div>
-    );
+  return (
+    <div className="w-full flex flex-col lg:flex-row gap-8">
+      <OperationalRangesContent
+        title={title}
+        description={description}
+        sideNotes={sideNotes}
+      />
+
+      <OperationalRangesTable headers={tableHeaders} rows={tableRows} />
+    </div>
+  );
 };
 
 export default OperationalRangesSection;

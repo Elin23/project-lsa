@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import HamburgerButton from "./HamburgerButton";
+import logo from "/src/assets/Logo1.png";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -16,9 +17,9 @@ const Navbar = () => {
 
   return (
     <header className="fixed z-50 w-full">
-      <nav className="flex h-18 items-center justify-between bg-white px-6 shadow-md huge-px-[162px] lg-custom:px-12">
+      <nav className="flex h-18 items-center justify-between bg-white px-6 shadow-md 2xl:px-[162px] md:px-12">
         <NavLink to="/" className="flex items-center">
-          {/* <img src={logo} alt="LSA Logo" className="h-10 w-auto" /> */}
+          <img src={logo} alt="LSA Logo" className=" h-10 md:h-15 2xl:h-20 w-auto" />
         </NavLink>
 
         <ul className="hidden items-center gap-8 font-semibold huge:text-lg lg:flex lg-custom:text-sm">
