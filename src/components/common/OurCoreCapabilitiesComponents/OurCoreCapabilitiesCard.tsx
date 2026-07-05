@@ -1,29 +1,123 @@
 interface OurCoreCapabilitiesCardProps {
-    id: string;
-    title: string;
-    description: string;
+  id: string;
+  title: string;
+  description: string;
 }
 
 export default function OurCoreCapabilitiesCard({
-    id,
-    title,
-    description,
+  id,
+  title,
+  description,
 }: OurCoreCapabilitiesCardProps) {
-    return (
-        <div className="w-full md:w-[48.21%] xl:w-[31.53%] 2xl:w-[32.01%] rounded-xl border border-muted-blue/30 p-5 md:p-6 2xl:p-7 bg-white relative space-y-1.5 md:space-y-2  ">
-            <span className=" hidden sm:block absolute top-8 right-8 text-[40px] md:text-5xl 2xl:text-6xl text-white-gray-03 font-bold leading-none">
-                {id}
-            </span>
+  return (
+    <article
+      className="
+        group
+        relative
+        h-full
+        overflow-hidden
+        rounded-2xl
+        border border-[#E8EDF5]
+        bg-white
+        p-7
+        transition-all
+        duration-500
+        hover:-translate-y-1.5
+        hover:border-[#D8E7F7]
+        hover:bg-gradient-to-br
+        hover:from-white
+        hover:to-[#F8FBFF]
+        hover:shadow-[0_12px_35px_rgba(31,101,180,0.08)]
+      "
+    >
+      {/* Light Sweep */}
+      <span
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          -translate-x-[140%]
+          bg-[linear-gradient(120deg,transparent_30%,rgba(255,255,255,0.8)_50%,transparent_70%)]
+          transition-transform
+          duration-1000
+          group-hover:translate-x-[140%]
+        "
+      />
 
-            <div className="flex justify-center md:justify-start">
-                <h4 className="text-center md:text-left text-blue-01 text-xl md:text-[22px] 2xl:text-[24px] font-bold md:pr-20">
-                    {title}
-                </h4>
-            </div>
+      {/* Left Accent */}
+      <span
+        className="
+          absolute
+          left-0
+          top-8
+          h-12
+          w-[3px]
+          origin-top
+          scale-y-0
+          rounded-r-full
+          bg-blue-01
+          transition-transform
+          duration-500
+          group-hover:scale-y-100
+        "
+      />
 
-            <p className="text-center md:text-left  text-muted-blue text-sm leading-6.5 md:text-base md:leading-7 2xl:text-lg 2xl:leading-7.5 ">
-                {description}
-            </p>
-        </div>
-    );
+      {/* Number */}
+      <span
+        className="
+          absolute
+          right-6
+          top-6
+          hidden
+          select-none
+          text-5xl
+          font-bold
+          leading-none
+          text-[#EEF3F8]
+          transition-all
+          duration-500
+          group-hover:translate-y-1
+          group-hover:text-[#D9E8F8]
+          lg:block
+        "
+      >
+        {id}
+      </span>
+
+      {/* Title */}
+      <h4
+        className="
+          relative
+          mb-4
+          max-w-[80%]
+          text-xl
+          font-bold
+          text-blue-01
+          transition-all
+          duration-300
+          group-hover:translate-x-1
+          md:text-[22px]
+          2xl:text-2xl
+        "
+      >
+        {title}
+      </h4>
+
+      {/* Description */}
+      <p
+        className="
+          relative
+          text-sm
+          leading-7
+          text-muted-blue
+          transition-colors
+          duration-300
+          group-hover:text-[#5F7388]
+          md:text-base
+        "
+      >
+        {description}
+      </p>
+    </article>
+  );
 }

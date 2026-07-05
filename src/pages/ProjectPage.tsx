@@ -13,8 +13,6 @@ const ProjectPage = () => {
             />
             <ProjectsSection />
             <HotTappingBanner />
-
-
     </div>
   )
 }

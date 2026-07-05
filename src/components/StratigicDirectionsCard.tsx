@@ -21,7 +21,7 @@ export const DirectionCard = ({
     <div
       className={`
         group relative overflow-hidden rounded-xl border p-5 md:p-6 2xl:p-7 shadow-md
-        transition-all duration-300 ease-out 
+        transition-all duration-300 ease-out
         hover:-translate-y-2 hover:shadow-2xl
         ${
           isActive
@@ -32,11 +32,22 @@ export const DirectionCard = ({
     >
       <div
         className={`
-          absolute left-0 top-0 w-full origin-left transition-transform duration-300
+          absolute left-0 top-0 h-[3px] w-full origin-left transition-transform duration-300
           ${
             isActive
               ? "scale-x-100 bg-white"
               : "scale-x-0 bg-blue-01 group-hover:scale-x-100"
+          }
+        `}
+      />
+
+      <div
+        className={`
+          pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300
+          ${
+            isActive
+              ? "bg-white/0"
+              : "bg-gradient-to-br from-blue-01/[0.03] to-transparent group-hover:opacity-100"
           }
         `}
       />
@@ -47,7 +58,8 @@ export const DirectionCard = ({
         <div
           className={`
             flex h-11 w-11 shrink-0 items-center justify-center rounded-lg
-            transition-all duration-300 group-hover:scale-110
+            transition-all duration-300
+            group-hover:scale-110 group-hover:rotate-3
             ${isActive ? "bg-white text-blue-01" : "bg-blue-01 text-white"}
           `}
         >
@@ -56,7 +68,8 @@ export const DirectionCard = ({
 
         <h3
           className={`
-            text-xl md:text-[22px] 2xl:text-[24px] font-bold transition-colors duration-300 
+            text-xl md:text-[22px] 2xl:text-[24px] font-bold transition-all duration-300
+            group-hover:translate-x-1
             ${isActive ? "text-white" : "text-blue-01"}
           `}
         >
@@ -66,8 +79,9 @@ export const DirectionCard = ({
 
       <p
         className={`
-          relative text-sm leading-5 md:text-base md:leading-6 2xl:text-base 2xl:leading-6.5 
-          ${isActive ? "text-white/80" : "text-muted-blue"}
+          relative text-sm leading-5 md:text-base md:leading-6 2xl:text-base 2xl:leading-6.5
+          transition-colors duration-300
+          ${isActive ? "text-white/80 group-hover:text-white/90" : "text-muted-blue"}
         `}
       >
         {description}
@@ -80,12 +94,14 @@ export const DirectionCard = ({
               key={feature}
               className={`
                 flex items-start gap-3 text-sm leading-6 md:text-base
+                transition-transform duration-300
+                group-hover:translate-x-1
                 ${isActive ? "text-white/90" : "text-muted-blue"}
               `}
             >
               <CheckCircle
                 size={18}
-                className={`mt-1 shrink-0 ${
+                className={`mt-1 shrink-0 transition-transform duration-300 group-hover:scale-110 ${
                   isActive ? "text-white" : "text-blue-01"
                 }`}
               />
