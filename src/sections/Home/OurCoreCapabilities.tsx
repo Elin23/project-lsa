@@ -3,10 +3,20 @@ import OurCoreCapabilitiesCard from "../../components/common/OurCoreCapabilities
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
 import { ourCoreCapabilitiesData } from "../../data/OurCoreCapabilitiesData";
 import Pagination from "../../components/shared/Pagination";
+import OurCoreCapabilitiesCardSkeleton from "../../components/skeletons/OurCoreCapabilitiesCardSkeleton";
 
 export default function OurCoreCapabilities() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(6);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,13 +60,13 @@ export default function OurCoreCapabilities() {
   }, [currentPage, itemsPerPage]);
 
   return (
-    <section className="relative overflow-hidden ">
+    <section className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-01/10 blur-3xl" />
         <div className="absolute bottom-10 right-0 h-64 w-64 rounded-full bg-red-01/5 blur-3xl" />
       </div>
 
-      <div className="mx-auto w-full max-w-[1440px] ">
+      <div className="mx-auto w-full max-w-[1440px]">
         <div className="mx-auto mb-12 max-w-3xl text-center lg:mb-16">
           <TitleComponent
             title="Our Core Capabilities"
@@ -73,17 +83,21 @@ export default function OurCoreCapabilities() {
             animate-[fadeSlide_0.45s_ease-out]
           "
         >
-          {currentItems.map((item) => (
-            <OurCoreCapabilitiesCard
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              description={item.description}
-            />
-          ))}
+          {loading
+            ? Array.from({ length: itemsPerPage }).map((_, index) => (
+              <OurCoreCapabilitiesCardSkeleton key={index} />
+            ))
+            : currentItems.map((item) => (
+              <OurCoreCapabilitiesCard
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                description={item.description}
+              />
+            ))}
         </div>
 
-        {totalPages > 1 && (
+        {!loading && totalPages > 1 && (
           <div className="mt-10 flex justify-center sm:mt-12 lg:mt-14">
             <Pagination
               currentPage={currentPage}
