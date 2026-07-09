@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
 import ProjectCard from "../../components/ProjectCard";
+import ProjectCardSkeleton from "../../components/skeletons/ProjectCardSkeleton";
 import TabsComponent from "../../components/shared/TabsComponent";
 import LoadMoreButton from "../../components/shared/LoadMoreButton";
 
@@ -11,13 +12,25 @@ const INITIAL_VISIBLE_COUNT = 6;
 const LOAD_MORE_COUNT = 6;
 
 const ProjectsSection = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+
   const [activeTab, setActiveTab] = useState("All Projects");
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const filteredProjects = useMemo(() => {
     if (activeTab === "All Projects") return projectsData;
 
-    return projectsData.filter((project) => project.category === activeTab);
+    return projectsData.filter(
+      (project) => project.category === activeTab
+    );
   }, [activeTab]);
 
   const visibleProjects = filteredProjects.slice(0, visibleCount);
@@ -38,7 +51,7 @@ const ProjectsSection = () => {
   };
 
   return (
-    <section >
+    <section>
       <TitleComponent
         title="Our Projects"
         description="Showcasing our engineering excellence and infrastructure development across the energy sector in Iraq."
@@ -51,12 +64,19 @@ const ProjectsSection = () => {
       />
 
       <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {visibleProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
+        {loading
+          ? Array.from({ length: INITIAL_VISIBLE_COUNT }).map((_, index) => (
+            <ProjectCardSkeleton key={index} />
+          ))
+          : visibleProjects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+            />
+          ))}
       </div>
 
-      {filteredProjects.length > INITIAL_VISIBLE_COUNT && (
+      {!loading && filteredProjects.length > INITIAL_VISIBLE_COUNT && (
         <div className="mt-10 flex justify-center">
           <LoadMoreButton
             isExpanded={visibleCount >= filteredProjects.length}

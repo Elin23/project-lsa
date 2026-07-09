@@ -32,7 +32,7 @@ export const DirectionCard = ({
     >
       <div
         className={`
-          absolute left-0 top-0 h-[3px] w-full origin-left transition-transform duration-300
+          absolute left-0 top-0 h-0.75 w-full origin-left transition-transform duration-300
           ${
             isActive
               ? "scale-x-100 bg-white"
@@ -47,7 +47,7 @@ export const DirectionCard = ({
           ${
             isActive
               ? "bg-white/0"
-              : "bg-gradient-to-br from-blue-01/[0.03] to-transparent group-hover:opacity-100"
+              : "bg-linear-to-br from-blue-01/3 to-transparent group-hover:opacity-100"
           }
         `}
       />

@@ -9,12 +9,14 @@ import {
 } from "lucide-react";
 
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
-import {
-  AdvantageCard,
-  type AdvantageItem,
-} from "../../components/AdvantageCard";
 import Pagination from "../../components/shared/Pagination";
 import { DirectionCard } from "../../components/StratigicDirectionsCard";
+import DirectionCardSkeleton from "../../components/skeletons/DirectionCardSkeleton";
+
+import {
+  type AdvantageItem,
+} from "../../components/AdvantageCard";
+
 
 const equipmentData: AdvantageItem[] = [
   {
@@ -61,9 +63,12 @@ const equipmentData: AdvantageItem[] = [
   },
 ];
 
+
 export default function SpecializedEquipmentSection() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -82,16 +87,35 @@ export default function SpecializedEquipmentSection() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+
   useEffect(() => {
     setCurrentPage(1);
   }, [itemsPerPage]);
 
-  const totalPages = Math.ceil(equipmentData.length / itemsPerPage);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
+  const totalPages = Math.ceil(
+    equipmentData.length / itemsPerPage
+  );
+
 
   const currentItems = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
-    return equipmentData.slice(start, start + itemsPerPage);
+
+    return equipmentData.slice(
+      start,
+      start + itemsPerPage
+    );
   }, [currentPage, itemsPerPage]);
+
 
   return (
     <section>
@@ -99,6 +123,7 @@ export default function SpecializedEquipmentSection() {
         title="Specialized Equipment Capabilities"
         description="Providing heavy-duty solutions for the most demanding engineering environments in the region."
       />
+
 
       <div
         key={currentPage}
@@ -109,17 +134,23 @@ export default function SpecializedEquipmentSection() {
           xl:grid-cols-3
         "
       >
-        {currentItems.map((item, index) => (
-<DirectionCard
-  title={item.title}
-  description={item.description}
-  icon={item.icon}
-  features={item.features}
-/>
-        ))}
+        {loading
+          ? Array.from({ length: itemsPerPage }).map((_, index) => (
+            <DirectionCardSkeleton key={index} />
+          ))
+          : currentItems.map((item) => (
+            <DirectionCard
+              key={item.title}
+              title={item.title}
+              description={item.description}
+              icon={item.icon}
+              features={item.features}
+            />
+          ))}
       </div>
 
-      {totalPages > 1 && (
+
+      {!loading && totalPages > 1 && (
         <div className="mt-12 flex justify-center">
           <Pagination
             currentPage={currentPage}

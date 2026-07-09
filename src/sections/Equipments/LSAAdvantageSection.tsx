@@ -1,12 +1,22 @@
-import { BadgeCheck, ClipboardCheck, Truck, type LucideIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  BadgeCheck,
+  ClipboardCheck,
+  Truck,
+  type LucideIcon,
+} from "lucide-react";
+
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
 import LSAAdvantageCard from "../../components/common/LSAAdvantageCard";
+import LSAAdvantageCardSkeleton from "../../components/skeletons/LSAAdvantageCardSkeleton";
+
 
 export interface LSAAdvantageItem {
   title: string;
   description: string;
   icon: LucideIcon;
 }
+
 
 const advantageData: LSAAdvantageItem[] = [
   {
@@ -29,7 +39,19 @@ const advantageData: LSAAdvantageItem[] = [
   },
 ];
 
+
 export default function LSAAdvantageSection() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 15000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
   return (
     <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
       <TitleComponent
@@ -38,9 +60,16 @@ export default function LSAAdvantageSection() {
       />
 
       <div className="mt-12 grid gap-10 md:grid-cols-3">
-        {advantageData.map((item) => (
-          <LSAAdvantageCard key={item.title} item={item} />
-        ))}
+        {loading
+          ? Array.from({ length: 3 }).map((_, index) => (
+            <LSAAdvantageCardSkeleton key={index} />
+          ))
+          : advantageData.map((item) => (
+            <LSAAdvantageCard
+              key={item.title}
+              item={item}
+            />
+          ))}
       </div>
     </section>
   );

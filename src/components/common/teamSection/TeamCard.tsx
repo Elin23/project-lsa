@@ -1,4 +1,4 @@
-import type { TeamMember } from "../sections/About/TeamSection";
+import type { TeamMember } from "../../../sections/About/TeamSection";
 
 interface TeamCardProps {
     member: TeamMember;
@@ -8,7 +8,7 @@ export default function TeamCard({ member }: TeamCardProps) {
     return (
         <article
             className="
-        group relative aspect-[4/5] overflow-hidden rounded-2xl bg-slate-900
+        group relative aspect-4/5 overflow-hidden rounded-2xl bg-slate-900
         shadow-md transition-all duration-500 ease-out
         hover:-translate-y-2 hover:shadow-2xl
       "
@@ -26,7 +26,7 @@ export default function TeamCard({ member }: TeamCardProps) {
             <div
                 className="
           absolute inset-0
-          bg-gradient-to-t from-[#0F2E7A]/95 via-[#0F2E7A]/30 to-transparent
+          bg-linear-to-t from-[#0F2E7A]/95 via-[#0F2E7A]/30 to-transparent
           opacity-90 transition-opacity duration-500
           md:opacity-60 md:group-hover:opacity-95
         "
@@ -57,7 +57,7 @@ export default function TeamCard({ member }: TeamCardProps) {
 
                 <div
                     className="
-            mt-4 h-[2px] w-12 rounded-full bg-white/70
+            mt-4 h-0.5 w-12 rounded-full bg-white/70
             transition-all duration-500
             md:w-0 md:group-hover:w-16
           "

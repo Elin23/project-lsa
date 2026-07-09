@@ -24,7 +24,7 @@ export default function RelatedProjectCard({
       "
     >
       {/* Image */}
-      <div className="relative h-[210px] overflow-hidden">
+      <div className="relative h-52.5 overflow-hidden">
         <img
           src={image}
           alt={title}
@@ -32,7 +32,7 @@ export default function RelatedProjectCard({
         />
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#08162d]/95 via-[#08162d]/35 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#08162d]/95 via-[#08162d]/35 to-transparent" />
 
         {/* Category */}
         <div className="absolute left-5 top-5">
@@ -47,7 +47,7 @@ export default function RelatedProjectCard({
             {title}
           </h4>
 
-          <div className="mt-4 h-[2px] w-12 bg-red-01 transition-all duration-500 group-hover:w-24" />
+          <div className="mt-4 h-0.5 w-12 bg-red-01 transition-all duration-500 group-hover:w-24" />
         </div>
       </div>
 
@@ -58,7 +58,7 @@ export default function RelatedProjectCard({
         </p>
 
         <button className="group/link mt-6 inline-flex items-center gap-2 font-semibold text-red-01">
-          <span className="relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-red-01 after:transition-all after:duration-300 group-hover/link:after:w-full">
+          <span className="relative after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-red-01 after:transition-all after:duration-300 group-hover/link:after:w-full">
             View Details
           </span>
 
