@@ -24,7 +24,7 @@ export default function OurCoreCapabilitiesCard({
         duration-500
         hover:-translate-y-1.5
         hover:border-[#D8E7F7]
-        hover:bg-gradient-to-br
+        hover:bg-linear-to-br
         hover:from-white
         hover:to-[#F8FBFF]
         hover:shadow-[0_12px_35px_rgba(31,101,180,0.08)]
@@ -36,7 +36,7 @@ export default function OurCoreCapabilitiesCard({
           pointer-events-none
           absolute
           inset-0
-          -translate-x-[140%]
+          translate-x-[-140%]
           bg-[linear-gradient(120deg,transparent_30%,rgba(255,255,255,0.8)_50%,transparent_70%)]
           transition-transform
           duration-1000
@@ -51,7 +51,7 @@ export default function OurCoreCapabilitiesCard({
           left-0
           top-8
           h-12
-          w-[3px]
+          w-0.75
           origin-top
           scale-y-0
           rounded-r-full

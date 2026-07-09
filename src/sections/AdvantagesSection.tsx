@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   BadgeCheck,
   Gauge,
@@ -5,9 +6,10 @@ import {
   Sparkles,
   type LucideIcon,
 } from "lucide-react";
+
 import TitleComponent from "../components/common/TitleComponent/TitleComponent";
-import { AdvantageCard } from "../components/AdvantageCard";
 import { DirectionCard } from "../components/StratigicDirectionsCard";
+import DirectionCardSkeleton from "../components/skeletons/DirectionCardSkeleton";
 
 export interface AdvantageItem {
   title: string;
@@ -43,27 +45,41 @@ const advantagesData: AdvantageItem[] = [
   },
 ];
 
-
 export default function AdvantagesSection() {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section>
-      <div className="">
+      <div>
         <div className="mb-12">
           <TitleComponent
             title="Our Advantages"
             description="Guiding principles that drive our engineering solutions and corporate growth."
           />
         </div>
-<div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-  {advantagesData.map((item, index) => (
-    <DirectionCard
-      key={item.title}
-      title={item.title}
-      description={item.description}
-      icon={item.icon}
-    />
-  ))}
-</div>
+
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {loading
+            ? Array.from({ length: advantagesData.length }).map((_, index) => (
+              <DirectionCardSkeleton key={index} />
+            ))
+            : advantagesData.map((item) => (
+              <DirectionCard
+                key={item.title}
+                title={item.title}
+                description={item.description}
+                icon={item.icon}
+              />
+            ))}
+        </div>
       </div>
     </section>
   );

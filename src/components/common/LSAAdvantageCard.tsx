@@ -37,7 +37,7 @@ export default function LSAAdvantageCard({ item }: LSAAdvantageCardProps) {
         {item.title}
       </h3>
 
-      <p className="mt-3 max-w-[300px] text-sm leading-6 md:text-base  text-muted-blue">
+      <p className="mt-3 max-w-75 text-sm leading-6 md:text-base  text-muted-blue">
         {item.description}
       </p>
     </article>

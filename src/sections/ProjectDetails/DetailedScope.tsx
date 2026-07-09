@@ -1,9 +1,30 @@
+import { useEffect, useState } from "react";
+
 import {
   detailedScopeData,
   projectOverviewData,
 } from "../../data/detailedScopeData";
 
+import DetailedScopeSkeleton from "../../components/skeletons/DetailedScopeSkeleton";
+
+
 export default function DetailedScope() {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
+  if (loading) {
+    return <DetailedScopeSkeleton />;
+  }
+
+
   return (
     <div className="flex flex-col justify-between gap-8 lg:flex-row">
       {/* Left Card */}
@@ -29,17 +50,18 @@ export default function DetailedScope() {
               key={item.label}
               className="py-4 transition-all duration-300 hover:translate-x-1"
             >
-              <span className="text-xs font-bold text-muted-blue transition-colors duration-300 hover:text-blue-01">
+              <span className="text-xs font-bold text-muted-blue">
                 {item.label}
               </span>
 
-              <h5 className="text-lg font-semibold text-[#111C2C] transition-colors duration-300">
+              <h5 className="text-lg font-semibold text-[#111C2C]">
                 {item.value}
               </h5>
             </div>
           ))}
         </div>
       </div>
+
 
       {/* Right Card */}
       <div
@@ -54,7 +76,7 @@ export default function DetailedScope() {
           lg:w-[68.42%] 2xl:w-[66.10%]
         "
       >
-        <h4 className="text-2xl font-bold text-blue-01 transition-all duration-300 group-hover:translate-x-1 sm:text-[40px]">
+        <h4 className="text-2xl font-bold text-blue-01 sm:text-[40px]">
           {detailedScopeData.title}
         </h4>
 
@@ -62,11 +84,10 @@ export default function DetailedScope() {
           {detailedScopeData.paragraphs.slice(0, 2).map((paragraph, index) => (
             <p
               key={index}
-              className={`text-lg transition-colors duration-300 ${
-                paragraph.primary
+              className={`text-lg ${paragraph.primary
                   ? "font-medium text-[#111C2C]"
                   : "font-light text-[#444651E5]"
-              }`}
+                }`}
             >
               {paragraph.text}
             </p>
@@ -77,30 +98,24 @@ export default function DetailedScope() {
               <div
                 key={item.title}
                 className="
-                  group/item
-                  space-y-2
                   rounded-xl
                   border-l-4 border-l-blue-01
                   bg-[#F9F9FF]
                   p-6
-                  transition-all duration-300
-                  hover:-translate-y-1
-                  hover:bg-[#F4F7FF]
-                  hover:shadow-md
                 "
               >
-                <h5 className="text-lg font-bold text-blue-01 transition-colors duration-300 group-hover/item:text-[#153A92]">
+                <h5 className="text-lg font-bold text-blue-01">
                   {item.title}
                 </h5>
 
-                <p className="text-sm font-light text-[#444651E5] transition-colors duration-300 group-hover/item:text-[#444651]">
+                <p className="text-sm font-light text-[#444651E5]">
                   {item.description}
                 </p>
               </div>
             ))}
           </div>
 
-          <p className="mt-4 text-lg font-light text-[#444651E5] transition-colors duration-300">
+          <p className="mt-4 text-lg font-light text-[#444651E5]">
             {detailedScopeData.paragraphs[2].text}
           </p>
         </div>

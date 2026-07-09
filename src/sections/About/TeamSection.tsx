@@ -1,11 +1,12 @@
+import { useEffect, useState } from "react";
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
-import TeamCard from "../../components/TeamCard";
-import member_1 from "../../assets/imgs/member-1.png"
-import member_2 from "../../assets/imgs/member-2.png"
-import member_3 from "../../assets/imgs/member-3.png"
-import member_4 from "../../assets/imgs/member-4.png"
-// import member_5 from "../../assets/imgs/member-5.png"
-// import member_6 from "../../assets/imgs/member-6.png"
+import TeamCard from "../../components/common/teamSection/TeamCard";
+import TeamCardSkeleton from "../../components/skeletons/TeamCardSkeleton";
+
+import member_1 from "../../assets/imgs/member-1.png";
+import member_2 from "../../assets/imgs/member-2.png";
+import member_3 from "../../assets/imgs/member-3.png";
+import member_4 from "../../assets/imgs/member-4.png";
 
 export interface TeamMember {
   name: string;
@@ -39,24 +40,22 @@ const teamData: TeamMember[] = [
     experience: "10+ Years",
     image: member_4,
   },
-//   {
-//     name: "Hamza Ahmed Ali",
-//     role: "QA/QC Manager",
-//     experience: "10+ Years",
-//     image: member_5,
-//   },
-//   {
-//     name: "Abdullah Ali Haider",
-//     role: "Field Operations Lead",
-//     experience: "8+ Years",
-//     image: member_6,
-//   },
 ];
 
 export default function TeamSection() {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 15000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
-      <div className="">
+      <div>
         <div className="mb-10">
           <TitleComponent
             title="Meet the Experts"
@@ -65,9 +64,13 @@ export default function TeamSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {teamData.map((member) => (
-            <TeamCard key={member.name} member={member} />
-          ))}
+          {loading
+            ? Array.from({ length: teamData.length }).map((_, index) => (
+              <TeamCardSkeleton key={index} />
+            ))
+            : teamData.map((member) => (
+              <TeamCard key={member.name} member={member} />
+            ))}
         </div>
       </div>
     </section>

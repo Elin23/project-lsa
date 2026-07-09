@@ -5,9 +5,20 @@ import {
   Award,
   Wrench,
   Settings,
+  type LucideIcon,
 } from "lucide-react";
 
-export const timelineData = [
+export interface TimelineItem {
+  year: string;
+  title: string;
+  description: string;
+  badge: string;
+  icon: LucideIcon;
+  dotColor: string;
+  side: "left" | "right";
+}
+
+export const timelineData: TimelineItem[] = [
   {
     year: "2013 - 2014",
     title: "Foundation & First Steps",
