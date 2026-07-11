@@ -24,7 +24,7 @@ Our approach is rooted in rigorous planning and execution. We leverage advanced 
       />
       <StrategicDirectionsSection />
       <OurJourney />
-       <CertificationsStandards />
+      <CertificationsStandards />
       <TeamSection />
     </div>
   )

@@ -1,46 +1,70 @@
 import { GoArrowRight } from "react-icons/go";
 
 interface RelatedProjectCardProps {
-    category: string;
-    title: string;
-    description: string;
-    image: string;
+  category: string;
+  title: string;
+  description: string;
+  image: string;
 }
 
 export default function RelatedProjectCard({
-    category,
-    title,
-    description,
-    image,
+  category,
+  title,
+  description,
+  image,
 }: RelatedProjectCardProps) {
-    return (
-        <div className=" w-full  rounded-xl bg-white shadow-[0px_4px_20px_0px_#00236F0D]">
-            <div className="w-full relative">
-                <span className="absolute top-4 left-4 py-1 px-3 bg-[#F9F9FFE5] lg:text-xs 2xl:text-sm font-bold text-red-01 rounded-2xl">
-                    {category}
-                </span>
+  return (
+    <div
+      className="
+        group overflow-hidden rounded-xl bg-white
+        shadow-[0_8px_30px_rgba(31,63,147,0.08)]
+        transition-all duration-500
+        hover:-translate-y-1
+        hover:shadow-[0_18px_45px_rgba(31,63,147,0.14)]
+      "
+    >
+      {/* Image */}
+      <div className="relative h-[210px] overflow-hidden">
+        <img
+          src={image}
+          alt={title}
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
 
-                <img
-                    className="w-full rounded-xl object-cover"
-                    src={image}
-                    alt={title}
-                />
-            </div>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#08162d]/95 via-[#08162d]/35 to-transparent" />
 
-            <div className=" text-center sm:text-start p-8 space-y-3 md:space-y-2.5 2xl:space-y-3">
-                <h4 className="text-[#111C2C] text-lg lg:text-xl 2xl:text-2xl font-bold">
-                    {title}
-                </h4>
-
-                <p className="text-[#444651] text-sm lg:text-base 2xl:text-lg font-normal">
-                    {description}
-                </p>
-
-                <button className=" mx-auto sm:mx-0 text-[#00236F] text-sm 2xl:text-base font-semibold flex items-center gap-2">
-                    View Details
-                    <GoArrowRight />
-                </button>
-            </div>
+        {/* Category */}
+        <div className="absolute left-5 top-5">
+          <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md">
+            {category}
+          </span>
         </div>
-    );
+
+        {/* Title */}
+        <div className="absolute bottom-6 left-6 right-6">
+          <h4 className="text-xl font-bold leading-snug text-white lg:text-[22px] 2xl:text-[24px]">
+            {title}
+          </h4>
+
+          <div className="mt-4 h-[2px] w-12 bg-red-01 transition-all duration-500 group-hover:w-24" />
+        </div>
+      </div>
+
+      {/* White Content */}
+      <div className="p-6">
+        <p className="text-sm leading-6 text-muted-blue lg:text-base 2xl:text-lg">
+          {description}
+        </p>
+
+        <button className="group/link mt-6 inline-flex items-center gap-2 font-semibold text-red-01">
+          <span className="relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-red-01 after:transition-all after:duration-300 group-hover/link:after:w-full">
+            View Details
+          </span>
+
+          <GoArrowRight className="transition-transform duration-300 group-hover/link:translate-x-1" />
+        </button>
+      </div>
+    </div>
+  );
 }

@@ -3,16 +3,28 @@ import OurCoreCapabilitiesCard from "../../components/common/OurCoreCapabilities
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
 import { ourCoreCapabilitiesData } from "../../data/OurCoreCapabilitiesData";
 import Pagination from "../../components/shared/Pagination";
+import OurCoreCapabilitiesCardSkeleton from "../../components/skeletons/OurCoreCapabilitiesCardSkeleton";
 
 export default function OurCoreCapabilities() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(6);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      const width = window.innerWidth;
+
+      if (width < 768) {
         setItemsPerPage(2);
-      } else if (window.innerWidth < 1280) {
+      } else if (width < 1280) {
         setItemsPerPage(4);
       } else {
         setItemsPerPage(6);
@@ -22,57 +34,79 @@ export default function OurCoreCapabilities() {
     handleResize();
 
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(ourCoreCapabilitiesData.length / itemsPerPage)
+  );
 
   useEffect(() => {
     setCurrentPage(1);
   }, [itemsPerPage]);
 
-  const totalPages = Math.ceil(
-    ourCoreCapabilitiesData.length / itemsPerPage
-  );
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   const currentItems = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
 
-    return ourCoreCapabilitiesData.slice(start, start + itemsPerPage);
+    return ourCoreCapabilitiesData.slice(startIndex, endIndex);
   }, [currentPage, itemsPerPage]);
 
   return (
-    <div>
-      <TitleComponent
-        title="Our Core Capabilities"
-        description="Comprehensive engineering solutions tailored to the oil and gas sector."
-      />
-
-      <div
-        key={currentPage}
-        className="
-          flex flex-wrap gap-6
-          animate-[fadeSlide_0.45s_ease-out]
-        "
-      >
-        {currentItems.map((item) => (
-          <OurCoreCapabilitiesCard
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            description={item.description}
-          />
-        ))}
+    <section className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-01/10 blur-3xl" />
+        <div className="absolute bottom-10 right-0 h-64 w-64 rounded-full bg-red-01/5 blur-3xl" />
       </div>
 
-      {totalPages > 1 && (
-        <div className="mt-12 flex justify-center">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
+      <div className="mx-auto w-full max-w-[1440px]">
+        <div className="mx-auto mb-12 max-w-3xl text-center lg:mb-16">
+          <TitleComponent
+            title="Our Core Capabilities"
+            description="Comprehensive engineering solutions tailored to the oil and gas sector."
           />
         </div>
-      )}
+
+        <div
+          key={`${currentPage}-${itemsPerPage}`}
+          className="
+            grid grid-cols-1 gap-5
+            sm:grid-cols-2 sm:gap-6
+            xl:grid-cols-3 xl:gap-7
+            animate-[fadeSlide_0.45s_ease-out]
+          "
+        >
+          {loading
+            ? Array.from({ length: itemsPerPage }).map((_, index) => (
+              <OurCoreCapabilitiesCardSkeleton key={index} />
+            ))
+            : currentItems.map((item) => (
+              <OurCoreCapabilitiesCard
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                description={item.description}
+              />
+            ))}
         </div>
+
+        {!loading && totalPages > 1 && (
+          <div className="mt-10 flex justify-center sm:mt-12 lg:mt-14">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
