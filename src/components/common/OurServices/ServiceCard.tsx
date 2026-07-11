@@ -38,14 +38,14 @@ export default function ServiceCard({
       "
         >
             <div className={`${reverse ? "md:order-2" : "md:order-1"}`}>
-                <img
+                <img data-aos="flip-left" data-aos-duration="800"
                     src={image}
                     alt={title}
                     className="w-full rounded-lg object-cover md:h-75"
                 />
             </div>
 
-            <div
+            <div data-aos="fade-up" data-aos-duration="800"
                 className={`flex flex-col justify-center ${reverse ? "md:order-1" : "md:order-2"
                     }`}
             >

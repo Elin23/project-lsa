@@ -55,7 +55,7 @@ export default function Pagination({
 
               <span
                 className={`
-                  absolute -bottom-2 left-1/2 h-[2px]
+                  absolute -bottom-2 left-1/2 h-0.5
                   -translate-x-1/2 rounded-full bg-red-01
                   transition-all duration-300
                   ${

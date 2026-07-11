@@ -99,7 +99,7 @@ const ButtonComponent = ({
             pointer-events-none
             absolute inset-0
             -translate-x-full
-            bg-gradient-to-r
+            bg-linear-to-r
             from-transparent
             via-white/25
             to-transparent

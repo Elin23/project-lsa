@@ -72,7 +72,7 @@ const CounterItem = ({
 const CounterSection = () => {
   return (
     <section className="relative left-1/2 w-screen -translate-x-1/2 bg-[#24449B]">
-      <div className="grid min-h-[120px] grid-cols-2 md:grid-cols-4">
+      <div className="grid min-h-30 grid-cols-2 md:grid-cols-4">
         {counterData.map((item, index) => (
           <div
             key={item.label}

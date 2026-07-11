@@ -9,7 +9,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div
+    <div data-aos="flip-left"
       className="
         group
         overflow-hidden
@@ -28,7 +28,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between gap-4 px-4 py-[15px] text-left"
+        className="flex w-full items-center justify-between gap-4 px-4 py-3.75 text-left"
       >
         <span
           className="

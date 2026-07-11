@@ -8,7 +8,8 @@ const serviceOptions = [
 
 export default function ContactFormCard() {
   return (
-    <div className="relative overflow-hidden rounded-xl bg-white p-6 shadow-xl md:p-8">
+    <div data-aos="fade-up" data-aos-duration="800"
+      className="relative overflow-hidden rounded-xl bg-white p-6 shadow-xl md:p-8">
       <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-[#F3F5FA]" />
 
       <form className="relative z-10">
@@ -68,7 +69,7 @@ export default function ContactFormCard() {
           </label>
           <textarea
             placeholder="Briefly describe your project requirements..."
-            className="min-h-[110px] w-full resize-none rounded-lg bg-[#F6F7FB] px-4 py-3 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-blue-01/25"
+            className="min-h-27.5 w-full resize-none rounded-lg bg-[#F6F7FB] px-4 py-3 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-blue-01/25"
           />
         </div>
 

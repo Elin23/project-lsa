@@ -32,7 +32,7 @@ const HeroSection = ({
   return (
     <section
       className={`
-        relative left-1/2 h-[calc(100vh-72px)] min-h-[620px]
+        relative left-1/2 h-[calc(100vh-72px)] min-h-155
         w-screen -translate-x-1/2 overflow-hidden
         ${className}
       `}
@@ -44,7 +44,7 @@ const HeroSection = ({
       />
 
       <div className="absolute inset-0 bg-black/55" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-[#0B1020]/40 to-[#071225]" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/10 via-[#0B1020]/40 to-[#071225]" />
 
       <div className="relative z-10 flex h-full flex-col">
         <div

@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <header className="fixed z-50 w-full">
-      <nav className="flex h-18 items-center justify-between bg-white px-6 shadow-md 2xl:px-[162px] md:px-12">
+      <nav className="flex h-18 items-center justify-between bg-white px-6 shadow-md 2xl:px-container md:px-12">
         <NavLink to="/" className="flex items-center">
           <img src={logo} alt="LSA Logo" className=" h-10 md:h-15 2xl:h-20 w-auto" />
         </NavLink>
@@ -42,7 +42,7 @@ const Navbar = () => {
 
                     <span
                       className={`
-                        absolute -bottom-2 left-1/2 h-[2px]
+                        absolute -bottom-2 left-1/2 h-0.5
                         -translate-x-1/2 rounded-full bg-red-01
                         transition-all duration-300
                         ${

@@ -21,10 +21,15 @@ export default function TimelineCard({
 
     return (
         <div
+
+            data-aos={isLeft ? "flip-left" : "flip-right"}
+              data-aos-duration="8000"
+
             className={`relative flex items-center md:min-h-37.5 ${isLeft ? "md:justify-start" : "md:justify-end"
                 }`}
         >
             <div
+
                 className={`absolute left-4 top-6 z-10 h-3 w-3 -translate-x-1/2 rounded-full ${dotColor} md:left-1/2`}
             />
 
@@ -38,7 +43,7 @@ export default function TimelineCard({
           bg-white
           p-5
           shadow-md
-          transition-all
+          transition-all!
           duration-300
           ease-out
           hover:-translate-y-2

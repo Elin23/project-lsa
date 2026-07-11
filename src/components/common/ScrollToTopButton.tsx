@@ -46,7 +46,7 @@ const ScrollToTop = () => {
   return (
     <div
       className={`
-        group fixed bottom-8 right-8 z-[9999]
+        group fixed bottom-8 right-8 z-9999
         transition-all duration-500 ease-out
         ${
           isVisible
@@ -61,11 +61,11 @@ const ScrollToTop = () => {
         aria-label="Back to top"
         className="
           relative
-          flex h-[52px] w-[52px] items-center justify-center
+          flex h-13 w-13 items-center justify-center
           overflow-hidden
           rounded-full
 
-          border border-4 border-blue-01/15
+          border border-blue-01/15
 
           bg-[#F8FAFC]
           text-blue-03
@@ -74,7 +74,7 @@ const ScrollToTop = () => {
 
           transition-all duration-300 ease-out
 
-          hover:w-[155px]
+          hover:w-38.75
           hover:bg-blue-01
           hover:text-white
           hover:shadow-[0_14px_35px_rgba(30,60,153,0.22)]
@@ -88,7 +88,7 @@ const ScrollToTop = () => {
           className="
             relative z-10
             transition-all duration-300
-            group-hover:-translate-y-[180%]
+            group-hover:translate-y-[-180%]
           "
         />
 

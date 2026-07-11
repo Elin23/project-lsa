@@ -20,6 +20,8 @@ export default function JobCard({
 
     return (
         <div
+            data-aos="flip-left" data-aos-duration="800"
+
             className="
         group rounded-2xl border border-slate-200
         bg-white p-5 md:p-7 2xl:p-9

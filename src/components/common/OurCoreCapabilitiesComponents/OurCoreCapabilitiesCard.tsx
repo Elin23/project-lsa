@@ -11,6 +11,7 @@ export default function OurCoreCapabilitiesCard({
 }: OurCoreCapabilitiesCardProps) {
   return (
     <article
+     data-aos="flip-left"
       className="
         group
         relative

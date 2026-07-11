@@ -48,7 +48,7 @@ export default function TeamSection() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 15000);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, []);

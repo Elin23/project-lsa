@@ -26,7 +26,8 @@ export default function DetailedScope() {
 
 
   return (
-    <div className="flex flex-col justify-between gap-8 lg:flex-row">
+    <div data-aos="fade-up" data-aos-duration="800"
+      className="flex flex-col justify-between gap-8 lg:flex-row">
       {/* Left Card */}
       <div
         className="
@@ -85,8 +86,8 @@ export default function DetailedScope() {
             <p
               key={index}
               className={`text-lg ${paragraph.primary
-                  ? "font-medium text-[#111C2C]"
-                  : "font-light text-[#444651E5]"
+                ? "font-medium text-[#111C2C]"
+                : "font-light text-[#444651E5]"
                 }`}
             >
               {paragraph.text}
