@@ -1,3 +1,8 @@
+import hdpePipeline from "../assets/OurProjects/hdpe-pipeline.png";
+import oilManifolds from "../assets/OurProjects/oil-manifolds.png";
+import hotTapping from "../assets/OurProjects/hot-tapping.png";
+import facilityFoundations from "../assets/OurProjects/facility-foundations.png";
+
 export interface Project {
   id: number;
   title: string;
@@ -13,7 +18,7 @@ export const projectsData: Project[] = [
     title: "20” HDPE Pipeline",
     description:
       "Comprehensive engineering, procurement, and construction of a major pipeline project.",
-    image: "/src/assets/OurProjects/hdpe-pipeline.png",
+    image: hdpePipeline,
     category: "EPC",
     path: "/projects/hdpe-pipeline",
   },
@@ -22,7 +27,7 @@ export const projectsData: Project[] = [
     title: "West Qurna Oil Manifolds",
     description:
       "Fabrication and precise installation of heavy-duty oil manifolds connecting field systems.",
-    image: "/src/assets/OurProjects/oil-manifolds.png",
+    image: oilManifolds,
     category: "Mechanical",
     path: "/projects/oil-manifolds",
   },
@@ -31,7 +36,7 @@ export const projectsData: Project[] = [
     title: "Live Line Intervention, Basra",
     description:
       "Executed a critical hot tap on a live export line without interrupting operations.",
-    image: "/src/assets/OurProjects/hot-tapping.png",
+    image: hotTapping,
     category: "Hot Tapping",
     path: "/projects/hot-tapping",
   },
@@ -40,16 +45,16 @@ export const projectsData: Project[] = [
     title: "Facility Foundations",
     description:
       "Large-scale civil engineering works including earth-moving, piling, and foundation preparation.",
-    image: "/src/assets/OurProjects/facility-foundations.png",
+    image: facilityFoundations,
     category: "Civil",
     path: "/projects/facility-foundations",
   },
-    {
+  {
     id: 5,
     title: "20” HDPE Pipeline",
     description:
       "Comprehensive engineering, procurement, and construction of a major pipeline project.",
-    image: "/src/assets/OurProjects/hdpe-pipeline.png",
+    image: hdpePipeline,
     category: "EPC",
     path: "/projects/hdpe-pipeline",
   },
@@ -58,7 +63,7 @@ export const projectsData: Project[] = [
     title: "West Qurna Oil Manifolds",
     description:
       "Fabrication and precise installation of heavy-duty oil manifolds connecting field systems.",
-    image: "/src/assets/OurProjects/oil-manifolds.png",
+    image: oilManifolds,
     category: "Mechanical",
     path: "/projects/oil-manifolds",
   },
@@ -67,7 +72,7 @@ export const projectsData: Project[] = [
     title: "Live Line Intervention, Basra",
     description:
       "Executed a critical hot tap on a live export line without interrupting operations.",
-    image: "/src/assets/OurProjects/hot-tapping.png",
+    image: hotTapping,
     category: "Hot Tapping",
     path: "/projects/hot-tapping",
   },
@@ -76,7 +81,7 @@ export const projectsData: Project[] = [
     title: "Facility Foundations",
     description:
       "Large-scale civil engineering works including earth-moving, piling, and foundation preparation.",
-    image: "/src/assets/OurProjects/facility-foundations.png",
+    image: facilityFoundations,
     category: "Civil",
     path: "/projects/facility-foundations",
   },
