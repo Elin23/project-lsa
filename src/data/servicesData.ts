@@ -1,5 +1,3 @@
-import { CheckCircle } from "lucide-react";
-
 export const servicesData = [
   {
     id: 1,

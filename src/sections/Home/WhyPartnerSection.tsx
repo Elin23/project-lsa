@@ -25,15 +25,15 @@ const WhyPartnerSection = ({
   return (
     <section>
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center xl:gap-14 2xl:gap-20">
-        <div>
-            <TitleComponent title={title} description={description} className="text-start items-start" />
+        <div data-aos="fade-up">
+          <TitleComponent title={title} description={description} className="text-start items-start" />
 
           <div className="space-y-6">
             {items.map((item) => {
               const Icon = item.icon;
 
               return (
-                <div
+                <div 
                   key={item.title}
                   className="group flex items-start gap-4 transition-all duration-300"
                 >
@@ -65,14 +65,14 @@ const WhyPartnerSection = ({
           </div>
         </div>
 
-        <div className="w-full lg:flex lg:justify-end">
+        <div data-aos="flip-up" className="w-full lg:flex lg:justify-end">
           <img
             src={image}
             alt={imageAlt}
             className="
-              h-[280px] w-full rounded-2xl object-cover shadow-xl
-              md:h-[420px]
-              lg:h-auto lg:max-w-[560px]
+              h-70 w-full rounded-xl object-cover shadow-xl
+              md:h-105
+              lg:h-auto lg:max-w-140
             "
           />
         </div>

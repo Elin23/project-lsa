@@ -5,14 +5,14 @@ import logo from "../../../assets/logo2.png";
 const Footer = () => {
   return (
     <footer className="bg-blue-02 text-white">
-      <div className="mx-auto max-w-[1920px] px-container pt-[72px] pb-8">
+      <div className="mx-auto max-w-[1920px] px-container pt-18 pb-8">
         <div className="grid grid-cols-1 gap-12 lg-custom:grid-cols-4">
           <div> 
             <Link to="/">
-              <img src={logo} alt="LSA Logo" className="mb-8 h-[100px] w-auto" />
+              <img src={logo} alt="LSA Logo" className="mb-8 h-25 w-auto" />
             </Link>
 
-            <p className="text-sm leading-6 text-white/60 lg-custom:max-w-[260px]">
+            <p className="text-sm leading-6 text-white/60 lg-custom:max-w-65">
               {footerData.company.description}
             </p>
 

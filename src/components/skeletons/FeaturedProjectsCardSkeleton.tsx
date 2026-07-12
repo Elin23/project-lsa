@@ -4,10 +4,10 @@ export default function FeaturedProjectsCardSkeleton() {
     return (
         <div className="group relative overflow-hidden rounded-xl bg-black">
             {/* Image */}
-            <Skeleton className="h-[270px] w-full rounded-none" />
+            <Skeleton className="h-67.5 w-full rounded-none" />
 
             {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#08162d]/95 via-[#08162d]/20 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-[#08162d]/95 via-[#08162d]/20 to-transparent" />
 
             {/* Category */}
             <div className="absolute left-6 top-6">
@@ -19,7 +19,7 @@ export default function FeaturedProjectsCardSkeleton() {
                 <div className="flex items-end justify-between gap-5">
                     <div className="w-full">
                         <Skeleton className="mb-4 h-6 w-3/4 bg-white/10" />
-                        <Skeleton className="h-[2px] w-12 bg-white/10" />
+                        <Skeleton className="h-0.5 w-12 bg-white/10" />
                     </div>
                 </div>
             </div>

@@ -16,7 +16,7 @@ const OperationalRangesSection: React.FC<OperationalRangesSectionProps> = ({
     service.details.operationalRanges;
 
   return (
-    <div className="w-full flex flex-col lg:flex-row gap-8">
+    <div data-aos="fade-up" data-aos-duration="800"  className="w-full flex flex-col lg:flex-row gap-8">
       <OperationalRangesContent
         title={title}
         description={description}

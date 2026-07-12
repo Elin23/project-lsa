@@ -9,11 +9,26 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="group overflow-hidden rounded-xl border border-[#E8EDF5] bg-white p-2 transition-all duration-500 hover:-translate-y-1 hover:border-[#D8E7F7] hover:shadow-[0_12px_35px_rgba(31,101,180,0.08)]">
+    <div data-aos="flip-left"
+      className="
+        group
+        overflow-hidden
+        rounded-xl
+        border
+        border-[#E8EDF5]
+        bg-white
+        p-2
+        transition-all
+        duration-500
+        hover:-translate-y-1
+        hover:border-[#D8E7F7]
+        hover:shadow-[0_12px_35px_rgba(31,101,180,0.08)]
+      "
+    >
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between gap-4 px-4 py-[15px] text-left"
+        className="flex w-full items-center justify-between gap-4 px-4 py-3.75 text-left"
       >
         <span className="text-[13px] font-semibold leading-5 text-[#1F3F93] transition-colors duration-300 group-hover:text-blue-01 md:text-base 2xl:text-lg">
           {question}

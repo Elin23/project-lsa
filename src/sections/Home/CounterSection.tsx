@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { counterData } from "../../data/counterData";
 
-export interface CounterItemData {
+interface CounterItemProps {
   value: number;
   suffix?: string;
   label: string;
   customValue?: string;
 }
-
-interface CounterItemProps extends CounterItemData {}
 
 const CounterItem = ({
   value,
@@ -21,7 +20,7 @@ const CounterItem = ({
 
   useEffect(() => {
     const element = itemRef.current;
-    if (!element || customValue) return;
+    if (!element) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -51,42 +50,37 @@ const CounterItem = ({
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, [value, customValue]);
+  }, [value]);
 
   return (
     <div
       ref={itemRef}
-      className="group flex h-full w-full flex-col items-center justify-center text-center transition-all duration-500"
+      className="group flex h-full w-full flex-col items-center justify-center text-center transition-all duration-500 "
     >
       <h3 className="text-4xl font-bold leading-none text-white transition-transform duration-300 group-hover:scale-110 md:text-[42px]">
         {customValue ? customValue : count}
         {!customValue && suffix}
       </h3>
 
-      <p className="mt-2 text-[10px] uppercase tracking-[0.15em] text-white/70">
+      <p className="mt-2 text-[10px]  uppercase tracking-[0.15em] text-white/70">
         {label}
       </p>
     </div>
   );
 };
 
-interface CounterSectionProps {
-  data: CounterItemData[];
-  className?: string;
-}
-
-const CounterSection = ({ data, className = "" }: CounterSectionProps) => {
+const CounterSection = () => {
   return (
-    <section
-      className={`relative left-1/2 w-screen -translate-x-1/2 bg-[#24449B] ${className}`}
-    >
-      <div className="grid min-h-[120px] grid-cols-2 md:grid-cols-4">
-        {data.map((item, index) => (
+    <section className="relative left-1/2 w-screen -translate-x-1/2 bg-[#24449B]">
+      <div className="grid min-h-30 grid-cols-2 md:grid-cols-4">
+        {counterData.map((item, index) => (
           <div
-            key={`${item.label}-${index}`}
-            className={`flex items-center justify-center px-6 py-8 md:py-5 ${
-              index !== 0 ? "md:border-l md:border-white/15" : ""
-            }`}
+            key={item.label}
+            className={`
+              flex items-center justify-center px-6 py-8
+              md:py-5
+              ${index !== 0 ? "md:border-l md:border-white/15" : ""}
+            `}
           >
             <CounterItem
               value={item.value}

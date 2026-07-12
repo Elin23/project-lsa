@@ -47,7 +47,7 @@ const TrustedCompanies = () => {
                                 <img
                                     src={company.image}
                                     alt={company.name}
-                                    className="h-[85px] w-auto object-contain grayscale transition duration-300 hover:grayscale-0"
+                                    className="h-21.25 w-auto object-contain grayscale transition duration-300 hover:grayscale-0"
                                 />
                             </div>
                         </SwiperSlide>

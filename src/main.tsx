@@ -17,6 +17,7 @@ import ProjectPage from "./pages/ProjectPage";
 import ProjectDetailsPage from "./pages/ProjectDetails";
 import Loader from "./components/common/Loader";
 import EquipmentsPage from "./pages/EquipmentsPage";
+import "aos/dist/aos.css";
 
 const router = createBrowserRouter([
   {

@@ -10,17 +10,17 @@ export default function FeaturedProjectsCard({
   title,
 }: FeaturedProjectsCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl bg-black">
+    <div data-aos="flip-left" className="group relative overflow-hidden rounded-xl bg-black">
 
       {/* Image */}
       <img
         src={image}
         alt={title}
-        className="h-[270px] w-full object-cover transition-all duration-700 group-hover:scale-110"
+        className="h-67.5 w-full object-cover transition-all duration-700 group-hover:scale-110"
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#08162d]/95 via-[#08162d]/20 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-[#08162d]/95 via-[#08162d]/20 to-transparent" />
 
       {/* Category */}
       <div className="absolute left-6 top-6">
@@ -40,7 +40,7 @@ export default function FeaturedProjectsCard({
               {title}
             </h3>
 
-            <div className="mt-5 h-[2px] w-12 bg-red-01 transition-all duration-500 group-hover:w-28" />
+            <div className="mt-5 h-0.5 w-12 bg-red-01 transition-all duration-500 group-hover:w-28" />
 
           </div>
         </div>

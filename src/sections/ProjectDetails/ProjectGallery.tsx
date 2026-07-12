@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
 import Slider2 from "../../components/shared/Slider2";
+import GalleryCardSkeleton from "../../components/skeletons/GalleryCardSkeleton";
+
 import { projectGalleryData } from "../../data/ProjectGalleryData";
+
 
 const GalleryCard = ({ image }: { image: string }) => {
     return (
@@ -15,8 +19,11 @@ const GalleryCard = ({ image }: { image: string }) => {
     );
 };
 
+
 export default function ProjectGallery() {
     const [cardsPerSlide, setCardsPerSlide] = useState(4);
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -36,6 +43,16 @@ export default function ProjectGallery() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 1500);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+
     return (
         <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
             <TitleComponent
@@ -43,15 +60,20 @@ export default function ProjectGallery() {
                 description="On-site captures of the engineering excellence in progress."
             />
 
+
             <Slider2
-                items={projectGalleryData}
+                items={loading ? Array.from({ length: 4 }, () => "") : projectGalleryData}
                 visibleItems={cardsPerSlide}
-                renderItem={(image, index) => (
-                    <GalleryCard
-                        key={index}
-                        image={image}
-                    />
-                )}
+                renderItem={(image, index) =>
+                    loading ? (
+                        <GalleryCardSkeleton key={index} />
+                    ) : (
+                        <GalleryCard
+                            key={index}
+                            image={image}
+                        />
+                    )
+                }
             />
         </section>
     );
