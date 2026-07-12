@@ -4,7 +4,30 @@ import ButtonComponent from "../ButtonComponent";
 const CTASection = () => {
   return (
     <section className="pb-16 md:pb-24 2xl:pb-28">
-      <div className="group relative overflow-hidden rounded-xl bg-blue-03 px-6 py-12 text-center shadow-lg transition-all duration-700 hover:-translate-y-0.5 hover:shadow-[0_28px_60px_rgba(10,33,90,0.22)] md:px-12 2xl:py-14">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="650"
+        data-aos-easing="ease-out-cubic"
+        data-aos-offset="80"
+        data-aos-once="true"
+        className="
+          group
+          relative
+          overflow-hidden
+          rounded-xl
+          bg-blue-03
+          px-6
+          py-12
+          text-center
+          shadow-lg
+          transition-all
+          duration-700
+          hover:-translate-y-0.5
+          hover:shadow-[0_28px_60px_rgba(10,33,90,0.22)]
+          md:px-12
+          2xl:py-14
+        "
+      >
         {/* Background Lines */}
         <div className="absolute inset-0 overflow-hidden">
           {/* Vertical Pipelines */}

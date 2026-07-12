@@ -6,6 +6,11 @@ const HotTappingBanner = () => {
     <section>
       <div className="pb-16 md:pb-24 2xl:pb-28">
         <div
+          data-aos="fade-up"
+          data-aos-duration="650"
+          data-aos-easing="ease-out-cubic"
+          data-aos-offset="80"
+          data-aos-once="true"
           className="
             group
             relative
@@ -58,10 +63,10 @@ const HotTappingBanner = () => {
             <h2
               className="
                 mt-2
-                font-bold
-                text-white
                 text-[28px]
+                font-bold
                 leading-9.5
+                text-white
                 transition-transform
                 duration-700
                 group-hover:-translate-y-0.5
@@ -71,14 +76,14 @@ const HotTappingBanner = () => {
                 2xl:leading-14.5
               "
             >
-              Hot Tapping up to 42"
+              Hot Tapping up to 42&quot;
             </h2>
 
             <h3
               className="
                 mt-2
-                font-bold
                 text-[28px]
+                font-bold
                 leading-9.5
                 text-[#9FC6FF]
                 transition-colors

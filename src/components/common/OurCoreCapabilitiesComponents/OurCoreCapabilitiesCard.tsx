@@ -11,60 +11,71 @@ export default function OurCoreCapabilitiesCard({
 }: OurCoreCapabilitiesCardProps) {
   return (
     <article
-     data-aos="flip-left"
+      data-aos="fade"
+      data-aos-duration="650"
+      data-aos-easing="ease-out"
+      data-aos-once="true"
       className="
         group
         relative
         h-full
         overflow-hidden
         rounded-2xl
-        border border-[#E8EDF5]
+        border
+        border-[#E8EDF5]
         bg-white
         p-7
-        transition-all
-        duration-500
-        hover:-translate-y-1.5
-        hover:border-[#D8E7F7]
-        hover:bg-linear-to-br
-        hover:from-white
-        hover:to-[#F8FBFF]
-        hover:shadow-[0_12px_35px_rgba(31,101,180,0.08)]
+        shadow-[0_4px_18px_rgba(15,23,42,0.04)]
+        transition-[border-color,box-shadow,background-color]
+        duration-300
+        ease-out
+        hover:border-[#D7E4F2]
+        hover:bg-[#FCFDFF]
+        hover:shadow-[0_12px_28px_rgba(31,101,180,0.08)]
       "
     >
-      {/* Light Sweep */}
+      {/* Soft Background Glow */}
       <span
+        aria-hidden="true"
         className="
           pointer-events-none
           absolute
-          inset-0
-          translate-x-[-140%]
-          bg-[linear-gradient(120deg,transparent_30%,rgba(255,255,255,0.8)_50%,transparent_70%)]
-          transition-transform
-          duration-1000
-          group-hover:translate-x-[140%]
+          -right-20
+          -top-20
+          h-44
+          w-44
+          rounded-full
+          bg-blue-01/0
+          blur-3xl
+          transition-colors
+          duration-500
+          ease-out
+          group-hover:bg-blue-01/5
         "
       />
 
       {/* Left Accent */}
       <span
+        aria-hidden="true"
         className="
           absolute
           left-0
           top-8
           h-12
-          w-0.75
-          origin-top
-          scale-y-0
+          w-[3px]
           rounded-r-full
-          bg-blue-01
-          transition-transform
-          duration-500
-          group-hover:scale-y-100
+          bg-blue-01/25
+          transition-[height,background-color]
+          duration-300
+          ease-out
+          group-hover:h-16
+          group-hover:bg-blue-01
         "
       />
 
       {/* Number */}
       <span
+        aria-hidden="true"
         className="
           absolute
           right-6
@@ -75,10 +86,10 @@ export default function OurCoreCapabilitiesCard({
           font-bold
           leading-none
           text-[#EEF3F8]
-          transition-all
-          duration-500
-          group-hover:translate-y-1
-          group-hover:text-[#D9E8F8]
+          transition-colors
+          duration-300
+          ease-out
+          group-hover:text-[#DCE8F5]
           lg:block
         "
       >
@@ -89,14 +100,16 @@ export default function OurCoreCapabilitiesCard({
       <h4
         className="
           relative
+          z-10
           mb-4
           max-w-[80%]
           text-xl
           font-bold
           text-blue-01
-          transition-all
+          transition-colors
           duration-300
-          group-hover:translate-x-1
+          ease-out
+          group-hover:text-[#173F70]
           md:text-[22px]
           2xl:text-2xl
         "
@@ -108,12 +121,14 @@ export default function OurCoreCapabilitiesCard({
       <p
         className="
           relative
+          z-10
           text-sm
           leading-7
           text-muted-blue
           transition-colors
           duration-300
-          group-hover:text-[#5F7388]
+          ease-out
+          group-hover:text-[#526A82]
           md:text-base
         "
       >
