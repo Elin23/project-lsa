@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 
 import "./index.css";
 import "aos/dist/aos.css";
@@ -18,8 +18,9 @@ import ProjectDetailsPage from "./pages/ProjectDetails";
 import EquipmentsPage from "./pages/EquipmentsPage";
 
 import Loader from "./components/common/Loader";
+import GlobalImageOptimizer from "./components/common/GlobalImageOptimizer";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <MainLayout />,
@@ -69,22 +70,24 @@ function App() {
   const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    const loadingTimer = setTimeout(() => {
+    const loadingTimer = window.setTimeout(() => {
       setIsLoaderVisible(false);
     }, 2200);
 
-    const removeLoaderTimer = setTimeout(() => {
+    const removeLoaderTimer = window.setTimeout(() => {
       setShowLoader(false);
-    }, 2700);
+    }, 2900);
 
     return () => {
-      clearTimeout(loadingTimer);
-      clearTimeout(removeLoaderTimer);
+      window.clearTimeout(loadingTimer);
+      window.clearTimeout(removeLoaderTimer);
     };
   }, []);
 
   return (
     <>
+      <GlobalImageOptimizer />
+
       <RouterProvider router={router} />
 
       {showLoader && <Loader isVisible={isLoaderVisible} />}
@@ -92,4 +95,10 @@ function App() {
   );
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Root element was not found.");
+}
+
+createRoot(rootElement).render(<App />);
