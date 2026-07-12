@@ -1,4 +1,9 @@
-import type { CounterItemData } from "../sections/Home/CounterSection";
+export interface CounterItemData {
+  value: number;
+  suffix?: string;
+  label: string;
+  customValue?: string;
+}
 
 export const counterData: CounterItemData[] = [
   {
