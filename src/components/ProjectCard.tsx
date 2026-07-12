@@ -8,23 +8,38 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
-    <div data-aos="flip-left" data-aos-duration="1000"
+    <div
+      className="h-full"
     >
-      <div
+      <article
         className="
-        group overflow-hidden rounded-xl bg-white
-        shadow-[0_8px_30px_rgba(31,63,147,0.08)]
-        transition-all duration-500
-        hover:-translate-y-1
-        hover:shadow-[0_18px_45px_rgba(31,63,147,0.15)]
-      "
+          group
+          flex
+          h-full
+          flex-col
+          overflow-hidden
+          rounded-xl
+          bg-white
+          shadow-[0_8px_30px_rgba(31,63,147,0.08)]
+          transition-all
+          duration-500
+          hover:-translate-y-1
+          hover:shadow-[0_18px_45px_rgba(31,63,147,0.15)]
+        "
       >
         {/* Image */}
-        <div className="relative h-52.5 overflow-hidden">
+        <div className="relative h-52.5 shrink-0 overflow-hidden">
           <img
             src={project.image}
             alt={project.title}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="
+              h-full
+              w-full
+              object-cover
+              transition-transform
+              duration-700
+              group-hover:scale-110
+            "
           />
 
           {/* Overlay */}
@@ -39,7 +54,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
           {/* Title */}
           <div className="absolute bottom-6 left-6 right-6">
-            <h3 className="text-xl md:text-[22px] 2xl:text-[24px] font-bold leading-snug text-white">
+            <h3 className="text-xl font-bold leading-snug text-white md:text-[22px] 2xl:text-[24px]">
               {project.title}
             </h3>
 
@@ -47,9 +62,9 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           </div>
         </div>
 
-        {/* White Content */}
-        <div className="p-5 md:p-6">
-          <p className="text-sm leading-6 text-muted-blue md:text-base">
+        {/* Content */}
+        <div className="flex flex-1 flex-col p-5 md:p-6">
+          <p className="flex-1 text-sm leading-6 text-muted-blue md:text-base">
             {project.description}
           </p>
 
@@ -64,9 +79,8 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             <GoArrowRight className="transition-transform duration-300 group-hover/link:translate-x-1" />
           </Link>
         </div>
-      </div>
+      </article>
     </div>
-
   );
 };
 

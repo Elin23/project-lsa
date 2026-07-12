@@ -1,4 +1,3 @@
-// src/data/servicesData.ts
 
 import {
   Compass,
@@ -221,7 +220,7 @@ export const servicesData2 = [
   title: "Tank Construction & Maintenance",
   description:
     "Engineering, fabrication, erection, and maintenance of atmospheric and pressurized storage tanks for oil, gas, and industrial facilities.",
-  image: "/Images/ourservices/tank-construction.png",
+  image: "/Images/ourservices/structural.png",
   path: "/services/tank-construction-maintenance",
   reverse: false,
 
@@ -232,7 +231,7 @@ export const servicesData2 = [
   ],
 
   details: {
-    heroImage: "/Images/ourservices/tank-construction.png",
+    heroImage: "/Images/ourservices/structural.png",
     heroTitle: "Tank Construction & Maintenance",
     heroDescription:
       "Complete storage tank solutions including fabrication, erection, inspection, repair, and long-term maintenance in accordance with international standards.",
@@ -331,7 +330,7 @@ export const servicesData2 = [
   title: "Mechanical Equipment Installation",
   description:
     "Professional installation, alignment, and commissioning of rotating and static mechanical equipment for industrial facilities.",
-  image: "/Images/ourservices/mechanical-installation.png",
+  image: "/Images/ourservices/structural.png",
   path: "/services/mechanical-equipment-installation",
   reverse: true,
 

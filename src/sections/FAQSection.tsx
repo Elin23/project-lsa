@@ -12,32 +12,48 @@ const FAQSection = ({ className = "" }: FAQSectionProps) => {
 
   return (
     <section className={className}>
-      <div>
-          <TitleComponent
-            title="Frequently Asked Questions"
-            description="Clarifying our processes and capabilities for prospective partners."
-          />
+      <TitleComponent
+        title="Frequently Asked Questions"
+        description="Clarifying our processes and capabilities for prospective partners."
+      />
 
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="flex flex-col gap-8">
-            {leftItems.map((item) => (
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="flex flex-col gap-6 md:gap-8">
+          {leftItems.map((item, index) => (
+            <div
+              key={item.question}
+              data-aos="fade-up"
+              data-aos-duration="500"
+              data-aos-delay={index * 60}
+              data-aos-easing="ease-out"
+              data-aos-offset="40"
+              data-aos-once="true"
+            >
               <FAQItem
-                key={item.question}
                 question={item.question}
                 answer={item.answer}
               />
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          <div className="flex flex-col gap-8">
-            {rightItems.map((item) => (
+        <div className="flex flex-col gap-6 md:gap-8">
+          {rightItems.map((item, index) => (
+            <div
+              key={item.question}
+              data-aos="fade-up"
+              data-aos-duration="500"
+              data-aos-delay={index * 60 + 40}
+              data-aos-easing="ease-out"
+              data-aos-offset="40"
+              data-aos-once="true"
+            >
               <FAQItem
-                key={item.question}
                 question={item.question}
                 answer={item.answer}
               />
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "./index.css";
-
+import "aos/dist/aos.css";
 
 import MainLayout from "./layouts/MainLayout";
 
@@ -15,44 +15,81 @@ import EngineeringServicesPage from "./pages/EngineeringServicesPage";
 import EngineeringServiceDeatilsPage from "./pages/EngineeringServiceDeatilsPage";
 import ProjectPage from "./pages/ProjectPage";
 import ProjectDetailsPage from "./pages/ProjectDetails";
-import Loader from "./components/common/Loader";
 import EquipmentsPage from "./pages/EquipmentsPage";
-import "aos/dist/aos.css";
+
+import Loader from "./components/common/Loader";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: "about", element: <AboutPage /> },
-      { path: "services", element: <EngineeringServicesPage /> },
-      {   path:"/services/:slug", element: <EngineeringServiceDeatilsPage /> },
-      { path: "projects", element: <ProjectPage /> },
-      { path: "projects/:id", element: <ProjectDetailsPage /> },
-      { path: "careers", element: <CareersPage /> },
-      { path: "contact", element: <ContactPage /> },
-      { path: "equipment", element: <EquipmentsPage/>}
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "about",
+        element: <AboutPage />,
+      },
+      {
+        path: "services",
+        element: <EngineeringServicesPage />,
+      },
+      {
+        path: "services/:slug",
+        element: <EngineeringServiceDeatilsPage />,
+      },
+      {
+        path: "projects",
+        element: <ProjectPage />,
+      },
+      {
+        path: "projects/:id",
+        element: <ProjectDetailsPage />,
+      },
+      {
+        path: "careers",
+        element: <CareersPage />,
+      },
+      {
+        path: "contact",
+        element: <ContactPage />,
+      },
+      {
+        path: "equipment",
+        element: <EquipmentsPage />,
+      },
     ],
   },
 ]);
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [isLoaderVisible, setIsLoaderVisible] = useState(true);
+  const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
+    const loadingTimer = setTimeout(() => {
+      setIsLoaderVisible(false);
     }, 2200);
 
-    return () => clearTimeout(timer);
+    const removeLoaderTimer = setTimeout(() => {
+      setShowLoader(false);
+    }, 2700);
+
+    return () => {
+      clearTimeout(loadingTimer);
+      clearTimeout(removeLoaderTimer);
+    };
   }, []);
 
-  if (loading) {
-    return <Loader />;
-  }
+  return (
+    <>
+      <RouterProvider router={router} />
 
-  return <RouterProvider router={router} />;
+      {showLoader && <Loader isVisible={isLoaderVisible} />}
+    </>
+  );
 }
 
 createRoot(document.getElementById("root")!).render(<App />);

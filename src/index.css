@@ -118,3 +118,34 @@ html {
     border:1px solid rgba(255,255,255,.25);
     border-radius:999px;
 }
+
+@keyframes projectCardFilterFade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes projectEmptyFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="projectCardFilterFade"],
+  [class*="projectEmptyFade"] {
+    animation: none !important;
+  }
+}

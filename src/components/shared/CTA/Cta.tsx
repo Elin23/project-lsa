@@ -5,6 +5,11 @@ const CTASection = () => {
   return (
     <section className="pb-16 md:pb-24 2xl:pb-28">
       <div
+        data-aos="fade-up"
+        data-aos-duration="650"
+        data-aos-easing="ease-out-cubic"
+        data-aos-offset="80"
+        data-aos-once="true"
         className="
           group
           relative
@@ -52,7 +57,7 @@ const CTASection = () => {
             {ctaData.label}
           </span>
 
-          <h2 className="max-w-162.5 font-bold text-white text-[28px] leading-9.5 transition-transform duration-700 group-hover:-translate-y-0.5 md:text-[38px] md:leading-11.5 2xl:text-[46px] 2xl:leading-14.5">
+          <h2 className="max-w-162.5 text-[28px] font-bold leading-9.5 text-white transition-transform duration-700 group-hover:-translate-y-0.5 md:text-[38px] md:leading-11.5 2xl:text-[46px] 2xl:leading-14.5">
             {ctaData.title}
           </h2>
 

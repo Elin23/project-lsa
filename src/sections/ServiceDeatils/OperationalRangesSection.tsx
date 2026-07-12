@@ -1,4 +1,3 @@
-// OperationalRangesSection.tsx
 import React from "react";
 
 import OperationalRangesContent from "../../components/common/OperationalRanges/OperationalRangesLeft";
@@ -16,7 +15,24 @@ const OperationalRangesSection: React.FC<OperationalRangesSectionProps> = ({
     service.details.operationalRanges;
 
   return (
-    <div data-aos="fade-up" data-aos-duration="800"  className="w-full flex flex-col lg:flex-row gap-8">
+    <section
+      data-aos="fade-up"
+      data-aos-duration="650"
+      data-aos-easing="ease-out-cubic"
+      data-aos-offset="60"
+      data-aos-once="true"
+      className="
+        relative
+        flex
+        w-full
+        flex-col
+        gap-8
+        lg:flex-row
+        lg:items-start
+        xl:gap-10
+        2xl:gap-12
+      "
+    >
       <OperationalRangesContent
         title={title}
         description={description}
@@ -24,7 +40,7 @@ const OperationalRangesSection: React.FC<OperationalRangesSectionProps> = ({
       />
 
       <OperationalRangesTable headers={tableHeaders} rows={tableRows} />
-    </div>
+    </section>
   );
 };
 

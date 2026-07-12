@@ -1,4 +1,3 @@
-// OperationalRangesTable.tsx
 import React from "react";
 
 interface OperationalRangesTableProps {
@@ -11,23 +10,46 @@ const OperationalRangesTable: React.FC<OperationalRangesTableProps> = ({
   rows,
 }) => {
   return (
-    <div className="w-full h-max lg:w-[67.11%] 2xl:w-[65.66%] overflow-hidden rounded-2xl border border-[#CFDAF180] bg-white shadow-[0px_8px_30px_rgba(0,35,111,0.08)]">
+    <div
+      className="
+        h-max
+        w-full
+        overflow-hidden
+        rounded-2xl
+        border
+        border-[#DCE5F3]
+        bg-white
+        shadow-[0_10px_32px_rgba(0,35,111,0.07)]
+        lg:w-[67.11%]
+        2xl:w-[65.66%]
+      "
+    >
       <div className="w-full overflow-x-auto">
         <table className="w-full min-w-155 border-collapse">
           <thead>
             <tr className="bg-[#00236F]">
-              <th className="w-4 md:w-6 bg-[#00236F]" />
+              <th className="w-4 bg-[#00236F] md:w-6" />
 
               {headers.map((header, index) => (
                 <th
                   key={index}
-                  className="p-5 md:p-6 text-start text-[15px] md:text-[18px] font-bold text-white whitespace-nowrap"
+                  className="
+                    whitespace-nowrap
+                    p-5
+                    text-start
+                    text-[15px]
+                    font-bold
+                    tracking-[0.01em]
+                    text-white
+                    md:p-6
+                    md:text-[18px]
+                  "
                 >
                   {header}
                 </th>
               ))}
 
-              <th className="w-4 md:w-6 bg-[#00236F]" />
+              <th className="w-4 bg-[#00236F] md:w-6" />
             </tr>
           </thead>
 
@@ -35,19 +57,87 @@ const OperationalRangesTable: React.FC<OperationalRangesTableProps> = ({
             {rows.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className="border-t border-[#CFDAF1] bg-[#F9F9FF] transition-all duration-300 hover:bg-white hover:shadow-[inset_4px_0_0_#C8102E]"
+                className={`
+                  group
+                  border-t
+                  border-[#E2E8F2]
+                  transition-colors
+                  duration-300
+                  ease-out
+                  ${
+                    rowIndex % 2 === 0
+                      ? "bg-[#FAFBFF]"
+                      : "bg-white"
+                  }
+                  hover:bg-[#F4F8FD]
+                `}
               >
-                <td className="p-5 md:p-6" />
+                <td className="relative p-5 md:p-6">
+                  <span
+                    aria-hidden="true"
+                    className="
+                      absolute
+                      bottom-0
+                      left-0
+                      top-0
+                      w-[3px]
+                      bg-red-01
+                      opacity-0
+                      transition-opacity
+                      duration-300
+                      group-hover:opacity-100
+                    "
+                  />
+                </td>
 
-                <td className="p-5 md:p-6 text-start text-[15px] md:text-[16px] font-bold text-blue-03">
+                <td
+                  className="
+                    p-5
+                    text-start
+                    text-[15px]
+                    font-bold
+                    text-blue-03
+                    transition-colors
+                    duration-300
+                    group-hover:text-blue-01
+                    md:p-6
+                    md:text-[16px]
+                  "
+                >
                   {row[0]}
                 </td>
 
-                <td className="p-5 md:p-6 text-start text-[15px] md:text-[16px] leading-relaxed text-muted-blue">
+                <td
+                  className="
+                    p-5
+                    text-start
+                    text-[15px]
+                    leading-relaxed
+                    text-muted-blue
+                    transition-colors
+                    duration-300
+                    group-hover:text-[#526A82]
+                    md:p-6
+                    md:text-[16px]
+                  "
+                >
                   {row[1]}
                 </td>
 
-                <td className="p-5 md:p-6 text-start text-[15px] md:text-[16px] leading-relaxed text-muted-blue">
+                <td
+                  className="
+                    p-5
+                    text-start
+                    text-[15px]
+                    leading-relaxed
+                    text-muted-blue
+                    transition-colors
+                    duration-300
+                    group-hover:text-[#526A82]
+                    md:p-6
+                    md:text-[16px]
+                  "
+                >
                   {row[2]}
                 </td>
 
