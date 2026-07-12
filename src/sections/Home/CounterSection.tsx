@@ -142,6 +142,7 @@ const CounterSection = ({
               customValue={item.customValue}
             />
           </div>
+          
         ))}
       </div>
     </section>
