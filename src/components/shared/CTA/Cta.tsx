@@ -31,14 +31,14 @@ const CTASection = () => {
         {/* Background Lines */}
         <div className="absolute inset-0 overflow-hidden">
           {/* Vertical Pipelines */}
-          <div className="absolute left-[34%] top-0 h-[85%] w-[10px] bg-white/10 transition-opacity duration-700 group-hover:bg-white/[0.13]" />
-          <div className="absolute left-[45%] top-0 h-[65%] w-[10px] bg-white/10 transition-opacity duration-700 group-hover:bg-white/[0.13]" />
-          <div className="absolute left-[56%] top-0 h-[45%] w-[10px] bg-white/10 transition-opacity duration-700 group-hover:bg-white/[0.13]" />
+          <div className="absolute left-[34%] top-0 h-[85%] w-[10px] bg-white/10 transition-colors duration-700 group-hover:bg-white/[0.13]" />
+          <div className="absolute left-[45%] top-0 h-[65%] w-[10px] bg-white/10 transition-colors duration-700 group-hover:bg-white/[0.13]" />
+          <div className="absolute left-[56%] top-0 h-[45%] w-[10px] bg-white/10 transition-colors duration-700 group-hover:bg-white/[0.13]" />
 
           {/* Horizontal Dashed Lines */}
-          <div className="absolute left-1/2 top-[20%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-opacity duration-700 group-hover:border-white/25" />
-          <div className="absolute left-1/2 top-[50%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-opacity duration-700 group-hover:border-white/25" />
-          <div className="absolute left-1/2 top-[90%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-opacity duration-700 group-hover:border-white/25" />
+          <div className="absolute left-1/2 top-[20%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-colors duration-700 group-hover:border-white/25" />
+          <div className="absolute left-1/2 top-[50%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-colors duration-700 group-hover:border-white/25" />
+          <div className="absolute left-1/2 top-[90%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-colors duration-700 group-hover:border-white/25" />
 
           {/* Main Circles */}
           <div className="absolute left-[33.3%] bottom-[11%] h-8 w-8 animate-pulse rounded-full bg-white/30 transition-all duration-700 group-hover:scale-110 group-hover:bg-white/40" />

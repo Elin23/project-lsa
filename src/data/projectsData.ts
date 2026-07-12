@@ -83,9 +83,9 @@ export const projectsData: Project[] = [
 ];
 
 export const projectCategories = [
-  "All Projects",
-  "Mechanical",
-  "Civil",
-  "Hot Tapping",
-  "EPC",
+  { label: "All Projects", value: "All Projects" },
+  { label: "Mechanical", value: "Mechanical" },
+  { label: "Civil", value: "Civil" },
+  { label: "Hot Tapping", value: "Hot Tapping" },
+  { label: "EPC", value: "EPC" },
 ];
