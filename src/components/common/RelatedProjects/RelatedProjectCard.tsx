@@ -1,10 +1,12 @@
 import { GoArrowRight } from "react-icons/go";
+import { Link } from "react-router-dom";
 
 interface RelatedProjectCardProps {
   category: string;
   title: string;
   description: string;
   image: string;
+  path: string;
 }
 
 export default function RelatedProjectCard({
@@ -12,6 +14,7 @@ export default function RelatedProjectCard({
   title,
   description,
   image,
+  path,
 }: RelatedProjectCardProps) {
   return (
     <div
@@ -84,8 +87,8 @@ export default function RelatedProjectCard({
           <div className="mt-auto pt-5">
             <div className="mb-4 h-px w-full bg-[#E8EDF5]" />
 
-            <button
-              type="button"
+            <Link
+              to={path}
               className="
                 group/link
                 inline-flex
@@ -101,7 +104,7 @@ export default function RelatedProjectCard({
               </span>
 
               <GoArrowRight className="transition-transform duration-300 group-hover/link:translate-x-1" />
-            </button>
+            </Link>
           </div>
         </div>
       </article>

@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-12 lg-custom:grid-cols-4">
           <div> 
             <Link to="/">
-              <img src={logo} alt="LSA Logo" className="mb-8 h-25 w-auto" />
+              <img src={logo} alt="LSA Logo" className="mb-8 h-15 w-auto" />
             </Link>
 
             <p className="text-sm leading-6 text-white/60 lg-custom:max-w-65">

@@ -6,15 +6,22 @@ import ProjectCardSkeleton from "../../components/skeletons/ProjectCardSkeleton"
 import TabsComponent from "../../components/shared/TabsComponent";
 import LoadMoreButton from "../../components/shared/LoadMoreButton";
 
-import { projectCategories, projectsData } from "../../data/projectsData";
+import {
+  getProjectsByCategory,
+  projectCategories,
+} from "../../data/projectsData";
 
 const INITIAL_VISIBLE_COUNT = 6;
 const LOAD_MORE_COUNT = 6;
 
 const ProjectsSection = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [activeTab, setActiveTab] = useState("All Projects");
-  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
+
+  const [activeTab, setActiveTab] = useState<string>("All Projects");
+
+  const [visibleCount, setVisibleCount] = useState<number>(
+    INITIAL_VISIBLE_COUNT
+  );
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -24,23 +31,46 @@ const ProjectsSection = () => {
     return () => window.clearTimeout(timer);
   }, []);
 
-  const filteredProjects = useMemo(() => {
-    if (activeTab === "All Projects") {
-      return projectsData;
-    }
+  /*
+    جلب المشاريع حسب التصنيف المختار.
 
-    return projectsData.filter(
-      (project) => project.category === activeTab
-    );
+    إذا كان التصنيف:
+    All Projects
+
+    ترجع الدالة جميع المشاريع.
+
+    وإذا كان:
+    Mechanical
+    Civil
+    Hot Tapping
+    EPC
+
+    ترجع فقط المشاريع التابعة لهذا التصنيف.
+  */
+  const filteredProjects = useMemo(() => {
+    return getProjectsByCategory(activeTab);
   }, [activeTab]);
 
+  /*
+    تحديد عدد المشاريع التي ستظهر داخل الصفحة.
+  */
   const visibleProjects = filteredProjects.slice(0, visibleCount);
 
+  /*
+    تغيير التصنيف وإرجاع عدد المشاريع الظاهرة
+    إلى العدد الأولي.
+  */
   const handleChangeTab = (tab: string) => {
     setActiveTab(tab);
     setVisibleCount(INITIAL_VISIBLE_COUNT);
   };
 
+  /*
+    عرض المزيد من المشاريع.
+
+    إذا كانت جميع المشاريع ظاهرة،
+    يرجع العدد إلى أول 6 مشاريع.
+  */
   const handleToggleProjects = () => {
     if (visibleCount >= filteredProjects.length) {
       setVisibleCount(INITIAL_VISIBLE_COUNT);
@@ -90,7 +120,9 @@ const ProjectsSection = () => {
         "
       >
         {loading
-          ? Array.from({ length: INITIAL_VISIBLE_COUNT }).map((_, index) => (
+          ? Array.from({
+              length: INITIAL_VISIBLE_COUNT,
+            }).map((_, index) => (
               <ProjectCardSkeleton key={index} />
             ))
           : visibleProjects.map((project, index) => (
@@ -136,23 +168,26 @@ const ProjectsSection = () => {
       )}
 
       {/* Load More */}
-      {!loading && filteredProjects.length > INITIAL_VISIBLE_COUNT && (
-        <div
-          data-aos="fade-up"
-          data-aos-duration="500"
-          data-aos-easing="ease-out"
-          data-aos-once="true"
-          
-          className="mt-10 flex justify-center"
-        >
-          <LoadMoreButton
-            isExpanded={visibleCount >= filteredProjects.length}
-            onClick={handleToggleProjects}
-          />
-        </div>
-      )}
+      {!loading &&
+        filteredProjects.length > INITIAL_VISIBLE_COUNT && (
+          <div
+            data-aos="fade-up"
+            data-aos-duration="500"
+            data-aos-easing="ease-out"
+            data-aos-once="true"
+            className="mt-10 flex justify-center"
+          >
+            <LoadMoreButton
+              isExpanded={
+                visibleCount >= filteredProjects.length
+              }
+              onClick={handleToggleProjects}
+            />
+          </div>
+        )}
     </section>
   );
 };
 
 export default ProjectsSection;
+

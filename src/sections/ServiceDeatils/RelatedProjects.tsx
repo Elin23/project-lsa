@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import RelatedProjectCard from "../../components/common/RelatedProjects/RelatedProjectCard";
 import RelatedProjectCardSkeleton from "../../components/skeletons/RelatedProjectCardSkeleton";
@@ -6,9 +6,20 @@ import TitleComponent from "../../components/common/TitleComponent/TitleComponen
 import Slider from "../../components/shared/Slider";
 
 import { servicesData2 } from "../../data/servicesData2";
+import {
+  projectsData,
+  type ProjectCategory,
+} from "../../data/projectsData";
 
 type RelatedProjectsProps = {
   service: (typeof servicesData2)[number];
+};
+
+const serviceCategoryMap: Record<string, ProjectCategory> = {
+  "pipeline-construction": "EPC",
+  "mechanical-equipment-installation": "Mechanical",
+  "tank-construction-maintenance": "Civil",
+  "hot-tapping-stopple": "Hot Tapping",
 };
 
 export default function RelatedProjects({
@@ -17,14 +28,24 @@ export default function RelatedProjects({
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = window.setTimeout(() => {
       setLoading(false);
     }, 1500);
 
-    return () => clearTimeout(timer);
+    return () => window.clearTimeout(timer);
   }, []);
 
-  const relatedProjectsData = service.details.relatedProjects;
+  const relatedProjectsData = useMemo(() => {
+    const category = serviceCategoryMap[service.slug];
+
+    if (!category) {
+      return [];
+    }
+
+    return projectsData
+      .filter((project) => project.category === category)
+      .slice(0, 3);
+  }, [service.slug]);
 
   return (
     <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
@@ -49,6 +70,7 @@ export default function RelatedProjects({
                 title={project.title}
                 description={project.description}
                 image={project.image}
+                path={project.path}
               />
             )}
           />
@@ -59,17 +81,18 @@ export default function RelatedProjects({
       <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         {loading
           ? Array.from({ length: 3 }).map((_, index) => (
-            <RelatedProjectCardSkeleton key={index} />
-          ))
+              <RelatedProjectCardSkeleton key={index} />
+            ))
           : relatedProjectsData.map((project) => (
-            <RelatedProjectCard
-              key={project.id}
-              category={project.category}
-              title={project.title}
-              description={project.description}
-              image={project.image}
-            />
-          ))}
+              <RelatedProjectCard
+                key={project.id}
+                category={project.category}
+                title={project.title}
+                description={project.description}
+                image={project.image}
+                path={project.path}
+              />
+            ))}
       </div>
     </section>
   );

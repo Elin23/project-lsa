@@ -1,33 +1,36 @@
 import { useEffect, useState } from "react";
 
-import {
-  detailedScopeData,
-  projectOverviewData,
-} from "../../data/detailedScopeData";
+import type { Project } from "../../data/projectsData";
 
 import DetailedScopeSkeleton from "../../components/skeletons/DetailedScopeSkeleton";
 
+interface DetailedScopeProps {
+  project: Project;
+}
 
-export default function DetailedScope() {
+export default function DetailedScope({
+  project,
+}: DetailedScopeProps) {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = window.setTimeout(() => {
       setLoading(false);
     }, 1500);
 
-    return () => clearTimeout(timer);
+    return () => window.clearTimeout(timer);
   }, []);
-
 
   if (loading) {
     return <DetailedScopeSkeleton />;
   }
 
-
   return (
-    <div data-aos="fade-up" data-aos-duration="800"
-      className="flex flex-col justify-between gap-8 lg:flex-row">
+    <div
+      data-aos="fade-up"
+      data-aos-duration="800"
+      className="flex flex-col justify-between gap-8 lg:flex-row"
+    >
       {/* Left Card */}
       <div
         className="
@@ -46,7 +49,7 @@ export default function DetailedScope() {
         </h4>
 
         <div className="mt-8 divide-y divide-[#C5C5D34D]">
-          {projectOverviewData.map((item) => (
+          {project.overview.map((item) => (
             <div
               key={item.label}
               className="py-4 transition-all duration-300 hover:translate-x-1"
@@ -63,7 +66,6 @@ export default function DetailedScope() {
         </div>
       </div>
 
-
       {/* Right Card */}
       <div
         className="
@@ -78,26 +80,29 @@ export default function DetailedScope() {
         "
       >
         <h4 className="text-2xl font-bold text-blue-01 sm:text-[40px]">
-          {detailedScopeData.title}
+          {project.scope.title}
         </h4>
 
         <div className="mt-3.5 space-y-3.5">
-          {detailedScopeData.paragraphs.slice(0, 2).map((paragraph, index) => (
-            <p
-              key={index}
-              className={`text-lg ${paragraph.primary
-                ? "font-medium text-[#111C2C]"
-                : "font-light text-[#444651E5]"
+          {project.scope.paragraphs
+            .slice(0, 2)
+            .map((paragraph, index) => (
+              <p
+                key={`${project.id}-paragraph-${index}`}
+                className={`text-lg ${
+                  paragraph.primary
+                    ? "font-medium text-[#111C2C]"
+                    : "font-light text-[#444651E5]"
                 }`}
-            >
-              {paragraph.text}
-            </p>
-          ))}
+              >
+                {paragraph.text}
+              </p>
+            ))}
 
           <div className="flex flex-col justify-between gap-6 sm:flex-row">
-            {detailedScopeData.highlights.map((item) => (
+            {project.scope.highlights.map((item) => (
               <div
-                key={item.title}
+                key={item.id}
                 className="
                   rounded-xl
                   border-l-4 border-l-blue-01
@@ -116,9 +121,11 @@ export default function DetailedScope() {
             ))}
           </div>
 
-          <p className="mt-4 text-lg font-light text-[#444651E5]">
-            {detailedScopeData.paragraphs[2].text}
-          </p>
+          {project.scope.paragraphs[2] && (
+            <p className="mt-4 text-lg font-light text-[#444651E5]">
+              {project.scope.paragraphs[2].text}
+            </p>
+          )}
         </div>
       </div>
     </div>
