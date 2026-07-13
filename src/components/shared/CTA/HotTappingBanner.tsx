@@ -118,6 +118,7 @@ const HotTappingBanner = () => {
           {/* Button */}
           <div className="relative z-10 mt-8 shrink-0 transition-transform duration-700 group-hover:-translate-y-1 md:mt-0">
             <ButtonComponent
+              to="/services/hot-tapping-stopple"
               className="w-fit"
               bg="bg-white"
               hoverBg="hover:bg-red-600"

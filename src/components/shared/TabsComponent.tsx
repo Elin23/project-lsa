@@ -4,7 +4,7 @@ interface TabItem {
 }
 
 interface TabsComponentProps {
-  tabs: TabItem[];
+  tabs: readonly TabItem[];
   activeTab: string;
   onChange: (tab: string) => void;
 }
