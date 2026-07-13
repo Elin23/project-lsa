@@ -1,5 +1,10 @@
 export type FleetCategory = "pipeline" | "lifting" | "welding" | "logistics";
-
+import img1 from '../assets/Images/fleet/fleet.webp'
+import img2 from '../assets/Images/fleet/fleet-1.webp'
+import img3 from '../assets/Images/fleet/fleet-2.webp'
+import img4 from '../assets/Images/fleet/fleet-3.webp'
+import img5 from '../assets/Images/fleet/fleet-4.webp'
+import img6 from '../assets/Images/fleet/fleet-5.webp'
 export interface FleetItem {
   id: number;
   image: string;
@@ -24,7 +29,7 @@ export const fleetTabs: { label: string; value: "all" | FleetCategory }[] = [
 export const fleetData: FleetItem[] = [
   {
     id: 1,
-    image: "/Images/fleet/fleet-1.png",
+    image: img1,
     title: "CAT 583 Side Boom",
     quantity: "08",
     available: "05",
@@ -37,7 +42,7 @@ export const fleetData: FleetItem[] = [
   },
   {
     id: 2,
-    image: "/Images/fleet/fleet-2.png",
+    image: img2,
     title: "50T Mobile Crane",
     quantity: "04",
     available: "03",
@@ -50,7 +55,7 @@ export const fleetData: FleetItem[] = [
   },
   {
     id: 3,
-    image: "/Images/fleet/fleet-3.png",
+    image: img3,
     title: "Multi-Process Welders",
     quantity: "86",
     available: "64",
@@ -63,7 +68,7 @@ export const fleetData: FleetItem[] = [
   },
   {
     id: 4,
-    image: "/Images/fleet/fleet-4.png",
+    image: img4,
     title: "Hydraulic Rough Terrain Crane",
     quantity: "06",
     available: "04",
@@ -76,7 +81,7 @@ export const fleetData: FleetItem[] = [
   },
   {
     id: 5,
-    image: "/Images/fleet/fleet-5.png",
+    image: img5,
     title: "Logistics Transport Truck",
     quantity: "12",
     available: "09",
@@ -89,7 +94,7 @@ export const fleetData: FleetItem[] = [
   },
   {
     id: 6,
-    image: "/Images/fleet/fleet-6.png",
+    image:img6,
     title: "Truck Mounted Crane",
     quantity: "10",
     available: "07",

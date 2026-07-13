@@ -1,7 +1,7 @@
-import img1 from "../assets/ProjectGallery/img1.png";
-import img2 from "../assets/ProjectGallery/img2.png";
-import img3 from "../assets/ProjectGallery/img3.png";
-import img4 from "../assets/ProjectGallery/img4.png";
+import img1 from "../assets/ProjectGallery/img1.webp";
+import img2 from "../assets/ProjectGallery/img2.webp";
+import img3 from "../assets/ProjectGallery/img3.webp";
+import img4 from "../assets/ProjectGallery/img4.webp";
 
 export const projectGalleryData = [
     img1,

@@ -1,7 +1,7 @@
 import { GoArrowRight } from "react-icons/go";
 import { Link } from "react-router-dom";
 
-import img from "../../assets/AboutUsHomeImage.png";
+import img from "../../assets/AboutUsHomeImage.webp";
 
 export default function AboutUsHomeSection() {
 return ( <div className="flex flex-col items-center justify-between gap-16 lg:flex-row"> <div

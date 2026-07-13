@@ -3,10 +3,10 @@ import TitleComponent from "../../components/common/TitleComponent/TitleComponen
 import TeamCard from "../../components/common/teamSection/TeamCard";
 import TeamCardSkeleton from "../../components/skeletons/TeamCardSkeleton";
 
-import member_1 from "../../assets/imgs/member-1.png";
-import member_2 from "../../assets/imgs/member-2.png";
-import member_3 from "../../assets/imgs/member-3.png";
-import member_4 from "../../assets/imgs/member-4.png";
+import member_1 from "../../assets/imgs/member-1.webp";
+import member_2 from "../../assets/imgs/member-2.webp";
+import member_3 from "../../assets/imgs/member-3.webp";
+import member_4 from "../../assets/imgs/member-4.webp";
 
 export interface TeamMember {
   name: string;

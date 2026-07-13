@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import HamburgerButton from "./HamburgerButton";
-import logo from "/src/assets/Logo1.png";
+import logo from "/src/assets/Logo1.webp";
 
 const navLinks = [
   { name: "Home", path: "/" },

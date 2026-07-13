@@ -1,7 +1,7 @@
-import hdpePipeline from "../assets/OurProjects/hdpe-pipeline.png";
-import oilManifolds from "../assets/OurProjects/oil-manifolds.png";
-import hotTapping from "../assets/OurProjects/hot-tapping.png";
-import facilityFoundations from "../assets/OurProjects/facility-foundations.png";
+import hdpePipeline from "../assets/OurProjects/hdpe-pipeline.webp";
+import oilManifolds from "../assets/OurProjects/oil-manifolds.webp";
+import hotTapping from "../assets/OurProjects/hot-tapping.webp";
+import facilityFoundations from "../assets/OurProjects/facility-foundations.webp";
 
 export interface Project {
   id: number;

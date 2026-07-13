@@ -1,3 +1,7 @@
+import img1 from '../assets/Images/ourservices/pipeline.webp'
+import img2 from '../assets/Images/ourservices/hot-tapping.webp'
+import img3 from '../assets/Images/ourservices/structural.webp'
+// import img4 from '../assets/Images/ourservices/'
 
 import {
   Compass,
@@ -13,7 +17,7 @@ export const servicesData2 = [
     title: "Pipeline Construction",
     description:
       "Expertise in the fabrication, laying, and testing of complex pipeline networks for oil, gas, and water distribution.",
-    image: "/Images/ourservices/pipeline.png",
+    image: img1,
     path: "/services/pipeline-construction",
     reverse: false,
 
@@ -24,7 +28,7 @@ export const servicesData2 = [
     ],
 
     details: {
-      heroImage: "/Images/ourservices/pipeline.png",
+      heroImage: img1,
       heroTitle: "Pipeline Construction Services",
       heroDescription:
         "End-to-end pipeline construction solutions covering fabrication, installation, testing, and commissioning for oil, gas, and water networks.",
@@ -89,7 +93,7 @@ export const servicesData2 = [
           title: "Export Pipeline Installation, Basra",
           description:
             "Executed pipeline installation works for critical oil export infrastructure.",
-          image: "/Images/ourservices/pipeline.png",
+          image: img1,
         },
         {
           id: 2,
@@ -97,7 +101,7 @@ export const servicesData2 = [
           title: "Flowline Construction Project",
           description:
             "Delivered field flowline construction with full testing and commissioning.",
-          image: "/Images/ourservices/pipeline.png",
+          image: img1,
         },
         {
           id: 3,
@@ -105,7 +109,7 @@ export const servicesData2 = [
           title: "Pipeline Rehabilitation Works",
           description:
             "Rehabilitated existing pipeline sections to improve reliability and safety.",
-          image: "/Images/ourservices/pipeline.png",
+          image: img1,
         },
       ],
     },
@@ -117,7 +121,7 @@ export const servicesData2 = [
     title: "Hot Tapping & Stopple",
     description:
       "Uninterrupted operations are critical. Our specialized hot tapping services allow tie-ins without halting production flow.",
-    image: "/Images/ourservices/hot-tapping.png",
+    image: img2,
     path: "/services/hot-tapping-stopple",
     reverse: true,
 
@@ -128,7 +132,7 @@ export const servicesData2 = [
     ],
 
     details: {
-      heroImage: "/Images/ourservices/hot-tapping.png",
+      heroImage: img2,
       heroTitle: "Hot Tapping & Stopple Services",
       heroDescription:
         "Uninterrupted operations are critical. Our specialized hot tapping services allow for modifications, maintenance, and tie-ins to existing piping systems without halting production flow.",
@@ -193,7 +197,7 @@ export const servicesData2 = [
           title: "Live Line Intervention, Basra",
           description:
             "Executed a critical 36-inch hot tap on a live export line without interrupting production.",
-          image: "/Images/ourservices/hot-tapping.png",
+          image: img2,
         },
         {
           id: 2,
@@ -201,7 +205,7 @@ export const servicesData2 = [
           title: "Under-pressure Tie-in Project",
           description:
             "Completed tie-in works while maintaining continuous pipeline operation.",
-          image: "/Images/ourservices/hot-tapping.png",
+          image: img2,
         },
         {
           id: 3,
@@ -209,7 +213,7 @@ export const servicesData2 = [
           title: "Pipeline Isolation Works",
           description:
             "Performed safe isolation works for maintenance without system shutdown.",
-          image: "/Images/ourservices/hot-tapping.png",
+          image: img2,
         },
       ],
     },
@@ -220,7 +224,7 @@ export const servicesData2 = [
   title: "Tank Construction & Maintenance",
   description:
     "Engineering, fabrication, erection, and maintenance of atmospheric and pressurized storage tanks for oil, gas, and industrial facilities.",
-  image: "/Images/ourservices/structural.png",
+  image: img3,
   path: "/services/tank-construction-maintenance",
   reverse: false,
 
@@ -231,7 +235,7 @@ export const servicesData2 = [
   ],
 
   details: {
-    heroImage: "/Images/ourservices/structural.png",
+    heroImage: img3,
     heroTitle: "Tank Construction & Maintenance",
     heroDescription:
       "Complete storage tank solutions including fabrication, erection, inspection, repair, and long-term maintenance in accordance with international standards.",
@@ -303,7 +307,7 @@ export const servicesData2 = [
         title: "Crude Oil Storage Tanks",
         description:
           "Construction of large-capacity crude oil storage facilities.",
-        image: "/Images/ourservices/tank-construction.png",
+        image: img2,
       },
       {
         id: 2,
@@ -311,7 +315,7 @@ export const servicesData2 = [
         title: "Tank Rehabilitation",
         description:
           "Complete rehabilitation and structural reinforcement of aging storage tanks.",
-        image: "/Images/ourservices/tank-construction.png",
+        image: img2,
       },
       {
         id: 3,
@@ -319,7 +323,7 @@ export const servicesData2 = [
         title: "Industrial Tank Inspection",
         description:
           "Inspection and testing services for operational storage facilities.",
-        image: "/Images/ourservices/tank-construction.png",
+        image: img2,
       },
     ],
   },
@@ -330,7 +334,7 @@ export const servicesData2 = [
   title: "Mechanical Equipment Installation",
   description:
     "Professional installation, alignment, and commissioning of rotating and static mechanical equipment for industrial facilities.",
-  image: "/Images/ourservices/structural.png",
+  image: img3,
   path: "/services/mechanical-equipment-installation",
   reverse: true,
 
@@ -341,7 +345,7 @@ export const servicesData2 = [
   ],
 
   details: {
-    heroImage: "/Images/ourservices/mechanical-installation.png",
+    heroImage: img3,
     heroTitle: "Mechanical Equipment Installation",
     heroDescription:
       "Comprehensive mechanical installation services covering pumps, compressors, vessels, heat exchangers, and other critical industrial equipment.",
@@ -413,7 +417,7 @@ export const servicesData2 = [
         title: "Pump Station Installation",
         description:
           "Installation and commissioning of high-capacity pumping systems.",
-        image: "/Images/ourservices/mechanical-installation.png",
+        image: img3,
       },
       {
         id: 2,
@@ -421,7 +425,7 @@ export const servicesData2 = [
         title: "Compressor Package",
         description:
           "Mechanical installation and alignment of compressor units.",
-        image: "/Images/ourservices/mechanical-installation.png",
+        image: img3,
       },
       {
         id: 3,
@@ -429,7 +433,7 @@ export const servicesData2 = [
         title: "Process Equipment Startup",
         description:
           "Commissioning support for critical process equipment.",
-        image: "/Images/ourservices/mechanical-installation.png",
+        image: img3,
       },
     ],
   },

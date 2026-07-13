@@ -1,39 +1,44 @@
-
-
+import img1 from '../assets/Images/trusted/ministry.webp'
+import img2 from '../assets/Images/trusted/rumaila.webp'
+import img3 from '../assets/Images/trusted/almco.webp'
+import img4 from '../assets/Images/trusted/eni.webp'
+import img5 from '../assets/Images/trusted/zfod.webp'
+import img6 from '../assets/Images/trusted/epcm.webp'
+import img7 from '../assets/Images/trusted/igcc.webp'
 export const trustedCompaniesData = [
   {
     id: 1,
     name: "Ministry of Oil",
-    image: "/Images/trusted/ministry.png",
+    image: img1,
   },
   {
     id: 2,
     name: "Rumaila",
-    image: "/Images/trusted/rumaila.png",
+    image: img2,
   },
   {
     id: 3,
     name: "ALMCO",
-    image: "/Images/trusted/almco.png",
+    image: img3,
   },
   {
     id: 4,
     name: "ENI",
-    image: "/Images/trusted/eni.png",
+    image: img4,
   },
   {
     id: 5,
     name: "ZFOD",
-    image: "/Images/trusted/zfod.png",
+    image: img5,
   },
   {
     id: 6,
     name: "EPCM",
-    image: "/Images/trusted/epcm.png",
+    image: img6,
   },
   {
     id: 7,
     name: "IGCC",
-    image: "/Images/trusted/igcc.png",
+    image: img7,
   },
 ];
