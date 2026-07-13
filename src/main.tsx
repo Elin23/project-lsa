@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { createHashRouter, RouterProvider } from "react-router-dom";
+import {
+  createHashRouter,
+  RouterProvider,
+} from "react-router-dom";
 
 import "./index.css";
 import "aos/dist/aos.css";
@@ -18,7 +21,7 @@ import ProjectDetailsPage from "./pages/ProjectDetails";
 import EquipmentsPage from "./pages/EquipmentsPage";
 
 import Loader from "./components/common/Loader";
-import GlobalImageOptimizer from "./components/common/GlobalImageOptimizer";
+import { AppLoadingProvider } from "./context/AppLoadingContext";
 
 const router = createHashRouter([
   {
@@ -68,14 +71,18 @@ const router = createHashRouter([
 function App() {
   const [isLoaderVisible, setIsLoaderVisible] = useState(true);
   const [showLoader, setShowLoader] = useState(true);
+  const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
     const loadingTimer = window.setTimeout(() => {
+      // يبدأ Fade الخاص باللودر
       setIsLoaderVisible(false);
     }, 2200);
 
     const removeLoaderTimer = window.setTimeout(() => {
+      // يُحذف اللودر ويُسمح للكاونتر بالبدء
       setShowLoader(false);
+      setIsAppReady(true);
     }, 2900);
 
     return () => {
@@ -85,13 +92,13 @@ function App() {
   }, []);
 
   return (
-    <>
-      <GlobalImageOptimizer />
-
+    <AppLoadingProvider isAppReady={isAppReady}>
       <RouterProvider router={router} />
 
-      {showLoader && <Loader isVisible={isLoaderVisible} />}
-    </>
+      {showLoader && (
+        <Loader isVisible={isLoaderVisible} />
+      )}
+    </AppLoadingProvider>
   );
 }
 
