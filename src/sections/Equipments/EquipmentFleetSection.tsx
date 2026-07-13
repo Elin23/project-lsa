@@ -1,4 +1,4 @@
-import fleetImage from "/Images/fleet/fleet.webp";
+import fleetImage from "../../assets/Images/fleet/fleet.webp";
 
 export default function EquipmentFleetSection() {
   return (
