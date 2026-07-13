@@ -1,4 +1,5 @@
 import { CheckCircle, type LucideIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export interface DirectionCardData {
   title: string;
@@ -17,13 +18,29 @@ export const DirectionCard = ({
   features = [],
   isActive = false,
 }: DirectionCardProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
   return (
     <div
-      data-aos="fade-up"
-      data-aos-duration="600"
-      data-aos-easing="ease-out"
-      data-aos-offset="50"
-      data-aos-once="true"
+      data-aos={isMobile ? undefined : "fade-up"}
+      data-aos-duration={isMobile ? undefined : 600}
+      data-aos-easing={isMobile ? undefined : "ease-out"}
+      data-aos-offset={isMobile ? undefined : 50}
+      data-aos-once={isMobile ? undefined : "true"}
       className="h-full"
     >
       <div

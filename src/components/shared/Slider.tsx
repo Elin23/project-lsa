@@ -22,7 +22,7 @@ const Slider = <T,>({ items, renderItem }: SliderProps<T>) => {
 
   return (
     <>
-      <div key={activeIndex} className="animate-[fadeSlide_0.6s_ease-in-out]">
+      <div key={activeIndex} className="animate-[fadeSlide_500ms_cubic-bezier(0.22,1,0.36,1)]">
         {renderItem(active)}
       </div>
 
