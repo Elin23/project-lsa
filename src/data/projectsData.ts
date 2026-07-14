@@ -2,185 +2,91 @@
 // Project 1 Images - Najaf Basra Pipeline
 // ======================================================
 
-const najafBasraCard =
-  "https://images.pexels.com/photos/15970032/pexels-photo-15970032.jpeg?auto=compress&cs=tinysrgb&w=1200";
-
-const najafBasraHero =
-  "https://images.pexels.com/photos/6767962/pexels-photo-6767962.jpeg?auto=compress&cs=tinysrgb&w=1920";
-
-const najafBasraGallery1 =
-  "https://images.pexels.com/photos/15970023/pexels-photo-15970023.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const najafBasraGallery2 =
-  "https://images.pexels.com/photos/4883682/pexels-photo-4883682.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const najafBasraGallery3 =
-  "https://images.pexels.com/photos/5851547/pexels-photo-5851547.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const najafBasraGallery4 =
-  "https://images.pexels.com/photos/15970031/pexels-photo-15970031.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
+import najafBasraCard from "../assets/projects/najaf-basra/card.webp";
+import najafBasraHero from "../assets/projects/najaf-basra/hero.webp";
+import najafBasraGallery1 from "../assets/projects/najaf-basra/gallery-1.webp";
+import najafBasraGallery2 from "../assets/projects/najaf-basra/gallery-2.webp";
+import najafBasraGallery3 from "../assets/projects/najaf-basra/gallery-3.webp";
+import najafBasraGallery4 from "../assets/projects/najaf-basra/gallery-4.webp";
 
 // ======================================================
 // Project 2 Images - West Qurna Oil Manifolds
 // ======================================================
 
-const westQurnaCard =
-  "https://images.pexels.com/photos/5851547/pexels-photo-5851547.jpeg?auto=compress&cs=tinysrgb&w=1200";
-
-const westQurnaHero =
-  "https://images.pexels.com/photos/15970032/pexels-photo-15970032.jpeg?auto=compress&cs=tinysrgb&w=1920";
-
-const westQurnaGallery1 =
-  "https://images.pexels.com/photos/11531870/pexels-photo-11531870.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const westQurnaGallery2 =
-  "https://images.pexels.com/photos/23369348/pexels-photo-23369348.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const westQurnaGallery3 =
-  "https://images.pexels.com/photos/15970027/pexels-photo-15970027.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const westQurnaGallery4 =
-  "https://images.pexels.com/photos/4883682/pexels-photo-4883682.jpeg?auto=compress&cs=tinysrgb&w=1600";
+import westQurnaCard from "../assets/projects/west-qurna/card.webp";
+import westQurnaHero from "../assets/projects/west-qurna/hero.webp";
+import westQurnaGallery1 from "../assets/projects/west-qurna/gallery-1.webp";
+import westQurnaGallery2 from "../assets/projects/west-qurna/gallery-2.webp";
+import westQurnaGallery3 from "../assets/projects/west-qurna/gallery-3.webp";
+import westQurnaGallery4 from "../assets/projects/west-qurna/gallery-4.webp";
 
 
 // ======================================================
 // Project 3 Images - Live Line Intervention
 // ======================================================
 
-const liveLineCard =
-  "https://images.pexels.com/photos/11531870/pexels-photo-11531870.jpeg?auto=compress&cs=tinysrgb&w=1200";
-
-const liveLineHero =
-  "https://images.pexels.com/photos/23369348/pexels-photo-23369348.jpeg?auto=compress&cs=tinysrgb&w=1920";
-
-const liveLineGallery1 =
-  "https://images.pexels.com/photos/5851547/pexels-photo-5851547.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const liveLineGallery2 =
-  "https://images.pexels.com/photos/15970023/pexels-photo-15970023.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const liveLineGallery3 =
-  "https://images.pexels.com/photos/15970031/pexels-photo-15970031.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const liveLineGallery4 =
-  "https://images.pexels.com/photos/15893881/pexels-photo-15893881.jpeg?auto=compress&cs=tinysrgb&w=1600";
+import liveLineCard from "../assets/projects/live-line/card.webp";
+import liveLineHero from "../assets/projects/live-line/hero.webp";
+import liveLineGallery1 from "../assets/projects/live-line/gallery-1.webp";
+import liveLineGallery2 from "../assets/projects/live-line/gallery-2.webp";
+import liveLineGallery3 from "../assets/projects/live-line/gallery-3.webp";
+import liveLineGallery4 from "../assets/projects/live-line/gallery-4.webp";
 
 
 // ======================================================
 // Project 4 Images - Facility Foundations
 // ======================================================
 
-const facilityCard =
-  "https://images.pexels.com/photos/35224901/pexels-photo-35224901.jpeg?auto=compress&cs=tinysrgb&w=1200";
-
-const facilityHero =
-  "https://images.pexels.com/photos/10407692/pexels-photo-10407692.jpeg?auto=compress&cs=tinysrgb&w=1920";
-
-const facilityGallery1 =
-  "https://images.pexels.com/photos/6767962/pexels-photo-6767962.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const facilityGallery2 =
-  "https://images.pexels.com/photos/15970032/pexels-photo-15970032.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const facilityGallery3 =
-  "https://images.pexels.com/photos/23369348/pexels-photo-23369348.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const facilityGallery4 =
-  "https://images.pexels.com/photos/15970027/pexels-photo-15970027.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
+import facilityCard from "../assets/projects/facility-foundations/card.webp";
+import facilityHero from "../assets/projects/facility-foundations/hero.webp";
+import facilityGallery1 from "../assets/projects/facility-foundations/gallery-1.webp";
+import facilityGallery2 from "../assets/projects/facility-foundations/gallery-2.webp";
+import facilityGallery3 from "../assets/projects/facility-foundations/gallery-3.webp";
+import facilityGallery4 from "../assets/projects/facility-foundations/gallery-4.webp";
 
 // ======================================================
 // Project 5 Images - Rumaila Water Pipeline
 // ======================================================
-
-const rumailaCard =
-  "https://images.pexels.com/photos/15970023/pexels-photo-15970023.jpeg?auto=compress&cs=tinysrgb&w=1200";
-
-const rumailaHero =
-  "https://images.pexels.com/photos/6767962/pexels-photo-6767962.jpeg?auto=compress&cs=tinysrgb&w=1920";
-
-const rumailaGallery1 =
-  "https://images.pexels.com/photos/4883682/pexels-photo-4883682.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const rumailaGallery2 =
-  "https://images.pexels.com/photos/5851547/pexels-photo-5851547.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const rumailaGallery3 =
-  "https://images.pexels.com/photos/11531870/pexels-photo-11531870.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const rumailaGallery4 =
-  "https://images.pexels.com/photos/15970031/pexels-photo-15970031.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
+import rumailaCard from "../assets/projects/rumaila-water-pipeline/card.webp";
+import rumailaHero from "../assets/projects/rumaila-water-pipeline/hero.webp";
+import rumailaGallery1 from "../assets/projects/rumaila-water-pipeline/gallery-1.webp";
+import rumailaGallery2 from "../assets/projects/rumaila-water-pipeline/gallery-2.webp";
+import rumailaGallery3 from "../assets/projects/rumaila-water-pipeline/gallery-3.webp";
+import rumailaGallery4 from "../assets/projects/rumaila-water-pipeline/gallery-4.webp";
 
 // ======================================================
 // Project 6 Images - Majnoon Mechanical Upgrade
 // ======================================================
 
-const majnoonCard =
-  "https://images.pexels.com/photos/4883682/pexels-photo-4883682.jpeg?auto=compress&cs=tinysrgb&w=1200";
-
-const majnoonHero =
-  "https://images.pexels.com/photos/15970032/pexels-photo-15970032.jpeg?auto=compress&cs=tinysrgb&w=1920";
-
-const majnoonGallery1 =
-  "https://images.pexels.com/photos/15970023/pexels-photo-15970023.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const majnoonGallery2 =
-  "https://images.pexels.com/photos/23369348/pexels-photo-23369348.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const majnoonGallery3 =
-  "https://images.pexels.com/photos/15970027/pexels-photo-15970027.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const majnoonGallery4 =
-  "https://images.pexels.com/photos/5851547/pexels-photo-5851547.jpeg?auto=compress&cs=tinysrgb&w=1600";
+import majnoonCard from "../assets/projects/majnoon-mechanical-upgrade/card.webp";
+import majnoonHero from "../assets/projects/majnoon-mechanical-upgrade/hero.webp";
+import majnoonGallery1 from "../assets/projects/majnoon-mechanical-upgrade/gallery-1.webp";
+import majnoonGallery2 from "../assets/projects/majnoon-mechanical-upgrade/gallery-2.webp";
+import majnoonGallery3 from "../assets/projects/majnoon-mechanical-upgrade/gallery-3.webp";
+import majnoonGallery4 from "../assets/projects/majnoon-mechanical-upgrade/gallery-4.webp";
 
 
 // ======================================================
 // Project 7 Images - Zubair Hot Tapping
 // ======================================================
-
-const zubairCard =
-  "https://images.pexels.com/photos/15970031/pexels-photo-15970031.jpeg?auto=compress&cs=tinysrgb&w=1200";
-
-const zubairHero =
-  "https://images.pexels.com/photos/15893881/pexels-photo-15893881.jpeg?auto=compress&cs=tinysrgb&w=1920";
-
-const zubairGallery1 =
-  "https://images.pexels.com/photos/11531870/pexels-photo-11531870.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const zubairGallery2 =
-  "https://images.pexels.com/photos/5851547/pexels-photo-5851547.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const zubairGallery3 =
-  "https://images.pexels.com/photos/23369348/pexels-photo-23369348.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const zubairGallery4 =
-  "https://images.pexels.com/photos/15970023/pexels-photo-15970023.jpeg?auto=compress&cs=tinysrgb&w=1600";
+import zubairCard from "../assets/projects/zubair-hot-tapping/card.webp";
+import zubairHero from "../assets/projects/zubair-hot-tapping/hero.webp";
+import zubairGallery1 from "../assets/projects/zubair-hot-tapping/gallery-1.webp";
+import zubairGallery2 from "../assets/projects/zubair-hot-tapping/gallery-2.webp";
+import zubairGallery3 from "../assets/projects/zubair-hot-tapping/gallery-3.webp";
+import zubairGallery4 from "../assets/projects/zubair-hot-tapping/gallery-4.webp";
 
 
 // ======================================================
 // Project 8 Images - Khor Al Zubair Foundations
 // ======================================================
 
-const khorAlZubairCard =
-  "https://images.pexels.com/photos/6767962/pexels-photo-6767962.jpeg?auto=compress&cs=tinysrgb&w=1200";
-
-const khorAlZubairHero =
-  "https://images.pexels.com/photos/10407692/pexels-photo-10407692.jpeg?auto=compress&cs=tinysrgb&w=1920";
-
-const khorAlZubairGallery1 =
-  "https://images.pexels.com/photos/15970032/pexels-photo-15970032.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const khorAlZubairGallery2 =
-  "https://images.pexels.com/photos/17504475/pexels-photo-17504475.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const khorAlZubairGallery3 =
-  "https://images.pexels.com/photos/10386893/pexels-photo-10386893.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
-const khorAlZubairGallery4 =
-  "https://images.pexels.com/photos/10407689/pexels-photo-10407689.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
+import khorAlZubairCard from "../assets/projects/khor-al-zubair-foundations/card.webp";
+import khorAlZubairHero from "../assets/projects/khor-al-zubair-foundations/hero.webp";
+import khorAlZubairGallery1 from "../assets/projects/khor-al-zubair-foundations/gallery-1.webp";
+import khorAlZubairGallery2 from "../assets/projects/khor-al-zubair-foundations/gallery-2.webp";
+import khorAlZubairGallery3 from "../assets/projects/khor-al-zubair-foundations/gallery-3.webp";
+import khorAlZubairGallery4 from "../assets/projects/khor-al-zubair-foundations/gallery-4.webp";
 // ======================================================
 // Types
 // ======================================================
