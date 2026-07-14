@@ -1,25 +1,85 @@
 interface HamburgerButtonProps {
-  isOpen: boolean
-  onClick: () => void
+  isOpen: boolean;
+  onClick: () => void;
 }
 
-const HamburgerButton: React.FC<HamburgerButtonProps> = ({isOpen, onClick}) => {
+const HamburgerButton = ({
+  isOpen,
+  onClick,
+}: HamburgerButtonProps) => {
   return (
-    <button className="lg-custom:hidden flex flex-col justify-center items-center w-8 h-8 relative" onClick={onClick} aria-label="Toggle Menu">
-      <span className={`w-6 h-0.5 bg-black absolute right-0 transition-transform duration-300 ${
-            isOpen ? "rotate-45 translate-y-0.5" : "-translate-y-2"}`}>
-      </span>
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={isOpen ? "Close menu" : "Open menu"}
+      aria-expanded={isOpen}
+      className="
+        relative
+        flex
+        h-10
+        w-10
+        cursor-pointer
+        items-center
+        justify-center
+        rounded-lg
+        transition-colors
+        duration-300
+        hover:bg-blue-01/5
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-blue-01/20
+      "
+    >
+      <span
+        className={`
+          absolute
+          h-0.5
+          w-6
+          rounded-full
+          bg-blue-02
+          transition-[transform]
+          duration-300
+          ease-out
+          ${
+            isOpen
+              ? "translate-y-0 rotate-45"
+              : "-translate-y-2 rotate-0"
+          }
+        `}
+      />
 
       <span
-        className={`w-6 h-0.5 bg-black absolute right-0 transition-all duration-300 ${
-          isOpen ? "opacity-0" : "opacity-100"}`}>
-        </span>
+        className={`
+          absolute
+          h-0.5
+          w-6
+          rounded-full
+          bg-blue-02
+          transition-opacity
+          duration-200
+          ease-out
+          ${isOpen ? "opacity-0" : "opacity-100"}
+        `}
+      />
+
       <span
-        className={` h-0.5 bg-black absolute right-0 transition-all duration-300 ${
-          isOpen ? "-rotate-45 -translate-y-0.5 w-6" : "translate-y-2 w-3" }`}>
-      </span>
+        className={`
+          absolute
+          h-0.5
+          rounded-full
+          bg-blue-02
+          transition-[width,transform]
+          duration-300
+          ease-out
+          ${
+            isOpen
+              ? "w-6 translate-y-0 -rotate-45"
+              : "w-4 translate-x-1 translate-y-2 rotate-0"
+          }
+        `}
+      />
     </button>
-  )
-}
+  );
+};
 
-export default HamburgerButton
+export default HamburgerButton;

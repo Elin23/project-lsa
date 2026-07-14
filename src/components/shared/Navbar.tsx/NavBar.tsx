@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+
 import HamburgerButton from "./HamburgerButton";
-import logo from "/src/assets/Logo1.webp";
+import logo from "../../../assets/Logo1.webp";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -13,27 +14,81 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
-    <header className="fixed z-50 w-full">
-      <nav className="flex h-18 items-center justify-between bg-white px-6 shadow-md 2xl:px-container md:px-12">
-        <NavLink to="/" className="flex items-center">
-          <img src={logo} alt="LSA Logo" className=" h-10 md:h-15 2xl:h-20 w-auto" />
+    <header className="fixed left-0 right-0 top-0 z-50 w-full">
+      <nav
+        className="
+          flex
+          h-18
+          items-center
+          justify-between
+          bg-white
+          px-6
+          shadow-md
+          md:px-12
+          2xl:px-container
+        "
+      >
+        {/* Logo */}
+        <NavLink
+          to="/"
+          onClick={() => setOpen(false)}
+          aria-label="Go to home page"
+          className="flex shrink-0 items-center"
+        >
+          <img
+            src={logo}
+            alt="LSA Logo"
+            className="h-10 w-auto object-contain md:h-15 2xl:h-20"
+          />
         </NavLink>
 
-        <ul className="hidden items-center gap-8 font-semibold huge:text-lg lg:flex lg-custom:text-sm">
+        {/* Desktop Navigation */}
+        <ul
+          className="
+            hidden
+            items-center
+            gap-8
+            font-semibold
+            min-[1024px]:flex
+            huge:text-lg
+          "
+        >
           {navLinks.map((link) => (
             <li key={link.name}>
               <NavLink
                 to={link.path}
                 end={link.path === "/"}
                 className={({ isActive }) =>
-                  `relative text-sm font-medium transition-all duration-300 ${
-                    isActive
-                      ? "text-red-01"
-                      : "text-blue-02 hover:text-red-01"
-                  }`
+                  `
+                    group
+                    relative
+                    text-sm
+                    font-medium
+                    transition-colors
+                    duration-300
+                    ${
+                      isActive
+                        ? "text-red-01"
+                        : "text-blue-02 hover:text-red-01"
+                    }
+                  `
                 }
               >
                 {({ isActive }) => (
@@ -41,10 +96,18 @@ const Navbar = () => {
                     {link.name}
 
                     <span
+                      aria-hidden="true"
                       className={`
-                        absolute -bottom-2 left-1/2 h-0.5
-                        -translate-x-1/2 rounded-full bg-red-01
-                        transition-all duration-300
+                        absolute
+                        -bottom-2
+                        left-1/2
+                        h-0.5
+                        -translate-x-1/2
+                        rounded-full
+                        bg-red-01
+                        transition-[width]
+                        duration-300
+                        ease-out
                         ${
                           isActive
                             ? "w-full"
@@ -59,32 +122,60 @@ const Navbar = () => {
           ))}
         </ul>
 
+        {/* Desktop Contact Button */}
         <NavLink
           to="/contact"
           className={({ isActive }) =>
-            `hidden rounded-full border px-7 py-2 text-sm font-semibold transition-all duration-300 lg:inline-flex ${
-              isActive
-                ? "border-red-01 bg-red-01 text-white"
-                : "border-red-01 text-red-01 hover:bg-red-01 hover:text-white"
-            }`
+            `
+              hidden
+              rounded-full
+              border
+              px-7
+              py-2
+              text-sm
+              font-semibold
+              transition-[background-color,border-color,color]
+              duration-300
+              min-[1024px]:inline-flex
+              ${
+                isActive
+                  ? "border-red-01 bg-red-01 text-white"
+                  : "border-red-01 text-red-01 hover:bg-red-01 hover:text-white"
+              }
+            `
           }
         >
           Get in Touch
         </NavLink>
 
-        <HamburgerButton
-          isOpen={open}
-          onClick={() => setOpen((prev) => !prev)}
-        />
+        {/* Mobile and Tablet Hamburger */}
+        <div className="flex items-center min-[1024px]:hidden">
+          <HamburgerButton
+            isOpen={open}
+            onClick={() => setOpen((previousState) => !previousState)}
+          />
+        </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile and Tablet Menu */}
       <div
         className={`
-          absolute left-0 right-0 top-18 z-50 mx-3.5 overflow-hidden
-          rounded-b-3xl bg-white px-6 py-5 shadow-xl
-          transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-          lg:hidden
+          absolute
+          left-0
+          right-0
+          top-18
+          z-50
+          mx-3.5
+          overflow-hidden
+          rounded-b-3xl
+          bg-white
+          px-6
+          py-5
+          shadow-xl
+          transition-[opacity,transform]
+          duration-500
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+          min-[1024px]:hidden
           ${
             open
               ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
@@ -97,7 +188,9 @@ const Navbar = () => {
             <li
               key={link.name}
               className={`
-                transition-all duration-500 ease-out
+                transition-[opacity,transform]
+                duration-500
+                ease-out
                 ${
                   open
                     ? "translate-y-0 opacity-100"
@@ -114,14 +207,20 @@ const Navbar = () => {
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   `
-                  block rounded-2xl px-4 py-3 text-sm font-medium
-                  transition-all duration-300
-                  ${
-                    isActive
-                      ? "bg-red-01 text-white shadow-lg"
-                      : "text-blue-02 hover:bg-red-01/10 hover:text-red-01"
-                  }
-                `
+                    block
+                    rounded-2xl
+                    px-4
+                    py-3
+                    text-sm
+                    font-medium
+                    transition-[background-color,color,box-shadow]
+                    duration-300
+                    ${
+                      isActive
+                        ? "bg-red-01 text-white shadow-lg"
+                        : "text-blue-02 hover:bg-red-01/10 hover:text-red-01"
+                    }
+                  `
                 }
               >
                 {link.name}
@@ -132,7 +231,9 @@ const Navbar = () => {
 
         <div
           className={`
-            transition-all duration-500 ease-out
+            transition-[opacity,transform]
+            duration-500
+            ease-out
             ${
               open
                 ? "translate-y-0 opacity-100"
@@ -149,11 +250,26 @@ const Navbar = () => {
             to="/contact"
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
-              `mt-6 inline-flex w-full items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition-all duration-300 ${
-                isActive
-                  ? "border-red-01 bg-red-01 text-white"
-                  : "border-red-01 text-red-01 hover:bg-red-01 hover:text-white"
-              }`
+              `
+                mt-6
+                inline-flex
+                w-full
+                items-center
+                justify-center
+                rounded-full
+                border
+                px-6
+                py-3
+                text-sm
+                font-semibold
+                transition-[background-color,border-color,color]
+                duration-300
+                ${
+                  isActive
+                    ? "border-red-01 bg-red-01 text-white"
+                    : "border-red-01 text-red-01 hover:bg-red-01 hover:text-white"
+                }
+              `
             }
           >
             Get in Touch
