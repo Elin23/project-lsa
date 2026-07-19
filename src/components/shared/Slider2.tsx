@@ -48,7 +48,7 @@ const Slider2 = <T,>({
                 <button
                     type="button"
                     onClick={prev}
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-300 transition hover:bg-neutral-100"
+                    className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-neutral-300 transition hover:bg-neutral-100"
                 >
                     <ChevronLeft size={20} />
                 </button>
@@ -56,7 +56,7 @@ const Slider2 = <T,>({
                 <button
                     type="button"
                     onClick={next}
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-300 transition hover:bg-neutral-100"
+                    className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-neutral-300 transition hover:bg-neutral-100"
                 >
                     <ChevronRight size={20} />
                 </button>

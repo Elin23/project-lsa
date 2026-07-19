@@ -46,7 +46,7 @@ export default function JobDetailsModal({
             absolute right-5 top-5 z-10
             rounded-full bg-slate-100 p-2
             text-slate-500 transition
-            hover:bg-red-100 hover:text-red-01
+            hover:bg-red-100 hover:text-red-01 cursor-pointer
           "
                 >
                     <X className="h-5 w-5" />
@@ -157,7 +157,7 @@ export default function JobDetailsModal({
                   h-12 rounded-xl border
                   border-slate-200 px-8
                   text-sm font-bold text-slate-600
-                  transition hover:bg-slate-100
+                  transition hover:bg-slate-100 cursor-pointer
                 "
                             >
                                 Cancel
@@ -169,7 +169,7 @@ export default function JobDetailsModal({
                   justify-center gap-2 rounded-xl
                   bg-blue-01 px-8 text-sm
                   font-bold text-white
-                  transition hover:bg-red-01
+                  transition hover:bg-red-01 cursor-pointer
                 "
                             >
                                 Next
@@ -251,7 +251,7 @@ export default function JobDetailsModal({
                   justify-center gap-2
                   rounded-xl border border-slate-200
                   px-8 text-sm font-bold
-                  text-slate-600
+                  text-slate-600 cursor-pointer
                 "
                             >
                                 <ArrowLeft className="h-4 w-4" />
@@ -264,7 +264,7 @@ export default function JobDetailsModal({
                   bg-blue-01 px-8
                   text-sm font-bold
                   text-white
-                  transition hover:bg-red-01
+                  transition hover:bg-red-01 cursor-pointer
                 "
                             >
                                 Submit Application

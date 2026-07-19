@@ -32,7 +32,7 @@ const Slider = <T,>({ items, renderItem }: SliderProps<T>) => {
             key={index}
             type="button"
             onClick={() => setActiveIndex(index)}
-            className={`h-3 w-3 rounded-full transition ${
+            className={`h-3 w-3 rounded-full transition cursor-pointer ${
               activeIndex === index
                 ? "bg-[#1f3f93]"
                 : "bg-gray-300 hover:bg-gray-400"

@@ -47,7 +47,7 @@ const ApplicationProcess = () => {
                   key={item.id}
                   type="button"
                   onClick={() => setActiveStep(item.id)}
-                  className="group relative z-10 rounded-2xl p-4 text-center transition duration-300 hover:bg-white/80"
+                  className="group relative cursor-pointer z-10 rounded-2xl p-4 text-center transition duration-300 hover:bg-white/80"
                 >
                   <span
                     className={`mx-auto flex h-20 w-20 items-center justify-center rounded-2xl border-4 shadow-lg transition-all duration-300 ${isActive

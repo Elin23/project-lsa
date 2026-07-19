@@ -9,7 +9,7 @@ interface ProjectCardProps {
 const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <div
-      className="h-full"
+      className="h-full cursor-pointer"
     >
       <article
         className="

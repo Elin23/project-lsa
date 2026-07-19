@@ -55,7 +55,7 @@ export default function ContactFormCard() {
             <label className="mb-2 block text-sm font-bold text-[#1E2746]">
               Service Interest
             </label>
-            <select className="h-11 w-full rounded-lg bg-[#F6F7FB] px-4 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-blue-01/25">
+            <select className="h-11 w-full cursor-pointer rounded-lg bg-[#F6F7FB] px-4 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-blue-01/25">
               {serviceOptions.map((option) => (
                 <option key={option}>{option}</option>
               ))}
@@ -75,7 +75,7 @@ export default function ContactFormCard() {
 
         <button
           type="submit"
-          className="mt-5 h-12 w-full rounded-full bg-red-01 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#c9162d] hover:shadow-xl active:translate-y-0"
+          className="mt-5 h-12 w-full rounded-full cursor-pointer bg-red-01 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#c9162d] hover:shadow-xl active:translate-y-0"
         >
           Send Message
         </button>

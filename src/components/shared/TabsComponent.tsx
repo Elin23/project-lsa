@@ -23,7 +23,7 @@ const TabsComponent = ({
           <button
             key={tab.value}
             onClick={() => onChange(tab.value)}
-            className={`rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300 ${
+            className={`rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300 cursor-pointer  ${
               isActive
                 ? "bg-[#1f3f93] text-white shadow-lg"
                 : "bg-[#edf1ff] text-gray-600 hover:bg-[#1f3f93] hover:text-white"

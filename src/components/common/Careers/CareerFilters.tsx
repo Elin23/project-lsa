@@ -27,7 +27,7 @@ export default function CareerFilters({
                         onClick={() => onTabChange(tab)}
                         className={`
               rounded-full px-6 py-2 text-sm font-semibold capitalize
-              transition-all duration-300
+              transition-all duration-300 cursor-pointer
               ${activeTab === tab
                                 ? "bg-blue-01 text-white shadow-lg shadow-blue-01/20"
                                 : "bg-white text-slate-600 hover:bg-blue-01/10 hover:text-blue-01"

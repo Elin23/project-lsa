@@ -22,7 +22,7 @@ export default function RelatedProjectCard({
       data-aos-duration="650"
       data-aos-easing="ease-out-cubic"
       data-aos-once="true"
-      className="h-full"
+      className="h-full cursor-pointer"
     >
       <article
         className="

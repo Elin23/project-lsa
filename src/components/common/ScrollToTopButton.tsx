@@ -45,7 +45,7 @@ const ScrollToTop = () => {
 
   return (
     <div
-      className={`
+      className={` cursor-pointer 
         group fixed bottom-8 right-8 z-9999
         transition-all duration-500 ease-out
         ${
@@ -64,6 +64,7 @@ const ScrollToTop = () => {
           flex h-13 w-13 items-center justify-center
           overflow-hidden
           rounded-full
+          cursor-pointer
 
           border border-blue-01/15
 

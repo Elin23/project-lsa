@@ -17,7 +17,7 @@ const LoadMoreButton = ({
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center gap-2 rounded-full bg-[#1f3f93] px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-600"
+      className="inline-flex items-center gap-2 rounded-full bg-[#1f3f93] px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-600 cursor-pointer"
     >
       {isExpanded ? showLessText : loadMoreText}
 

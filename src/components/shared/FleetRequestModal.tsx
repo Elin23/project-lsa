@@ -35,7 +35,7 @@ export default function FleetRequestModal({
         <button
           type="button"
           onClick={closeModal}
-          className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-red-01 hover:text-white"
+          className="absolute cursor-pointer right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-red-01 hover:text-white"
         >
           <X className="h-5 w-5" />
         </button>
@@ -122,7 +122,7 @@ export default function FleetRequestModal({
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-blue-01 text-sm font-extrabold text-white transition hover:bg-red-01"
+                className="mt-6 cursor-pointer inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-blue-01 text-sm font-extrabold text-white transition hover:bg-red-01"
               >
                 Next
                 <ArrowRight className="h-4 w-4" />
@@ -190,7 +190,7 @@ export default function FleetRequestModal({
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white text-sm font-extrabold text-blue-01 transition hover:border-blue-01 hover:bg-blue-01/5"
+                  className="inline-flex cursor-pointer h-12 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white text-sm font-extrabold text-blue-01 transition hover:border-blue-01 hover:bg-blue-01/5"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   Back
@@ -198,7 +198,7 @@ export default function FleetRequestModal({
 
                 <button
                   type="submit"
-                  className="h-12 w-full rounded-xl bg-blue-01 text-sm font-extrabold text-white transition hover:bg-red-01"
+                  className="h-12 cursor-pointer w-full rounded-xl bg-blue-01 text-sm font-extrabold text-white transition hover:bg-red-01"
                 >
                   Submit Request
                 </button>
