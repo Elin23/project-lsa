@@ -5,6 +5,11 @@ const CTASection = () => {
   return (
     <section className="pb-16 md:pb-24 2xl:pb-28">
       <div
+        data-aos="fade-up"
+        data-aos-duration="650"
+        data-aos-easing="ease-out-cubic"
+        data-aos-offset="80"
+        data-aos-once="true"
         className="
           group
           relative
@@ -26,14 +31,14 @@ const CTASection = () => {
         {/* Background Lines */}
         <div className="absolute inset-0 overflow-hidden">
           {/* Vertical Pipelines */}
-          <div className="absolute left-[34%] top-0 h-[85%] w-[10px] bg-white/10 transition-opacity duration-700 group-hover:bg-white/[0.13]" />
-          <div className="absolute left-[45%] top-0 h-[65%] w-[10px] bg-white/10 transition-opacity duration-700 group-hover:bg-white/[0.13]" />
-          <div className="absolute left-[56%] top-0 h-[45%] w-[10px] bg-white/10 transition-opacity duration-700 group-hover:bg-white/[0.13]" />
+          <div className="absolute left-[34%] top-0 h-[85%] w-[10px] bg-white/10 transition-colors duration-700 group-hover:bg-white/[0.13]" />
+          <div className="absolute left-[45%] top-0 h-[65%] w-[10px] bg-white/10 transition-colors duration-700 group-hover:bg-white/[0.13]" />
+          <div className="absolute left-[56%] top-0 h-[45%] w-[10px] bg-white/10 transition-colors duration-700 group-hover:bg-white/[0.13]" />
 
           {/* Horizontal Dashed Lines */}
-          <div className="absolute left-1/2 top-[20%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-opacity duration-700 group-hover:border-white/25" />
-          <div className="absolute left-1/2 top-[50%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-opacity duration-700 group-hover:border-white/25" />
-          <div className="absolute left-1/2 top-[90%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-opacity duration-700 group-hover:border-white/25" />
+          <div className="absolute left-1/2 top-[20%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-colors duration-700 group-hover:border-white/25" />
+          <div className="absolute left-1/2 top-[50%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-colors duration-700 group-hover:border-white/25" />
+          <div className="absolute left-1/2 top-[90%] w-[320px] -translate-x-1/2 border-t border-dashed border-white/15 transition-colors duration-700 group-hover:border-white/25" />
 
           {/* Main Circles */}
           <div className="absolute left-[33.3%] bottom-[11%] h-8 w-8 animate-pulse rounded-full bg-white/30 transition-all duration-700 group-hover:scale-110 group-hover:bg-white/40" />
@@ -52,7 +57,7 @@ const CTASection = () => {
             {ctaData.label}
           </span>
 
-          <h2 className="max-w-162.5 font-bold text-white text-[28px] leading-9.5 transition-transform duration-700 group-hover:-translate-y-0.5 md:text-[38px] md:leading-11.5 2xl:text-[46px] 2xl:leading-14.5">
+          <h2 className="max-w-162.5 text-[28px] font-bold leading-9.5 text-white transition-transform duration-700 group-hover:-translate-y-0.5 md:text-[38px] md:leading-11.5 2xl:text-[46px] 2xl:leading-14.5">
             {ctaData.title}
           </h2>
 

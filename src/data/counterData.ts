@@ -1,4 +1,11 @@
-export const counterData = [
+export interface CounterItemData {
+  value: number;
+  suffix?: string;
+  label: string;
+  customValue?: string;
+}
+
+export const counterData: CounterItemData[] = [
   {
     value: 40,
     suffix: "+",
@@ -18,5 +25,28 @@ export const counterData = [
     value: 0,
     customValue: "ISO",
     label: "CERTIFIED QUALITY",
+  },
+];
+
+export const fleetCounterData: CounterItemData[] = [
+  {
+    value: 500,
+    suffix: "+",
+    label: "COMPANY-OWNED FLEET",
+  },
+  {
+    value: 15,
+    suffix: "K",
+    label: "M² BASRA YARD",
+  },
+  {
+    value: 24,
+    suffix: "/7",
+    label: "READY FOR MOBILIZATION",
+  },
+  {
+    value: 100,
+    suffix: "%",
+    label: "CERTIFIED SUPPORT",
   },
 ];

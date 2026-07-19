@@ -8,7 +8,8 @@ const serviceOptions = [
 
 export default function ContactFormCard() {
   return (
-    <div className="relative overflow-hidden rounded-xl bg-white p-6 shadow-xl md:p-8">
+    <div data-aos="fade-up" data-aos-duration="800"
+      className="relative overflow-hidden rounded-xl bg-white p-6 shadow-xl md:p-8">
       <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-[#F3F5FA]" />
 
       <form className="relative z-10">
@@ -54,7 +55,7 @@ export default function ContactFormCard() {
             <label className="mb-2 block text-sm font-bold text-[#1E2746]">
               Service Interest
             </label>
-            <select className="h-11 w-full rounded-lg bg-[#F6F7FB] px-4 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-blue-01/25">
+            <select className="h-11 w-full cursor-pointer rounded-lg bg-[#F6F7FB] px-4 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-blue-01/25">
               {serviceOptions.map((option) => (
                 <option key={option}>{option}</option>
               ))}
@@ -68,13 +69,13 @@ export default function ContactFormCard() {
           </label>
           <textarea
             placeholder="Briefly describe your project requirements..."
-            className="min-h-[110px] w-full resize-none rounded-lg bg-[#F6F7FB] px-4 py-3 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-blue-01/25"
+            className="min-h-27.5 w-full resize-none rounded-lg bg-[#F6F7FB] px-4 py-3 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-blue-01/25"
           />
         </div>
 
         <button
           type="submit"
-          className="mt-5 h-12 w-full rounded-full bg-red-01 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#c9162d] hover:shadow-xl active:translate-y-0"
+          className="mt-5 h-12 w-full rounded-full cursor-pointer bg-red-01 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#c9162d] hover:shadow-xl active:translate-y-0"
         >
           Send Message
         </button>

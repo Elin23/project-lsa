@@ -1,5 +1,5 @@
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import { Mail, MapPin, Phone, Users } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 export const footerData = {
     company: {

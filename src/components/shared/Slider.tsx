@@ -22,7 +22,7 @@ const Slider = <T,>({ items, renderItem }: SliderProps<T>) => {
 
   return (
     <>
-      <div key={activeIndex} className="animate-[fadeSlide_0.6s_ease-in-out]">
+      <div key={activeIndex} className="animate-[fadeSlide_500ms_cubic-bezier(0.22,1,0.36,1)]">
         {renderItem(active)}
       </div>
 
@@ -32,7 +32,7 @@ const Slider = <T,>({ items, renderItem }: SliderProps<T>) => {
             key={index}
             type="button"
             onClick={() => setActiveIndex(index)}
-            className={`h-3 w-3 rounded-full transition ${
+            className={`h-3 w-3 rounded-full transition cursor-pointer ${
               activeIndex === index
                 ? "bg-[#1f3f93]"
                 : "bg-gray-300 hover:bg-gray-400"

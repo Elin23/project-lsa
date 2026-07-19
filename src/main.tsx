@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createHashRouter,
+  RouterProvider,
+} from "react-router-dom";
 
 import "./index.css";
-
+import "aos/dist/aos.css";
 
 import MainLayout from "./layouts/MainLayout";
 
@@ -15,43 +18,94 @@ import EngineeringServicesPage from "./pages/EngineeringServicesPage";
 import EngineeringServiceDeatilsPage from "./pages/EngineeringServiceDeatilsPage";
 import ProjectPage from "./pages/ProjectPage";
 import ProjectDetailsPage from "./pages/ProjectDetails";
-import Loader from "./components/common/Loader";
 import EquipmentsPage from "./pages/EquipmentsPage";
 
-const router = createBrowserRouter([
+import Loader from "./components/common/Loader";
+import { AppLoadingProvider } from "./context/AppLoadingContext";
+
+const router = createHashRouter([
   {
     path: "/",
     element: <MainLayout />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: "about", element: <AboutPage /> },
-      { path: "services", element: <EngineeringServicesPage /> },
-      {   path:"/services/:slug", element: <EngineeringServiceDeatilsPage /> },
-      { path: "projects", element: <ProjectPage /> },
-      { path: "projects/:id", element: <ProjectDetailsPage /> },
-      { path: "careers", element: <CareersPage /> },
-      { path: "contact", element: <ContactPage /> },
-      { path: "equipment", element: <EquipmentsPage/>}
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "about",
+        element: <AboutPage />,
+      },
+      {
+        path: "services",
+        element: <EngineeringServicesPage />,
+      },
+      {
+        path: "services/:slug",
+        element: <EngineeringServiceDeatilsPage />,
+      },
+      {
+        path: "projects",
+        element: <ProjectPage />,
+      },
+      {
+        path: "projects/:slug",
+        element: <ProjectDetailsPage />,
+      },
+      {
+        path: "careers",
+        element: <CareersPage />,
+      },
+      {
+        path: "contact",
+        element: <ContactPage />,
+      },
+      {
+        path: "equipment",
+        element: <EquipmentsPage />,
+      },
     ],
   },
 ]);
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [isLoaderVisible, setIsLoaderVisible] = useState(true);
+  const [showLoader, setShowLoader] = useState(true);
+  const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
+    const loadingTimer = window.setTimeout(() => {
+      // يبدأ Fade الخاص باللودر
+      setIsLoaderVisible(false);
     }, 2200);
 
-    return () => clearTimeout(timer);
+    const removeLoaderTimer = window.setTimeout(() => {
+      // يُحذف اللودر ويُسمح للكاونتر بالبدء
+      setShowLoader(false);
+      setIsAppReady(true);
+    }, 2900);
+
+    return () => {
+      window.clearTimeout(loadingTimer);
+      window.clearTimeout(removeLoaderTimer);
+    };
   }, []);
 
-  if (loading) {
-    return <Loader />;
-  }
+  return (
+    <AppLoadingProvider isAppReady={isAppReady}>
+      <RouterProvider router={router} />
 
-  return <RouterProvider router={router} />;
+      {showLoader && (
+        <Loader isVisible={isLoaderVisible} />
+      )}
+    </AppLoadingProvider>
+  );
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Root element was not found.");
+}
+
+createRoot(rootElement).render(<App />);

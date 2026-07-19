@@ -9,8 +9,9 @@ import OurCoreCapabilities from "../sections/Home/OurCoreCapabilities";
 import FeaturedProjects from "../sections/Home/FeaturedProjects";
 import WhyPartnerSection from "../sections/Home/WhyPartnerSection";
 import { partnerItems } from "../data/partnerData";
-import partnerImage from "../assets/imgs/Industrial_trunkline_construction.jpg";
+import partnerImage from "../assets/imgs/Industrial_trunkline_construction.webp";
 import AboutUsHomeSection from "../sections/Home/AboutUsHomeSection";
+import HotTappingBanner from "../components/shared/CTA/HotTappingBanner";
 
 const HomePage = () => {
   return (
@@ -49,6 +50,9 @@ const HomePage = () => {
         />
 
         <FeaturedProjects />
+
+       <HotTappingBanner />
+
 
         <FAQSection />
 

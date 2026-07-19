@@ -25,12 +25,13 @@ const contactInfo = [
 
 export default function ContactInfo() {
   return (
-    <div>
+    <div data-aos="fade-up" data-aos-duration="800"
+    >
       <h2 className="text-[30px] font-bold leading-tight text-blue-01 md:text-[38px]">
         Basra Headquarters
       </h2>
 
-      <p className="mt-3 max-w-[520px] text-sm leading-6 text-muted-blue md:text-base">
+      <p className="mt-3 max-w-130 text-sm leading-6 text-muted-blue md:text-base">
         Our engineering teams are strategically located to rapidly deploy across
         Iraq's major oil and gas infrastructure.
       </p>

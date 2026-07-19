@@ -12,7 +12,7 @@ const Testimonials = () => {
               <img
                 src={active.image}
                 alt={active.name}
-                className="mx-auto mb-5 h-[74px] w-[74px] rounded-lg object-cover shadow-md"
+                className="mx-auto mb-5 h-18.5 w-18.5 rounded-lg object-cover shadow-md"
               />
 
               <h3 className="text-lg lg-custom:text-xl font-bold text-[#111b3f]">

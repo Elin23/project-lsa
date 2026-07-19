@@ -32,16 +32,21 @@
   --breakpoint-huge: 1921px;
 }
 
+
+
 body {
   font-family: var(--font-poppins);
   background-color: var(--color-white-gray-04);
-  overflow-x: hidden;
 }
 
 html {
   scroll-behavior: smooth !important;
 }
-
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 @media (max-width: 1280px) {
   :root {
     --spacing-container: 48px;
@@ -53,16 +58,15 @@ html {
     --spacing-container: 24px;
   }
 }
-
 @keyframes fadeSlide {
-  from {
+  0% {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(-18px) scale(.985);
   }
 
-  to {
+  100% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) scale(1);
   }
 }
 
@@ -117,4 +121,70 @@ html {
     background:rgba(255,255,255,.18);
     border:1px solid rgba(255,255,255,.25);
     border-radius:999px;
+}
+
+@keyframes projectCardFilterFade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes projectEmptyFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="projectCardFilterFade"],
+  [class*="projectEmptyFade"] {
+    animation: none !important;
+  }
+}
+
+/* ===========================
+   Custom Scrollbar
+=========================== */
+
+html {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #c8102e #f4f6fb;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f6fb;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8102e;
+  border-radius: 999px;
+  border: 2px solid #f4f6fb;
+  transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a80d26;
+}
+
+::-webkit-scrollbar-corner {
+  background: #f4f6fb;
 }

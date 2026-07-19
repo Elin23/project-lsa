@@ -10,8 +10,9 @@ export default function CertificationStatCard({
     color,
 }: CertificationStatCardProps) {
     return (
-        <div
-            className="
+        <div data-aos="fade-up" data-aos-duration="800">
+            <div
+                className="
         rounded-xl
         bg-white
         px-6
@@ -22,14 +23,15 @@ export default function CertificationStatCard({
         duration-300
         hover:-translate-y-1
       "
-        >
-            <h3 className={`text-4xl font-bold md:text-[40px] ${color}`}>
-                {value}
-            </h3>
+            >
+                <h3 className={`text-4xl font-bold md:text-[40px] ${color}`}>
+                    {value}
+                </h3>
 
-            <p className="mt-2 text-sm font-semibold uppercase tracking-[1.5px] text-gray-600">
-                {label}
-            </p>
+                <p className="mt-2 text-sm font-semibold uppercase tracking-[1.5px] text-gray-600">
+                    {label}
+                </p>
+            </div>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import img from "../assets/Related.png";
+import img from "../assets/Related.webp";
 
 export interface RelatedProject {
     id: number;

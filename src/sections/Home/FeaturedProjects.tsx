@@ -1,18 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
 import FeaturedProjectsCard from "../../components/common/FeaturedProjects/FeaturedProjectsCard";
 import FeaturedProjectsCardSkeleton from "../../components/skeletons/FeaturedProjectsCardSkeleton";
-import { featuredProjectsData } from "../../data/featuredProjectsData";
+
+import { projectsData } from "../../data/projectsData";
+
+const FEATURED_PROJECTS_COUNT = 6;
 
 export default function FeaturedProjects() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = window.setTimeout(() => {
       setLoading(false);
     }, 1500);
 
-    return () => clearTimeout(timer);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  const featuredProjects = useMemo(() => {
+    return projectsData.slice(0, FEATURED_PROJECTS_COUNT);
   }, []);
 
   return (
@@ -36,17 +44,21 @@ export default function FeaturedProjects() {
         "
       >
         {loading
-          ? Array.from({ length: 6 }).map((_, index) => (
-            <FeaturedProjectsCardSkeleton key={index} />
-          ))
-          : featuredProjectsData.map((project) => (
-            <FeaturedProjectsCard
-              key={project.id}
-              image={project.image}
-              category={project.category}
-              title={project.title}
-            />
-          ))}
+          ? Array.from({ length: FEATURED_PROJECTS_COUNT }).map(
+              (_, index) => (
+                <FeaturedProjectsCardSkeleton key={index} />
+              ),
+            )
+          : featuredProjects.map((project) => (
+              <FeaturedProjectsCard
+                key={project.id}
+                image={project.image}
+                category={project.category}
+                title={project.title}
+                  path={project.path}
+
+              />
+            ))}
       </div>
     </section>
   );

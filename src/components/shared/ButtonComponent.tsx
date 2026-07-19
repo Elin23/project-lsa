@@ -88,6 +88,7 @@ const ButtonComponent = ({
     disabled:pointer-events-none
     disabled:cursor-not-allowed
     disabled:opacity-60
+    cursor-pointer
     ${className}
   `;
 
@@ -99,7 +100,7 @@ const ButtonComponent = ({
             pointer-events-none
             absolute inset-0
             -translate-x-full
-            bg-gradient-to-r
+            bg-linear-to-r
             from-transparent
             via-white/25
             to-transparent

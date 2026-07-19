@@ -1,9 +1,9 @@
-import pro1 from '../assets/featuredprojects/project1.png';
-import pro2 from '../assets/featuredprojects/project2.png';
-import pro3 from '../assets/featuredprojects/project3.png';
-import pro4 from '../assets/featuredprojects/project4.png';
-import pro5 from '../assets/featuredprojects/project5.png';
-import pro6 from '../assets/featuredprojects/project6.png';
+import pro1 from '../assets/featuredprojects/project1.webp';
+import pro2 from '../assets/featuredprojects/project2.webp';
+import pro3 from '../assets/featuredprojects/project3.webp';
+import pro4 from '../assets/featuredprojects/project4.webp';
+import pro5 from '../assets/featuredprojects/project5.webp';
+import pro6 from '../assets/featuredprojects/project6.webp';
 
 export interface FeaturedProject {
     id: number;

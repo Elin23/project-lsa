@@ -29,23 +29,24 @@ const OurJourney = () => {
           <div className="space-y-10 md:space-y-8">
             {loading
               ? Array.from({ length: 5 }).map((_, index) => (
-                <TimelineCardSkeleton
-                  key={index}
-                  side={index % 2 === 0 ? "left" : "right"}
-                />
-              ))
+                  <TimelineCardSkeleton
+                    key={index}
+                    side={index % 2 === 0 ? "left" : "right"}
+                  />
+                ))
               : timelineData.map((item, index) => (
-                <TimelineCard
-                  key={index}
-                  year={item.year}
-                  title={item.title}
-                  description={item.description}
-                  badge={item.badge}
-                  dotColor={item.dotColor}
-                  side={item.side}
-                  icon={item.icon}
-                />
-              ))}
+                  <TimelineCard
+                    key={index}
+                    year={item.year}
+                    title={item.title}
+                    description={item.description}
+                    badge={item.badge}
+                    dotColor={item.dotColor}
+                    side={item.side}
+                    icon={item.icon}
+                    delay={index * 80}
+                  />
+                ))}
           </div>
         </div>
       </div>
