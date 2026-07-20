@@ -67,11 +67,14 @@ export default function OurCoreCapabilities() {
 
   }, [currentPage, itemsPerPage]);
 
-  return (<section className="relative overflow-hidden"> <div className="pointer-events-none absolute inset-0 -z-10"> <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-01/10 blur-3xl" />
-    <div className="absolute bottom-10 right-0 h-64 w-64 rounded-full bg-red-01/5 blur-3xl" />
-  </div>
+  return (
+  <section className="relative overflow-hidden">
+    <div className="pointer-events-none absolute inset-0 -z-10">
+      <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-01/10 blur-3xl" />
+      <div className="absolute bottom-10 right-0 h-64 w-64 rounded-full bg-red-01/5 blur-3xl" />
+    </div>
 
-    <div className="mx-auto w-full max-w-360">
+    <div className=" w-full  p-0">
       <div className="mx-auto mb-12 max-w-3xl text-center lg:mb-16">
         <TitleComponent
           title="Our Core Capabilities"
@@ -93,14 +96,14 @@ export default function OurCoreCapabilities() {
             <OurCoreCapabilitiesCardSkeleton key={index} />
           ))
           : currentItems.map((item) => (
-              <OurCoreCapabilitiesCard
-                key={item.id}
-                id={item.id}
-                title={item.title}
-                description={item.description}
-              />
-            ))
-          }
+            <OurCoreCapabilitiesCard
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              description={item.description}
+            />
+          ))
+        }
       </div>
 
       {!loading && totalPages > 1 && (
