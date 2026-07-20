@@ -12,7 +12,7 @@ const ProjectPage = () => {
                 description="Showcasing engineering excellence and infrastructure development across the energy sector in Iraq."
             />
             <ProjectsSection />
-            <HotTappingBanner />
+            <HotTappingBanner className="pb-16 md:pb-24 2xl:pb-28" />
     </div>
   )
 }
