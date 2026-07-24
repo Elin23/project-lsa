@@ -57,7 +57,7 @@ const OurJourney = () => {
 
   return (
     <>
-      <section>
+      <section id="our-journey">
         <div>
           <TitleComponent
             title="Our Journey"

@@ -38,11 +38,9 @@ const HeroSection = ({
         -translate-x-1/2
         overflow-hidden
         bg-[#071225]
-        ${
-          hasBottomContent
-            ? "min-h-[calc(100svh-72px)]"
-            : "h-[calc(100svh-72px)] max-h-[calc(100svh-72px)]"
-        }
+                md:h-[calc(100svh)]
+
+
         ${className}
       `}
     >
@@ -125,6 +123,7 @@ const HeroSection = ({
         {/* Main Hero Content */}
         <div
           className={`
+            pt-28
             mx-auto
             flex
             w-full
@@ -201,6 +200,8 @@ const HeroSection = ({
                 md:text-[15px]
                 md:leading-7
                 lg:text-base
+                line-clamp-3
+                 
                 2xl:max-w-205
                 2xl:text-[17px]
               "

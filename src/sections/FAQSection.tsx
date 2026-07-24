@@ -11,7 +11,7 @@ const FAQSection = ({ className = "" }: FAQSectionProps) => {
   const rightItems = faqData.filter((_, index) => index % 2 !== 0);
 
   return (
-    <section className={className}>
+    <section className={className} id="faq">
       <TitleComponent
         title="Frequently Asked Questions"
         description="Clarifying our processes and capabilities for prospective partners."

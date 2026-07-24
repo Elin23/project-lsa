@@ -24,7 +24,7 @@ export default function FeaturedProjects() {
   }, []);
 
   return (
-    <section>
+    <section id="featured-projects" >
       <TitleComponent
         title="Featured Projects"
         description="A showcase of our engineering scale and precision across the region's most challenging landscapes."

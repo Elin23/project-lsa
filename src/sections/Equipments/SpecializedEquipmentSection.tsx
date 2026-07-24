@@ -118,7 +118,7 @@ export default function SpecializedEquipmentSection() {
 
 
   return (
-    <section>
+    <section id="specialized-equipment-capabilities">
       <TitleComponent
         title="Specialized Equipment Capabilities"
         description="Providing heavy-duty solutions for the most demanding engineering environments in the region."

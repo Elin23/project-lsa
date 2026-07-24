@@ -18,7 +18,7 @@ const ApplicationProcess = () => {
     <section data-aos="fade-up" data-aos-duration="800"
       className="relative overflow-hidden pb-16 md:pb-20 lg:pb-24 xl:pb-28">
       <div className="absolute left-0 top-0 h-80 w-80 rounded-full" />
-      <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full" />
+      <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full" id="process"/>
 
       <div className="relative mx-auto ">
         <TitleComponent

@@ -86,7 +86,7 @@ const ProjectsSection = () => {
   };
 
   return (
-    <section>
+    <section id="our-projects">
       {/* Title and Tabs */}
       <div
         data-aos="fade-up"
