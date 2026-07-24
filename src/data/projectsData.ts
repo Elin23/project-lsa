@@ -88,6 +88,13 @@ import khorAlZubairGallery2 from "../assets/projects/khor-al-zubair-foundations/
 import khorAlZubairGallery3 from "../assets/projects/khor-al-zubair-foundations/gallery-3.webp";
 import khorAlZubairGallery4 from "../assets/projects/khor-al-zubair-foundations/gallery-4.webp";
 // ======================================================
+// Temporary Certificate Image
+// Replace this path later with the real certificate images.
+// ======================================================
+
+import sampleCertificate from "../assets/imgs/certificates/iso9001.png";
+
+// ======================================================
 // Types
 // ======================================================
 
@@ -119,6 +126,13 @@ export interface ProjectGalleryImage {
   alt: string;
 }
 
+export interface ProjectCertificate {
+  id: number;
+  image: string;
+  alt: string;
+  title?: string;
+}
+
 export interface ProjectScope {
   title: string;
   paragraphs: ProjectParagraph[];
@@ -145,6 +159,9 @@ export interface Project {
   overview: ProjectOverviewItem[];
   scope: ProjectScope;
   gallery: ProjectGalleryImage[];
+
+  // Project certificates can be empty, contain one certificate, or several.
+  certificates: ProjectCertificate[];
 
   // IDs of related projects
   relatedProjectIds: number[];
@@ -250,6 +267,15 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [
+      {
+        id: 1,
+        image: sampleCertificate,
+        alt: "Najaf to Basra Pipeline project completion certificate",
+        title: "Project Completion Certificate",
+      },
+    ],
+
     relatedProjectIds: [2, 5, 7],
   },
 
@@ -345,6 +371,21 @@ export const projectsData: Project[] = [
         id: 4,
         image: westQurnaGallery4,
         alt: "Completed oil manifold system",
+      },
+    ],
+
+    certificates: [
+      {
+        id: 1,
+        image: sampleCertificate,
+        alt: "West Qurna Oil Manifolds project completion certificate",
+        title: "Project Completion Certificate",
+      },
+      {
+        id: 2,
+        image: sampleCertificate,
+        alt: "West Qurna Oil Manifolds quality achievement certificate",
+        title: "Quality Achievement Certificate",
       },
     ],
 
@@ -446,6 +487,8 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [],
+
     relatedProjectIds: [2, 5, 7],
   },
 
@@ -541,6 +584,15 @@ export const projectsData: Project[] = [
         id: 4,
         image: facilityGallery4,
         alt: "Completed facility foundations",
+      },
+    ],
+
+    certificates: [
+      {
+        id: 1,
+        image: sampleCertificate,
+        alt: "Facility Foundations project completion certificate",
+        title: "Project Completion Certificate",
       },
     ],
 
@@ -642,6 +694,8 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [],
+
     relatedProjectIds: [1, 3, 6],
   },
 
@@ -737,6 +791,21 @@ export const projectsData: Project[] = [
         id: 4,
         image: majnoonGallery4,
         alt: "Completed facility upgrade",
+      },
+    ],
+
+    certificates: [
+      {
+        id: 1,
+        image: sampleCertificate,
+        alt: "Majnoon Mechanical Upgrade completion certificate",
+        title: "Project Completion Certificate",
+      },
+      {
+        id: 2,
+        image: sampleCertificate,
+        alt: "Majnoon Mechanical Upgrade safety recognition certificate",
+        title: "Safety Recognition Certificate",
       },
     ],
 
@@ -838,6 +907,15 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [
+      {
+        id: 1,
+        image: sampleCertificate,
+        alt: "Zubair Export Line Hot Tapping project certificate",
+        title: "Project Achievement Certificate",
+      },
+    ],
+
     relatedProjectIds: [1, 3, 5],
   },
 
@@ -935,6 +1013,8 @@ export const projectsData: Project[] = [
         alt: "Completed storage tank foundation",
       },
     ],
+
+    certificates: [],
 
     relatedProjectIds: [2, 4, 6],
   },

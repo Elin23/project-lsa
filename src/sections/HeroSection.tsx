@@ -37,10 +37,8 @@ const HeroSection = ({
         w-screen
         -translate-x-1/2
         overflow-hidden
-        bg-[#071225]
-                md:h-[calc(100svh)]
-
-
+        bg-[#102344]
+        md:h-[100svh]
         ${className}
       `}
     >
@@ -59,50 +57,99 @@ const HeroSection = ({
           w-full
           object-cover
           object-center
+          brightness-[1.08]
+          contrast-[0.96]
+          saturate-[1.08]
         "
       />
 
-      {/* Dark overlays */}
-      <div className="absolute inset-0 bg-black/15" />
+      {/* Light blur layer over the image */}
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          inset-0
+          backdrop-blur-[2.5px]
+        "
+      />
 
+      {/* Very light general overlay */}
+      <div className="absolute inset-0 bg-[#071225]/5" />
+
+      {/* Light vertical overlay */}
       <div
         className="
           absolute
           inset-0
           bg-linear-to-b
-          from-[#071225]/15
-          via-[#071225]/35
-          to-[#071225]/90
+          from-white/8
+          via-transparent
+          to-[#071225]/60
         "
       />
 
+      {/* Soft side contrast for text readability */}
       <div
         className="
           absolute
           inset-0
           bg-linear-to-r
-          from-[#071225]/30
+          from-[#071225]/16
           via-transparent
-          to-[#071225]/30
+          to-[#071225]/12
         "
       />
 
-      {/* Subtle center lighting */}
+      {/* Soft daylight from upper center */}
       <div
         aria-hidden="true"
         className="
           pointer-events-none
           absolute
           left-1/2
-          top-[45%]
-          h-64
-          w-[90%]
-          max-w-200
+          top-[22%]
+          h-80
+          w-[85%]
+          max-w-5xl
+          -translate-x-1/2
+          rounded-full
+          bg-white/10
+          blur-3xl
+        "
+      />
+
+      {/* Central warm lighting */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          left-1/2
+          top-[48%]
+          h-56
+          w-[70%]
+          max-w-3xl
           -translate-x-1/2
           -translate-y-1/2
           rounded-full
-          bg-white/4
-          blur-[100px]
+          bg-white/7
+          blur-2xl
+        "
+      />
+
+      {/* Subtle optimistic warm highlight */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          right-[8%]
+          top-[16%]
+          h-52
+          w-52
+          rounded-full
+          bg-amber-100/8
+          blur-3xl
         "
       />
 
@@ -123,7 +170,6 @@ const HeroSection = ({
         {/* Main Hero Content */}
         <div
           className={`
-            pt-28
             mx-auto
             flex
             w-full
@@ -133,6 +179,7 @@ const HeroSection = ({
             items-center
             justify-center
             px-5
+            pt-28
             text-center
             sm:px-8
             lg:px-10
@@ -148,7 +195,7 @@ const HeroSection = ({
             aria-hidden="true"
             className="mb-4 flex items-center gap-2 sm:mb-5"
           >
-            <span className="h-px w-7 bg-white/35 sm:w-9" />
+            <span className="h-px w-7 bg-white/55 sm:w-9" />
 
             <span
               className="
@@ -156,11 +203,11 @@ const HeroSection = ({
                 w-1.5
                 rounded-full
                 bg-red-01
-                shadow-[0_0_12px_rgba(200,16,46,0.65)]
+                shadow-[0_0_10px_rgba(200,16,46,0.45)]
               "
             />
 
-            <span className="h-px w-7 bg-white/35 sm:w-9" />
+            <span className="h-px w-7 bg-white/55 sm:w-9" />
           </div>
 
           {/* Title */}
@@ -172,6 +219,7 @@ const HeroSection = ({
               leading-[1.15]
               tracking-[-0.02em]
               text-white
+              drop-shadow-[0_3px_16px_rgba(7,18,37,0.45)]
               sm:text-[36px]
               md:text-[44px]
               md:leading-[1.12]
@@ -190,9 +238,11 @@ const HeroSection = ({
               className="
                 mt-4
                 max-w-175
+                line-clamp-3
                 text-[13px]
                 leading-6
-                text-white/75
+                text-white/90
+                drop-shadow-[0_2px_10px_rgba(7,18,37,0.4)]
                 sm:mt-5
                 sm:text-sm
                 sm:leading-6.5
@@ -200,8 +250,6 @@ const HeroSection = ({
                 md:text-[15px]
                 md:leading-7
                 lg:text-base
-                line-clamp-3
-                 
                 2xl:max-w-205
                 2xl:text-[17px]
               "
@@ -243,7 +291,7 @@ const HeroSection = ({
                     padding="px-5 py-3.5 sm:px-6 md:px-7 md:py-4"
                     fontSize="text-sm md:text-[15px]"
                     fontWeight="font-semibold"
-                    bg={isOutline ? "bg-white/5" : "bg-red-01"}
+                    bg={isOutline ? "bg-white/12" : "bg-red-01"}
                     hoverBg={
                       isOutline
                         ? "hover:bg-white hover:text-blue-02"
@@ -253,12 +301,12 @@ const HeroSection = ({
                     className={`
                       w-full
                       justify-center
-                      backdrop-blur-md
+                      backdrop-blur-sm
                       sm:w-auto
                       ${
                         isOutline
-                          ? "border border-white/45 hover:border-white"
-                          : "border border-red-01 shadow-[0_10px_25px_rgba(200,16,46,0.18)]"
+                          ? "border border-white/65 shadow-[0_8px_24px_rgba(7,18,37,0.12)] hover:border-white"
+                          : "border border-red-01 shadow-[0_10px_25px_rgba(200,16,46,0.2)]"
                       }
                     `}
                   >
@@ -284,7 +332,7 @@ const HeroSection = ({
                 h-px
                 bg-linear-to-r
                 from-transparent
-                via-white/20
+                via-white/30
                 to-transparent
               "
             />

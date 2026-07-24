@@ -5,6 +5,7 @@ import DetailedScope from "../sections/ProjectDetails/DetailedScope";
 import ProjectGallery from "../sections/ProjectDetails/ProjectGallery";
 
 import { getProjectBySlug } from "../data/projectsData";
+import ProjectCertificates from "../sections/ProjectDetails/ProjectCertificates";
 
 const ProjectDetailsPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -28,6 +29,10 @@ const ProjectDetailsPage = () => {
       />
 
       <DetailedScope project={project} />
+      
+      {project.certificates.length > 0 && (
+        <ProjectCertificates certificates={project.certificates} />
+      )}
 
       <ProjectGallery project={project} />
     </div>
