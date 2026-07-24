@@ -1,5 +1,10 @@
 import { BadgeCheck, Leaf, ShieldCheck, Shield } from "lucide-react";
 
+import iso9001 from "../assets/imgs/certificates/iso9001.png";
+import iso14001 from "../assets/imgs/certificates/iso9001.png";
+import iso45001 from "../assets/imgs/certificates/iso9001.png";
+import ohsas18001 from "../assets/imgs/certificates/iso9001.png";
+
 export const certificationStats = [
   {
     value: "4",
@@ -24,23 +29,27 @@ export const certificationsData = [
     description:
       "Quality Management Systems certification, ensuring consistent delivery of products and services that meet customer and regulatory requirements.",
     icon: BadgeCheck,
+    image: iso9001,
   },
   {
     title: "ISO 14001:2015",
     description:
       "Environmental Management Systems certification, demonstrating our commitment to minimizing environmental impact across all operations.",
     icon: Leaf,
+    image: iso14001,
   },
   {
     title: "ISO 45001:2018",
     description:
       "Occupational Health and Safety Management certification, providing safe and healthy workplaces by preventing work-related injury and ill health.",
     icon: ShieldCheck,
+    image: iso45001,
   },
   {
     title: "OHSAS 18001:2007",
     description:
       "Occupational Health and Safety Assessment Series certification, further reinforcing our dedication to strict safety protocols.",
     icon: Shield,
+    image: ohsas18001,
   },
 ];

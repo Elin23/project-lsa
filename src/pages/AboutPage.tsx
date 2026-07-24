@@ -4,6 +4,7 @@ import HeroSection from "../sections/HeroSection"
 import aboutHero from "../assets/imgs/aboutHero.webp"
 import CertificationsStandards from "../sections/About/CertificationsStandards"
 import OurJourney from "../sections/About/OurJourney"
+import AboutCompanySection from "../sections/About/AboutCompanySection"
 
 const AboutPage = () => {
   return (
@@ -22,6 +23,7 @@ Our approach is rooted in rigorous planning and execution. We leverage advanced 
           },
         ]}
       />
+      <AboutCompanySection/>
       <StrategicDirectionsSection />
       <OurJourney />
       <CertificationsStandards />

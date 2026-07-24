@@ -1,10 +1,10 @@
-import img1 from '../assets/Images/trusted/ministry.webp'
+import img1 from '../assets/Images/trusted/ministry.png'
 import img2 from '../assets/Images/trusted/rumaila.webp'
-import img3 from '../assets/Images/trusted/almco.webp'
-import img4 from '../assets/Images/trusted/eni.webp'
-import img5 from '../assets/Images/trusted/zfod.webp'
-import img6 from '../assets/Images/trusted/epcm.webp'
-import img7 from '../assets/Images/trusted/igcc.webp'
+import img3 from '../assets/Images/trusted/almco.png'
+import img4 from '../assets/Images/trusted/eni.png'
+import img5 from '../assets/Images/trusted/zfod.png'
+import img6 from '../assets/Images/trusted/epcm.png'
+import img7 from '../assets/Images/trusted/igcc.png'
 export const trustedCompaniesData = [
   {
     id: 1,
