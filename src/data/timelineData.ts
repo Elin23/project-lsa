@@ -8,16 +8,15 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-// 1. استيراد الصور الخاصة بكل مرحلة (يمكنك تعديل المسارات حسب صورك الحقيقية)
-import imgFoundation from '../assets/Images/ourservices/hot-tapping.webp';
-import imgPipeline from '../assets/Images/ourservices/hot-tapping.webp';
-import imgExpansion from '../assets/Images/ourservices/hot-tapping.webp';
-import imgIso from '../assets/Images/ourservices/hot-tapping.webp';
-import imgHotTapping from '../assets/Images/ourservices/hot-tapping.webp';
-import imgCivil from '../assets/Images/ourservices/hot-tapping.webp';
-import imgEpc from '../assets/Images/ourservices/hot-tapping.webp';
+// استيراد الصور
+import imgFoundation from "../assets/Images/ourservices/hot-tapping.webp";
+import imgPipeline from "../assets/Images/ourservices/hot-tapping.webp";
+import imgExpansion from "../assets/Images/ourservices/hot-tapping.webp";
+import imgIso from "../assets/Images/ourservices/hot-tapping.webp";
+import imgHotTapping from "../assets/Images/ourservices/hot-tapping.webp";
+import imgCivil from "../assets/Images/ourservices/hot-tapping.webp";
+import imgEpc from "../assets/Images/ourservices/hot-tapping.webp";
 
-// 2. تحديث الـ Interface ليشمل الصورة (جعلناها اختيارية بوضع ?)
 export interface TimelineItem {
   year: string;
   title: string;
@@ -26,7 +25,8 @@ export interface TimelineItem {
   icon: LucideIcon;
   dotColor: string;
   side: "left" | "right";
-  image?: string; // <--- تم إضافتها هنا
+  image?: string;
+  imageAlt?: string;
 }
 
 export const timelineData: TimelineItem[] = [
@@ -39,7 +39,8 @@ export const timelineData: TimelineItem[] = [
     icon: Building2,
     dotColor: "bg-indigo-500",
     side: "left",
-    image: imgFoundation, // <--- إضافة الصورة هنا
+    image: imgFoundation,
+    imageAlt: "Foundation & First Steps",
   },
   {
     year: "2016",
@@ -51,6 +52,7 @@ export const timelineData: TimelineItem[] = [
     dotColor: "bg-red-600",
     side: "right",
     image: imgPipeline,
+    imageAlt: "Key Pipeline Infrastructure",
   },
   {
     year: "2016–2019",
@@ -62,6 +64,7 @@ export const timelineData: TimelineItem[] = [
     dotColor: "bg-indigo-500",
     side: "left",
     image: imgExpansion,
+    imageAlt: "Major Expansion",
   },
   {
     year: "2018",
@@ -73,6 +76,7 @@ export const timelineData: TimelineItem[] = [
     dotColor: "bg-red-600",
     side: "right",
     image: imgIso,
+    imageAlt: "ISO Certification",
   },
   {
     year: "2019–2020",
@@ -84,6 +88,7 @@ export const timelineData: TimelineItem[] = [
     dotColor: "bg-indigo-500",
     side: "left",
     image: imgHotTapping,
+    imageAlt: "Advanced Hot Tapping",
   },
   {
     year: "2020 - 2022",
@@ -95,6 +100,7 @@ export const timelineData: TimelineItem[] = [
     dotColor: "bg-red-600",
     side: "right",
     image: imgCivil,
+    imageAlt: "Civil Engineering Triumphs",
   },
   {
     year: "2023–2024",
@@ -106,5 +112,6 @@ export const timelineData: TimelineItem[] = [
     dotColor: "bg-indigo-500",
     side: "left",
     image: imgEpc,
+    imageAlt: "Sustainable EPC Leadership",
   },
 ];
