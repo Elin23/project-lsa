@@ -68,55 +68,56 @@ export default function OurCoreCapabilities() {
   }, [currentPage, itemsPerPage]);
 
   return (
-  <section className="relative overflow-hidden">
-    <div className="pointer-events-none absolute inset-0 -z-10">
-      <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-01/10 blur-3xl" />
-      <div className="absolute bottom-10 right-0 h-64 w-64 rounded-full bg-red-01/5 blur-3xl" />
-    </div>
-
-    <div className=" w-full  p-0">
-      <div className="mx-auto mb-12 max-w-3xl text-center lg:mb-16">
-        <TitleComponent
-          title="Our Core Capabilities"
-          description="Comprehensive engineering solutions tailored to the oil and gas sector."
-        />
+    <section className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-01/10 blur-3xl" />
+        <div className="absolute bottom-10 right-0 h-64 w-64 rounded-full bg-red-01/5 blur-3xl" />
       </div>
 
-      <div
-        key={`${currentPage}-${itemsPerPage}`}
-        className="
+      <div className=" w-full  p-0">
+        <div className="mx-auto mb-12 max-w-3xl text-center lg:mb-16">
+          <TitleComponent
+            title="Our Core Capabilities"
+            description="Comprehensive engineering solutions tailored to the oil and gas sector."
+          />
+        </div>
+
+        <div
+          key={`${currentPage}-${itemsPerPage}`}
+          className="
         grid grid-cols-1 gap-5
         animate-[fadeSlide_0.45s_ease-out]
         sm:grid-cols-2 sm:gap-6
         xl:grid-cols-3 xl:gap-7
       "
-      >
-        {loading
-          ? Array.from({ length: itemsPerPage }).map((_, index) => (
-            <OurCoreCapabilitiesCardSkeleton key={index} />
-          ))
-          : currentItems.map((item) => (
-            <OurCoreCapabilitiesCard
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              description={item.description}
-            />
-          ))
-        }
-      </div>
-
-      {!loading && totalPages > 1 && (
-        <div className="mt-10 flex justify-center sm:mt-12 lg:mt-14">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+        >
+          {loading
+            ? Array.from({ length: itemsPerPage }).map((_, index) => (
+              <OurCoreCapabilitiesCardSkeleton key={index} />
+            ))
+            : currentItems.map((item) => (
+              <OurCoreCapabilitiesCard
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                path={item.path}
+                description={item.description}
+              />
+            ))
+          }
         </div>
-      )}
-    </div>
-  </section>
+
+        {!loading && totalPages > 1 && (
+          <div className="mt-10 flex justify-center sm:mt-12 lg:mt-14">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+        )}
+      </div>
+    </section>
 
   );
 }

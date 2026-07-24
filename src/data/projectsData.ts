@@ -92,10 +92,10 @@ import khorAlZubairGallery4 from "../assets/projects/khor-al-zubair-foundations/
 // ======================================================
 
 export type ProjectCategory =
-  | "EPC"
-  | "Mechanical"
-  | "Civil"
-  | "Hot Tapping";
+  | "Pipeline Construction"
+  | "Hot Tapping & Stopple"
+  | "Tank Construction & Maintenance"
+  | "Mechanical Equipment Installation";
 
 export interface ProjectOverviewItem {
   label: string;
@@ -164,13 +164,13 @@ export const projectsData: Project[] = [
     description:
       "Engineering, procurement, and construction of a strategic pipeline connecting major energy hubs in Iraq.",
 
-    category: "EPC",
+    category: "Pipeline Construction",
     image: najafBasraCard,
 
     heroImage: najafBasraHero,
     heroTitle: `24" Pipeline Najaf to Basra`,
     heroDescription:
-      "A major infrastructure project connecting Iraq’s energy hubs through advanced EPC engineering and specialized pipeline construction.",
+      "A major infrastructure project connecting Iraq’s energy hubs through advanced Pipeline Construction engineering and specialized pipeline construction.",
 
     overview: [
       {
@@ -262,7 +262,7 @@ export const projectsData: Project[] = [
     description:
       "Fabrication and installation of heavy-duty oil manifolds connecting multiple production systems.",
 
-    category: "Mechanical",
+    category: "Hot Tapping & Stopple",
     image: westQurnaCard,
 
     heroImage: westQurnaHero,
@@ -360,7 +360,7 @@ export const projectsData: Project[] = [
     description:
       "Execution of a critical hot tap on an operating export line without interrupting production.",
 
-    category: "Hot Tapping",
+    category: "Mechanical Equipment Installation",
     image: liveLineCard,
 
     heroImage: liveLineHero,
@@ -458,7 +458,7 @@ export const projectsData: Project[] = [
     description:
       "Large-scale civil works including earth-moving, piling, concrete construction, and foundation preparation.",
 
-    category: "Civil",
+    category: "Tank Construction & Maintenance",
     image: facilityCard,
 
     heroImage: facilityHero,
@@ -556,13 +556,13 @@ export const projectsData: Project[] = [
     description:
       "Construction of a corrosion-resistant pipeline network for produced-water transportation and treatment.",
 
-    category: "EPC",
+    category: "Pipeline Construction",
     image: rumailaCard,
 
     heroImage: rumailaHero,
     heroTitle: "Rumaila Produced Water Pipeline",
     heroDescription:
-      "An integrated EPC pipeline solution supporting safe produced-water transport and environmental protection.",
+      "An integrated Pipeline Construction pipeline solution supporting safe produced-water transport and environmental protection.",
 
     overview: [
       {
@@ -579,7 +579,7 @@ export const projectsData: Project[] = [
       },
       {
         label: "SPECIALIZATION",
-        value: "Water Pipeline EPC",
+        value: "Water Pipeline Pipeline Construction",
       },
       {
         label: "DURATION",
@@ -654,7 +654,7 @@ export const projectsData: Project[] = [
     description:
       "Mechanical modification and equipment upgrade works for an operating oil-processing facility.",
 
-    category: "Mechanical",
+    category: "Hot Tapping & Stopple",
     image: majnoonCard,
 
     heroImage: majnoonHero,
@@ -752,7 +752,7 @@ export const projectsData: Project[] = [
     description:
       "Specialized branch connection installed on a live 36-inch crude-oil export pipeline.",
 
-    category: "Hot Tapping",
+    category: "Mechanical Equipment Installation",
     image: zubairCard,
 
     heroImage: zubairHero,
@@ -850,7 +850,7 @@ export const projectsData: Project[] = [
     description:
       "Construction of reinforced foundations and containment structures for industrial storage tanks.",
 
-    category: "Civil",
+    category: "Tank Construction & Maintenance",
     image: khorAlZubairCard,
 
     heroImage: khorAlZubairHero,
@@ -950,20 +950,20 @@ export const projectCategories = [
     value: "All Projects",
   },
   {
-    label: "Mechanical",
-    value: "Mechanical",
+    label: "Mechanical Equipment Installation",
+    value: "Mechanical Equipment Installation",
   },
   {
-    label: "Civil",
-    value: "Civil",
+    label: "Tank Construction & Maintenance",
+    value: "Tank Construction & Maintenance",
   },
   {
-    label: "Hot Tapping",
-    value: "Hot Tapping",
+    label: "Hot Tapping & Stopple",
+    value: "Hot Tapping & Stopple",
   },
   {
-    label: "EPC",
-    value: "EPC",
+    label: "Pipeline Construction",
+    value: "Pipeline Construction",
   },
 ] as const;
 

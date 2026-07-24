@@ -89,7 +89,7 @@ export const servicesData2 = [
       relatedProjects: [
         {
           id: 1,
-          category: "Pipeline",
+          category: "Pipeline Construction",
           title: "Export Pipeline Installation, Basra",
           description:
             "Executed pipeline installation works for critical oil export infrastructure.",
@@ -97,7 +97,7 @@ export const servicesData2 = [
         },
         {
           id: 2,
-          category: "Pipeline",
+          category: "Pipeline Construction",
           title: "Flowline Construction Project",
           description:
             "Delivered field flowline construction with full testing and commissioning.",
@@ -105,7 +105,7 @@ export const servicesData2 = [
         },
         {
           id: 3,
-          category: "Pipeline",
+          category: "Pipeline Construction",
           title: "Pipeline Rehabilitation Works",
           description:
             "Rehabilitated existing pipeline sections to improve reliability and safety.",
@@ -193,7 +193,7 @@ export const servicesData2 = [
       relatedProjects: [
         {
           id: 1,
-          category: "Hot Tapping",
+          category: "Hot Tapping & Stopple",
           title: "Live Line Intervention, Basra",
           description:
             "Executed a critical 36-inch hot tap on a live export line without interrupting production.",
@@ -201,7 +201,7 @@ export const servicesData2 = [
         },
         {
           id: 2,
-          category: "Hot Tapping",
+          category: "Hot Tapping & Stopple",
           title: "Under-pressure Tie-in Project",
           description:
             "Completed tie-in works while maintaining continuous pipeline operation.",
@@ -219,223 +219,223 @@ export const servicesData2 = [
     },
   },
   {
-  id: 3,
-  slug: "tank-construction-maintenance",
-  title: "Tank Construction & Maintenance",
-  description:
-    "Engineering, fabrication, erection, and maintenance of atmospheric and pressurized storage tanks for oil, gas, and industrial facilities.",
-  image: img3,
-  path: "/services/tank-construction-maintenance",
-  reverse: false,
+    id: 3,
+    slug: "tank-construction-maintenance",
+    title: "Tank Construction & Maintenance",
+    description:
+      "Engineering, fabrication, erection, and maintenance of atmospheric and pressurized storage tanks for oil, gas, and industrial facilities.",
+    image: img3,
+    path: "/services/tank-construction-maintenance",
+    reverse: false,
 
-  features: [
-    "Storage Tank Construction",
-    "Tank Rehabilitation",
-    "Inspection & Maintenance",
-  ],
-
-  details: {
-    heroImage: img3,
-    heroTitle: "Tank Construction & Maintenance",
-    heroDescription:
-      "Complete storage tank solutions including fabrication, erection, inspection, repair, and long-term maintenance in accordance with international standards.",
-
-    processTitle: "The Tank Construction Process",
-    processDescription:
-      "A systematic engineering approach ensuring structural integrity, safety, and long operational life.",
-
-    process: [
-      {
-        id: 1,
-        icon: Compass,
-        title: "Engineering & Design",
-        description:
-          "Site evaluation, foundation planning, and engineering calculations based on project requirements.",
-      },
-      {
-        id: 2,
-        icon: Wrench,
-        title: "Fabrication",
-        description:
-          "Precision fabrication of tank shells, roofs, floors, and structural components.",
-      },
-      {
-        id: 3,
-        icon: ShieldCheck,
-        title: "Inspection & Testing",
-        description:
-          "Dimensional inspection, welding examination, hydrostatic testing, and quality assurance.",
-      },
-      {
-        id: 4,
-        icon: Flame,
-        title: "Commissioning",
-        description:
-          "Final inspections, coating verification, and operational handover.",
-      },
+    features: [
+      "Storage Tank Construction",
+      "Tank Rehabilitation",
+      "Inspection & Maintenance",
     ],
 
-    operationalRanges: {
-      title: "Operational Ranges",
-      description:
-        "Construction and maintenance capabilities for tanks of various capacities and industrial applications.",
+    details: {
+      heroImage: img3,
+      heroTitle: "Tank Construction & Maintenance",
+      heroDescription:
+        "Complete storage tank solutions including fabrication, erection, inspection, repair, and long-term maintenance in accordance with international standards.",
 
-      sideNotes: [
-        "Crude Oil Storage",
-        "Water Storage Tanks",
-        "Industrial Process Tanks",
+      processTitle: "The Tank Construction Process",
+      processDescription:
+        "A systematic engineering approach ensuring structural integrity, safety, and long operational life.",
+
+      process: [
+        {
+          id: 1,
+          icon: Compass,
+          title: "Engineering & Design",
+          description:
+            "Site evaluation, foundation planning, and engineering calculations based on project requirements.",
+        },
+        {
+          id: 2,
+          icon: Wrench,
+          title: "Fabrication",
+          description:
+            "Precision fabrication of tank shells, roofs, floors, and structural components.",
+        },
+        {
+          id: 3,
+          icon: ShieldCheck,
+          title: "Inspection & Testing",
+          description:
+            "Dimensional inspection, welding examination, hydrostatic testing, and quality assurance.",
+        },
+        {
+          id: 4,
+          icon: Flame,
+          title: "Commissioning",
+          description:
+            "Final inspections, coating verification, and operational handover.",
+        },
       ],
 
-      tableHeaders: [
-        "Parameter",
-        "Standard Capacity",
-        "Custom Engineered",
-      ],
+      operationalRanges: {
+        title: "Operational Ranges",
+        description:
+          "Construction and maintenance capabilities for tanks of various capacities and industrial applications.",
 
-      tableRows: [
-        ["Tank Capacity", "100–50,000 m³", "Up to 150,000 m³"],
-        ["Tank Type", "API 650", "API 620 / Custom"],
-        ["Materials", "Carbon Steel", "Stainless & Alloy Steel"],
-        ["Applications", "Oil, Water", "Chemical & Industrial"],
+        sideNotes: [
+          "Crude Oil Storage",
+          "Water Storage Tanks",
+          "Industrial Process Tanks",
+        ],
+
+        tableHeaders: [
+          "Parameter",
+          "Standard Capacity",
+          "Custom Engineered",
+        ],
+
+        tableRows: [
+          ["Tank Capacity", "100–50,000 m³", "Up to 150,000 m³"],
+          ["Tank Type", "API 650", "API 620 / Custom"],
+          ["Materials", "Carbon Steel", "Stainless & Alloy Steel"],
+          ["Applications", "Oil, Water", "Chemical & Industrial"],
+        ],
+      },
+
+      relatedProjects: [
+        {
+          id: 1,
+          category: "Tank Construction & Maintenance",
+          title: "Crude Oil Storage Tanks",
+          description:
+            "Construction of large-capacity crude oil storage facilities.",
+          image: img2,
+        },
+        {
+          id: 2,
+          category: "Mechanical Equipment Installation",
+          title: "Tank Rehabilitation",
+          description:
+            "Complete rehabilitation and structural reinforcement of aging storage tanks.",
+          image: img2,
+        },
+        {
+          id: 3,
+          category: "Mechanical Equipment Installation",
+          title: "Industrial Tank Inspection",
+          description:
+            "Inspection and testing services for operational storage facilities.",
+          image: img2,
+        },
       ],
     },
-
-    relatedProjects: [
-      {
-        id: 1,
-        category: "Tank",
-        title: "Crude Oil Storage Tanks",
-        description:
-          "Construction of large-capacity crude oil storage facilities.",
-        image: img2,
-      },
-      {
-        id: 2,
-        category: "Maintenance",
-        title: "Tank Rehabilitation",
-        description:
-          "Complete rehabilitation and structural reinforcement of aging storage tanks.",
-        image: img2,
-      },
-      {
-        id: 3,
-        category: "Inspection",
-        title: "Industrial Tank Inspection",
-        description:
-          "Inspection and testing services for operational storage facilities.",
-        image: img2,
-      },
-    ],
   },
-},
-{
-  id: 4,
-  slug: "mechanical-equipment-installation",
-  title: "Mechanical Equipment Installation",
-  description:
-    "Professional installation, alignment, and commissioning of rotating and static mechanical equipment for industrial facilities.",
-  image: img3,
-  path: "/services/mechanical-equipment-installation",
-  reverse: true,
+  {
+    id: 4,
+    slug: "mechanical-equipment-installation",
+    title: "Mechanical Equipment Installation",
+    description:
+      "Professional installation, alignment, and commissioning of rotating and static mechanical equipment for industrial facilities.",
+    image: img3,
+    path: "/services/mechanical-equipment-installation",
+    reverse: true,
 
-  features: [
-    "Rotating Equipment",
-    "Static Equipment",
-    "Commissioning Support",
-  ],
-
-  details: {
-    heroImage: img3,
-    heroTitle: "Mechanical Equipment Installation",
-    heroDescription:
-      "Comprehensive mechanical installation services covering pumps, compressors, vessels, heat exchangers, and other critical industrial equipment.",
-
-    processTitle: "The Installation Process",
-    processDescription:
-      "A controlled installation methodology ensuring precision, alignment, and operational reliability.",
-
-    process: [
-      {
-        id: 1,
-        icon: Compass,
-        title: "Site Preparation",
-        description:
-          "Equipment verification, foundation inspection, and installation planning.",
-      },
-      {
-        id: 2,
-        icon: Wrench,
-        title: "Mechanical Installation",
-        description:
-          "Positioning, alignment, grouting, and assembly of mechanical equipment.",
-      },
-      {
-        id: 3,
-        icon: ShieldCheck,
-        title: "Inspection",
-        description:
-          "Dimensional checks, torque verification, and quality inspections.",
-      },
-      {
-        id: 4,
-        icon: Flame,
-        title: "Commissioning",
-        description:
-          "Functional testing, startup support, and performance verification.",
-      },
+    features: [
+      "Rotating Equipment",
+      "Static Equipment",
+      "Commissioning Support",
     ],
 
-    operationalRanges: {
-      title: "Operational Ranges",
-      description:
-        "Mechanical installation capabilities for a wide range of industrial equipment and facilities.",
+    details: {
+      heroImage: img3,
+      heroTitle: "Mechanical Equipment Installation",
+      heroDescription:
+        "Comprehensive mechanical installation services covering pumps, compressors, vessels, heat exchangers, and other critical industrial equipment.",
 
-      sideNotes: [
-        "Pumps & Compressors",
-        "Pressure Vessels",
-        "Heat Exchangers",
+      processTitle: "The Installation Process",
+      processDescription:
+        "A controlled installation methodology ensuring precision, alignment, and operational reliability.",
+
+      process: [
+        {
+          id: 1,
+          icon: Compass,
+          title: "Site Preparation",
+          description:
+            "Equipment verification, foundation inspection, and installation planning.",
+        },
+        {
+          id: 2,
+          icon: Wrench,
+          title: "Mechanical Installation",
+          description:
+            "Positioning, alignment, grouting, and assembly of mechanical equipment.",
+        },
+        {
+          id: 3,
+          icon: ShieldCheck,
+          title: "Inspection",
+          description:
+            "Dimensional checks, torque verification, and quality inspections.",
+        },
+        {
+          id: 4,
+          icon: Flame,
+          title: "Commissioning",
+          description:
+            "Functional testing, startup support, and performance verification.",
+        },
       ],
 
-      tableHeaders: [
-        "Parameter",
-        "Standard Capacity",
-        "Custom Engineered",
-      ],
+      operationalRanges: {
+        title: "Operational Ranges",
+        description:
+          "Mechanical installation capabilities for a wide range of industrial equipment and facilities.",
 
-      tableRows: [
-        ["Equipment Weight", "Up to 50 Tons", "Up to 300 Tons"],
-        ["Installation", "Indoor & Outdoor", "Hazardous Areas"],
-        ["Alignment", "Laser Alignment", "High Precision Systems"],
-        ["Industries", "Oil & Gas", "Power & Petrochemical"],
+        sideNotes: [
+          "Pumps & Compressors",
+          "Pressure Vessels",
+          "Heat Exchangers",
+        ],
+
+        tableHeaders: [
+          "Parameter",
+          "Standard Capacity",
+          "Custom Engineered",
+        ],
+
+        tableRows: [
+          ["Equipment Weight", "Up to 50 Tons", "Up to 300 Tons"],
+          ["Installation", "Indoor & Outdoor", "Hazardous Areas"],
+          ["Alignment", "Laser Alignment", "High Precision Systems"],
+          ["Industries", "Oil & Gas", "Power & Petrochemical"],
+        ],
+      },
+
+      relatedProjects: [
+        {
+          id: 1,
+          category: "Mechanical Equipment Installation",
+          title: "Pump Station Installation",
+          description:
+            "Installation and commissioning of high-capacity pumping systems.",
+          image: img3,
+        },
+        {
+          id: 2,
+          category: "Mechanical Equipment Installation",
+          title: "Compressor Package",
+          description:
+            "Mechanical installation and alignment of compressor units.",
+          image: img3,
+        },
+        {
+          id: 3,
+          category: "Mechanical Equipment Installation",
+          title: "Process Equipment Startup",
+          description:
+            "Commissioning support for critical process equipment.",
+          image: img3,
+        },
       ],
     },
-
-    relatedProjects: [
-      {
-        id: 1,
-        category: "Mechanical",
-        title: "Pump Station Installation",
-        description:
-          "Installation and commissioning of high-capacity pumping systems.",
-        image: img3,
-      },
-      {
-        id: 2,
-        category: "Mechanical",
-        title: "Compressor Package",
-        description:
-          "Mechanical installation and alignment of compressor units.",
-        image: img3,
-      },
-      {
-        id: 3,
-        category: "Commissioning",
-        title: "Process Equipment Startup",
-        description:
-          "Commissioning support for critical process equipment.",
-        image: img3,
-      },
-    ],
   },
-},
 ];

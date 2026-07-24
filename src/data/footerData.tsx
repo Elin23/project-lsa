@@ -32,7 +32,12 @@ export const footerData = {
         },
         {
             icon: Phone,
-            value: "+964 xxx xxx xxxx",
+            value: [
+                "+964 7812180251",
+                "+964 7803079440",
+                "+964 7717604634",
+                "+964 7704780616",
+            ],
         },
         {
             icon: Mail,

@@ -99,12 +99,14 @@ const ProjectsSection = () => {
           title="Our Projects"
           description="Showcasing our engineering excellence and infrastructure development across the energy sector in Iraq."
         />
+        <div className=" flex justify-center">
+          <TabsComponent
+            tabs={projectCategories}
+            activeTab={activeTab}
+            onChange={handleChangeTab}
+          />
+        </div>
 
-        <TabsComponent
-          tabs={projectCategories}
-          activeTab={activeTab}
-          onChange={handleChangeTab}
-        />
       </div>
 
       {/* Projects Grid */}
@@ -121,35 +123,35 @@ const ProjectsSection = () => {
       >
         {loading
           ? Array.from({
-              length: INITIAL_VISIBLE_COUNT,
-            }).map((_, index) => (
-              <ProjectCardSkeleton key={index} />
-            ))
+            length: INITIAL_VISIBLE_COUNT,
+          }).map((_, index) => (
+            <ProjectCardSkeleton key={index} />
+          ))
           : visibleProjects.map((project, index) => (
+            <div
+              key={project.id}
+              data-aos="fade"
+              data-aos-duration="500"
+              data-aos-delay={index * 40}
+              data-aos-easing="ease-out"
+              data-aos-offset="30"
+              data-aos-once="true"
+              className="h-full"
+            >
               <div
-                key={project.id}
-                data-aos="fade"
-                data-aos-duration="500"
-                data-aos-delay={index * 40}
-                data-aos-easing="ease-out"
-                data-aos-offset="30"
-                data-aos-once="true"
-                className="h-full"
-              >
-                <div
-                  className="
+                className="
                     h-full
                     animate-[projectCardFilterFade_0.45s_ease-out_both]
                     motion-reduce:animate-none
                   "
-                  style={{
-                    animationDelay: `${index * 55}ms`,
-                  }}
-                >
-                  <ProjectCard project={project} />
-                </div>
+                style={{
+                  animationDelay: `${index * 55}ms`,
+                }}
+              >
+                <ProjectCard project={project} />
               </div>
-            ))}
+            </div>
+          ))}
       </div>
 
       {/* Empty State */}

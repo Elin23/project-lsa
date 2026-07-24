@@ -51,7 +51,7 @@ const HomePage = () => {
 
         <FeaturedProjects />
 
-       <HotTappingBanner />
+        <HotTappingBanner />
 
 
         <FAQSection />
