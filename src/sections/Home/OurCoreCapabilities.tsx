@@ -68,7 +68,7 @@ export default function OurCoreCapabilities() {
   }, [currentPage, itemsPerPage]);
 
   return (
-  <section className="relative overflow-hidden">
+  <section className="relative overflow-hidden" id="projects">
     <div className="pointer-events-none absolute inset-0 -z-10">
       <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-01/10 blur-3xl" />
       <div className="absolute bottom-10 right-0 h-64 w-64 rounded-full bg-red-01/5 blur-3xl" />

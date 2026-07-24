@@ -5,6 +5,7 @@ import ScrollToTopButton from "../components/common/ScrollToTopButton";
 import ScrollToTopOnRouteChange from "../components/shared/ScrollToTopOnRouteChange";
 import { useEffect } from "react";
 import AOS from "aos";
+import ScrollToSection from "../services/ScrollToSection";
 
 const MainLayout = () => {
     useEffect(() => {
@@ -17,9 +18,11 @@ const MainLayout = () => {
     }, []);
     return (
         <div className="min-h-screen bg-white-gray-04 font-urbanist">
+                  <ScrollToSection />
+
             <Navbar />
             <main data-scroll-container className="">
-                <div className="mx-auto pt-18 max-w-[1920px] px-container ">
+                <div className="mx-auto max-w-[1920px] px-container ">
                     <ScrollToTopOnRouteChange />
                     <Outlet />
                     <ScrollToTopButton />

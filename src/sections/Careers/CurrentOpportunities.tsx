@@ -54,7 +54,7 @@ export default function CurrentOpportunities() {
     setIsExpanded(false);
   };
   return (
-    <section>
+    <section id="positions">
       <TitleComponent
         title="Current Opportunities"
         description="Shape the future of energy infrastructure with LSA."

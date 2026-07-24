@@ -7,7 +7,7 @@ import { trustedCompaniesData } from "../../data/trustedCompaniesData";
 
 const TrustedCompanies = () => {
     return (
-        <section className="pt-16 md:pt-20 lg:pt-24 xl:pt-28">
+        <section className="pt-16 md:pt-20 lg:pt-24 xl:pt-28" id="trusted-companies">
             <div className="mx-auto px-4">
                 <h2 className="mb-10 text-center text-sm font-semibold uppercase tracking-[4px] text-gray-500">
                     Trusted by Industry Leaders

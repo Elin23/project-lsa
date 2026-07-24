@@ -53,7 +53,7 @@ export default function LSAAdvantageSection() {
 
 
   return (
-    <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
+    <section id="the-lsa-advantage" className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
       <TitleComponent
         title="The LSA Advantage"
         description="Delivering greater reliability, faster mobilization, and exceptional project performance through our integrated capabilities and experienced team."

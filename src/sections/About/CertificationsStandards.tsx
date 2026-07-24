@@ -24,7 +24,7 @@ const CertificationsStandards = () => {
   }, []);
 
   return (
-    <section>
+    <section id="certifications-standards" >
       <div
         data-aos="fade-up"
         data-aos-duration="600"

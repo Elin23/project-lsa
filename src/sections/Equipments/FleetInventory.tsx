@@ -35,7 +35,7 @@ export default function FleetInventory() {
   }, [activeTab, search]);
 
   return (
-    <section >
+    <section id="fleet-inventory" >
       <div >
         <TitleComponent
           title="Fleet Inventory"

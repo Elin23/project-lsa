@@ -21,7 +21,7 @@ const LifeAtLsa = () => {
 
 
   return (
-    <section>
+    <section id="life-at-lsa">
       <TitleComponent
         title="Life at Loaloat Shatt Al-Arab"
         description="At LSA, we believe that exceptional projects are built by empowering our people to shape the future of energy."

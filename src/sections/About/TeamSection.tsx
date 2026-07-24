@@ -54,7 +54,7 @@ export default function TeamSection() {
   }, []);
 
   return (
-    <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
+    <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28" id="meet-the-experts">
       <div>
         <div className="mb-10">
           <TitleComponent
