@@ -44,6 +44,7 @@ const OurJourney = () => {
                     dotColor={item.dotColor}
                     side={item.side}
                     icon={item.icon}
+                    image={item.image}
                     delay={index * 80}
                   />
                 ))}

@@ -8,6 +8,16 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+// 1. استيراد الصور الخاصة بكل مرحلة (يمكنك تعديل المسارات حسب صورك الحقيقية)
+import imgFoundation from '../assets/Images/ourservices/hot-tapping.webp';
+import imgPipeline from '../assets/Images/ourservices/hot-tapping.webp';
+import imgExpansion from '../assets/Images/ourservices/hot-tapping.webp';
+import imgIso from '../assets/Images/ourservices/hot-tapping.webp';
+import imgHotTapping from '../assets/Images/ourservices/hot-tapping.webp';
+import imgCivil from '../assets/Images/ourservices/hot-tapping.webp';
+import imgEpc from '../assets/Images/ourservices/hot-tapping.webp';
+
+// 2. تحديث الـ Interface ليشمل الصورة (جعلناها اختيارية بوضع ?)
 export interface TimelineItem {
   year: string;
   title: string;
@@ -16,6 +26,7 @@ export interface TimelineItem {
   icon: LucideIcon;
   dotColor: string;
   side: "left" | "right";
+  image?: string; // <--- تم إضافتها هنا
 }
 
 export const timelineData: TimelineItem[] = [
@@ -28,6 +39,7 @@ export const timelineData: TimelineItem[] = [
     icon: Building2,
     dotColor: "bg-indigo-500",
     side: "left",
+    image: imgFoundation, // <--- إضافة الصورة هنا
   },
   {
     year: "2016",
@@ -38,6 +50,7 @@ export const timelineData: TimelineItem[] = [
     icon: PersonStanding,
     dotColor: "bg-red-600",
     side: "right",
+    image: imgPipeline,
   },
   {
     year: "2016–2019",
@@ -48,6 +61,7 @@ export const timelineData: TimelineItem[] = [
     icon: Users,
     dotColor: "bg-indigo-500",
     side: "left",
+    image: imgExpansion,
   },
   {
     year: "2018",
@@ -58,6 +72,7 @@ export const timelineData: TimelineItem[] = [
     icon: Award,
     dotColor: "bg-red-600",
     side: "right",
+    image: imgIso,
   },
   {
     year: "2019–2020",
@@ -68,6 +83,7 @@ export const timelineData: TimelineItem[] = [
     icon: Wrench,
     dotColor: "bg-indigo-500",
     side: "left",
+    image: imgHotTapping,
   },
   {
     year: "2020 - 2022",
@@ -78,6 +94,7 @@ export const timelineData: TimelineItem[] = [
     icon: Settings,
     dotColor: "bg-red-600",
     side: "right",
+    image: imgCivil,
   },
   {
     year: "2023–2024",
@@ -88,5 +105,6 @@ export const timelineData: TimelineItem[] = [
     icon: Wrench,
     dotColor: "bg-indigo-500",
     side: "left",
+    image: imgEpc,
   },
 ];

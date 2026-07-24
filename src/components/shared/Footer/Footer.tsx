@@ -7,9 +7,9 @@ const Footer = () => {
     <footer className="bg-blue-02 text-white">
       <div className="mx-auto max-w-[1920px] px-container pt-18 pb-8">
         <div className="grid grid-cols-1 gap-12 lg-custom:grid-cols-4">
-          <div> 
+          <div>
             <Link to="/">
-              <img src={logo} alt="LSA Logo" className="mb-8 h-15 w-auto" />
+              <img src={logo} alt="LSA Logo" className="mb-8 w-40" />
             </Link>
 
             <p className="text-sm leading-6 text-white/60 lg-custom:max-w-65">
@@ -88,9 +88,15 @@ const Footer = () => {
                       className="mt-0.5 shrink-0 text-red-01"
                     />
 
-                    <span className="text-sm leading-6 text-white/60">
-                      {item.value}
-                    </span>
+                    <div className="text-sm leading-6 text-white/60">
+                      {Array.isArray(item.value) ? (
+                        item.value.map((phone) => (
+                          <div key={phone}>{phone}</div>
+                        ))
+                      ) : (
+                        <span>{item.value}</span>
+                      )}
+                    </div>
                   </li>
                 );
               })}
