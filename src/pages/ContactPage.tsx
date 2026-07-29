@@ -2,13 +2,23 @@ import LocationMap from "../components/LocationMap"
 import ContactSection from "../sections/Contact/ContactSection"
 import FAQSection from "../sections/FAQSection"
 import HeroSection from "../sections/HeroSection"
-import contactHero from "../assets/imgs/contactHero.webp"
+import ContactHero from "../assets/Images/Contacts/Hero/contactHero.webp"
+
+const ContactHeroSlides = [
+  {
+    id: 1,
+    type: "image" as const,
+    src: ContactHero,
+    poster: ContactHero,
+    position: "center",
+  },
+];
 
 const ContactPage = () => {
   return (
     <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
        <HeroSection
-                image={contactHero}
+                slides={ContactHeroSlides}
                 title="Contact Us"
                 description="Our engineering teams are strategically located to rapidly deploy
                 across Iraq's major oil and gas infrastructure. Reach out today to

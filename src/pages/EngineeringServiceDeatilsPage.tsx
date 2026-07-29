@@ -6,6 +6,15 @@ import RelatedProjects from "../sections/ServiceDeatils/RelatedProjects";
 import HeroSection from "../sections/HeroSection";
 import { servicesData2 } from "../data/servicesData2";
 
+const getServiceDetailsHeroSlides = (service: typeof servicesData2[number]) => [
+  {
+    id: service.slug,
+    type: "image" as const,
+    src: service.details.heroImage,
+    position: "center",
+  },
+];
+
 const EngineeringServiceDeatilsPage = () => {
   const { slug } = useParams();
 
@@ -18,7 +27,7 @@ const EngineeringServiceDeatilsPage = () => {
   return (
     <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
       <HeroSection
-        image={service.details.heroImage}
+        slides={getServiceDetailsHeroSlides(service)}
         title={service.details.heroTitle}
         description={service.details.heroDescription}
       />

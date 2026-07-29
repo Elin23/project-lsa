@@ -1,14 +1,23 @@
 import AdvantagesSection from "../sections/AdvantagesSection"
 import HeroSection from "../sections/HeroSection"
-import engineeringHero from "../assets/imgs/servicesHero.webp"
 import OurServices from "../sections/Services/OurServices"
 import CTASection from "../components/shared/CTA/Cta"
+import ServicesHero from "../assets/Images/Services/Hero/servicesHero.png"
 
+const ServicesHeroSlides = [
+  {
+    id: 1,
+    type: "image" as const,
+    src: ServicesHero,
+    poster: ServicesHero,
+    position: "center",
+  },
+];
 const EngineeringServicesPage = () => {
     return (
         <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
             <HeroSection
-                image={engineeringHero}
+                slides={ServicesHeroSlides}
                 title="Engineering Services"
                 description="Comprehensive EPC solutions designed for the oil and gas sector. From large-scale mechanical and electrical engineering to civil infrastructure and pipeline projects, we deliver precision, scale, and uncompromising quality in every project."
             />

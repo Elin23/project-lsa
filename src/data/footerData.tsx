@@ -1,4 +1,4 @@
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 export const footerData = {
@@ -15,6 +15,7 @@ export const footerData = {
         { label: "Services", path: "/services" },
         { label: "Projects", path: "/projects" },
         { label: "Careers", path: "/careers" },
+        { label: "Equipment", path: "/equipment" },
     ],
 
     services: [
@@ -45,27 +46,32 @@ export const footerData = {
         },
     ],
 
-    socialLinks: [
-        {
-            label: "Facebook",
-            url: "#",
-            icon: FaFacebookF,
-            hoverClass: "hover:bg-[#1877F2] hover:border-[#1877F2]",
-        },
-        {
-            label: "Instagram",
-            url: "#",
-            icon: FaInstagram,
-            hoverClass: "hover:bg-[#E1306C] hover:border-[#E1306C]",
-        },
-        {
-            label: "LinkedIn",
-            url: "#",
-            icon: FaLinkedinIn,
-            hoverClass: "hover:bg-[#0077B5] hover:border-[#0077B5]",
-        },
-    ],
-
+socialLinks: [
+    {
+        label: "Facebook",
+        url: "#",
+        icon: FaFacebookF,
+        hoverClass: "hover:bg-[#1877F2] hover:border-[#1877F2]",
+    },
+    {
+        label: "Instagram",
+        url: "#",
+        icon: FaInstagram,
+        hoverClass: "hover:bg-[#E1306C] hover:border-[#E1306C]",
+    },
+    {
+        label: "LinkedIn",
+        url: "#",
+        icon: FaLinkedinIn,
+        hoverClass: "hover:bg-[#0077B5] hover:border-[#0077B5]",
+    },
+    {
+        label: "WhatsApp",
+        url: "https://wa.me/9647XXXXXXXXX",
+        icon: FaWhatsapp,
+        hoverClass: "hover:bg-[#25D366] hover:border-[#25D366]",
+    },
+],
     bottomLinks: [
         { label: "Privacy Policy", path: "/privacy-policy" },
         { label: "Terms & Conditions", path: "/terms-and-conditions" },

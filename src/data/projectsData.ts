@@ -99,10 +99,17 @@ import sampleCertificate from "../assets/imgs/certificates/iso9001.png";
 // ======================================================
 
 export type ProjectCategory =
-  | "Pipeline Construction"
-  | "Hot Tapping & Stopple"
-  | "Tank Construction & Maintenance"
-  | "Mechanical Equipment Installation";
+  | "EPC Projects"
+  | "Pipeline Services"
+  | "Process Piping"
+  | "Hot Tapping"
+  | "Pipeline Integrity"
+  | "Storage Tanks"
+  | "Mechanical Works"
+  | "Cathodic Protection"
+  | "Civil Works"
+  | "Electrical & Instrumentation"
+  | "Auger Boring & HDD Crossing";
 
 export interface ProjectOverviewItem {
   label: string;
@@ -181,7 +188,7 @@ export const projectsData: Project[] = [
     description:
       "Engineering, procurement, and construction of a strategic pipeline connecting major energy hubs in Iraq.",
 
-    category: "Pipeline Construction",
+    category: "EPC Projects",
     image: najafBasraCard,
 
     heroImage: najafBasraHero,
@@ -288,7 +295,7 @@ export const projectsData: Project[] = [
     description:
       "Fabrication and installation of heavy-duty oil manifolds connecting multiple production systems.",
 
-    category: "Hot Tapping & Stopple",
+    category: "Hot Tapping",
     image: westQurnaCard,
 
     heroImage: westQurnaHero,
@@ -401,7 +408,7 @@ export const projectsData: Project[] = [
     description:
       "Execution of a critical hot tap on an operating export line without interrupting production.",
 
-    category: "Mechanical Equipment Installation",
+    category: "Mechanical Works",
     image: liveLineCard,
 
     heroImage: liveLineHero,
@@ -501,7 +508,7 @@ export const projectsData: Project[] = [
     description:
       "Large-scale civil works including earth-moving, piling, concrete construction, and foundation preparation.",
 
-    category: "Tank Construction & Maintenance",
+    category: "Storage Tanks",
     image: facilityCard,
 
     heroImage: facilityHero,
@@ -608,7 +615,7 @@ export const projectsData: Project[] = [
     description:
       "Construction of a corrosion-resistant pipeline network for produced-water transportation and treatment.",
 
-    category: "Pipeline Construction",
+    category: "Pipeline Services",
     image: rumailaCard,
 
     heroImage: rumailaHero,
@@ -708,7 +715,7 @@ export const projectsData: Project[] = [
     description:
       "Mechanical modification and equipment upgrade works for an operating oil-processing facility.",
 
-    category: "Hot Tapping & Stopple",
+    category: "Hot Tapping",
     image: majnoonCard,
 
     heroImage: majnoonHero,
@@ -821,7 +828,7 @@ export const projectsData: Project[] = [
     description:
       "Specialized branch connection installed on a live 36-inch crude-oil export pipeline.",
 
-    category: "Mechanical Equipment Installation",
+    category: "Mechanical Works",
     image: zubairCard,
 
     heroImage: zubairHero,
@@ -928,7 +935,7 @@ export const projectsData: Project[] = [
     description:
       "Construction of reinforced foundations and containment structures for industrial storage tanks.",
 
-    category: "Tank Construction & Maintenance",
+    category: "Storage Tanks",
     image: khorAlZubairCard,
 
     heroImage: khorAlZubairHero,
@@ -1030,20 +1037,48 @@ export const projectCategories = [
     value: "All Projects",
   },
   {
-    label: "Mechanical Equipment Installation",
-    value: "Mechanical Equipment Installation",
+    label: "EPC Projects",
+    value: "EPC Projects",
   },
   {
-    label: "Tank Construction & Maintenance",
-    value: "Tank Construction & Maintenance",
+    label: "Pipeline Services",
+    value: "Pipeline Services",
   },
   {
-    label: "Hot Tapping & Stopple",
-    value: "Hot Tapping & Stopple",
+    label: "Process Piping",
+    value: "Process Piping",
   },
   {
-    label: "Pipeline Construction",
-    value: "Pipeline Construction",
+    label: "Hot Tapping",
+    value: "Hot Tapping",
+  },
+  {
+    label: "Pipeline Integrity",
+    value: "Pipeline Integrity",
+  },
+  {
+    label: "Storage Tanks",
+    value: "Storage Tanks",
+  },
+  {
+    label: "Mechanical Works",
+    value: "Mechanical Works",
+  },
+  {
+    label: "Cathodic Protection",
+    value: "Cathodic Protection",
+  },
+  {
+    label: "Civil Works",
+    value: "Civil Works",
+  },
+  {
+    label: "Electrical & Instrumentation",
+    value: "Electrical & Instrumentation",
+  },
+  {
+    label: "Auger Boring & HDD Crossing",
+    value: "Auger Boring & HDD Crossing",
   },
 ] as const;
 

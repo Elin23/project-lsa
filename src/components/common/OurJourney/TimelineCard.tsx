@@ -88,7 +88,7 @@ export default function TimelineCard({
               bg-slate-100
               sm:h-auto
               sm:w-28
-              md:w-30
+              md:w-40
             "
           >
             <img
