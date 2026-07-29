@@ -12,7 +12,7 @@ import AboutUsHomeSection from "../sections/Home/AboutUsHomeSection";
 import HotTappingBanner from "../components/shared/CTA/HotTappingBanner";
 import heroVideo from "../assets/Images/Home/homeVideo.mp4";
 import heroImageOne from "../assets/Images/Home/team.jpg";
-import heroImageTwo from "../assets/Images/Home/team2.jpg";
+import heroImageTwo from "../assets/Images/Home/team2.webp";
 
 const homeHeroSlides = [
   {

@@ -10,7 +10,7 @@ import { aboutCompanyContent } from "../../data/aboutCompanyData";
 import aboutCompanyImage1 from "../../assets/Images/About/AboutLSA/aboutLSA.jpeg";
 import aboutCompanyImage2 from "../../assets/Images/About/AboutLSA/aboutLSA2.jpeg";
 import aboutCompanyImage3 from "../../assets/Images/About/AboutLSA/aboutLSA3.jpeg";
-import aboutCompanyImage4 from "../../assets/Images/About/AboutLSA/aboutLSA4.jpg";
+import aboutCompanyImage4 from "../../assets/Images/About/AboutLSA/aboutLSA4.webp";
 
 const aboutImages = [
   {
