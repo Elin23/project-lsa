@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft,
-  ArrowUp,
   Building2,
   ChevronRight,
   Cookie,
@@ -441,12 +440,9 @@ const policySections: PolicySection[] = [
 
 export default function PrivacyPolicyPage() {
   const [activeSection, setActiveSection] = useState<string>("introduction");
-  const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollButton(window.scrollY > 600);
-
       const sectionElements = navigationItems
         .map((item) => document.getElementById(item.id))
         .filter((element): element is HTMLElement => Boolean(element));
@@ -482,13 +478,6 @@ export default function PrivacyPolicyPage() {
 
     window.scrollTo({
       top: sectionPosition,
-      behavior: "smooth",
-    });
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
       behavior: "smooth",
     });
   };

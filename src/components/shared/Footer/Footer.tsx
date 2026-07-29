@@ -1,4 +1,4 @@
-import { ArrowUpRight, ChevronRight, Mail } from "lucide-react";
+import { ArrowUpRight, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { footerData } from "../../../data/footerData";
@@ -8,7 +8,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer id="footer" className="relative overflow-hidden bg-[#06162d] text-white">
+    <footer
+      id="footer"
+      className="relative overflow-hidden bg-[#06162d] text-white"
+    >
       {/* Background decorations */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute -right-40 -top-40 h-[430px] w-[430px] rounded-full border border-white/[0.04]" />
@@ -27,8 +30,16 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-x-8 gap-y-12 py-14 sm:grid-cols-2 sm:py-16 lg:grid-cols-[1.25fr_0.72fr_0.95fr_1.25fr] lg:gap-x-10 lg:gap-y-0 lg:py-18 xl:grid-cols-[1.35fr_0.7fr_0.95fr_1.35fr] xl:gap-x-16">
           {/* Company */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link to="/" aria-label="Go to home page" className="inline-block">
-              <img src={logo} alt="LSA Logo" className="w-28 object-contain sm:w-32" />
+            <Link
+              to="/"
+              aria-label="Go to home page"
+              className="inline-block"
+            >
+              <img
+                src={logo}
+                alt="LSA Logo"
+                className="w-28 object-contain sm:w-32"
+              />
             </Link>
 
             <p className="mt-7 max-w-md text-sm leading-7 text-white/55 lg:max-w-sm">
@@ -50,12 +61,14 @@ const Footer = () => {
                     rel={isExternal ? "noopener noreferrer" : undefined}
                     className={`group flex h-10 w-10 items-center justify-center rounded-lg border border-white/12 bg-white/[0.035] text-white/70 transition-all duration-300 hover:-translate-y-1 hover:text-white ${social.hoverClass}`}
                   >
-                    <Icon size={17} className="transition-transform duration-300 group-hover:scale-110" />
+                    <Icon
+                      size={17}
+                      className="transition-transform duration-300 group-hover:scale-110"
+                    />
                   </a>
                 );
               })}
             </div>
-
           </div>
 
           {/* Quick Links */}
@@ -69,7 +82,10 @@ const Footer = () => {
                     to={link.path}
                     className="group inline-flex items-center gap-1.5 text-sm font-medium text-white/55 transition-colors duration-300 hover:text-white"
                   >
-                    <ChevronRight size={14} className="-ml-2 shrink-0 text-red-01 opacity-0 transition-all duration-300 group-hover:ml-0 group-hover:opacity-100" />
+                    <ChevronRight
+                      size={14}
+                      className="-ml-2 shrink-0 text-red-01 opacity-0 transition-all duration-300 group-hover:ml-0 group-hover:opacity-100"
+                    />
 
                     <span className="transition-transform duration-300 group-hover:translate-x-0.5">
                       {link.label}
@@ -91,7 +107,10 @@ const Footer = () => {
                     to={service.path}
                     className="group inline-flex items-center gap-1.5 text-sm font-medium text-white/55 transition-colors duration-300 hover:text-white"
                   >
-                    <ChevronRight size={14} className="-ml-2 shrink-0 text-red-01 opacity-0 transition-all duration-300 group-hover:ml-0 group-hover:opacity-100" />
+                    <ChevronRight
+                      size={14}
+                      className="-ml-2 shrink-0 text-red-01 opacity-0 transition-all duration-300 group-hover:ml-0 group-hover:opacity-100"
+                    />
 
                     <span className="transition-transform duration-300 group-hover:translate-x-0.5">
                       {service.label}
@@ -107,41 +126,41 @@ const Footer = () => {
             >
               View all services
 
-              <ArrowUpRight size={15} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              <ArrowUpRight
+                size={15}
+                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
             </Link>
           </div>
 
           {/* Contact */}
-{/* Contact */}
-<div>
-  <FooterTitle title="Contact" />
+          <div>
+            <FooterTitle title="Contact" />
 
-  <ul className="mt-7 space-y-4">
-    {footerData.contact.map((item, index) => {
-      const Icon = item.icon;
+            <ul className="mt-7 space-y-4">
+              {footerData.contact.map((item, index) => {
+                const Icon = item.icon;
 
-      return (
-        <li key={index} className="flex items-start gap-3">
-          <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 text-red-01 transition-all duration-300 hover:bg-red-01 hover:text-white">
-            <Icon size={16} />
-          </span>
+                return (
+                  <li key={index} className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 text-red-01 transition-all duration-300 hover:bg-red-01 hover:text-white">
+                      <Icon size={16} />
+                    </span>
 
-          <div className="text-sm leading-6 text-white/55">
-            {Array.isArray(item.value) ? (
-              item.value.map((value) => (
-                <div key={value}>{value}</div>
-              ))
-            ) : (
-              <span>{item.value}</span>
-            )}
+                    <div className="text-sm leading-6 text-white/55">
+                      {Array.isArray(item.value) ? (
+                        item.value.map((value) => (
+                          <div key={value}>{value}</div>
+                        ))
+                      ) : (
+                        <span>{item.value}</span>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-        </li>
-      );
-    })}
-  </ul>
-
-
-</div>
         </div>
 
         {/* Bottom footer */}
@@ -164,8 +183,6 @@ const Footer = () => {
               ))}
             </div>
           </div>
-
-
         </div>
       </div>
     </footer>

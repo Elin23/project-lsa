@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   AlertTriangle,
   ArrowLeft,
-  ArrowUp,
   Ban,
   Building2,
   CheckCircle2,
@@ -499,12 +498,9 @@ const termsSections: TermsSection[] = [
 
 export default function TermsAndConditionsPage() {
   const [activeSection, setActiveSection] = useState<string>("acceptance");
-  const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollButton(window.scrollY > 600);
-
       const sectionElements = navigationItems
         .map((item) => document.getElementById(item.id))
         .filter((element): element is HTMLElement => Boolean(element));
@@ -540,13 +536,6 @@ export default function TermsAndConditionsPage() {
 
     window.scrollTo({
       top: sectionPosition,
-      behavior: "smooth",
-    });
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
       behavior: "smooth",
     });
   };
