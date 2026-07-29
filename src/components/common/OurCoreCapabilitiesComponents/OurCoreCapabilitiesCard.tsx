@@ -1,13 +1,18 @@
+import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
+
 interface OurCoreCapabilitiesCardProps {
   id: string;
   title: string;
   description: string;
+  path: string;
 }
 
 export default function OurCoreCapabilitiesCard({
   id,
   title,
   description,
+  path,
 }: OurCoreCapabilitiesCardProps) {
   return (
     <article
@@ -134,6 +139,28 @@ export default function OurCoreCapabilitiesCard({
       >
         {description}
       </p>
+
+      {/* Arrow Button */}
+      <div className=" absolute
+          right-6
+          top-6
+          lg:top-auto
+  lg:bottom-6">
+        <Link
+          to={path}
+          aria-label={title}
+          className="
+            text-blue-01
+            transition-all
+            duration-300
+            ease-out
+            hover:text-blue-03
+            group-hover:translate-x-0.5
+          "
+        >
+          <ArrowUpRight size={18} strokeWidth={2.2} />
+        </Link>
+      </div>
     </article>
   );
 }

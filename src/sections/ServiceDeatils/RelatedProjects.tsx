@@ -16,10 +16,17 @@ type RelatedProjectsProps = {
 };
 
 const serviceCategoryMap: Record<string, ProjectCategory> = {
-  "pipeline-construction": "EPC",
-  "mechanical-equipment-installation": "Mechanical",
-  "tank-construction-maintenance": "Civil",
-  "hot-tapping-stopple": "Hot Tapping",
+  "epc-projects": "EPC Projects",
+  "pipeline-services": "Pipeline Services",
+  "process-piping": "Process Piping",
+  "hot-tapping": "Hot Tapping",
+  "pipeline-integrity": "Pipeline Integrity",
+  "storage-tanks": "Storage Tanks",
+  "mechanical-works": "Mechanical Works",
+  "cathodic-protection": "Cathodic Protection",
+  "civil-works": "Civil Works",
+  "electrical-instrumentation": "Electrical & Instrumentation",
+  "auger-boring-hdd-crossing": "Auger Boring & HDD Crossing",
 };
 
 export default function RelatedProjects({

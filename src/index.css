@@ -33,6 +33,16 @@
 }
 
 
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE & Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+}
 
 body {
   font-family: var(--font-poppins);
@@ -187,4 +197,96 @@ html {
 
 ::-webkit-scrollbar-corner {
   background: #f4f6fb;
+}
+
+
+/* Soft pulse animation at hero section */
+@keyframes softPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+
+  50% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.animate-soft-pulse {
+  animation: softPulse 2.8s ease-out infinite;
+}
+
+.hero-background-swiper .swiper-pagination {
+  bottom: 24px !important;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+/* رفع النقاط عند وجود CounterSection */
+.hero-background-swiper .swiper-pagination-bullet {
+  width: 22px;
+  height: 3px;
+  margin: 0 !important;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  opacity: 1;
+  transition:
+    width 400ms ease,
+    background-color 400ms ease,
+    transform 400ms ease;
+}
+
+.hero-background-swiper .swiper-pagination-bullet-active {
+  width: 44px;
+  background: #c8102e;
+}
+
+.hero-background-swiper {
+  cursor: grab;
+}
+
+.hero-background-swiper:active {
+  cursor: grabbing;
+}
+
+@media (min-width: 768px) {
+  .hero-background-swiper .swiper-pagination {
+    bottom: 28px !important;
+  }
+}
+
+/* Privacy Policy Page */
+
+.policy-content p {
+  color: #52647d;
+}
+
+.policy-content ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.policy-content li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: #52647d;
+}
+
+.policy-content li::before {
+  content: "";
+  position: absolute;
+  top: 0.7rem;
+  left: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background-color: #dc2626;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.08);
 }

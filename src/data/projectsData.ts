@@ -88,14 +88,28 @@ import khorAlZubairGallery2 from "../assets/projects/khor-al-zubair-foundations/
 import khorAlZubairGallery3 from "../assets/projects/khor-al-zubair-foundations/gallery-3.webp";
 import khorAlZubairGallery4 from "../assets/projects/khor-al-zubair-foundations/gallery-4.webp";
 // ======================================================
+// Temporary Certificate Image
+// Replace this path later with the real certificate images.
+// ======================================================
+
+import sampleCertificate from "../assets/imgs/certificates/iso9001.png";
+
+// ======================================================
 // Types
 // ======================================================
 
 export type ProjectCategory =
-  | "EPC"
-  | "Mechanical"
-  | "Civil"
-  | "Hot Tapping";
+  | "EPC Projects"
+  | "Pipeline Services"
+  | "Process Piping"
+  | "Hot Tapping"
+  | "Pipeline Integrity"
+  | "Storage Tanks"
+  | "Mechanical Works"
+  | "Cathodic Protection"
+  | "Civil Works"
+  | "Electrical & Instrumentation"
+  | "Auger Boring & HDD Crossing";
 
 export interface ProjectOverviewItem {
   label: string;
@@ -117,6 +131,13 @@ export interface ProjectGalleryImage {
   id: number;
   image: string;
   alt: string;
+}
+
+export interface ProjectCertificate {
+  id: number;
+  image: string;
+  alt: string;
+  title?: string;
 }
 
 export interface ProjectScope {
@@ -146,6 +167,9 @@ export interface Project {
   scope: ProjectScope;
   gallery: ProjectGalleryImage[];
 
+  // Project certificates can be empty, contain one certificate, or several.
+  certificates: ProjectCertificate[];
+
   // IDs of related projects
   relatedProjectIds: number[];
 }
@@ -164,13 +188,13 @@ export const projectsData: Project[] = [
     description:
       "Engineering, procurement, and construction of a strategic pipeline connecting major energy hubs in Iraq.",
 
-    category: "EPC",
+    category: "EPC Projects",
     image: najafBasraCard,
 
     heroImage: najafBasraHero,
     heroTitle: `24" Pipeline Najaf to Basra`,
     heroDescription:
-      "A major infrastructure project connecting Iraq’s energy hubs through advanced EPC engineering and specialized pipeline construction.",
+      "A major infrastructure project connecting Iraq’s energy hubs through advanced Pipeline Construction engineering and specialized pipeline construction.",
 
     overview: [
       {
@@ -250,6 +274,15 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [
+      {
+        id: 1,
+        image: sampleCertificate,
+        alt: "Najaf to Basra Pipeline project completion certificate",
+        title: "Project Completion Certificate",
+      },
+    ],
+
     relatedProjectIds: [2, 5, 7],
   },
 
@@ -262,7 +295,7 @@ export const projectsData: Project[] = [
     description:
       "Fabrication and installation of heavy-duty oil manifolds connecting multiple production systems.",
 
-    category: "Mechanical",
+    category: "Hot Tapping",
     image: westQurnaCard,
 
     heroImage: westQurnaHero,
@@ -348,6 +381,21 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [
+      {
+        id: 1,
+        image: sampleCertificate,
+        alt: "West Qurna Oil Manifolds project completion certificate",
+        title: "Project Completion Certificate",
+      },
+      {
+        id: 2,
+        image: sampleCertificate,
+        alt: "West Qurna Oil Manifolds quality achievement certificate",
+        title: "Quality Achievement Certificate",
+      },
+    ],
+
     relatedProjectIds: [1, 6, 7],
   },
 
@@ -360,7 +408,7 @@ export const projectsData: Project[] = [
     description:
       "Execution of a critical hot tap on an operating export line without interrupting production.",
 
-    category: "Hot Tapping",
+    category: "Mechanical Works",
     image: liveLineCard,
 
     heroImage: liveLineHero,
@@ -446,6 +494,8 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [],
+
     relatedProjectIds: [2, 5, 7],
   },
 
@@ -458,7 +508,7 @@ export const projectsData: Project[] = [
     description:
       "Large-scale civil works including earth-moving, piling, concrete construction, and foundation preparation.",
 
-    category: "Civil",
+    category: "Storage Tanks",
     image: facilityCard,
 
     heroImage: facilityHero,
@@ -544,6 +594,15 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [
+      {
+        id: 1,
+        image: sampleCertificate,
+        alt: "Facility Foundations project completion certificate",
+        title: "Project Completion Certificate",
+      },
+    ],
+
     relatedProjectIds: [1, 6, 8],
   },
 
@@ -556,13 +615,13 @@ export const projectsData: Project[] = [
     description:
       "Construction of a corrosion-resistant pipeline network for produced-water transportation and treatment.",
 
-    category: "EPC",
+    category: "Pipeline Services",
     image: rumailaCard,
 
     heroImage: rumailaHero,
     heroTitle: "Rumaila Produced Water Pipeline",
     heroDescription:
-      "An integrated EPC pipeline solution supporting safe produced-water transport and environmental protection.",
+      "An integrated Pipeline Construction pipeline solution supporting safe produced-water transport and environmental protection.",
 
     overview: [
       {
@@ -579,7 +638,7 @@ export const projectsData: Project[] = [
       },
       {
         label: "SPECIALIZATION",
-        value: "Water Pipeline EPC",
+        value: "Water Pipeline Pipeline Construction",
       },
       {
         label: "DURATION",
@@ -642,6 +701,8 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [],
+
     relatedProjectIds: [1, 3, 6],
   },
 
@@ -654,7 +715,7 @@ export const projectsData: Project[] = [
     description:
       "Mechanical modification and equipment upgrade works for an operating oil-processing facility.",
 
-    category: "Mechanical",
+    category: "Hot Tapping",
     image: majnoonCard,
 
     heroImage: majnoonHero,
@@ -740,6 +801,21 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [
+      {
+        id: 1,
+        image: sampleCertificate,
+        alt: "Majnoon Mechanical Upgrade completion certificate",
+        title: "Project Completion Certificate",
+      },
+      {
+        id: 2,
+        image: sampleCertificate,
+        alt: "Majnoon Mechanical Upgrade safety recognition certificate",
+        title: "Safety Recognition Certificate",
+      },
+    ],
+
     relatedProjectIds: [2, 4, 8],
   },
 
@@ -752,7 +828,7 @@ export const projectsData: Project[] = [
     description:
       "Specialized branch connection installed on a live 36-inch crude-oil export pipeline.",
 
-    category: "Hot Tapping",
+    category: "Mechanical Works",
     image: zubairCard,
 
     heroImage: zubairHero,
@@ -838,6 +914,15 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [
+      {
+        id: 1,
+        image: sampleCertificate,
+        alt: "Zubair Export Line Hot Tapping project certificate",
+        title: "Project Achievement Certificate",
+      },
+    ],
+
     relatedProjectIds: [1, 3, 5],
   },
 
@@ -850,7 +935,7 @@ export const projectsData: Project[] = [
     description:
       "Construction of reinforced foundations and containment structures for industrial storage tanks.",
 
-    category: "Civil",
+    category: "Storage Tanks",
     image: khorAlZubairCard,
 
     heroImage: khorAlZubairHero,
@@ -936,6 +1021,8 @@ export const projectsData: Project[] = [
       },
     ],
 
+    certificates: [],
+
     relatedProjectIds: [2, 4, 6],
   },
 ];
@@ -950,20 +1037,48 @@ export const projectCategories = [
     value: "All Projects",
   },
   {
-    label: "Mechanical",
-    value: "Mechanical",
+    label: "EPC Projects",
+    value: "EPC Projects",
   },
   {
-    label: "Civil",
-    value: "Civil",
+    label: "Pipeline Services",
+    value: "Pipeline Services",
+  },
+  {
+    label: "Process Piping",
+    value: "Process Piping",
   },
   {
     label: "Hot Tapping",
     value: "Hot Tapping",
   },
   {
-    label: "EPC",
-    value: "EPC",
+    label: "Pipeline Integrity",
+    value: "Pipeline Integrity",
+  },
+  {
+    label: "Storage Tanks",
+    value: "Storage Tanks",
+  },
+  {
+    label: "Mechanical Works",
+    value: "Mechanical Works",
+  },
+  {
+    label: "Cathodic Protection",
+    value: "Cathodic Protection",
+  },
+  {
+    label: "Civil Works",
+    value: "Civil Works",
+  },
+  {
+    label: "Electrical & Instrumentation",
+    value: "Electrical & Instrumentation",
+  },
+  {
+    label: "Auger Boring & HDD Crossing",
+    value: "Auger Boring & HDD Crossing",
   },
 ] as const;
 

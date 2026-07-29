@@ -1,20 +1,28 @@
-import { CheckCircle, type LucideIcon } from "lucide-react";
+import {
+  CheckCircle,
+  ImageIcon,
+  type LucideIcon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 export interface DirectionCardData {
   title: string;
   description: string;
   icon: LucideIcon;
+  image?: string;
+  onPreview?: () => void;
   features?: string[];
   isActive?: boolean;
 }
 
-export interface DirectionCardProps extends DirectionCardData {}
+export type DirectionCardProps = DirectionCardData;
 
 export const DirectionCard = ({
   title,
   description,
   icon: Icon,
+  image,
+  onPreview,
   features = [],
   isActive = false,
 }: DirectionCardProps) => {
@@ -120,7 +128,58 @@ export const DirectionCard = ({
           "
         />
 
-        <div className="relative mb-4 flex items-center gap-3.5 2xl:mb-5">
+        {/* Certificate Preview Button */}
+        {image && onPreview && (
+          <button
+            type="button"
+            onClick={onPreview}
+            aria-label={`View ${title} certificate`}
+            title="View certificate"
+            className={`
+              absolute
+              right-3
+              top-3
+              z-20
+              flex
+              h-9
+              w-9
+              items-center
+              justify-center
+              rounded-full
+              border
+              backdrop-blur-sm
+              transition-all
+              duration-300
+              ease-out
+              hover:scale-105
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-red-01
+              focus-visible:ring-offset-2
+              md:right-4
+              md:top-4
+              ${
+                isActive
+                  ? "border-white/25 bg-white/10 text-white hover:bg-white hover:text-blue-01"
+                  : "border-blue-01/10 bg-white/90 text-blue-01 shadow-sm hover:border-blue-01 hover:bg-blue-01 hover:text-white"
+              }
+            `}
+          >
+            <ImageIcon size={17} strokeWidth={2} />
+          </button>
+        )}
+
+        <div
+          className={`
+            relative
+            mb-4
+            flex
+            items-center
+            gap-3.5
+            2xl:mb-5
+            ${image && onPreview ? "pr-10" : ""}
+          `}
+        >
           <div
             className={`
               flex
