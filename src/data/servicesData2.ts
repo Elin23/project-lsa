@@ -4,9 +4,9 @@ import processPipingImg from "../assets/Images/ourservices/process-piping.webp";
 import hotTappingImg from "../assets/Images/ourservices/hot-tapping.jpg";
 import integrityImg from "../assets/Images/ourservices/pipeline-integrity.webp";
 import storageTankImg from "../assets/Images/ourservices/storage-tanks.jpg";
-import mechanicalImg from "../assets/Images/ourservices/mechanical-works.jpg";
-import cpImg from "../assets/Images/ourservices/cathodic-protection.jpg";
-import civilImg from "../assets/Images/ourservices/civil-works.jpg";
+import mechanicalImg from "../assets/Images/ourservices/mechanical-works.webp";
+import cpImg from "../assets/Images/ourservices/cathodic-protection.webp";
+import civilImg from "../assets/Images/ourservices/civil-works.webp";
 import eiImg from "../assets/Images/ourservices/electrical-instrumentation.jpg";
 import hddImg from "../assets/Images/ourservices/hdd-crossing.jpg";
 
