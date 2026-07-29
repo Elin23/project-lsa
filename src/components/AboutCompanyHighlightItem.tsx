@@ -4,6 +4,7 @@ interface AboutCompanyHighlightItemProps {
   item: AboutCompanyHighlight;
   index: number;
 }
+//test
 
 export default function AboutCompanyHighlightItem({
   item,
