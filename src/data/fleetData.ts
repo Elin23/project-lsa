@@ -1,10 +1,26 @@
-export type FleetCategory = "pipeline" | "lifting" | "welding" | "logistics";
-import img1 from '../assets/Images/fleet/fleet.webp'
-import img2 from '../assets/Images/fleet/fleet-1.webp'
-import img3 from '../assets/Images/fleet/fleet-2.webp'
-import img4 from '../assets/Images/fleet/fleet-3.webp'
-import img5 from '../assets/Images/fleet/fleet-4.webp'
-import img6 from '../assets/Images/fleet/fleet-5.webp'
+import img1 from "../assets/Images/fleet/fleet.webp";
+import img2 from "../assets/Images/fleet/fleet-1.webp";
+import img3 from "../assets/Images/fleet/fleet-2.webp";
+import img4 from "../assets/Images/fleet/fleet-3.webp";
+import img5 from "../assets/Images/fleet/fleet-4.webp";
+import img6 from "../assets/Images/fleet/fleet-5.webp";
+
+// الصور الجديدة
+import img7 from "../assets/Images/fleet/fleet-1.webp";
+import img8 from "../assets/Images/fleet/fleet-2.webp";
+import img9 from "../assets/Images/fleet/fleet-3.webp";
+import img10 from "../assets/Images/fleet/fleet-4.webp";
+
+export type FleetCategory =
+  | "pipeline"
+  | "lifting"
+  | "welding"
+  | "logistics"
+  | "hot-tapping"
+  | "trust-boring"
+  | "civil"
+  | "inspection";
+
 export interface FleetItem {
   id: number;
   image: string;
@@ -18,12 +34,46 @@ export interface FleetItem {
   categories: FleetCategory[];
 }
 
-export const fleetTabs: { label: string; value: "all" | FleetCategory }[] = [
-  { label: "All", value: "all" },
-  { label: "Pipeline", value: "pipeline" },
-  { label: "Lifting", value: "lifting" },
-  { label: "Welding", value: "welding" },
-  { label: "Logistics", value: "logistics" },
+export const fleetTabs: {
+  label: string;
+  value: "all" | FleetCategory;
+}[] = [
+  {
+    label: "All",
+    value: "all",
+  },
+  {
+    label: "Pipeline",
+    value: "pipeline",
+  },
+  {
+    label: "Lifting",
+    value: "lifting",
+  },
+  {
+    label: "Welding",
+    value: "welding",
+  },
+  {
+    label: "Logistics",
+    value: "logistics",
+  },
+  {
+    label: "Hot Tapping",
+    value: "hot-tapping",
+  },
+  {
+    label: "Trust Boring",
+    value: "trust-boring",
+  },
+  {
+    label: "Civil Equipment",
+    value: "civil",
+  },
+  {
+    label: "Inspection Tools",
+    value: "inspection",
+  },
 ];
 
 export const fleetData: FleetItem[] = [
@@ -94,7 +144,7 @@ export const fleetData: FleetItem[] = [
   },
   {
     id: 6,
-    image:img6,
+    image: img6,
     title: "Truck Mounted Crane",
     quantity: "10",
     available: "07",
@@ -104,5 +154,65 @@ export const fleetData: FleetItem[] = [
     categories: ["lifting", "logistics"],
     description:
       "A versatile truck-mounted crane combining transportation and lifting capability in one practical unit. It is suitable for maintenance works, material handling, light-to-medium lifting tasks, and rapid site mobilization. This equipment is ideal for projects that require flexible movement between different work locations with reliable lifting support.",
+  },
+
+  // Hot Tapping
+  {
+    id: 7,
+    image: img7,
+    title: "Hot Tapping Machine Set",
+    quantity: "03",
+    available: "03",
+    capacityLabel: "Size Range",
+    capacity: '½" – 42"',
+    location: "LSA Yard",
+    categories: ["hot-tapping", "pipeline"],
+    description:
+      "A complete range of hot tapping machines designed to create branch connections on live and pressurized pipelines without interrupting production. The available set includes TDW T-101, TDW T-760, and TDW TM 1200 MO-XL machines, covering pipeline sizes from half an inch up to 42 inches for manual, pneumatic, and hydraulic operations.",
+  },
+
+  // Trust Boring
+  {
+    id: 8,
+    image: img8,
+    title: "Trust Boring Machine",
+    quantity: "03",
+    available: "03",
+    capacityLabel: "Size Range",
+    capacity: '6" – 48"',
+    location: "LSA Yard",
+    categories: ["trust-boring", "pipeline", "civil"],
+    description:
+      "Trust boring machines equipped with a complete set of accessories for trenchless road-crossing operations. These machines support the installation of pipeline casing beneath roads and other obstacles while reducing surface disruption and maintaining safe and efficient construction activities.",
+  },
+
+  // Civil
+  {
+    id: 9,
+    image: img9,
+    title: "Hydraulic Excavator",
+    quantity: "06",
+    available: "06",
+    capacityLabel: "Application",
+    capacity: "Heavy Civil Works",
+    location: "LSA Yard",
+    categories: ["civil", "pipeline"],
+    description:
+      "Hydraulic excavators prepared for pipeline trench excavation, civil construction, site preparation, backfilling, foundation works, and material handling. These units are ready for field mobilization and support demanding oil and gas infrastructure projects in various ground conditions.",
+  },
+
+  // Inspection Tools
+  {
+    id: 10,
+    image: img10,
+    title: "Multi-Gas Detection Tools",
+    quantity: "50",
+    available: "50",
+    capacityLabel: "Equipment",
+    capacity: "H₂S & Multi-Gas",
+    location: "LSA Yard",
+    categories: ["inspection"],
+    description:
+      "A collection of inspection and gas-detection instruments used to monitor hazardous atmospheres and support safe field operations. The equipment includes area gas monitors, portable multi-gas detectors, and personal H₂S detectors suitable for pipelines, confined spaces, construction sites, and oil and gas facilities.",
   },
 ];

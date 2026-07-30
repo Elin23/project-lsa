@@ -15,7 +15,7 @@ const TabsComponent = ({
   onChange,
 }: TabsComponentProps) => {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-3">
+    <div className="flex items-center justify-start gap-3 overflow-x-auto scrollbar-hide">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.value;
 
@@ -23,11 +23,10 @@ const TabsComponent = ({
           <button
             key={tab.value}
             onClick={() => onChange(tab.value)}
-            className={`rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300 cursor-pointer  ${
-              isActive
+            className={`shrink-0 rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300 cursor-pointer ${isActive
                 ? "bg-[#1f3f93] text-white shadow-lg"
                 : "bg-[#edf1ff] text-gray-600 hover:bg-[#1f3f93] hover:text-white"
-            }`}
+              }`}
           >
             {tab.label}
           </button>

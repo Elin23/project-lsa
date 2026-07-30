@@ -1,10 +1,12 @@
 import { ChevronRight } from "lucide-react";
 import ButtonComponent from "../ButtonComponent";
-
-const HotTappingBanner = () => {
+interface props {
+  className? : string;
+}
+const HotTappingBanner = ({className} : props) => {
   return (
     <section>
-      <div className="pb-16 md:pb-24 2xl:pb-28">
+      <div className={className}>
         <div
           data-aos="fade-up"
           data-aos-duration="650"

@@ -2,7 +2,7 @@ import fleetImage from "../../assets/Images/fleet/fleet.webp";
 
 export default function EquipmentFleetSection() {
   return (
-    <section>
+    <section id="lsa-equipment-fleet">
       <div
         className="
           flex

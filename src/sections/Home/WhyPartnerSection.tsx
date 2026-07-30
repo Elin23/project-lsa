@@ -23,7 +23,7 @@ const WhyPartnerSection = ({
   items,
 }: WhyPartnerSectionProps) => {
   return (
-    <section>
+    <section id="why-partner" >
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center xl:gap-14 2xl:gap-20">
         <div
           data-aos="fade-up"

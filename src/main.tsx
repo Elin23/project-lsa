@@ -22,6 +22,8 @@ import EquipmentsPage from "./pages/EquipmentsPage";
 
 import Loader from "./components/common/Loader";
 import { AppLoadingProvider } from "./context/AppLoadingContext";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 
 const router = createHashRouter([
   {
@@ -64,6 +66,14 @@ const router = createHashRouter([
         path: "equipment",
         element: <EquipmentsPage />,
       },
+      {
+        path: "privacy-policy",
+        element: <PrivacyPolicyPage />,
+      },
+      {
+        path: "terms-and-conditions",
+        element: <TermsAndConditionsPage />,
+      }
     ],
   },
 ]);

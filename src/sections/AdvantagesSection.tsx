@@ -57,7 +57,7 @@ export default function AdvantagesSection() {
   }, []);
 
   return (
-    <section>
+    <section id="our-advantages" >
       <div>
         <div className="mb-12">
           <TitleComponent

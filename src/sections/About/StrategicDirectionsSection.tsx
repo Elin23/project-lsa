@@ -16,7 +16,7 @@ const StrategicDirectionsSection = () => {
     }, []);
 
     return (
-        <section>
+        <section id="strategic-directions" >
             <div>
                 <div className="mb-12">
                     <TitleComponent

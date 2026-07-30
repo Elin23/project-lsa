@@ -54,7 +54,7 @@ const OurServices = () => {
   };
 
   return (
-    <section ref={sectionRef}>
+    <section ref={sectionRef} id="our-services">
       <div
         data-aos="fade-up"
         data-aos-duration="550"

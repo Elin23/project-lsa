@@ -16,10 +16,17 @@ type RelatedProjectsProps = {
 };
 
 const serviceCategoryMap: Record<string, ProjectCategory> = {
-  "pipeline-construction": "EPC",
-  "mechanical-equipment-installation": "Mechanical",
-  "tank-construction-maintenance": "Civil",
-  "hot-tapping-stopple": "Hot Tapping",
+  "epc-projects": "EPC Projects",
+  "pipeline-services": "Pipeline Services",
+  "process-piping": "Process Piping",
+  "hot-tapping": "Hot Tapping",
+  "pipeline-integrity": "Pipeline Integrity",
+  "storage-tanks": "Storage Tanks",
+  "mechanical-works": "Mechanical Works",
+  "cathodic-protection": "Cathodic Protection",
+  "civil-works": "Civil Works",
+  "electrical-instrumentation": "Electrical & Instrumentation",
+  "auger-boring-hdd-crossing": "Auger Boring & HDD Crossing",
 };
 
 export default function RelatedProjects({
@@ -32,7 +39,9 @@ export default function RelatedProjects({
       setLoading(false);
     }, 1500);
 
-    return () => window.clearTimeout(timer);
+    return () => {
+      window.clearTimeout(timer);
+    };
   }, []);
 
   const relatedProjectsData = useMemo(() => {
@@ -47,6 +56,11 @@ export default function RelatedProjects({
       .slice(0, 3);
   }, [service.slug]);
 
+  // إذا لم توجد مشاريع مطابقة، لا يظهر السكشن كاملًا
+  if (relatedProjectsData.length === 0) {
+    return null;
+  }
+
   return (
     <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
       <TitleComponent
@@ -59,11 +73,15 @@ export default function RelatedProjects({
         {loading ? (
           <Slider
             items={[1]}
-            renderItem={() => <RelatedProjectCardSkeleton />}
+            showDots={false}
+            renderItem={() => (
+              <RelatedProjectCardSkeleton />
+            )}
           />
         ) : (
           <Slider
             items={relatedProjectsData}
+            showDots={relatedProjectsData.length > 1}
             renderItem={(project) => (
               <RelatedProjectCard
                 category={project.category}
@@ -78,10 +96,23 @@ export default function RelatedProjects({
       </div>
 
       {/* Tablet & Desktop Grid */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      <div
+        className="
+          mt-8
+          hidden
+          gap-6
+          md:grid
+          md:grid-cols-2
+          lg:grid-cols-3
+        "
+      >
         {loading
-          ? Array.from({ length: 3 }).map((_, index) => (
-              <RelatedProjectCardSkeleton key={index} />
+          ? Array.from({
+              length: relatedProjectsData.length,
+            }).map((_, index) => (
+              <RelatedProjectCardSkeleton
+                key={index}
+              />
             ))
           : relatedProjectsData.map((project) => (
               <RelatedProjectCard
