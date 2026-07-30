@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
 import Slider from "../../components/shared/Slider";
+import Pagination from "../../components/shared/Pagination";
+
 import { DirectionCard } from "../../components/StratigicDirectionsCard";
 import CertificationStatCard from "../../components/common/CertificationStatCard/CertificationStatCard";
+
 import CertificationStatCardSkeleton from "../../components/skeletons/CertificationStatCardSkeleton";
 import DirectionCardSkeleton from "../../components/skeletons/DirectionCardSkeleton";
 
@@ -19,18 +22,25 @@ interface SelectedCertificate {
   image: string;
 }
 
+const CERTIFICATES_PER_PAGE = 4;
+
 const CertificationsStandards = () => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const [selectedCertificate, setSelectedCertificate] =
     useState<SelectedCertificate | null>(null);
+
+  const certificatesContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setLoading(false);
     }, 1500);
 
-    return () => window.clearTimeout(timer);
+    return () => {
+      window.clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
@@ -53,6 +63,34 @@ const CertificationsStandards = () => {
     };
   }, [selectedCertificate]);
 
+  const totalPages = Math.max(
+    Math.ceil(certificationsData.length / CERTIFICATES_PER_PAGE),
+    1,
+  );
+
+  /*
+   * في حال نقصت الداتا وأصبحت currentPage أكبر من totalPages،
+   * نستعمل آخر صفحة صالحة مباشرة دون setState داخل useEffect.
+   */
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+
+  const paginatedCertificates = useMemo(() => {
+    const startIndex =
+      (safeCurrentPage - 1) * CERTIFICATES_PER_PAGE;
+
+    return certificationsData.slice(
+      startIndex,
+      startIndex + CERTIFICATES_PER_PAGE,
+    );
+  }, [safeCurrentPage]);
+
+  const skeletonCertificates = useMemo(() => {
+    return Array.from(
+      { length: CERTIFICATES_PER_PAGE },
+      (_, index) => index,
+    );
+  }, []);
+
   const openCertificate = (title: string, image: string) => {
     setSelectedCertificate({
       title,
@@ -62,6 +100,33 @@ const CertificationsStandards = () => {
 
   const closeCertificate = () => {
     setSelectedCertificate(null);
+  };
+
+  const handlePageChange = (page: number) => {
+    const nextPage = Math.min(Math.max(page, 1), totalPages);
+
+    setCurrentPage(nextPage);
+
+    window.requestAnimationFrame(() => {
+      certificatesContainerRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  };
+
+  const getCertificateGridClass = (
+    index: number,
+    itemsLength: number,
+  ) => {
+    const isLastItem = index === itemsLength - 1;
+    const hasOddItemsCount = itemsLength % 2 !== 0;
+
+    if (isLastItem && hasOddItemsCount) {
+      return "md:col-span-2";
+    }
+
+    return "";
   };
 
   return (
@@ -83,11 +148,11 @@ const CertificationsStandards = () => {
         {/* Statistics */}
         <div className="grid items-stretch gap-4 md:grid-cols-3">
           {loading
-            ? Array.from({ length: certificationStats.length }).map(
-                (_, index) => (
-                  <CertificationStatCardSkeleton key={index} />
-                ),
-              )
+            ? Array.from({
+                length: certificationStats.length,
+              }).map((_, index) => (
+                <CertificationStatCardSkeleton key={index} />
+              ))
             : certificationStats.map((stat, index) => (
                 <div
                   key={`${stat.label}-${index}`}
@@ -108,68 +173,104 @@ const CertificationsStandards = () => {
               ))}
         </div>
 
-        {/* Desktop */}
-        <div className="mt-8 hidden items-stretch gap-4 md:grid md:grid-cols-2">
-          {loading
-            ? Array.from({ length: certificationsData.length }).map(
-                (_, index) => (
-                  <DirectionCardSkeleton key={index} />
-                ),
-              )
-            : certificationsData.map((item, index) => (
-                <div
-                  key={`${item.title}-${index}`}
-                  data-aos="fade-up"
-                  data-aos-duration="550"
-                  data-aos-delay={index * 70}
-                  data-aos-easing="ease-out"
-                  data-aos-offset="40"
-                  data-aos-once="true"
-                  className="h-full"
-                >
+        <div
+          ref={certificatesContainerRef}
+          className="scroll-mt-24"
+        >
+          {/* Tablet and Desktop */}
+          <div
+            className="
+              mt-8
+              hidden
+              items-stretch
+              gap-4
+              md:grid
+              md:grid-cols-2
+            "
+          >
+            {loading
+              ? skeletonCertificates.map((item) => (
+                  <DirectionCardSkeleton key={item} />
+                ))
+              : paginatedCertificates.map((item, index) => (
+                  <div
+                    key={`${item.title}-${index}`}
+                    data-aos="fade-up"
+                    data-aos-duration="550"
+                    data-aos-delay={index * 70}
+                    data-aos-easing="ease-out"
+                    data-aos-offset="40"
+                    data-aos-once="true"
+                    className={`
+                      h-full
+                      ${getCertificateGridClass(
+                        index,
+                        paginatedCertificates.length,
+                      )}
+                    `}
+                  >
+                    <DirectionCard
+                      title={item.title}
+                      description={item.description}
+                      icon={item.icon}
+                      image={item.image}
+                      onPreview={() =>
+                        openCertificate(
+                          item.title,
+                          item.image,
+                        )
+                      }
+                    />
+                  </div>
+                ))}
+          </div>
+
+          {/* Mobile Slider */}
+          <div
+            data-aos="fade-up"
+            data-aos-duration="600"
+            data-aos-easing="ease-out"
+            data-aos-offset="40"
+            data-aos-once="true"
+            className="mt-8 md:hidden"
+          >
+            {loading ? (
+              <DirectionCardSkeleton />
+            ) : paginatedCertificates.length > 0 ? (
+              <Slider
+                /*
+                 * المفتاح يعيد السلايدر لأول عنصر
+                 * عند الانتقال إلى صفحة جديدة.
+                 */
+                key={safeCurrentPage}
+                items={paginatedCertificates}
+                renderItem={(item) => (
                   <DirectionCard
                     title={item.title}
                     description={item.description}
                     icon={item.icon}
                     image={item.image}
                     onPreview={() =>
-                      openCertificate(item.title, item.image)
+                      openCertificate(
+                        item.title,
+                        item.image,
+                      )
                     }
                   />
-                </div>
-              ))}
-        </div>
+                )}
+              />
+            ) : null}
+          </div>
 
-        {/* Mobile Slider */}
-        <div
-          data-aos="fade-up"
-          data-aos-duration="600"
-          data-aos-easing="ease-out"
-          data-aos-offset="40"
-          data-aos-once="true"
-          className="mt-8 md:hidden"
-        >
-          {loading ? (
-            <div className="space-y-4">
-              {Array.from({ length: 2 }).map((_, index) => (
-                <DirectionCardSkeleton key={index} />
-              ))}
+          {/* Pagination */}
+          {!loading && totalPages > 1 && (
+            <div className="mt-10">
+              <Pagination
+                currentPage={safeCurrentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
             </div>
-          ) : (
-            <Slider
-              items={certificationsData}
-              renderItem={(item) => (
-                <DirectionCard
-                  title={item.title}
-                  description={item.description}
-                  icon={item.icon}
-                  image={item.image}
-                  onPreview={() =>
-                    openCertificate(item.title, item.image)
-                  }
-                />
-              )}
-            />
           )}
         </div>
       </section>
@@ -229,7 +330,9 @@ const CertificationsStandards = () => {
             <img
               src={selectedCertificate.image}
               alt={`${selectedCertificate.title} certificate`}
-              onClick={(event) => event.stopPropagation()}
+              onClick={(event) => {
+                event.stopPropagation();
+              }}
               className="
                 block
                 max-h-[90vh]
