@@ -3,7 +3,7 @@ import LSAAdvantageSection from "../sections/Equipments/LSAAdvantageSection";
 import SpecializedEquipmentSection from "../sections/Equipments/SpecializedEquipmentSection";
 import FleetInventory from "../sections/Equipments/FleetInventory";
 import EquipmentFleetSection from "../sections/Equipments/EquipmentFleetSection";
-import EquipmentsHero from "../assets/Images/Equipments/Hero/EquipmentsHero.png"
+import EquipmentsHero from "../assets/Images/Equipments/Hero/EquipmentsHero.webp"
 
 const EquipmentsHeroSlides = [
   {

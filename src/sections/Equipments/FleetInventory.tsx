@@ -23,7 +23,7 @@ function getItemsPerPage() {
     return 3;
   }
 
-  if (window.innerWidth < 1280) {
+  if (window.innerWidth < 1024) {
     return 4;
   }
 
@@ -144,7 +144,7 @@ export default function FleetInventory() {
 
       {filteredFleet.length > 0 ? (
         <>
-          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {paginatedFleet.map((item) => (
               <FleetCard
                 key={item.id}

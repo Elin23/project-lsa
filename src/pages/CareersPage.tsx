@@ -2,7 +2,7 @@ import HeroSection from "../sections/HeroSection";
 import LifeAtLsa from "../sections/Careers/LifeAtLsa";
 import CurrentOpportunities from "../sections/Careers/CurrentOpportunities";
 import ApplicationProcess from "../sections/Careers/ApplicationProcess";
-import CareersHero from "../assets/Images/Careers/Hero/careersHero.png"
+import CareersHero from "../assets/Images/Careers/Hero/careersHero.webp"
 
 const CareersHeroSlides = [
   {

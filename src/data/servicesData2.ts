@@ -1,14 +1,14 @@
-import epcImg from "../assets/Images/ourservices/epc-projects.jpg";
+import epcImg from "../assets/Images/ourservices/epc-projects.webp";
 import pipelineImg from "../assets/Images/ourservices/pipeline-services.webp";
 import processPipingImg from "../assets/Images/ourservices/process-piping.webp";
 import hotTappingImg from "../assets/Images/ourservices/hot-tapping.jpg";
 import integrityImg from "../assets/Images/ourservices/pipeline-integrity.webp";
-import storageTankImg from "../assets/Images/ourservices/storage-tanks.jpg";
-import mechanicalImg from "../assets/Images/ourservices/mechanical-works.jpg";
-import cpImg from "../assets/Images/ourservices/cathodic-protection.jpg";
-import civilImg from "../assets/Images/ourservices/civil-works.jpg";
-import eiImg from "../assets/Images/ourservices/electrical-instrumentation.jpg";
-import hddImg from "../assets/Images/ourservices/hdd-crossing.jpg";
+import storageTankImg from "../assets/Images/ourservices/storage-tanks.webp";
+import mechanicalImg from "../assets/Images/ourservices/mechanical-works.webp";
+import cpImg from "../assets/Images/ourservices/cathodic-protection.webp";
+import civilImg from "../assets/Images/ourservices/civil-works.webp";
+import eiImg from "../assets/Images/ourservices/electrical-instrumentation.webp";
+import hddImg from "../assets/Images/ourservices/hdd-crossing.webp";
 
 import {
   Compass,
