@@ -1,7 +1,7 @@
 import StrategicDirectionsSection from "../sections/About/StrategicDirectionsSection"
 import TeamSection from "../sections/About/TeamSection"
 import HeroSection from "../sections/HeroSection"
-import aboutHero from "../assets/Images/About/Hero/aboutHero2.png"
+import aboutHero from "../assets/Images/About/Hero/aboutHero2.webp"
 
 import CertificationsStandards from "../sections/About/CertificationsStandards"
 import OurJourney from "../sections/About/OurJourney"

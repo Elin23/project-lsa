@@ -1,7 +1,7 @@
 import HeroSection from "../sections/HeroSection"
 import ProjectsSection from "../sections/ProjectPortflio/ProjectsSection"
 import HotTappingBanner from "../components/shared/CTA/HotTappingBanner"
-import ProjectPortfolioHero from "../assets/Images/Projects/Hero/projectPortfolioHero.png"
+import ProjectPortfolioHero from "../assets/Images/Projects/Hero/projectPortfolioHero.webp"
 
 const ProjectPortfolioHeroSlides = [
   {

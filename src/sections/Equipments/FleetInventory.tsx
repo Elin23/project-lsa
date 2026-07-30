@@ -64,7 +64,7 @@ export default function FleetInventory() {
         </div>
 
         {filteredFleet.length > 0 ? (
-          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredFleet.map((item) => (
               <FleetCard
                 key={item.id}
