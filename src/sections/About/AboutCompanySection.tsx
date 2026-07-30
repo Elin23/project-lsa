@@ -7,9 +7,9 @@ import AboutCompanyHighlightItem from "../../components/AboutCompanyHighlightIte
 
 import { aboutCompanyContent } from "../../data/aboutCompanyData";
 
-import aboutCompanyImage1 from "../../assets/Images/About/AboutLSA/aboutLSA.jpeg";
-import aboutCompanyImage2 from "../../assets/Images/About/AboutLSA/aboutLSA2.jpeg";
-import aboutCompanyImage3 from "../../assets/Images/About/AboutLSA/aboutLSA3.jpeg";
+import aboutCompanyImage1 from "../../assets/Images/About/AboutLSA/aboutLSA.webp";
+import aboutCompanyImage2 from "../../assets/Images/About/AboutLSA/aboutLSA2.webp";
+import aboutCompanyImage3 from "../../assets/Images/About/AboutLSA/aboutLSA3.webp";
 import aboutCompanyImage4 from "../../assets/Images/About/AboutLSA/aboutLSA4.webp";
 
 const aboutImages = [
@@ -116,15 +116,18 @@ export default function AboutCompanySection() {
       <div className="mt-6 grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] xl:gap-16 2xl:gap-20">
         {/* Text */}
         <div data-aos="fade-right" className="max-w-180">
-          <div data-aos="fade-up" data-aos-delay="100" className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-red-01">
-            <span className="h-px w-10 bg-red-01" />
+          <div data-aos="fade-up" data-aos-delay="100" className="flex items-center lg:justify-start justify-center  lg:text-start text-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-red-01">
+            <span className="h-px w-10 bg-red-01 " />
 
             {aboutCompanyContent.eyebrow}
+
+            <span className="h-px w-10 bg-red-01 block lg:hidden " />
+
           </div>
 
           <div data-aos="fade-up" data-aos-delay="150" className="mt-7 space-y-6">
             {aboutCompanyContent.paragraphs.map((paragraph) => (
-              <p key={paragraph} className="text-sm leading-8 text-muted-blue md:text-base md:leading-8">
+              <p key={paragraph} className=" text-sm leading-8 text-muted-blue md:text-base md:leading-8">
                 {paragraph}
               </p>
             ))}
@@ -264,7 +267,7 @@ export default function AboutCompanySection() {
       </div>
 
       {/* Highlights */}
-      <div className="mt-16 grid gap-7 md:grid-cols-3 xl:mt-20 xl:gap-8">
+      <div className="mt-16 grid gap-7 md:grid-cols-2 lg:grid-cols-3 xl:mt-20 xl:gap-8">
         {aboutCompanyContent.highlights.map((item, index) => (
           <AboutCompanyHighlightItem
             key={item.title}

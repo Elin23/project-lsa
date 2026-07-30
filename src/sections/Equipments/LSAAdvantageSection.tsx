@@ -59,7 +59,7 @@ export default function LSAAdvantageSection() {
         description="Delivering greater reliability, faster mobilization, and exceptional project performance through our integrated capabilities and experienced team."
       />
 
-      <div className="mt-12 grid gap-10 md:grid-cols-3">
+      <div className="mt-12 grid gap-10  md:grid-cols-2 lg:grid-cols-3">
         {loading
           ? Array.from({ length: 3 }).map((_, index) => (
             <LSAAdvantageCardSkeleton key={index} />

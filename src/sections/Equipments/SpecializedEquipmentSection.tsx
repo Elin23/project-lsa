@@ -131,7 +131,7 @@ export default function SpecializedEquipmentSection() {
           mt-12 grid gap-6
           animate-[fadeSlide_0.45s_ease-out]
           md:grid-cols-2
-          xl:grid-cols-3
+          lg:grid-cols-3
         "
       >
         {loading

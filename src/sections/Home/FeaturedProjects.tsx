@@ -39,8 +39,8 @@ export default function FeaturedProjects() {
           md:grid-cols-2
           md:gap-6
 
-          2xl:grid-cols-3
-          2xl:gap-8
+          xl:grid-cols-3
+          xl:gap-8
         "
       >
         {loading
