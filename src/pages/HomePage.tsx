@@ -13,6 +13,7 @@ import HotTappingBanner from "../components/shared/CTA/HotTappingBanner";
 import heroVideo from "../assets/Images/Home/homeVideo.mp4";
 import heroImageOne from "../assets/Images/Home/team.webp";
 import heroImageTwo from "../assets/Images/Home/team2.webp";
+import CounterSection from "../sections/Home/CounterSection";
 
 const homeHeroSlides = [
   {
@@ -59,7 +60,30 @@ const HomePage = () => {
           },
         ]}
       />
-
+      <CounterSection
+        data={[
+          {
+            value: 120,
+            suffix: "+",
+            label: "Projects Completed",
+          },
+          {
+            value: 35,
+            suffix: "+",
+            label: "Global Clients",
+          },
+          {
+            value: 15,
+            suffix: "+",
+            label: "Years of Experience",
+          },
+          {
+            customValue: "24/7",
+            value: 0,
+            label: "Support Available",
+          },
+        ]}
+      />
       <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
         <TrustedCompanies />
         <AboutUsHomeSection />

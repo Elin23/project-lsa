@@ -42,8 +42,23 @@ export default function TimelineCard({
         isLeft ? "md:justify-start" : "md:justify-end"
       }`}
     >
+      {/* Timeline Dot */}
       <div
-        className={`absolute left-4 top-8 z-20 h-4 w-4 -translate-x-1/2 rounded-full ${dotColor} ring-4 ring-white shadow-md md:left-1/2`}
+        className={`
+          absolute
+          left-4
+          top-8
+          z-20
+          h-4
+          w-4
+          -translate-x-1/2
+          rounded-full
+          ring-4
+          ring-white
+          shadow-md
+          md:left-1/2
+          ${dotColor}
+        `}
       />
 
       <article
@@ -53,7 +68,8 @@ export default function TimelineCard({
           ml-10
           flex
           w-full
-          flex-col
+          flex-row
+          items-stretch
           overflow-hidden
           rounded-2xl
           border
@@ -66,12 +82,11 @@ export default function TimelineCard({
           hover:-translate-y-1
           hover:border-blue-500/20
           hover:shadow-xl
-          sm:flex-row
           md:ml-0
           md:w-[46%]
         "
       >
-        {/* الصورة تبقى ظاهرة من دون زيادة كبيرة في حجم البطاقة */}
+        {/* Image */}
         {image && (
           <button
             type="button"
@@ -80,21 +95,22 @@ export default function TimelineCard({
             className="
               group/image
               relative
-              h-24
-              w-full
+              min-h-full
+              w-31
               shrink-0
               cursor-zoom-in
               overflow-hidden
               bg-slate-100
-              sm:h-auto
-              sm:w-28
-              md:w-40
+              sm:w-36
+              md:w-44
             "
           >
             <img
               src={image}
               alt={imageAlt || title}
               className="
+                absolute
+                inset-0
                 h-full
                 w-full
                 object-cover
@@ -142,8 +158,20 @@ export default function TimelineCard({
           </button>
         )}
 
-        <div className="min-w-0 flex-1 p-5 md:p-6">
-          <div className="mb-3 flex items-center gap-2">
+        {/* Content */}
+        <div
+          className="
+            flex
+            min-w-0
+            flex-1
+            flex-col
+            justify-center
+            p-4
+            sm:p-5
+            md:p-5
+          "
+        >
+          <div className="mb-2.5 flex items-center gap-2">
             <div
               className="
                 flex
@@ -167,26 +195,40 @@ export default function TimelineCard({
 
           <h3
             className="
-              text-lg
+              text-base
               font-bold
+              leading-snug
               text-slate-800
               transition-colors
               duration-200
               group-hover:text-[#1f3f93]
+              sm:text-lg
               md:text-xl
             "
           >
             {title}
           </h3>
 
-          <p className="mt-2.5 text-sm leading-relaxed text-slate-600 md:text-base">
+          <p
+            className="
+              mt-2
+              line-clamp-3
+              text-xs
+              leading-relaxed
+              text-slate-600
+              sm:text-sm
+              md:text-base
+            "
+          >
             {description}
           </p>
 
-          <div className="mt-4 border-t border-slate-100 pt-3">
+          <div className="mt-3 border-t border-slate-100 pt-3">
             <span
               className="
                 inline-block
+                max-w-full
+                truncate
                 rounded-full
                 bg-blue-50
                 px-3

@@ -30,11 +30,28 @@ export default function FeaturedProjectsCard({
       <div className="absolute inset-0 bg-linear-to-t from-[#08162d]/95 via-[#08162d]/20 to-transparent" />
 
       {/* Category */}
-      <div className="absolute left-6 top-6">
-        <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm uppercase text-white backdrop-blur-md">
-          {category}
-        </span>
-      </div>
+<div className="absolute right-4 top-3">
+  <span
+    className="
+      inline-flex
+      items-center
+      rounded-full
+      border
+      border-white/70
+      bg-white/95
+      px-2.5
+      py-1
+      text-[8px]
+      font-semibold
+      uppercase
+      tracking-[0.04em]
+      text-slate-600
+      shadow-sm
+    "
+  >
+    {category}
+  </span>
+</div>
 
       {/* Bottom Content */}
       <div className="absolute bottom-0 left-0 right-0 p-7">

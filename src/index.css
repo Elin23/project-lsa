@@ -290,3 +290,132 @@ html {
   background-color: #dc2626;
   box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.08);
 }
+
+@keyframes counterReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.97);
+    filter: blur(5px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-counter-reveal {
+  animation: counterReveal 800ms cubic-bezier(0.22, 1, 0.36, 1)
+    var(--counter-delay, 0ms) both;
+}
+
+@keyframes counterGradient {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.animate-counter-gradient {
+  animation: counterGradient 10s ease-in-out infinite;
+}
+
+@keyframes counterOrbOne {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(55px, 25px, 0) scale(1.15);
+  }
+}
+
+.animate-counter-orb-one {
+  animation: counterOrbOne 9s ease-in-out infinite;
+}
+
+@keyframes counterOrbTwo {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(-45px, -20px, 0) scale(1.12);
+  }
+}
+
+.animate-counter-orb-two {
+  animation: counterOrbTwo 11s ease-in-out infinite;
+}
+
+@keyframes counterLight {
+  0% {
+    transform: translateX(-220%) skewX(-18deg);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    transform: translateX(650%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+.animate-counter-light {
+  animation: counterLight 7s ease-in-out infinite;
+}
+
+@keyframes counterLine {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.animate-counter-line {
+  animation: counterLine 700ms ease-out 500ms both;
+}
+
+@keyframes counterTopLine {
+  0% {
+    transform: translateX(-130%);
+  }
+
+  100% {
+    transform: translateX(430%);
+  }
+}
+
+.animate-counter-top-line {
+  animation: counterTopLine 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-counter-reveal,
+  .animate-counter-gradient,
+  .animate-counter-orb-one,
+  .animate-counter-orb-two,
+  .animate-counter-light,
+  .animate-counter-line,
+  .animate-counter-top-line {
+    animation: none !important;
+  }
+}
