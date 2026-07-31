@@ -35,7 +35,7 @@ const WhyPartnerSection = ({
           <TitleComponent
             title={title}
             description={description}
-            className="items-start text-start"
+            className="items-center text-center lg:items-start lg:text-start"
           />
 
           <div className="space-y-6">

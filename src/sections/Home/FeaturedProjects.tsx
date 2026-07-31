@@ -1,186 +1,108 @@
 import { useEffect, useMemo, useState } from "react";
-import { Search } from "lucide-react";
-
-import {
-  fleetData,
-  fleetTabs,
-  type FleetCategory,
-  type FleetItem,
-} from "../../data/fleetData";
 
 import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
-import TabsComponent from "../../components/shared/TabsComponent";
-import FleetCard from "../../components/shared/FleetCard";
-import FleetRequestModal from "../../components/shared/FleetRequestModal";
-import Pagination from "../../components/shared/Pagination";
+import FeaturedProjectsCard from "../../components/common/FeaturedProjects/FeaturedProjectsCard";
+import FeaturedProjectsCardSkeleton from "../../components/skeletons/FeaturedProjectsCardSkeleton";
 
-function getItemsPerPage() {
-  if (typeof window === "undefined") {
-    return 6;
-  }
+import { projectsData } from "../../data/projectsData";
+import Slider2 from "../../components/shared/Slider2";
 
-  if (window.innerWidth < 768) {
-    return 3;
-  }
+const FEATURED_PROJECTS_COUNT = 6;
 
-  if (window.innerWidth < 1024) {
-    return 4;
-  }
-
-  return 6;
-}
-
-export default function FleetInventory() {
-  const [activeTab, setActiveTab] =
-    useState<"all" | FleetCategory>("all");
-
-  const [search, setSearch] = useState("");
-
-  const [selectedItem, setSelectedItem] =
-    useState<FleetItem | null>(null);
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const [itemsPerPage, setItemsPerPage] =
-    useState(getItemsPerPage);
+export default function FeaturedProjects() {
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const handleResize = () => {
-      const newItemsPerPage = getItemsPerPage();
-
-      setItemsPerPage((previousValue) =>
-        previousValue === newItemsPerPage
-          ? previousValue
-          : newItemsPerPage,
-      );
-    };
-
-    window.addEventListener("resize", handleResize);
+    const timer = window.setTimeout(() => {
+      setLoading(false);
+    }, 1500);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.clearTimeout(timer);
     };
   }, []);
 
-  const filteredFleet = useMemo(() => {
-    const searchValue = search.toLowerCase().trim();
+  const featuredProjects = useMemo(() => {
+    return projectsData.slice(0, FEATURED_PROJECTS_COUNT);
+  }, []);
 
-    return fleetData.filter((item) => {
-      const matchesTab =
-        activeTab === "all" ||
-        item.categories.includes(activeTab);
-
-      const matchesSearch =
-        searchValue === "" ||
-        item.title.toLowerCase().includes(searchValue) ||
-        item.location.toLowerCase().includes(searchValue) ||
-        item.capacity.toLowerCase().includes(searchValue) ||
-        item.description.toLowerCase().includes(searchValue);
-
-      return matchesTab && matchesSearch;
-    });
-  }, [activeTab, search]);
-
-  const totalPages = Math.ceil(
-    filteredFleet.length / itemsPerPage,
+  const skeletonItems = useMemo(
+    () =>
+      Array.from(
+        { length: FEATURED_PROJECTS_COUNT },
+        (_, index) => index,
+      ),
+    [],
   );
-
-  const safeCurrentPage = Math.min(
-    currentPage,
-    Math.max(totalPages, 1),
-  );
-
-  const paginatedFleet = useMemo(() => {
-    const startIndex =
-      (safeCurrentPage - 1) * itemsPerPage;
-
-    return filteredFleet.slice(
-      startIndex,
-      startIndex + itemsPerPage,
-    );
-  }, [
-    filteredFleet,
-    safeCurrentPage,
-    itemsPerPage,
-  ]);
-
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab as "all" | FleetCategory);
-    setCurrentPage(1);
-  };
-
-  const handleSearchChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setSearch(event.target.value);
-    setCurrentPage(1);
-  };
 
   return (
-    <section id="fleet-inventory">
+    <section id="featured-projects">
       <TitleComponent
-        title="Fleet Inventory"
-        description="Browse our ready-to-deploy equipment catalog."
+        title="Featured Projects"
+        description="A showcase of our engineering scale and precision across the region's most challenging landscapes."
       />
 
-      <div className="mt-12 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-        <TabsComponent
-          tabs={fleetTabs}
-          activeTab={activeTab}
-          onChange={handleTabChange}
-        />
-
-        <div className="relative w-full lg:w-[320px]">
-          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500" />
-
-          <input
-            type="text"
-            value={search}
-            onChange={handleSearchChange}
-            placeholder="Search Fleet..."
-            className="h-12 w-full rounded-xl border border-transparent bg-blue-01/5 pl-12 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-01/30 focus:bg-white"
+      {/* Mobile slider */}
+      <div className="md:hidden">
+        {loading ? (
+          <Slider2
+            items={skeletonItems}
+            visibleItems={1}
+            gap={16}
+            autoPlay={false}
+            showControls={false}
+            renderItem={(item) => (
+              <FeaturedProjectsCardSkeleton key={item} />
+            )}
           />
-        </div>
+        ) : (
+          <Slider2
+            items={featuredProjects}
+            visibleItems={{
+              default: 1,
+              sm: featuredProjects.length >= 2 ? 2 : 1,
+            }}
+            gap={16}
+            autoPlay
+            autoPlayDelay={4000}
+            showControls={featuredProjects.length > 1}
+            renderItem={(project) => (
+              <FeaturedProjectsCard
+                image={project.image}
+                category={project.category}
+                title={project.title}
+                path={project.path}
+              />
+            )}
+          />
+        )}
       </div>
 
-      {filteredFleet.length > 0 ? (
-        <>
-          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {paginatedFleet.map((item) => (
-              <FleetCard
-                key={item.id}
-                {...item}
-                onRequest={() => setSelectedItem(item)}
+      {/* Tablet and desktop grid */}
+      <div
+        className="
+          hidden
+          gap-6
+          md:grid
+          md:grid-cols-2
+          2xl:grid-cols-3
+          2xl:gap-8
+        "
+      >
+        {loading
+          ? skeletonItems.map((item) => (
+              <FeaturedProjectsCardSkeleton key={item} />
+            ))
+          : featuredProjects.map((project) => (
+              <FeaturedProjectsCard
+                key={project.id}
+                image={project.image}
+                category={project.category}
+                title={project.title}
+                path={project.path}
               />
             ))}
-          </div>
-
-          {totalPages > 1 && (
-            <div className="mt-10 flex justify-center">
-              <Pagination
-                currentPage={safeCurrentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-              />
-            </div>
-          )}
-        </>
-      ) : (
-        <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-10 text-center">
-          <h3 className="text-xl font-extrabold text-blue-01">
-            No equipment found
-          </h3>
-
-          <p className="mt-2 text-sm text-slate-500">
-            Try changing the category or search keyword.
-          </p>
-        </div>
-      )}
-
-      <FleetRequestModal
-        item={selectedItem}
-        onClose={() => setSelectedItem(null)}
-      />
+      </div>
     </section>
   );
 }

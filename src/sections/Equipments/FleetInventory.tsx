@@ -165,6 +165,7 @@ export default function FleetInventory() {
               />
             </div>
           )}
+        
         </>
       ) : (
         <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-10 text-center">

@@ -49,7 +49,6 @@ const CounterItem = ({
       setIsInView(isElementVisible);
     };
 
-    // يفحص ظهور الكاونتر فورًا بدون انتظار الـ Observer
     checkVisibility();
 
     const observer = new IntersectionObserver(
@@ -130,9 +129,12 @@ const CounterItem = ({
           font-bold
           leading-none
           text-white
-          transition-transform
+          opacity-75
+          transition-all
           duration-300
-          group-hover:scale-110
+          ease-out
+          group-hover:scale-105
+          group-hover:opacity-100
           md:text-[42px]
         "
       >
@@ -153,8 +155,19 @@ const CounterSection = ({
   const { isAppReady } = useAppLoading();
 
   return (
-    <section className="relative left-1/2 w-screen -translate-x-1/2 bg-[#24449B]">
-      <div className="grid min-h-30 grid-cols-2 md:grid-cols-4">
+    <section
+      className="
+        relative
+        left-1/2
+        w-screen
+        -translate-x-1/2
+        bg-[#24449B]
+        px-1
+        sm:px-5
+        lg:px-8
+      "
+    >
+      <div className="mx-auto grid min-h-30  grid-cols-2 md:grid-cols-4">
         {data.map((item, index) => (
           <div
             key={`${item.label}-${index}`}
@@ -162,8 +175,9 @@ const CounterSection = ({
               flex
               items-center
               justify-center
-              px-6
+              px-4
               py-8
+              sm:px-6
               md:py-5
               ${
                 index !== 0

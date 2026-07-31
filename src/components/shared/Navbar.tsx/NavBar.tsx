@@ -239,12 +239,7 @@ const Navbar = () => {
     };
   }, []);
 
-  useEffect(() => {
-    setOpen(false);
-    setActiveDropdown(null);
-    setActiveMobileDropdown(null);
-  }, [location.pathname, location.search]);
-
+ 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
 
@@ -353,7 +348,7 @@ const Navbar = () => {
                             duration: 0.28,
                             ease: [0.16, 1, 0.3, 1],
                           }}
-                          className="absolute bottom-0 left-1/2 h-[3px] -translate-x-1/2 rounded-t-full bg-red-01 group-hover:w-full"
+                          className="absolute bottom-4 left-2/5 h-[3px] -translate-x-1/2 rounded-t-full bg-red-01 group-hover:w-full"
                         />
                       </>
                     )}

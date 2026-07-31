@@ -8,9 +8,7 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
-    <div
-      className="h-full cursor-pointer"
-    >
+    <div className="h-full cursor-pointer">
       <article
         className="
           group
@@ -46,8 +44,25 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           <div className="absolute inset-0 bg-linear-to-t from-[#08162d]/95 via-[#08162d]/40 to-transparent" />
 
           {/* Category */}
-          <div className="absolute left-5 top-5">
-            <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs uppercase tracking-wider text-white backdrop-blur-md">
+          <div className="absolute right-4 top-3">
+            <span
+              className="
+                inline-flex
+                items-center
+                rounded-full
+                border
+                border-white/70
+                bg-white/95
+                px-2.5
+                py-1
+                text-[8px]
+                font-semibold
+                uppercase
+                tracking-[0.04em]
+                text-slate-600
+                shadow-sm
+              "
+            >
               {project.category}
             </span>
           </div>
