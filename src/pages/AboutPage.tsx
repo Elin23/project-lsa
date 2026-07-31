@@ -1,11 +1,12 @@
-import StrategicDirectionsSection from "../sections/About/StrategicDirectionsSection"
-import TeamSection from "../sections/About/TeamSection"
+import TeamSection from "../sections/About/TeamSection/TeamSection"
 import HeroSection from "../sections/HeroSection"
 import aboutHero from "../assets/Images/About/Hero/aboutHero2.webp"
 
-import CertificationsStandards from "../sections/About/CertificationsStandards"
-import OurJourney from "../sections/About/OurJourney"
-import AboutCompanySection from "../sections/About/AboutCompanySection"
+
+import AboutCompanySection from "../sections/About/AboutCompanySection/AboutCompanySection"
+import StrategicDirectionsSection from "../sections/About/StrategicDirectionsSection/StrategicDirectionsSection";
+import OurJourney from "../sections/About/OurJourney/OurJourney";
+import CertificationsStandards from "../sections/About/CertificationsStandards/CertificationsStandards";
 
 const homeHeroSlides = [
   {

@@ -1,5 +1,5 @@
 import { Eye, Flag, TrendingUp } from "lucide-react";
-import type { DirectionCardData } from "../components/StratigicDirectionsCard";
+import type { DirectionCardData } from "../sections/About/StrategicDirectionsSection/StratigicDirectionsCard";
 
 export const directionsData: DirectionCardData[] = [
   {

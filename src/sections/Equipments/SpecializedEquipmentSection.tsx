@@ -8,14 +8,14 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 
-import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
-import Pagination from "../../components/shared/Pagination";
-import { DirectionCard } from "../../components/StratigicDirectionsCard";
+import TitleComponent from "../../components/shared/TitleComponent";
+import Pagination from "../../components/navigation/Pagination";
+import { DirectionCard } from "../About/StrategicDirectionsSection/StratigicDirectionsCard";
 import DirectionCardSkeleton from "../../components/skeletons/DirectionCardSkeleton";
 
 import {
   type AdvantageItem,
-} from "../../components/AdvantageCard";
+} from "../Advantages/AdvantageCard";
 
 
 const equipmentData: AdvantageItem[] = [

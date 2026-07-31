@@ -1,8 +1,8 @@
-import LocationMap from "../components/LocationMap"
+import LocationMap from "../sections/Contact/LocationMap"
 import ContactSection from "../sections/Contact/ContactSection"
-import FAQSection from "../sections/FAQSection"
 import HeroSection from "../sections/HeroSection"
 import ContactHero from "../assets/Images/Contacts/Hero/contactHero.webp"
+import FAQSection from "../sections/FAQS/FAQSection";
 
 const ContactHeroSlides = [
   {

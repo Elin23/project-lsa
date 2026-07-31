@@ -20,7 +20,7 @@ import ProjectPage from "./pages/ProjectPage";
 import ProjectDetailsPage from "./pages/ProjectDetails";
 import EquipmentsPage from "./pages/EquipmentsPage";
 
-import Loader from "./components/common/Loader";
+import Loader from "./components/feedback/Loader";
 import { AppLoadingProvider } from "./context/AppLoadingContext";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";

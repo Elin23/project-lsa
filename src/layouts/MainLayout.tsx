@@ -1,12 +1,13 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/shared/Navbar.tsx/NavBar";
-import Footer from "../components/shared/Footer/Footer";
-import ScrollToTopButton from "../components/common/ScrollToTopButton";
+
+import ScrollToTopButton from "../components/navigation/ScrollToTopButton";
 import ScrollToTopOnRouteChange from "../components/shared/ScrollToTopOnRouteChange";
 import { useEffect } from "react";
 import AOS from "aos";
 import ScrollToSection from "../services/ScrollToSection";
 import FloatingTabs from "../components/shared/FloatingTabs";
+import Navbar from "../components/navigation/Navbar/NavBar";
+import Footer from "../components/navigation/Footer";
 
 const MainLayout = () => {
   useEffect(() => {

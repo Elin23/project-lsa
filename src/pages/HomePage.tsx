@@ -1,10 +1,7 @@
 import CTASection from "../components/shared/CTA/Cta";
-import FAQSection from "../sections/FAQSection";
 import HeroSection from "../sections/HeroSection";
 import Testimonials from "../sections/Home/Testimonials";
 import TrustedCompanies from "../sections/Home/TrustedCompanies";
-import OurCoreCapabilities from "../sections/Home/OurCoreCapabilities";
-import FeaturedProjects from "../sections/Home/FeaturedProjects";
 import WhyPartnerSection from "../sections/Home/WhyPartnerSection";
 import { partnerItems } from "../data/partnerData";
 import partnerImage from "../assets/imgs/Industrial_trunkline_construction.webp";
@@ -14,6 +11,9 @@ import heroVideo from "../assets/Images/Home/homeVideo.mp4";
 import heroImageOne from "../assets/Images/Home/team.webp";
 import heroImageTwo from "../assets/Images/Home/team2.webp";
 import CounterSection from "../sections/Home/CounterSection";
+import OurCoreCapabilities from "../sections/Home/OurCoreCapabilities/OurCoreCapabilities";
+import FeaturedProjects from "../sections/Home/FeaturedProjects/FeaturedProjects";
+import FAQSection from "../sections/FAQS/FAQSection";
 
 const homeHeroSlides = [
   {

@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
+import TitleComponent from "../../components/shared/TitleComponent";
 
 interface PartnerItem {
   title: string;

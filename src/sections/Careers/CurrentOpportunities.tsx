@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
-import CareerFilters from "../../components/common/Careers/CareerFilters";
-import JobCard from "../../components/common/Careers/JobCard";
-import JobDetailsModal from "../../components/common/Careers/JobDetailsModal";
+import TitleComponent from "../../components/shared/TitleComponent";
+import CareerFilters from "./CareerFilters";
+
 import LoadMoreButton from "../../components/shared/LoadMoreButton";
 import {
   careersData,
   type CareerJob,
 } from "../../data/careersData";
 import JobCardSkeleton from "../../components/skeletons/JobCardSkeleton";
+import JobCard from "./JobCard";
+import JobDetailsModal from "./JobDetailsModal";
 const tabs = ["all", "open", "closed"] as const;
 const INITIAL_ITEMS = 3;
 export default function CurrentOpportunities() {

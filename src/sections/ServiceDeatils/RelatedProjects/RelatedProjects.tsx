@@ -1,0 +1,130 @@
+import { useEffect, useMemo, useState } from "react";
+
+import RelatedProjectCard from "./RelatedProjectCard";
+import RelatedProjectCardSkeleton from "../../../components/skeletons/RelatedProjectCardSkeleton";
+import TitleComponent from "../../../components/shared/TitleComponent";
+import Slider from "../../../components/shared/Slider";
+
+import { servicesData2 } from "../../../data/servicesData2";
+import {
+  projectsData,
+  type ProjectCategory,
+} from "../../../data/projectsData";
+
+type RelatedProjectsProps = {
+  service: (typeof servicesData2)[number];
+};
+
+const serviceCategoryMap: Record<string, ProjectCategory> = {
+  "epc-projects": "EPC Projects",
+  "pipeline-services": "Pipeline Services",
+  "process-piping": "Process Piping",
+  "hot-tapping": "Hot Tapping",
+  "pipeline-integrity": "Pipeline Integrity",
+  "storage-tanks": "Storage Tanks",
+  "mechanical-works": "Mechanical Works",
+  "cathodic-protection": "Cathodic Protection",
+  "civil-works": "Civil Works",
+  "electrical-instrumentation": "Electrical & Instrumentation",
+  "auger-boring-hdd-crossing": "Auger Boring & HDD Crossing",
+};
+
+export default function RelatedProjects({
+  service,
+}: RelatedProjectsProps) {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, []);
+
+  const relatedProjectsData = useMemo(() => {
+    const category = serviceCategoryMap[service.slug];
+
+    if (!category) {
+      return [];
+    }
+
+    return projectsData
+      .filter((project) => project.category === category)
+      .slice(0, 3);
+  }, [service.slug]);
+
+  // إذا لم توجد مشاريع مطابقة، لا يظهر السكشن كاملًا
+  if (relatedProjectsData.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
+      <TitleComponent
+        title="Related Projects"
+        description="Specialized interventions across Iraq."
+      />
+
+      {/* Mobile Slider */}
+      <div className="mt-8 md:hidden">
+        {loading ? (
+          <Slider
+            items={[1]}
+            showDots={false}
+            renderItem={() => (
+              <RelatedProjectCardSkeleton />
+            )}
+          />
+        ) : (
+          <Slider
+            items={relatedProjectsData}
+            showDots={relatedProjectsData.length > 1}
+            renderItem={(project) => (
+              <RelatedProjectCard
+                category={project.category}
+                title={project.title}
+                description={project.description}
+                image={project.image}
+                path={project.path}
+              />
+            )}
+          />
+        )}
+      </div>
+
+      {/* Tablet & Desktop Grid */}
+      <div
+        className="
+          mt-8
+          hidden
+          gap-6
+          md:grid
+          md:grid-cols-2
+          lg:grid-cols-3
+        "
+      >
+        {loading
+          ? Array.from({
+              length: relatedProjectsData.length,
+            }).map((_, index) => (
+              <RelatedProjectCardSkeleton
+                key={index}
+              />
+            ))
+          : relatedProjectsData.map((project) => (
+              <RelatedProjectCard
+                key={project.id}
+                category={project.category}
+                title={project.title}
+                description={project.description}
+                image={project.image}
+                path={project.path}
+              />
+            ))}
+      </div>
+    </section>
+  );
+}

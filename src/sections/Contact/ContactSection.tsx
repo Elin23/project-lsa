@@ -1,5 +1,5 @@
-import ContactFormCard from "../../components/ContactFormCard";
-import ContactInfo from "../../components/ContactInfo";
+import ContactFormCard from "../../components/forms/ContactFormCard";
+import ContactInfo from "./ContactInfo";
 
 
 export default function ContactSection() {

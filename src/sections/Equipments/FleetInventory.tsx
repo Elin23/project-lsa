@@ -8,11 +8,11 @@ import {
   type FleetItem,
 } from "../../data/fleetData";
 
-import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
+import TitleComponent from "../../components/shared/TitleComponent";
 import TabsComponent from "../../components/shared/TabsComponent";
 import FleetCard from "../../components/shared/FleetCard";
 import FleetRequestModal from "../../components/shared/FleetRequestModal";
-import Pagination from "../../components/shared/Pagination";
+import Pagination from "../../components/navigation/Pagination";
 
 function getItemsPerPage() {
   if (typeof window === "undefined") {

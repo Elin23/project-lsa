@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
+import TitleComponent from "../../components/shared/TitleComponent";
 import Slider from "../../components/shared/Slider";
-import { DirectionCard } from "../../components/StratigicDirectionsCard";
+import { DirectionCard } from "../About/StrategicDirectionsSection/StratigicDirectionsCard";
 import DirectionCardSkeleton from "../../components/skeletons/DirectionCardSkeleton";
 
 import { servicesData2 } from "../../data/servicesData2";
