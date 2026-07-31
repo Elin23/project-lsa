@@ -1,8 +1,8 @@
-import AdvantagesSection from "../sections/AdvantagesSection"
 import HeroSection from "../sections/HeroSection"
 import OurServices from "../sections/Services/OurServices"
 import CTASection from "../components/shared/CTA/Cta"
 import ServicesHero from "../assets/Images/Services/Hero/servicesHero.webp"
+import AdvantagesSection from "../sections/Advantages/AdvantagesSection";
 
 const ServicesHeroSlides = [
   {

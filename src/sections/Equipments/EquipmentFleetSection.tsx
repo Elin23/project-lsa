@@ -27,7 +27,7 @@ export default function EquipmentFleetSection() {
             LSA Equipment Fleet
           </h2>
 
-          <div className="mt-5 h-[3px] w-20 rounded-full bg-red-01" />
+          <div className="mt-5 h-0.75 w-20 rounded-full bg-red-01" />
 
           <div className="mt-6 space-y-5 text-base leading-7 text-muted-blue md:text-lg md:leading-8">
             <p>
@@ -68,7 +68,7 @@ export default function EquipmentFleetSection() {
                 transition-transform
                 duration-500
                 ease-out
-                group-hover:rotate-[2deg]
+                group-hover:rotate-2
               "
             />
 
@@ -97,16 +97,16 @@ export default function EquipmentFleetSection() {
                   loading="lazy"
                   decoding="async"
                   className="
-                    h-[260px]
+                    h-65
                     w-full
                     object-cover
                     transition-transform
                     duration-700
                     ease-[cubic-bezier(0.22,1,0.36,1)]
                     group-hover:scale-[1.035]
-                    md:h-[360px]
-                    lg:h-[390px]
-                    2xl:h-[430px]
+                    md:h-90
+                    lg:h-97.5
+                    2xl:h-107.5
                   "
                 />
 

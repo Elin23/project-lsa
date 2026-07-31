@@ -3,10 +3,10 @@ import AOS from "aos";
 
 import { servicesData2 } from "../../data/servicesData2";
 
-import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
+import TitleComponent from "../../components/shared/TitleComponent";
 import LoadMoreButton from "../../components/shared/LoadMoreButton";
-import ServiceCard from "../../components/common/OurServices/ServiceCard";
 import ServiceCardSkeleton from "../../components/skeletons/ServiceCardSkeleton";
+import ServiceCard from "./ServiceCard";
 
 const OurServices = () => {
   const [loading, setLoading] = useState<boolean>(true);

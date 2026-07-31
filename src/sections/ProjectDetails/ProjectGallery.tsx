@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
+import TitleComponent from "../../components/shared/TitleComponent";
 import Slider2 from "../../components/shared/Slider2";
 import GalleryCardSkeleton from "../../components/skeletons/GalleryCardSkeleton";
 

@@ -2,7 +2,7 @@ import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDown, Expand, FileCheck2, X } from "lucide-react";
 
-import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
+import TitleComponent from "../../components/shared/TitleComponent";
 import type { ProjectCertificate } from "../../data/projectsData";
 
 interface ProjectCertificatesProps {
@@ -156,7 +156,7 @@ const ProjectCertificates = ({
                     gap-6
                     overflow-x-auto
                     pb-3
-                    [scrollbar-width:thin]
+                    scrollbar-thin
                     lg:grid
                     lg:grid-flow-col
                     lg:auto-cols-fr
@@ -267,7 +267,7 @@ const ProjectCertificates = ({
             className="
               fixed
               inset-0
-              z-[99999]
+              z-99999
               flex
               items-center
               justify-center

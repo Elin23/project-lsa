@@ -381,7 +381,7 @@ const Slider2 = <T,>({
                 z-10
                 hidden
                 w-20
-                bg-gradient-to-r
+                bg-linear-to-r
                 from-white/35
                 to-transparent
                 opacity-0
@@ -401,7 +401,7 @@ const Slider2 = <T,>({
                 z-10
                 hidden
                 w-20
-                bg-gradient-to-l
+                bg-linear-to-l
                 from-white/35
                 to-transparent
                 opacity-0

@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
-import ProjectCard from "../../components/ProjectCard";
+import TitleComponent from "../../components/shared/TitleComponent";
 import ProjectCardSkeleton from "../../components/skeletons/ProjectCardSkeleton";
 import TabsComponent from "../../components/shared/TabsComponent";
 import LoadMoreButton from "../../components/shared/LoadMoreButton";
@@ -10,6 +9,7 @@ import {
   getProjectsByCategory,
   projectCategories,
 } from "../../data/projectsData";
+import ProjectCard from "../../components/cards/ProjectCard";
 
 const INITIAL_VISIBLE_COUNT = 6;
 const LOAD_MORE_COUNT = 6;

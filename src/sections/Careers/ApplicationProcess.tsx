@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CheckCircle } from "lucide-react";
-import TitleComponent from "../../components/common/TitleComponent/TitleComponent";
+import TitleComponent from "../../components/shared/TitleComponent";
 import { applicationProcessData } from "../../data/applicationProcessData";
 
 const ApplicationProcess = () => {

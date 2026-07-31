@@ -59,7 +59,7 @@ export default function FleetRequestModal({
               <img
                 src={item.image}
                 alt={item.title}
-                className="h-[260px] w-full rounded-2xl object-cover"
+                className="h-65 w-full rounded-2xl object-cover"
               />
 
               <div className="mt-5 rounded-2xl bg-[#F7F8FD] p-5">

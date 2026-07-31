@@ -1,8 +1,7 @@
 import { Navigate, useParams } from "react-router-dom";
 
 import HotTappingProcess from "../sections/ServiceDeatils/HotTappingProcess";
-import OperationalRangesSection from "../sections/ServiceDeatils/OperationalRangesSection";
-import RelatedProjects from "../sections/ServiceDeatils/RelatedProjects";
+import RelatedProjects from "../sections/ServiceDeatils/RelatedProjects/RelatedProjects";
 import HeroSection from "../sections/HeroSection";
 
 import { servicesData2 } from "../data/servicesData2";
@@ -10,6 +9,7 @@ import {
   projectsData,
   type ProjectCategory,
 } from "../data/projectsData";
+import OperationalRangesSection from "../sections/ServiceDeatils/OperationalRangesSection/OperationalRangesSection";
 
 const serviceCategoryMap: Record<string, ProjectCategory> = {
   "epc-projects": "EPC Projects",

@@ -46,9 +46,9 @@ const TrustedCompanies = () => {
             <SwiperSlide key={company.id}>
               <div
                 className="
-                  group flex h-[115px] w-full items-center justify-center
-                  md:h-[125px]
-                  lg:h-[135px]
+                  group flex h-28.75 w-full items-center justify-center
+                  md:h-31.25
+                  lg:h-33.75
                 "
               >
                 <img

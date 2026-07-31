@@ -1,5 +1,5 @@
 import HeroSection from "../sections/HeroSection"
-import LSAAdvantageSection from "../sections/Equipments/LSAAdvantageSection";
+import LSAAdvantageSection from "../sections/Equipments/LSAAdvantageSection/LSAAdvantageSection";
 import SpecializedEquipmentSection from "../sections/Equipments/SpecializedEquipmentSection";
 import FleetInventory from "../sections/Equipments/FleetInventory";
 import EquipmentFleetSection from "../sections/Equipments/EquipmentFleetSection";
