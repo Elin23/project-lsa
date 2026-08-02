@@ -13,16 +13,19 @@ export default function TeamCard({ member }: TeamCardProps) {
     >
       <div
         className="
-      group
-      overflow-hidden
-      rounded-2xl
-      bg-white
-      shadow-md
-      transition-all
-      duration-500
-      hover:-translate-y-2
-      hover:shadow-xl
-    "
+          group
+          flex
+          h-full
+          flex-col
+          overflow-hidden
+          rounded-2xl
+          bg-white
+          shadow-md
+          transition-all
+          duration-500
+          hover:-translate-y-2
+          hover:shadow-xl
+        "
       >
         {/* Image */}
         <div className="relative h-64 overflow-hidden lg:h-72">
@@ -32,41 +35,42 @@ export default function TeamCard({ member }: TeamCardProps) {
             loading="lazy"
             decoding="async"
             className="
-          h-full
-          w-full
-          object-cover
-          object-top
-          transition-transform
-          duration-700
-          group-hover:scale-105
-        "
+              h-full
+              w-full
+              object-cover
+              object-top
+              transition-transform
+              duration-700
+              group-hover:scale-105
+            "
           />
 
           <div
             className="
-          absolute
-          inset-0
-          bg-linear-to-t
-          from-black/20
-          via-transparent
-          to-transparent
-        "
+              absolute
+              inset-0
+              bg-linear-to-t
+              from-black/20
+              via-transparent
+              to-transparent
+            "
           />
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="flex flex-1 flex-col p-6">
           <span
             className="
-          inline-flex
-          rounded-full
-          bg-blue-50
-          px-3
-          py-1
-          text-xs
-          font-semibold
-          text-blue-01
-        "
+              inline-flex
+              w-fit
+              rounded-full
+              bg-blue-01/10
+              px-3
+              py-1
+              text-xs
+              font-semibold
+              text-blue-01
+            "
           >
             {member.experience}
           </span>
@@ -79,18 +83,19 @@ export default function TeamCard({ member }: TeamCardProps) {
             {member.role}
           </p>
 
-          <div
-            className="
-          mt-5
-          h-1
-          w-12
-          rounded-full
-          bg-red-01
-          transition-all
-          duration-300
-          group-hover:w-20
-        "
-          />
+          <div className="mt-auto pt-5">
+            <div
+              className="
+                h-1
+                w-12
+                rounded-full
+                bg-red-01
+                transition-all
+                duration-300
+                group-hover:w-20
+              "
+            />
+          </div>
         </div>
       </div>
     </article>

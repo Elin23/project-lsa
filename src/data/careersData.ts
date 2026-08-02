@@ -9,6 +9,7 @@ export interface CareerJob {
   department: string;
   status: JobStatus;
   postedAt: string;
+  applicationDeadline: string;
   overview: string;
   responsibilities: string[];
   requirements: string[];
@@ -22,6 +23,7 @@ export const careersData: CareerJob[] = [
     type: "Full-Time",
     department: "Engineering",
     status: "open",
+    applicationDeadline: "Applications close on August 25, 2026",
     postedAt: "Posted 3 days ago",
     overview:
       "Lead pipeline engineering activities for oil and gas infrastructure projects, ensuring safe, efficient, and high-quality execution.",
@@ -45,6 +47,7 @@ export const careersData: CareerJob[] = [
     type: "Part-Time",
     department: "Health & Safety",
     status: "open",
+    applicationDeadline: "Applications close on August 25, 2026",
     postedAt: "Posted 1 week ago",
     overview:
       "Manage HSE activities across project sites and ensure compliance with company safety policies and client requirements.",
@@ -68,6 +71,7 @@ export const careersData: CareerJob[] = [
     type: "Full-Time",
     department: "Project Management",
     status: "closed",
+    applicationDeadline: "Applications closed",
     postedAt: "Closed",
     overview:
       "Coordinate EPC project activities between engineering, procurement, construction, and client representatives.",
@@ -84,13 +88,14 @@ export const careersData: CareerJob[] = [
       "Strong organizational and reporting skills.",
     ],
   },
-    {
+  {
     id: 4,
     title: "EPC Project Coordinator",
     location: "Basra, Iraq",
     type: "Full-Time",
     department: "Project Management",
     status: "closed",
+    applicationDeadline: "Applications closed",
     postedAt: "Closed",
     overview:
       "Coordinate EPC project activities between engineering, procurement, construction, and client representatives.",

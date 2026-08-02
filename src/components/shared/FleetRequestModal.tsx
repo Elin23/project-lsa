@@ -42,14 +42,12 @@ export default function FleetRequestModal({
 
         <div className="mb-7 flex items-center gap-3 pr-14">
           <div
-            className={`h-2 flex-1 rounded-full ${
-              step >= 1 ? "bg-blue-01" : "bg-slate-200"
-            }`}
+            className={`h-2 flex-1 rounded-full ${step >= 1 ? "bg-blue-01" : "bg-slate-200"
+              }`}
           />
           <div
-            className={`h-2 flex-1 rounded-full ${
-              step >= 2 ? "bg-blue-01" : "bg-slate-200"
-            }`}
+            className={`h-2 flex-1 rounded-full ${step >= 2 ? "bg-blue-01" : "bg-slate-200"
+              }`}
           />
         </div>
 
@@ -109,12 +107,27 @@ export default function FleetRequestModal({
                 />
               </div>
 
-              <div className="mt-6 rounded-2xl border border-green-200 bg-green-50 p-5">
+              <div
+                className={`mt-6 rounded-2xl border p-5 ${item.safetyCertificate.isValid
+                    ? "border-green-200 bg-green-50"
+                    : "border-red-200 bg-red-50"
+                  }`}
+              >
                 <div className="flex gap-3">
-                  <FileCheck2 className="mt-1 h-5 w-5 shrink-0 text-green-700" />
-                  <p className="text-sm font-semibold leading-7 text-green-700">
-                    This equipment includes a valid safety certificate. We can
-                    provide it upon request.
+                  <FileCheck2
+                    className={`mt-1 h-5 w-5 shrink-0 ${item.safetyCertificate.isValid
+                        ? "text-green-700"
+                        : "text-red-700"
+                      }`}
+                  />
+
+                  <p
+                    className={`text-sm font-semibold leading-7 ${item.safetyCertificate.isValid
+                        ? "text-green-700"
+                        : "text-red-700"
+                      }`}
+                  >
+                    {item.safetyCertificate.message}
                   </p>
                 </div>
               </div>

@@ -10,13 +10,13 @@ const HotTappingBanner = ({
 }: Props) => {
   return (
     <section>
-      <div className={className}>
-        <div
-          data-aos="fade-up"
+      <div data-aos="fade-up"
           data-aos-duration="650"
           data-aos-easing="ease-out-cubic"
           data-aos-offset="80"
-          data-aos-once="true"
+          data-aos-once="true" className={className}>
+        <div
+          
           className="
             group
             relative
