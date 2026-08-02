@@ -1,6 +1,7 @@
 import {
   ArrowRight,
   Briefcase,
+  CalendarClock,
   Clock,
   MapPin,
 } from "lucide-react";
@@ -87,10 +88,9 @@ export default function JobCard({
                 transition-colors
                 duration-300
                 ease-out
-                ${
-                  isOpen
-                    ? "bg-blue-01/10 text-blue-01 group-hover:bg-blue-01/15"
-                    : "bg-red-100 text-red-01 group-hover:bg-red-100/80"
+                ${isOpen
+                  ? "bg-blue-01/10 text-blue-01 group-hover:bg-blue-01/15"
+                  : "bg-red-100 text-red-01 group-hover:bg-red-100/80"
                 }
               `}
             >
@@ -101,7 +101,12 @@ export default function JobCard({
           <p className="mb-4 max-w-2xl text-sm leading-6 text-muted-blue md:text-base">
             {job.overview}
           </p>
-
+          {isOpen && (
+            <div className="mb-4 inline-flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-sm font-medium text-amber-700">
+              <CalendarClock className="h-4 w-4" />
+              {job.applicationDeadline}
+            </div>
+          )}
           <div className="flex flex-wrap gap-4 text-sm text-slate-500">
             <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-slate-600">
               <MapPin className="h-4 w-4 shrink-0" />

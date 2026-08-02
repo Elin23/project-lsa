@@ -44,12 +44,10 @@ export default function FleetCard({
           border-slate-200/80
           bg-white
           shadow-[0_5px_18px_rgba(31,63,147,0.05)]
-          transition-[transform,border-color,box-shadow]
-          duration-300
-          ease-out
-          hover:-translate-y-0.5
-          hover:border-blue-01/20
-          hover:shadow-[0_10px_25px_rgba(31,63,147,0.09)]
+          transition-all
+          duration-500
+          hover:-translate-y-1
+          hover:shadow-[0_18px_45px_rgba(31,63,147,0.15)]
         "
       >
         {/* Image */}
@@ -63,10 +61,9 @@ export default function FleetCard({
               h-full
               w-full
               object-cover
-              transition-transform
-              duration-500
-              ease-out
-              group-hover:scale-[1.025]
+               transition-transform
+              duration-700
+              group-hover:scale-110
             "
           />
 
@@ -245,45 +242,47 @@ export default function FleetCard({
             type="button"
             onClick={onRequest}
             className="
-              group/button
-              mt-3
-              inline-flex
-              h-9
-              w-full
-              cursor-pointer
-              items-center
-              justify-center
-              gap-1.5
-              rounded-lg
-              border
-              border-blue-01/15
-              bg-blue-01/5
-              px-3
-              text-[11px]
-              font-bold
-              text-blue-01
-              transition-[background-color,border-color,color]
-              duration-300
-              ease-out
-              hover:border-blue-01
-              hover:bg-blue-01
-              hover:text-white
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-blue-01/20
-              focus-visible:ring-offset-2
-            "
+    group/button
+    mt-3
+    inline-flex
+    h-9
+    w-full
+    cursor-pointer
+    items-center
+    justify-center
+    gap-1.5
+    rounded-lg
+    border
+    border-blue-01/15
+    bg-blue-01/5
+    px-3
+    text-[11px]
+    font-bold
+    text-blue-01
+    shadow-sm
+    transition-all
+    duration-300
+    ease-out
+    hover:-translate-y-0.5
+    hover:border-blue-01/30
+    hover:bg-blue-01/10
+    hover:shadow-md
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-blue-01/20
+    focus-visible:ring-offset-2
+  "
           >
             Request Availability
 
             <ArrowRight
               className="
-                h-3.5
-                w-3.5
-                transition-transform
-                duration-300
-                group-hover/button:translate-x-0.5
-              "
+      h-3.5
+      w-3.5
+      transition-transform
+      duration-300
+      group-hover/button:translate-x-1
+    "
             />
           </button>
         </div>

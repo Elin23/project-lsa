@@ -32,49 +32,54 @@ export interface FleetItem {
   location: string;
   description: string;
   categories: FleetCategory[];
+
+  safetyCertificate: {
+    message: string;
+    isValid: boolean;
+  };
 }
 
 export const fleetTabs: {
   label: string;
   value: "all" | FleetCategory;
 }[] = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "Pipeline",
-    value: "pipeline",
-  },
-  {
-    label: "Lifting",
-    value: "lifting",
-  },
-  {
-    label: "Welding",
-    value: "welding",
-  },
-  {
-    label: "Logistics",
-    value: "logistics",
-  },
-  {
-    label: "Hot Tapping",
-    value: "hot-tapping",
-  },
-  {
-    label: "Trust Boring",
-    value: "trust-boring",
-  },
-  {
-    label: "Civil Equipment",
-    value: "civil",
-  },
-  {
-    label: "Inspection Tools",
-    value: "inspection",
-  },
-];
+    {
+      label: "All",
+      value: "all",
+    },
+    {
+      label: "Pipeline",
+      value: "pipeline",
+    },
+    {
+      label: "Lifting",
+      value: "lifting",
+    },
+    {
+      label: "Welding",
+      value: "welding",
+    },
+    {
+      label: "Logistics",
+      value: "logistics",
+    },
+    {
+      label: "Hot Tapping",
+      value: "hot-tapping",
+    },
+    {
+      label: "Trust Boring",
+      value: "trust-boring",
+    },
+    {
+      label: "Civil Equipment",
+      value: "civil",
+    },
+    {
+      label: "Inspection Tools",
+      value: "inspection",
+    },
+  ];
 
 export const fleetData: FleetItem[] = [
   {
@@ -89,6 +94,11 @@ export const fleetData: FleetItem[] = [
     categories: ["pipeline", "lifting"],
     description:
       "The CAT 583 Side Boom is engineered for demanding pipeline construction and heavy lifting operations. It provides exceptional stability, precise load control, and reliable performance in challenging field environments. This unit is suitable for pipe laying, lifting support, equipment positioning, and infrastructure projects that require dependable heavy-duty performance with safe field mobilization.",
+    safetyCertificate: {
+      isValid: true,
+      message:
+        "This equipment includes a valid safety certificate. We can provide it upon request.",
+    },
   },
   {
     id: 2,
@@ -102,6 +112,11 @@ export const fleetData: FleetItem[] = [
     categories: ["lifting", "logistics"],
     description:
       "Our 50-ton mobile crane is designed for efficient lifting operations across construction, industrial, and maintenance projects. It supports equipment installation, steel structure handling, loading operations, and site support tasks. With fast mobilization capability and reliable lifting performance, it is suitable for projects requiring safe and flexible crane support.",
+    safetyCertificate: {
+      isValid: true,
+      message:
+        "This equipment includes a valid safety certificate. We can provide it upon request.",
+    },
   },
   {
     id: 3,
@@ -115,6 +130,11 @@ export const fleetData: FleetItem[] = [
     categories: ["welding", "pipeline"],
     description:
       "Heavy-duty diesel welding units built for continuous field operations and remote project environments. These welders are suitable for pipeline welding, structural steel fabrication, repair works, and construction site welding requirements. They provide reliable power output, strong performance, and dependable operation for demanding industrial welding activities.",
+    safetyCertificate: {
+      isValid: true,
+      message:
+        "This equipment includes a valid safety certificate. We can provide it upon request.",
+    },
   },
   {
     id: 4,
@@ -128,6 +148,11 @@ export const fleetData: FleetItem[] = [
     categories: ["lifting"],
     description:
       "A hydraulic rough terrain crane designed for off-road construction and field lifting operations. Its maneuverability allows it to perform safely on uneven ground and demanding site conditions. This equipment is suitable for construction support, material handling, equipment placement, and lifting tasks where stable performance and field readiness are required.",
+    safetyCertificate: {
+      isValid: true,
+      message:
+        "This equipment includes a valid safety certificate. We can provide it upon request.",
+    },
   },
   {
     id: 5,
@@ -141,6 +166,11 @@ export const fleetData: FleetItem[] = [
     categories: ["logistics", "pipeline"],
     description:
       "Heavy logistics transport trucks prepared for moving construction materials, pipes, steel structures, equipment, and project cargo. These trucks support short and long-distance transportation requirements with dependable operational efficiency. They are suitable for site-to-site movement, yard mobilization, and logistics support for large-scale engineering projects.",
+    safetyCertificate: {
+      isValid: false,
+      message:
+        "This equipment does not currently have a valid safety certificate.",
+    },
   },
   {
     id: 6,
@@ -154,6 +184,11 @@ export const fleetData: FleetItem[] = [
     categories: ["lifting", "logistics"],
     description:
       "A versatile truck-mounted crane combining transportation and lifting capability in one practical unit. It is suitable for maintenance works, material handling, light-to-medium lifting tasks, and rapid site mobilization. This equipment is ideal for projects that require flexible movement between different work locations with reliable lifting support.",
+    safetyCertificate: {
+      isValid: false,
+      message:
+        "This equipment does not currently have a valid safety certificate.",
+    },
   },
 
   // Hot Tapping
@@ -169,6 +204,11 @@ export const fleetData: FleetItem[] = [
     categories: ["hot-tapping", "pipeline"],
     description:
       "A complete range of hot tapping machines designed to create branch connections on live and pressurized pipelines without interrupting production. The available set includes TDW T-101, TDW T-760, and TDW TM 1200 MO-XL machines, covering pipeline sizes from half an inch up to 42 inches for manual, pneumatic, and hydraulic operations.",
+    safetyCertificate: {
+      isValid: false,
+      message:
+        "This equipment does not currently have a valid safety certificate.",
+    },
   },
 
   // Trust Boring
@@ -184,6 +224,11 @@ export const fleetData: FleetItem[] = [
     categories: ["trust-boring", "pipeline", "civil"],
     description:
       "Trust boring machines equipped with a complete set of accessories for trenchless road-crossing operations. These machines support the installation of pipeline casing beneath roads and other obstacles while reducing surface disruption and maintaining safe and efficient construction activities.",
+    safetyCertificate: {
+      isValid: false,
+      message:
+        "This equipment does not currently have a valid safety certificate.",
+    },
   },
 
   // Civil
@@ -199,6 +244,11 @@ export const fleetData: FleetItem[] = [
     categories: ["civil", "pipeline"],
     description:
       "Hydraulic excavators prepared for pipeline trench excavation, civil construction, site preparation, backfilling, foundation works, and material handling. These units are ready for field mobilization and support demanding oil and gas infrastructure projects in various ground conditions.",
+    safetyCertificate: {
+      isValid: false,
+      message:
+        "This equipment does not currently have a valid safety certificate.",
+    },
   },
 
   // Inspection Tools
@@ -214,5 +264,10 @@ export const fleetData: FleetItem[] = [
     categories: ["inspection"],
     description:
       "A collection of inspection and gas-detection instruments used to monitor hazardous atmospheres and support safe field operations. The equipment includes area gas monitors, portable multi-gas detectors, and personal H₂S detectors suitable for pipelines, confined spaces, construction sites, and oil and gas facilities.",
+    safetyCertificate: {
+      isValid: false,
+      message:
+        "This equipment does not currently have a valid safety certificate.",
+    },
   },
 ];

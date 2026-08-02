@@ -3,13 +3,13 @@ import ButtonComponent from "../ButtonComponent";
 
 const CTASection = () => {
   return (
-    <section className="pb-16 md:pb-24 2xl:pb-28">
+    <section className="pb-16 md:pb-24 2xl:pb-28" data-aos="fade-up"
+      data-aos-duration="650"
+      data-aos-easing="ease-out-cubic"
+      data-aos-offset="80"
+      data-aos-once="true">
       <div
-        data-aos="fade-up"
-        data-aos-duration="650"
-        data-aos-easing="ease-out-cubic"
-        data-aos-offset="80"
-        data-aos-once="true"
+
         className="
           group
           relative
