@@ -4,11 +4,7 @@ import {
   useState,
   type ElementType,
 } from "react";
-import {
-  ChevronDown,
-  ChevronUp,
-  Expand,
-} from "lucide-react";
+import { ChevronDown, Expand } from "lucide-react";
 
 interface TimelineCardProps {
   year: string;
@@ -41,6 +37,8 @@ export default function TimelineCard({
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [canExpand, setCanExpand] = useState(false);
+  const [collapsedHeight, setCollapsedHeight] = useState(60);
+  const [expandedHeight, setExpandedHeight] = useState(60);
 
   const descriptionRef = useRef<HTMLParagraphElement>(null);
 
@@ -49,29 +47,35 @@ export default function TimelineCard({
 
     if (!descriptionElement) return;
 
-    const checkOverflow = () => {
-      if (isExpanded) {
-        setCanExpand(true);
-        return;
-      }
+    const measureDescription = () => {
+      const computedStyles = window.getComputedStyle(
+        descriptionElement,
+      );
 
-      const isOverflowing =
-        descriptionElement.scrollHeight >
-        descriptionElement.clientHeight + 1;
+      const lineHeight =
+        Number.parseFloat(computedStyles.lineHeight) || 20;
 
-      setCanExpand(isOverflowing);
+      const threeLinesHeight = lineHeight * 3;
+      const fullHeight = descriptionElement.scrollHeight;
+
+      setCollapsedHeight(threeLinesHeight);
+      setExpandedHeight(fullHeight);
+
+      setCanExpand(fullHeight > threeLinesHeight + 2);
     };
 
-    checkOverflow();
+    measureDescription();
 
-    const resizeObserver = new ResizeObserver(checkOverflow);
+    const resizeObserver = new ResizeObserver(
+      measureDescription,
+    );
 
     resizeObserver.observe(descriptionElement);
 
     return () => {
       resizeObserver.disconnect();
     };
-  }, [description, isExpanded]);
+  }, [description]);
 
   const handleToggleDescription = () => {
     setIsExpanded((previousValue) => !previousValue);
@@ -264,7 +268,10 @@ export default function TimelineCard({
             >
               <Icon
                 size={16}
-                className="min-[400px]:h-[18px] min-[400px]:w-[18px]"
+                className="
+                  min-[400px]:h-[18px]
+                  min-[400px]:w-[18px]
+                "
               />
             </div>
 
@@ -303,26 +310,37 @@ export default function TimelineCard({
           </h3>
 
           <div className="mt-1.5 min-w-0 min-[400px]:mt-2">
-            <p
-              ref={descriptionRef}
-              className={`
-                break-words
-                text-[11px]
-                leading-5
-                text-slate-600
-                transition-all
-                duration-300
-                min-[350px]:text-xs
-                min-[400px]:leading-relaxed
-                sm:text-sm
-                md:text-base
-                ${isExpanded ? "" : "line-clamp-3"}
-              `}
+            <div
+              style={{
+                maxHeight: isExpanded
+                  ? `${expandedHeight}px`
+                  : `${collapsedHeight}px`,
+              }}
+              className="
+                overflow-hidden
+                transition-[max-height]
+                duration-500
+                ease-in-out
+              "
             >
-              {description}
-            </p>
+              <p
+                ref={descriptionRef}
+                className="
+                  break-words
+                  text-[11px]
+                  leading-5
+                  text-slate-600
+                  min-[350px]:text-xs
+                  min-[400px]:leading-relaxed
+                  sm:text-sm
+                  md:text-base
+                "
+              >
+                {description}
+              </p>
+            </div>
 
-            {(canExpand || isExpanded) && (
+            {canExpand && (
               <button
                 type="button"
                 onClick={handleToggleDescription}
@@ -344,24 +362,25 @@ export default function TimelineCard({
                   focus-visible:ring-[#1f3f93]/25
                   min-[350px]:text-xs
                   sm:mt-2
-                  sm:text-sm
+                  sm:text-sm cursor-pointer
                 "
               >
                 <span>
                   {isExpanded ? "Show less" : "Read more"}
                 </span>
 
-                {isExpanded ? (
-                  <ChevronUp
-                    size={14}
-                    className="shrink-0 sm:h-4 sm:w-4"
-                  />
-                ) : (
-                  <ChevronDown
-                    size={14}
-                    className="shrink-0 sm:h-4 sm:w-4"
-                  />
-                )}
+                <ChevronDown
+                  size={14}
+                  className={`
+                    shrink-0
+                    transition-transform
+                    duration-300
+                    ease-out
+                    sm:h-4
+                    sm:w-4
+                    ${isExpanded ? "rotate-180" : "rotate-0"}
+                  `}
+                />
               </button>
             )}
           </div>
@@ -378,6 +397,7 @@ export default function TimelineCard({
             "
           >
             <span
+              title={badge}
               className="
                 inline-block
                 max-w-full
@@ -396,7 +416,6 @@ export default function TimelineCard({
                 min-[400px]:px-3
                 min-[400px]:text-xs
               "
-              title={badge}
             >
               {badge}
             </span>
