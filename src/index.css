@@ -419,3 +419,21 @@ html {
     animation: none !important;
   }
 }
+@keyframes pulse404 {
+  0%,
+  100% {
+    opacity: 0.06;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.12;
+    transform: scale(1.035);
+  }
+}
+
+.animate-404 {
+  animation: pulse404 4s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
