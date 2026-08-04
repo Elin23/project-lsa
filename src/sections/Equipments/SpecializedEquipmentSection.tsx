@@ -11,12 +11,7 @@ import {
 import TitleComponent from "../../components/shared/TitleComponent";
 import Pagination from "../../components/navigation/Pagination";
 import { DirectionCard } from "../About/StrategicDirectionsSection/StratigicDirectionsCard";
-import DirectionCardSkeleton from "../../components/skeletons/DirectionCardSkeleton";
-
-import {
-  type AdvantageItem,
-} from "../Advantages/AdvantageCard";
-
+import { type AdvantageItem } from "../Advantages/AdvantageCard";
 
 const equipmentData: AdvantageItem[] = [
   {
@@ -63,12 +58,13 @@ const equipmentData: AdvantageItem[] = [
   },
 ];
 
-
+/**
+ * SpecializedEquipmentSection Component
+ * Renders equipment capabilities directly from static data with dynamic pagination.
+ */
 export default function SpecializedEquipmentSection() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
-  const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -87,35 +83,17 @@ export default function SpecializedEquipmentSection() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-
   useEffect(() => {
     setCurrentPage(1);
   }, [itemsPerPage]);
 
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-
-  const totalPages = Math.ceil(
-    equipmentData.length / itemsPerPage
-  );
-
+  const totalPages = Math.ceil(equipmentData.length / itemsPerPage);
 
   const currentItems = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
 
-    return equipmentData.slice(
-      start,
-      start + itemsPerPage
-    );
+    return equipmentData.slice(start, start + itemsPerPage);
   }, [currentPage, itemsPerPage]);
-
 
   return (
     <section id="specialized-equipment-capabilities">
@@ -124,33 +102,22 @@ export default function SpecializedEquipmentSection() {
         description="Providing heavy-duty solutions for the most demanding engineering environments in the region."
       />
 
-
       <div
         key={currentPage}
-        className="
-          mt-12 grid gap-6
-          animate-[fadeSlide_0.45s_ease-out]
-          md:grid-cols-2
-          lg:grid-cols-3
-        "
+        className="mt-12 grid gap-6 animate-[fadeSlide_0.45s_ease-out] md:grid-cols-2 lg:grid-cols-3"
       >
-        {loading
-          ? Array.from({ length: itemsPerPage }).map((_, index) => (
-            <DirectionCardSkeleton key={index} />
-          ))
-          : currentItems.map((item) => (
-            <DirectionCard
-              key={item.title}
-              title={item.title}
-              description={item.description}
-              icon={item.icon}
-              features={item.features}
-            />
-          ))}
+        {currentItems.map((item) => (
+          <DirectionCard
+            key={item.title}
+            title={item.title}
+            description={item.description}
+            icon={item.icon}
+            features={item.features}
+          />
+        ))}
       </div>
 
-
-      {!loading && totalPages > 1 && (
+      {totalPages > 1 && (
         <div className="mt-12 flex justify-center">
           <Pagination
             currentPage={currentPage}
