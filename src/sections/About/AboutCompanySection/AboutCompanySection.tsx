@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import TitleComponent from "../../../components/shared/TitleComponent";
-
 import { aboutCompanyContent } from "../../../data/aboutCompanyData";
 
 import aboutCompanyImage1 from "../../../assets/Images/About/AboutLSA/aboutLSA.webp";
@@ -12,7 +11,15 @@ import aboutCompanyImage3 from "../../../assets/Images/About/AboutLSA/aboutLSA3.
 import aboutCompanyImage4 from "../../../assets/Images/About/AboutLSA/aboutLSA4.webp";
 import AboutCompanyHighlightItem from "./AboutCompanyHighlightItem";
 
-const aboutImages = [
+export interface AboutImageItem {
+  id: number;
+  image: string;
+  alt: string;
+  eyebrow: string;
+  title: string;
+}
+
+const aboutImages: AboutImageItem[] = [
   {
     id: 1,
     image: aboutCompanyImage1,
@@ -44,40 +51,16 @@ const aboutImages = [
 ];
 
 const cardPositions = [
-  {
-    x: "0%",
-    y: "3%",
-    scale: 1,
-    rotate: 0,
-    opacity: 1,
-    zIndex: 40,
-  },
-  {
-    x: "28%",
-    y: "-12%",
-    scale: 0.74,
-    rotate: 7,
-    opacity: 1,
-    zIndex: 30,
-  },
-  {
-    x: "-30%",
-    y: "-1%",
-    scale: 0.78,
-    rotate: -7,
-    opacity: 1,
-    zIndex: 20,
-  },
-  {
-    x: "-18%",
-    y: "25%",
-    scale: 0.7,
-    rotate: 5,
-    opacity: 0.95,
-    zIndex: 10,
-  },
+  { x: "0%", y: "3%", scale: 1, rotate: 0, opacity: 1, zIndex: 40 },
+  { x: "28%", y: "-12%", scale: 0.74, rotate: 7, opacity: 1, zIndex: 30 },
+  { x: "-30%", y: "-1%", scale: 0.78, rotate: -7, opacity: 1, zIndex: 20 },
+  { x: "-18%", y: "25%", scale: 0.7, rotate: 5, opacity: 0.95, zIndex: 10 },
 ];
 
+/**
+ * AboutCompanySection Component
+ * Renders the main About section featuring dynamic company insights, a stacked image carousel with Framer Motion, and key highlights.
+ */
 export default function AboutCompanySection() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
@@ -114,39 +97,47 @@ export default function AboutCompanySection() {
       </div>
 
       <div className="mt-6 grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] xl:gap-16 2xl:gap-20">
-        {/* Text */}
+        {/* Company Overview Text Column */}
         <div data-aos="fade-right" className="max-w-180">
-          <div data-aos="fade-up" data-aos-delay="100" className="flex items-center lg:justify-start justify-center  lg:text-start text-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-red-01">
-            <span className="h-px w-10 bg-red-01 " />
-
+          <div
+            data-aos="fade-up"
+            data-aos-delay="100"
+            className="flex items-center justify-center gap-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-red-01 lg:justify-start lg:text-start"
+          >
+            <span className="h-px w-10 bg-red-01" />
             {aboutCompanyContent.eyebrow}
-
-            <span className="h-px w-10 bg-red-01 block lg:hidden " />
-
+            <span className="block h-px w-10 bg-red-01 lg:hidden" />
           </div>
 
           <div data-aos="fade-up" data-aos-delay="150" className="mt-7 space-y-6">
             {aboutCompanyContent.paragraphs.map((paragraph) => (
-              <p key={paragraph} className=" text-sm leading-8 text-muted-blue md:text-base md:leading-8">
+              <p key={paragraph} className="text-sm leading-8 text-muted-blue md:text-base md:leading-8">
                 {paragraph}
               </p>
             ))}
           </div>
         </div>
 
-        {/* Stacked Carousel */}
-        <div data-aos="zoom-in" data-aos-duration="700" data-aos-easing="ease-out-cubic" data-aos-offset="100" data-aos-once="true" className="relative mx-auto w-full max-w-142.5">
+        {/* Stacked Carousel Column */}
+        <div
+          data-aos="zoom-in"
+          data-aos-duration="700"
+          data-aos-easing="ease-out-cubic"
+          data-aos-offset="100"
+          data-aos-once="true"
+          className="relative mx-auto w-full max-w-142.5"
+        >
           <div
             className="relative h-107.5 w-full sm:h-125 lg:h-115 xl:h-135"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            {/* Background decoration */}
+            {/* Decorative background overlay */}
             <div className="absolute inset-x-10 bottom-4 top-12 rounded-4xl bg-white-gray-03" />
 
             <div className="absolute -right-1 bottom-[10%] grid grid-cols-4 gap-2 opacity-60">
               {Array.from({ length: 16 }).map((_, index) => (
-                <span key={index} className="h-1.5 w-1.5 rounded-full bg-red-01" />
+                <span key={`dot-${index}`} className="h-1.5 w-1.5 rounded-full bg-red-01" />
               ))}
             </div>
 
@@ -169,34 +160,20 @@ export default function AboutCompanySection() {
                       zIndex: position.zIndex,
                     }}
                     transition={{
-                      x: {
-                        type: "spring",
-                        stiffness: 140,
-                        damping: 22,
-                      },
-                      y: {
-                        type: "spring",
-                        stiffness: 140,
-                        damping: 22,
-                      },
-                      scale: {
-                        duration: 0.65,
-                        ease: [0.22, 1, 0.36, 1],
-                      },
-                      rotate: {
-                        duration: 0.7,
-                        ease: [0.22, 1, 0.36, 1],
-                      },
-                      opacity: {
-                        duration: 0.45,
-                      },
+                      x: { type: "spring", stiffness: 140, damping: 22 },
+                      y: { type: "spring", stiffness: 140, damping: 22 },
+                      scale: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+                      rotate: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+                      opacity: { duration: 0.45 },
                     }}
+                    aria-current={isActive ? "true" : undefined}
                     onClick={() => {
                       if (!isActive) {
                         setActiveIndex(imageIndex);
                       }
                     }}
-                    className={`absolute left-1/2 top-1/2 w-[67%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl border-[5px] border-white bg-white shadow-[0_30px_75px_rgba(15,35,68,0.24)] ${isActive ? "cursor-default" : "cursor-pointer"}`}
+                    className={`absolute left-1/2 top-1/2 w-[67%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl border-[5px] border-white bg-white shadow-[0_30px_75px_rgba(15,35,68,0.24)] ${isActive ? "cursor-default" : "cursor-pointer"
+                      }`}
                   >
                     <div className="relative">
                       <img
@@ -230,7 +207,7 @@ export default function AboutCompanySection() {
               })}
             </AnimatePresence>
 
-            {/* Navigation */}
+            {/* Navigation Controls */}
             <div className="absolute bottom-0 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3">
               <button
                 type="button"
@@ -248,7 +225,10 @@ export default function AboutCompanySection() {
                     type="button"
                     aria-label={`Show image ${index + 1}`}
                     onClick={() => setActiveIndex(index)}
-                    className={`h-2 rounded-full transition-all duration-500 ${activeIndex === index ? "w-7 bg-red-01" : "w-2 bg-blue-01/20 hover:bg-blue-01/40"}`}
+                    className={`h-2 rounded-full transition-all duration-500 ${activeIndex === index
+                        ? "w-7 bg-red-01"
+                        : "w-2 bg-blue-01/20 hover:bg-blue-01/40"
+                      }`}
                   />
                 ))}
               </div>
@@ -266,7 +246,7 @@ export default function AboutCompanySection() {
         </div>
       </div>
 
-      {/* Highlights */}
+      {/* Highlights Grid */}
       <div className="mt-16 grid gap-7 md:grid-cols-2 lg:grid-cols-3 xl:mt-20 xl:gap-8">
         {aboutCompanyContent.highlights.map((item, index) => (
           <AboutCompanyHighlightItem
