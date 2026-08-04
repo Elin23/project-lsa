@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
-import {
-  createHashRouter,
-  RouterProvider,
-} from "react-router-dom";
-
-import MainLayout from "./layouts/MainLayout";
-
-import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
-import CareersPage from "./pages/CareersPage";
-import ContactPage from "./pages/ContactPage";
-import EngineeringServicesPage from "./pages/EngineeringServicesPage";
-import EngineeringServiceDeatilsPage from "./pages/EngineeringServiceDeatilsPage";
-import ProjectPage from "./pages/ProjectPage";
-import ProjectDetailsPage from "./pages/ProjectDetails";
-import EquipmentsPage from "./pages/EquipmentsPage";
-import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
-import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 
 import Loader from "./components/feedback/Loader";
 import { AppLoadingProvider } from "./context/AppLoadingContext";
+import MainLayout from "./layouts/MainLayout";
+
+const HomePage = lazy(() => import("./pages/HomePage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const CareersPage = lazy(() => import("./pages/CareersPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const EngineeringServicesPage = lazy(
+  () => import("./pages/EngineeringServicesPage"),
+);
+const EngineeringServiceDetailsPage = lazy(
+  () => import("./pages/EngineeringServiceDeatilsPage"),
+);
+const ProjectPage = lazy(() => import("./pages/ProjectPage"));
+const ProjectDetailsPage = lazy(() => import("./pages/ProjectDetails"));
+const EquipmentsPage = lazy(() => import("./pages/EquipmentsPage"));
+const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
+const TermsAndConditionsPage = lazy(
+  () => import("./pages/TermsAndConditionsPage"),
+);
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 const router = createHashRouter([
   {
@@ -41,7 +43,7 @@ const router = createHashRouter([
       },
       {
         path: "services/:slug",
-        element: <EngineeringServiceDeatilsPage />,
+        element: <EngineeringServiceDetailsPage />,
       },
       {
         path: "projects",
@@ -71,8 +73,6 @@ const router = createHashRouter([
         path: "terms-and-conditions",
         element: <TermsAndConditionsPage />,
       },
-
-      // أي رابط غير موجود سيعرض صفحة 404
       {
         path: "*",
         element: <NotFoundPage />,
@@ -82,8 +82,7 @@ const router = createHashRouter([
 ]);
 
 const App = () => {
-  const [isLoaderVisible, setIsLoaderVisible] =
-    useState(true);
+  const [isLoaderVisible, setIsLoaderVisible] = useState(true);
   const [showLoader, setShowLoader] = useState(true);
   const [isAppReady, setIsAppReady] = useState(false);
 
@@ -105,11 +104,11 @@ const App = () => {
 
   return (
     <AppLoadingProvider isAppReady={isAppReady}>
-      <RouterProvider router={router} />
+      <Suspense fallback={<Loader isVisible />}>
+        <RouterProvider router={router} />
+      </Suspense>
 
-      {showLoader && (
-        <Loader isVisible={isLoaderVisible} />
-      )}
+      {showLoader && <Loader isVisible={isLoaderVisible} />}
     </AppLoadingProvider>
   );
 };

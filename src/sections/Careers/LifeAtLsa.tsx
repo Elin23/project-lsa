@@ -19,7 +19,6 @@ const LifeAtLsa = () => {
     return () => clearTimeout(timer);
   }, []);
 
-
   return (
     <section id="life-at-lsa">
       <TitleComponent

@@ -50,7 +50,13 @@ body {
 }
 
 html {
-  scroll-behavior: smooth !important;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 html,
 body {
@@ -436,4 +442,38 @@ html {
   animation: pulse404 4s ease-in-out infinite;
   transform-origin: center;
   will-change: transform, opacity;
+}
+/* Legal pages content */
+
+.policy-content p,
+.legal-content p {
+  color: #52647d;
+}
+
+.policy-content ul,
+.legal-content ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.policy-content li,
+.legal-content li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: #52647d;
+}
+
+.policy-content li::before,
+.legal-content li::before {
+  content: "";
+  position: absolute;
+  top: 0.7rem;
+  left: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background-color: #dc2626;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.08);
 }

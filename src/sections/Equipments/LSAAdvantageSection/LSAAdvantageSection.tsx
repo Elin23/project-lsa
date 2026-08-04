@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   BadgeCheck,
   ClipboardCheck,
@@ -7,9 +6,7 @@ import {
 } from "lucide-react";
 
 import TitleComponent from "../../../components/shared/TitleComponent";
-import LSAAdvantageCardSkeleton from "../../../components/skeletons/LSAAdvantageCardSkeleton";
 import LSAAdvantageCard from "./LSAAdvantageCard";
-
 
 export interface LSAAdvantageItem {
   title: string;
@@ -17,8 +14,7 @@ export interface LSAAdvantageItem {
   icon: LucideIcon;
 }
 
-
-const advantageData: LSAAdvantageItem[] = [
+const advantageData: readonly LSAAdvantageItem[] = [
   {
     title: "Direct Ownership",
     description:
@@ -39,37 +35,24 @@ const advantageData: LSAAdvantageItem[] = [
   },
 ];
 
-
 export default function LSAAdvantageSection() {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-
   return (
-    <section id="the-lsa-advantage" className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
-      <TitleComponent
-        title="The LSA Advantage"
-        description="Delivering greater reliability, faster mobilization, and exceptional project performance through our integrated capabilities and experienced team."
-      />
+    <section
+      id="the-lsa-advantage"
+      aria-labelledby="lsa-advantage-heading"
+      className="pb-16 md:pb-20 lg:pb-24 xl:pb-28"
+    >
+      <div id="lsa-advantage-heading">
+        <TitleComponent
+          title="The LSA Advantage"
+          description="Delivering greater reliability, faster mobilization, and exceptional project performance through our integrated capabilities and experienced team."
+        />
+      </div>
 
-      <div className="mt-12 grid gap-10  md:grid-cols-2 lg:grid-cols-3">
-        {loading
-          ? Array.from({ length: 3 }).map((_, index) => (
-            <LSAAdvantageCardSkeleton key={index} />
-          ))
-          : advantageData.map((item) => (
-            <LSAAdvantageCard
-              key={item.title}
-              item={item}
-            />
-          ))}
+      <div className="mt-12 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        {advantageData.map((item) => (
+          <LSAAdvantageCard key={item.title} item={item} />
+        ))}
       </div>
     </section>
   );
