@@ -12,7 +12,7 @@ interface TimelineCardProps {
   description: string;
   badge: string;
   dotColor: string;
-  side: "left" | "right";
+  side: string;
   icon: ElementType;
   delay?: number;
   image?: string;
