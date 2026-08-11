@@ -1,37 +1,44 @@
 import { useEffect, useMemo, useState } from "react";
-import { projectsData } from "../../../data/projectsData";
+
 import TitleComponent from "../../../components/shared/TitleComponent";
 import Slider2 from "../../../components/shared/Slider2";
 import FeaturedProjectsCardSkeleton from "../../../components/skeletons/FeaturedProjectsCardSkeleton";
 import FeaturedProjectsCard from "./FeaturedProjectsCard";
 
-
-
-const FEATURED_PROJECTS_COUNT = 6;
+import type { ProjectListItem } from "../../../Types/project";
+import { getPublicProjects } from "../../../services/projectService";
 
 export default function FeaturedProjects() {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [projects, setProjects] = useState<ProjectListItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setLoading(false);
-    }, 1500);
+    const fetchFeaturedProjects = async () => {
+      try {
+        const response = await getPublicProjects();
 
-    return () => {
-      window.clearTimeout(timer);
+        setProjects(response.data);
+      } catch (error) {
+        console.error(
+          "Failed to fetch featured projects:",
+          error,
+        );
+      } finally {
+        setLoading(false);
+      }
     };
+
+    fetchFeaturedProjects();
   }, []);
 
   const featuredProjects = useMemo(() => {
-    return projectsData.slice(0, FEATURED_PROJECTS_COUNT);
-  }, []);
+    return projects.filter(
+      (project) => project.isFeatured,
+    );
+  }, [projects]);
 
   const skeletonItems = useMemo(
-    () =>
-      Array.from(
-        { length: FEATURED_PROJECTS_COUNT },
-        (_, index) => index,
-      ),
+    () => Array.from({ length: 6 }, (_, index) => index),
     [],
   );
 
@@ -55,12 +62,15 @@ export default function FeaturedProjects() {
               <FeaturedProjectsCardSkeleton key={item} />
             )}
           />
-        ) : (
+        ) : featuredProjects.length > 0 ? (
           <Slider2
             items={featuredProjects}
             visibleItems={{
               default: 1,
-              sm: featuredProjects.length >= 2 ? 2 : 1,
+              sm:
+                featuredProjects.length >= 2
+                  ? 2
+                  : 1,
             }}
             gap={16}
             autoPlay
@@ -68,14 +78,15 @@ export default function FeaturedProjects() {
             showControls={featuredProjects.length > 1}
             renderItem={(project) => (
               <FeaturedProjectsCard
-                image={project.image}
-                category={project.category}
+                key={project._id}
+                image={project.cardImage.url}
+                category={project.categoryLabel}
                 title={project.title}
-                path={project.path}
+                path={`/projects/${project.slug}`}
               />
             )}
           />
-        )}
+        ) : null}
       </div>
 
       {/* Tablet and desktop grid */}
@@ -91,17 +102,19 @@ export default function FeaturedProjects() {
       >
         {loading
           ? skeletonItems.map((item) => (
-              <FeaturedProjectsCardSkeleton key={item} />
-            ))
+            <FeaturedProjectsCardSkeleton
+              key={item}
+            />
+          ))
           : featuredProjects.map((project) => (
-              <FeaturedProjectsCard
-                key={project.id}
-                image={project.image}
-                category={project.category}
-                title={project.title}
-                path={project.path}
-              />
-            ))}
+            <FeaturedProjectsCard
+              key={project._id}
+              image={project.cardImage.url}
+              category={project.categoryLabel}
+              title={project.title}
+              path={`/projects/${project.slug}`}
+            />
+          ))}
       </div>
     </section>
   );

@@ -5,13 +5,14 @@ import {
   Clock,
   MapPin,
 } from "lucide-react";
-import type { CareerJob } from "../../data/careersData";
+
 import ButtonComponent from "../../components/shared/ButtonComponent";
 
+import type { Job } from "../../services/jobsApi";
 
 interface JobCardProps {
-  job: CareerJob;
-  onViewDetails: (job: CareerJob) => void;
+  job: Job;
+  onViewDetails: (job: Job) => void;
   animationDelay?: number;
 }
 
@@ -20,7 +21,17 @@ export default function JobCard({
   onViewDetails,
   animationDelay = 0,
 }: JobCardProps) {
-  const isOpen = job.status === "open";
+  const isOpen =
+    job.status === "published" &&
+    new Date(job.deadline) >= new Date();
+
+  const formattedDeadline = new Date(
+    job.deadline,
+  ).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <div
@@ -50,7 +61,6 @@ export default function JobCard({
         2xl:p-9
       "
     >
-      {/* Left Accent */}
       <span
         aria-hidden="true"
         className="
@@ -70,10 +80,37 @@ export default function JobCard({
         "
       />
 
-      <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div
+        className="
+          relative
+          z-10
+          flex
+          flex-col
+          gap-6
+          lg:flex-row
+          lg:items-center
+          lg:justify-between
+        "
+      >
         <div>
-          <div className="mb-3 flex flex-wrap items-center gap-3">
-            <h3 className="text-xl font-bold text-blue-01 md:text-[22px] 2xl:text-[24px]">
+          <div
+            className="
+              mb-3
+              flex
+              flex-wrap
+              items-center
+              gap-3
+            "
+          >
+            <h3
+              className="
+                text-xl
+                font-bold
+                text-blue-01
+                md:text-[22px]
+                2xl:text-[24px]
+              "
+            >
               {job.title}
             </h3>
 
@@ -94,49 +131,128 @@ export default function JobCard({
                 }
               `}
             >
-              {job.status}
+              {isOpen ? "Open" : "Closed"}
             </span>
           </div>
 
-          <p className="mb-4 max-w-2xl text-sm leading-6 text-muted-blue md:text-base">
-            {job.overview}
+          <p
+            className="
+              mb-4
+              max-w-2xl
+              text-sm
+              leading-6
+              text-muted-blue
+              md:text-base
+            "
+          >
+            {job.shortDescription}
           </p>
+
           {isOpen && (
-            <div className="mb-4 inline-flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-sm font-medium text-amber-700">
+            <div
+              className="
+                mb-4
+                inline-flex
+                items-center
+                gap-2
+                rounded-lg
+                bg-amber-50
+                px-3
+                py-2
+                text-sm
+                font-medium
+                text-amber-700
+              "
+            >
               <CalendarClock className="h-4 w-4" />
-              {job.applicationDeadline}
+
+              Applications close on{" "}
+              {formattedDeadline}
             </div>
           )}
-          <div className="flex flex-wrap gap-4 text-sm text-slate-500">
-            <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-slate-600">
+
+          <div
+            className="
+              flex
+              flex-wrap
+              gap-4
+              text-sm
+              text-slate-500
+            "
+          >
+            <span
+              className="
+                flex
+                items-center
+                gap-1.5
+                transition-colors
+                duration-300
+                group-hover:text-slate-600
+              "
+            >
               <MapPin className="h-4 w-4 shrink-0" />
+
               {job.location}
             </span>
 
-            <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-slate-600">
+            <span
+              className="
+                flex
+                items-center
+                gap-1.5
+                transition-colors
+                duration-300
+                group-hover:text-slate-600
+              "
+            >
               <Clock className="h-4 w-4 shrink-0" />
-              {job.type}
+
+              {job.employmentType}
             </span>
 
-            <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-slate-600">
+            <span
+              className="
+                flex
+                items-center
+                gap-1.5
+                transition-colors
+                duration-300
+                group-hover:text-slate-600
+              "
+            >
               <Briefcase className="h-4 w-4 shrink-0" />
+
               {job.department}
             </span>
           </div>
         </div>
 
-        <div className="shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1">
+        <div
+          className="
+            shrink-0
+            transition-transform
+            duration-300
+            ease-out
+            group-hover:translate-x-1
+          "
+        >
           <ButtonComponent
-            onClick={() => isOpen && onViewDetails(job)}
+            onClick={() =>
+              isOpen && onViewDetails(job)
+            }
             disabled={!isOpen}
-            icon={<ArrowRight className="h-4 w-4" />}
+            icon={
+              <ArrowRight className="h-4 w-4" />
+            }
             iconPosition="right"
             hoverBg=""
             height="h-12"
             padding="px-6"
             rounded="rounded-xl"
           >
-            {isOpen ? "View Details" : "Closed"}
+            {isOpen
+              ? "View Details"
+              : "Closed"}
           </ButtonComponent>
         </div>
       </div>

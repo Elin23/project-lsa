@@ -4,73 +4,130 @@ import TitleComponent from "../../components/shared/TitleComponent";
 import ProjectCardSkeleton from "../../components/skeletons/ProjectCardSkeleton";
 import TabsComponent from "../../components/shared/TabsComponent";
 import LoadMoreButton from "../../components/shared/LoadMoreButton";
+import ProjectCard from "../../components/cards/ProjectCard";
 
 import {
-  getProjectsByCategory,
-  projectCategories,
-} from "../../data/projectsData";
-import ProjectCard from "../../components/cards/ProjectCard";
+  getPublicProjects,
+} from "../../services/projectService";
+import type { ProjectListItem } from "../../Types/project";
+
 
 const INITIAL_VISIBLE_COUNT = 6;
 const LOAD_MORE_COUNT = 6;
 
 const ProjectsSection = () => {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [projects, setProjects] = useState<ProjectListItem[]>([]);
 
-  const [activeTab, setActiveTab] = useState<string>("All Projects");
+  const [loading, setLoading] = useState(true);
 
-  const [visibleCount, setVisibleCount] = useState<number>(
-    INITIAL_VISIBLE_COUNT
+  const [error, setError] = useState<string | null>(null);
+
+  const [activeTab, setActiveTab] = useState("All Projects");
+
+  const [visibleCount, setVisibleCount] = useState(
+    INITIAL_VISIBLE_COUNT,
   );
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setLoading(false);
-    }, 1500);
+  // ======================================================
+  // Fetch Projects
+  // ======================================================
 
-    return () => window.clearTimeout(timer);
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await getPublicProjects();
+
+        if (!isMounted) return;
+
+        setProjects(response.data);
+      } catch (error) {
+        if (!isMounted) return;
+
+        console.error("Failed to load projects:", error);
+
+        setError(
+          "Unable to load projects. Please try again later.",
+        );
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchProjects();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  /*
-    جلب المشاريع حسب التصنيف المختار.
+  // ======================================================
+  // Categories
+  // ======================================================
 
-    إذا كان التصنيف:
-    All Projects
+  const projectCategories = useMemo(() => {
+    const categories = Array.from(
+      new Set(
+        projects
+          .map((project) => project.categoryLabel)
+          .filter(Boolean),
+      ),
+    );
 
-    ترجع الدالة جميع المشاريع.
+    return [
+      {
+        label: "All Projects",
+        value: "All Projects",
+      },
+      ...categories.map((category) => ({
+        label: category,
+        value: category,
+      })),
+    ];
+  }, [projects]);
 
-    وإذا كان:
-    Mechanical
-    Civil
-    Hot Tapping
-    EPC
+  // ======================================================
+  // Filter Projects
+  // ======================================================
 
-    ترجع فقط المشاريع التابعة لهذا التصنيف.
-  */
   const filteredProjects = useMemo(() => {
-    return getProjectsByCategory(activeTab);
-  }, [activeTab]);
+    if (activeTab === "All Projects") {
+      return projects;
+    }
 
-  /*
-    تحديد عدد المشاريع التي ستظهر داخل الصفحة.
-  */
-  const visibleProjects = filteredProjects.slice(0, visibleCount);
+    return projects.filter(
+      (project) => project.categoryLabel === activeTab,
+    );
+  }, [projects, activeTab]);
 
-  /*
-    تغيير التصنيف وإرجاع عدد المشاريع الظاهرة
-    إلى العدد الأولي.
-  */
+  // ======================================================
+  // Visible Projects
+  // ======================================================
+
+  const visibleProjects = filteredProjects.slice(
+    0,
+    visibleCount,
+  );
+
+  // ======================================================
+  // Change Category
+  // ======================================================
+
   const handleChangeTab = (tab: string) => {
     setActiveTab(tab);
     setVisibleCount(INITIAL_VISIBLE_COUNT);
   };
 
-  /*
-    عرض المزيد من المشاريع.
+  // ======================================================
+  // Load More / Show Less
+  // ======================================================
 
-    إذا كانت جميع المشاريع ظاهرة،
-    يرجع العدد إلى أول 6 مشاريع.
-  */
   const handleToggleProjects = () => {
     if (visibleCount >= filteredProjects.length) {
       setVisibleCount(INITIAL_VISIBLE_COUNT);
@@ -80,14 +137,19 @@ const ProjectsSection = () => {
     setVisibleCount((previousCount) =>
       Math.min(
         previousCount + LOAD_MORE_COUNT,
-        filteredProjects.length
-      )
+        filteredProjects.length,
+      ),
     );
   };
+
+  // ======================================================
+  // Render
+  // ======================================================
 
   return (
     <section id="our-projects">
       {/* Title and Tabs */}
+
       <div
         data-aos="fade-up"
         data-aos-duration="650"
@@ -99,78 +161,102 @@ const ProjectsSection = () => {
           title="Our Projects"
           description="Showcasing our engineering excellence and infrastructure development across the energy sector in Iraq."
         />
-        <div className=" flex justify-center">
-          <TabsComponent
-            tabs={projectCategories}
-            activeTab={activeTab}
-            onChange={handleChangeTab}
-          />
-        </div>
 
+        {!loading && !error && projectCategories.length > 1 && (
+          <div className="flex justify-center">
+            <TabsComponent
+              tabs={projectCategories}
+              activeTab={activeTab}
+              onChange={handleChangeTab}
+            />
+          </div>
+        )}
       </div>
 
-      {/* Projects Grid */}
-      <div
-        key={`${activeTab}-${visibleCount}-${loading}`}
-        className="
-          mt-10
-          grid
-          items-stretch
-          gap-6
-          md:grid-cols-2
-          lg:grid-cols-3
-        "
-      >
-        {loading
-          ? Array.from({
-            length: INITIAL_VISIBLE_COUNT,
-          }).map((_, index) => (
-            <ProjectCardSkeleton key={index} />
-          ))
-          : visibleProjects.map((project, index) => (
-            <div
-              key={project.id}
-              data-aos="fade"
-              data-aos-duration="500"
-              data-aos-delay={index * 40}
-              data-aos-easing="ease-out"
-              data-aos-offset="30"
-              data-aos-once="true"
-              className="h-full"
-            >
-              <div
-                className="
-                    h-full
-                    animate-[projectCardFilterFade_0.45s_ease-out_both]
-                    motion-reduce:animate-none
-                  "
-                style={{
-                  animationDelay: `${index * 55}ms`,
-                }}
-              >
-                <ProjectCard project={project} />
-              </div>
-            </div>
-          ))}
-      </div>
+      {/* Error State */}
 
-      {/* Empty State */}
-      {!loading && filteredProjects.length === 0 && (
+      {!loading && error && (
         <div
-          key={activeTab}
           className="
             mt-12
-            animate-[projectEmptyFade_0.4s_ease-out_both]
             text-center
             text-muted-blue
           "
         >
-          No projects were found in this category.
+          {error}
         </div>
       )}
 
-      {/* Load More */}
+      {/* Projects Grid */}
+
+      {!error && (
+        <div
+          key={`${activeTab}-${visibleCount}-${loading}`}
+          className="
+            mt-10
+            grid
+            items-stretch
+            gap-6
+            md:grid-cols-2
+            lg:grid-cols-3
+          "
+        >
+          {loading
+            ? Array.from({
+              length: INITIAL_VISIBLE_COUNT,
+            }).map((_, index) => (
+              <ProjectCardSkeleton key={index} />
+            ))
+            : visibleProjects.map((project, index) => (
+              <div
+                key={project._id}
+                data-aos="fade"
+                data-aos-duration="500"
+                data-aos-delay={index * 40}
+                data-aos-easing="ease-out"
+                data-aos-offset="30"
+                data-aos-once="true"
+                className="h-full"
+              >
+                <div
+                  className="
+                      h-full
+                      animate-[projectCardFilterFade_0.45s_ease-out_both]
+                      motion-reduce:animate-none
+                    "
+                  style={{
+                    animationDelay: `${index * 55}ms`,
+                  }}
+                >
+                  <ProjectCard project={project} />
+                </div>
+              </div>
+            ))}
+        </div>
+      )}
+
+      {/* Empty State */}
+
       {!loading &&
+        !error &&
+        filteredProjects.length === 0 && (
+          <div
+            key={activeTab}
+            className="
+              mt-12
+              animate-[projectEmptyFade_0.4s_ease-out_both]
+              text-center
+              text-muted-blue
+            "
+          >
+            No projects were found in this category.
+          </div>
+        )}
+
+      {/* Load More */}
+
+      {!loading &&
+        !error &&
         filteredProjects.length > INITIAL_VISIBLE_COUNT && (
           <div
             data-aos="fade-up"
@@ -192,4 +278,3 @@ const ProjectsSection = () => {
 };
 
 export default ProjectsSection;
-

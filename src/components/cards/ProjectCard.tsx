@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { GoArrowRight } from "react-icons/go";
-import type { Project } from "../../data/projectsData";
+import type { ProjectListItem } from "../../Types/project";
+
 
 interface ProjectCardProps {
-  project: Project;
+  project: ProjectListItem;
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
@@ -28,8 +29,8 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         {/* Image */}
         <div className="relative h-52.5 shrink-0 overflow-hidden">
           <img
-            src={project.image}
-            alt={project.title}
+            src={project.cardImage.url}
+            alt={project.cardImage.alt || project.title}
             className="
               h-full
               w-full
@@ -63,7 +64,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                 shadow-sm
               "
             >
-              {project.category}
+              {project.categoryLabel}
             </span>
           </div>
 
@@ -80,14 +81,27 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         {/* Content */}
         <div className="flex flex-1 flex-col p-5 md:p-6">
           <p className="flex-1 text-sm leading-6 text-muted-blue md:text-base">
-            {project.description}
+            {project.shortDescription}
           </p>
 
           <Link
-            to={project.path}
+            to={`/projects/${project.slug}`}
             className="group/link mt-5 inline-flex items-center gap-2 font-semibold text-red-01"
           >
-            <span className="relative after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-red-01 after:transition-all after:duration-300 group-hover/link:after:w-full">
+            <span
+              className="
+                relative
+                after:absolute
+                after:left-0
+                after:-bottom-1
+                after:h-0.5
+                after:w-0
+                after:bg-red-01
+                after:transition-all
+                after:duration-300
+                group-hover/link:after:w-full
+              "
+            >
               View Details
             </span>
 
