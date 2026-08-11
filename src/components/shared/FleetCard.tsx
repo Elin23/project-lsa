@@ -4,24 +4,23 @@ import {
   MapPin,
   Settings2,
 } from "lucide-react";
+import type { PublicEquipment } from "../../Types/equipment";
 
-import type { FleetItem } from "../../data/fleetData";
 
-interface FleetCardProps extends FleetItem {
+interface FleetCardProps {
+  item: PublicEquipment;
   onRequest: () => void;
   animationDelay?: number;
 }
 
 export default function FleetCard({
-  image,
-  title,
-  quantity,
-  capacityLabel = "Capacity",
-  capacity,
-  location,
+  item,
   onRequest,
   animationDelay = 0,
 }: FleetCardProps) {
+  const isAvailable =
+    item.availableUnits > 0;
+
   return (
     <div
       data-aos="fade-up"
@@ -53,15 +52,18 @@ export default function FleetCard({
         {/* Image */}
         <div className="relative h-36 shrink-0 overflow-hidden sm:h-38">
           <img
-            src={image}
-            alt={title}
+            src={item.image.url}
+            alt={
+              item.image.alt ||
+              item.title
+            }
             loading="lazy"
             decoding="async"
             className="
               h-full
               w-full
               object-cover
-               transition-transform
+              transition-transform
               duration-700
               group-hover:scale-110
             "
@@ -79,7 +81,6 @@ export default function FleetCard({
             "
           />
 
-          {/* Availability */}
           <div
             className="
               absolute
@@ -102,12 +103,19 @@ export default function FleetCard({
               shadow-sm
             "
           >
-            <Circle className="h-1.5 w-1.5 fill-green-500 text-green-500" />
+            <Circle
+              className={`h-1.5 w-1.5 ${
+                isAvailable
+                  ? "fill-green-500 text-green-500"
+                  : "fill-red-500 text-red-500"
+              }`}
+            />
 
-            Ready to Mobilize
+            {isAvailable
+              ? "Ready to Mobilize"
+              : "Currently Unavailable"}
           </div>
 
-          {/* Quantity */}
           <span
             className="
               absolute
@@ -125,13 +133,12 @@ export default function FleetCard({
               shadow-sm
             "
           >
-            {quantity} Units
+            {item.availableUnits} Available
           </span>
         </div>
 
         {/* Content */}
         <div className="flex flex-1 flex-col p-4">
-          {/* Heading */}
           <div>
             <span
               className="
@@ -142,7 +149,7 @@ export default function FleetCard({
                 text-red-01
               "
             >
-              Heavy Equipment
+              {item.category.name}
             </span>
 
             <h3
@@ -155,11 +162,10 @@ export default function FleetCard({
                 md:text-[17px]
               "
             >
-              {title}
+              {item.title}
             </h3>
           </div>
 
-          {/* Details */}
           <div
             className="
               mt-3
@@ -176,30 +182,20 @@ export default function FleetCard({
               <Settings2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-01" />
 
               <div className="min-w-0">
-                <p
-                  className="
-                    text-[8px]
-                    font-bold
-                    uppercase
-                    tracking-[0.06em]
-                    text-slate-400
-                  "
-                >
-                  {capacityLabel}
+                <p className="text-[8px] font-bold uppercase tracking-[0.06em] text-slate-400">
+                  {
+                    item
+                      .primarySpecification
+                      .label
+                  }
                 </p>
 
-                <p
-                  className="
-                    mt-0.5
-                    line-clamp-2
-                    text-[11px]
-                    font-semibold
-                    leading-4
-                    text-slate-700
-                    sm:text-xs
-                  "
-                >
-                  {capacity}
+                <p className="mt-0.5 line-clamp-2 text-[11px] font-semibold leading-4 text-slate-700 sm:text-xs">
+                  {
+                    item
+                      .primarySpecification
+                      .value
+                  }
                 </p>
               </div>
             </div>
@@ -208,82 +204,55 @@ export default function FleetCard({
               <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-01" />
 
               <div className="min-w-0">
-                <p
-                  className="
-                    text-[8px]
-                    font-bold
-                    uppercase
-                    tracking-[0.06em]
-                    text-slate-400
-                  "
-                >
+                <p className="text-[8px] font-bold uppercase tracking-[0.06em] text-slate-400">
                   Location
                 </p>
 
-                <p
-                  className="
-                    mt-0.5
-                    line-clamp-2
-                    text-[11px]
-                    font-semibold
-                    leading-4
-                    text-slate-700
-                    sm:text-xs
-                  "
-                >
-                  {location}
+                <p className="mt-0.5 line-clamp-2 text-[11px] font-semibold leading-4 text-slate-700 sm:text-xs">
+                  {item.location}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Button */}
           <button
             type="button"
+            disabled={!isAvailable}
             onClick={onRequest}
             className="
-    group/button
-    mt-3
-    inline-flex
-    h-9
-    w-full
-    cursor-pointer
-    items-center
-    justify-center
-    gap-1.5
-    rounded-lg
-    border
-    border-blue-01/15
-    bg-blue-01/5
-    px-3
-    text-[11px]
-    font-bold
-    text-blue-01
-    shadow-sm
-    transition-all
-    duration-300
-    ease-out
-    hover:-translate-y-0.5
-    hover:border-blue-01/30
-    hover:bg-blue-01/10
-    hover:shadow-md
-    focus-visible:outline-none
-    focus-visible:ring-2
-    focus-visible:ring-blue-01/20
-    focus-visible:ring-offset-2
-  "
+              group/button
+              mt-3
+              inline-flex
+              h-9
+              w-full
+              cursor-pointer
+              items-center
+              justify-center
+              gap-1.5
+              rounded-lg
+              border
+              border-blue-01/15
+              bg-blue-01/5
+              px-3
+              text-[11px]
+              font-bold
+              text-blue-01
+              shadow-sm
+              transition-all
+              duration-300
+              ease-out
+              hover:-translate-y-0.5
+              hover:border-blue-01/30
+              hover:bg-blue-01/10
+              hover:shadow-md
+              disabled:cursor-not-allowed
+              disabled:opacity-45
+              disabled:hover:translate-y-0
+            "
           >
             Request Availability
 
-            <ArrowRight
-              className="
-      h-3.5
-      w-3.5
-      transition-transform
-      duration-300
-      group-hover/button:translate-x-1
-    "
-            />
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/button:translate-x-1" />
           </button>
         </div>
       </article>
