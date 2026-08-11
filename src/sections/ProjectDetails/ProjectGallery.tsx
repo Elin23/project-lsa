@@ -4,7 +4,7 @@ import TitleComponent from "../../components/shared/TitleComponent";
 import Slider2 from "../../components/shared/Slider2";
 import GalleryCardSkeleton from "../../components/skeletons/GalleryCardSkeleton";
 
-import type { Project } from "../../data/projectsData";
+import type { Project, ProjectGalleryImage } from "../../Types/project";
 
 interface GalleryCardProps {
   image: string;
@@ -16,11 +16,27 @@ const GalleryCard = ({
   alt,
 }: GalleryCardProps) => {
   return (
-    <div className="overflow-hidden rounded-2xl shadow-[0px_4px_6px_-4px_#0000001A,0px_10px_15px_-3px_#0000001A]">
+    <div
+      className="
+        overflow-hidden
+        rounded-2xl
+        shadow-[0px_4px_6px_-4px_#0000001A,0px_10px_15px_-3px_#0000001A]
+      "
+    >
       <img
         src={image}
         alt={alt}
-        className="h-60 w-full rounded-2xl object-cover"
+        loading="lazy"
+        decoding="async"
+        className="
+          h-60
+          w-full
+          rounded-2xl
+          object-cover
+          transition-transform
+          duration-500
+          hover:scale-[1.02]
+        "
       />
     </div>
   );
@@ -51,17 +67,22 @@ export default function ProjectGallery({
 
     window.addEventListener("resize", handleResize);
 
-    return () =>
+    return () => {
       window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, 800);
 
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [project._id]);
+
+  const gallery = [...project.gallery].sort(
+    (a, b) => a.displayOrder - b.displayOrder,
+  );
 
   return (
     <section className="pb-16 md:pb-20 lg:pb-24 xl:pb-28">
@@ -70,25 +91,17 @@ export default function ProjectGallery({
         description="On-site captures of the engineering excellence in progress."
       />
 
-      <Slider2
-        items={
-          loading
-            ? Array.from({ length: 4 }, (_, index) => ({
-                id: index,
-                image: "",
-                alt: "",
-              }))
-            : project.gallery
-        }
+      <Slider2<ProjectGalleryImage>
+        items={gallery}
         visibleItems={cardsPerSlide}
         renderItem={(item, index) =>
           loading ? (
             <GalleryCardSkeleton key={index} />
           ) : (
             <GalleryCard
-              key={item.id}
-              image={item.image}
-              alt={item.alt}
+              key={`${item.url}-${item.displayOrder}`}
+              image={item.url}
+              alt={item.alt || project.title}
             />
           )
         }

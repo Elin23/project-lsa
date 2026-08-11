@@ -1,9 +1,14 @@
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
-import { ChevronDown, Expand, FileCheck2, X } from "lucide-react";
+import {
+  ChevronDown,
+  Expand,
+  FileCheck2,
+  X,
+} from "lucide-react";
 
 import TitleComponent from "../../components/shared/TitleComponent";
-import type { ProjectCertificate } from "../../data/projectsData";
+import type { ProjectCertificate } from "../../Types/project";
 
 interface ProjectCertificatesProps {
   certificates: ProjectCertificate[];
@@ -50,15 +55,18 @@ const ProjectCertificates = ({
     return null;
   }
 
+  const sortedCertificates = [...certificates].sort(
+    (a, b) => a.displayOrder - b.displayOrder,
+  );
+
   const openPreview = (
     certificate: ProjectCertificate,
     index: number,
   ) => {
-    const title =
-      certificate.title || `Project Certificate ${index + 1}`;
+    const title = `Project Certificate ${index + 1}`;
 
     setPreviewCertificate({
-      image: certificate.image,
+      image: certificate.url,
       alt: certificate.alt || title,
       title,
     });
@@ -81,7 +89,9 @@ const ProjectCertificates = ({
           <button
             id={accordionButtonId}
             type="button"
-            onClick={() => setIsOpen((currentState) => !currentState)}
+            onClick={() =>
+              setIsOpen((currentState) => !currentState)
+            }
             aria-expanded={isOpen}
             aria-controls={accordionContentId}
             className="
@@ -141,10 +151,9 @@ const ProjectCertificates = ({
               transition-[grid-template-rows,opacity]
               duration-500
               ease-in-out
-              ${
-                isOpen
-                  ? "grid-rows-[1fr] opacity-100"
-                  : "grid-rows-[0fr] opacity-0"
+              ${isOpen
+                ? "grid-rows-[1fr] opacity-100"
+                : "grid-rows-[0fr] opacity-0"
               }
             `}
           >
@@ -164,92 +173,110 @@ const ProjectCertificates = ({
                     lg:pb-0
                   "
                 >
-                  {certificates.map((certificate, index) => {
-                    const certificateTitle =
-                      certificate.title ||
-                      `Project Certificate ${index + 1}`;
+                  {sortedCertificates.map(
+                    (certificate, index) => {
+                      const certificateTitle =
+                        `Project Certificate ${index + 1}`;
 
-                    const certificateAlt =
-                      certificate.alt || certificateTitle;
+                      const certificateAlt =
+                        certificate.alt || certificateTitle;
 
-                    return (
-                      <div
-                        key={certificate.id}
-                        className="
-                          min-w-[72%]
-                          sm:min-w-[42%]
-                          lg:min-w-0
-                        "
-                      >
-                        <h3 className="mb-3 line-clamp-1 text-center text-sm font-semibold text-blue-01 sm:text-base">
-                          {certificateTitle}
-                        </h3>
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            openPreview(certificate, index)
-                          }
-                          aria-label={`View ${certificateTitle} in fullscreen`}
+                      return (
+                        <div
+                          key={`${certificate.url}-${certificate.displayOrder}`}
                           className="
-                            group/image
-                            relative
-                            flex
-                            h-52
-                            w-full
-                            cursor-zoom-in
-                            items-center
-                            justify-center
-                            focus-visible:outline-none
-                            focus-visible:ring-2
-                            focus-visible:ring-blue-01
-                            focus-visible:ring-offset-4
-                            sm:h-56
-                            lg:h-52
+                            min-w-[72%]
+                            sm:min-w-[42%]
+                            lg:min-w-0
                           "
                         >
-                          <img
-                            src={certificate.image}
-                            alt={certificateAlt}
-                            loading="lazy"
+                          <h3
                             className="
-                              block
-                              h-full
-                              w-full
-                              object-contain
-                              transition-transform
-                              duration-300
-                              group-hover/image:scale-[1.02]
-                            "
-                          />
-
-                          <span
-                            className="
-                              absolute
-                              right-2
-                              top-2
-                              flex
-                              h-9
-                              w-9
-                              items-center
-                              justify-center
-                              rounded-full
-                              bg-black/65
-                              text-white
-                              opacity-0
-                              backdrop-blur-sm
-                              transition-opacity
-                              duration-300
-                              group-hover/image:opacity-100
-                              group-focus-visible/image:opacity-100
+                              mb-3
+                              line-clamp-1
+                              text-center
+                              text-sm
+                              font-semibold
+                              text-blue-01
+                              sm:text-base
                             "
                           >
-                            <Expand size={17} strokeWidth={1.8} />
-                          </span>
-                        </button>
-                      </div>
-                    );
-                  })}
+                            {certificateTitle}
+                          </h3>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              openPreview(
+                                certificate,
+                                index,
+                              )
+                            }
+                            aria-label={`View ${certificateTitle} in fullscreen`}
+                            className="
+                              group/image
+                              relative
+                              flex
+                              h-52
+                              w-full
+                              cursor-zoom-in
+                              items-center
+                              justify-center
+                              focus-visible:outline-none
+                              focus-visible:ring-2
+                              focus-visible:ring-blue-01
+                              focus-visible:ring-offset-4
+                              sm:h-56
+                              lg:h-52
+                            "
+                          >
+                            <img
+                              src={certificate.url}
+                              alt={certificateAlt}
+                              loading="lazy"
+                              decoding="async"
+                              className="
+                                block
+                                h-full
+                                w-full
+                                object-contain
+                                transition-transform
+                                duration-300
+                                group-hover/image:scale-[1.02]
+                              "
+                            />
+
+                            <span
+                              className="
+                                absolute
+                                right-2
+                                top-2
+                                flex
+                                h-9
+                                w-9
+                                items-center
+                                justify-center
+                                rounded-full
+                                bg-black/65
+                                text-white
+                                opacity-0
+                                backdrop-blur-sm
+                                transition-opacity
+                                duration-300
+                                group-hover/image:opacity-100
+                                group-focus-visible/image:opacity-100
+                              "
+                            >
+                              <Expand
+                                size={17}
+                                strokeWidth={1.8}
+                              />
+                            </span>
+                          </button>
+                        </div>
+                      );
+                    },
+                  )}
                 </div>
               </div>
             </div>
@@ -307,8 +334,16 @@ const ProjectCertificates = ({
             </button>
 
             <div
-              onClick={(event) => event.stopPropagation()}
-              className="flex max-h-[94vh] max-w-[96vw] flex-col items-center"
+              onClick={(event) =>
+                event.stopPropagation()
+              }
+              className="
+                flex
+                max-h-[94vh]
+                max-w-[96vw]
+                flex-col
+                items-center
+              "
             >
               <img
                 src={previewCertificate.image}
@@ -322,7 +357,16 @@ const ProjectCertificates = ({
                 "
               />
 
-              <p className="mt-4 text-center text-sm font-medium text-white sm:text-base">
+              <p
+                className="
+                  mt-4
+                  text-center
+                  text-sm
+                  font-medium
+                  text-white
+                  sm:text-base
+                "
+              >
                 {previewCertificate.title}
               </p>
             </div>
