@@ -1,32 +1,55 @@
-import { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  Navigate,
+  useParams,
+} from "react-router-dom";
 
 import HeroSection, {
   type HeroSlide,
 } from "../sections/HeroSection";
 
 import HotTappingProcess from "../sections/ServiceDeatils/HotTappingProcess";
+
 import OperationalRangesSection from "../sections/ServiceDeatils/OperationalRangesSection/OperationalRangesSection";
+
 import RelatedProjects from "../sections/ServiceDeatils/RelatedProjects/RelatedProjects";
 
-import Loader from "../components/feedback/Loader";
+import ServiceDetailsPageSkeleton from "../components/skeletons/ServiceDetailsPageSkeleton";
 
 import type {
   Service,
   ServiceRelatedProject,
 } from "../Types/service";
 
-import { getPublicServiceBySlug } from "../services/serviceService";
+import {
+  getPublicServiceBySlug,
+} from "../services/serviceService";
 
 const EngineeringServiceDeatilsPage = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug } =
+    useParams<{ slug: string }>();
 
-  const [service, setService] = useState<Service | null>(null);
-  const [relatedProjects, setRelatedProjects] = useState<
+  const [service, setService] =
+    useState<Service | null>(null);
+
+  const [
+    relatedProjects,
+    setRelatedProjects,
+  ] = useState<
     ServiceRelatedProject[]
   >([]);
-  const [loading, setLoading] = useState(Boolean(slug));
-  const [requestFailed, setRequestFailed] = useState(false);
+
+  const [loading, setLoading] =
+    useState(Boolean(slug));
+
+  const [
+    requestFailed,
+    setRequestFailed,
+  ] = useState(false);
 
   useEffect(() => {
     if (!slug) {
@@ -37,14 +60,20 @@ const EngineeringServiceDeatilsPage = () => {
 
     const fetchService = async () => {
       try {
-        const data = await getPublicServiceBySlug(slug);
+        const data =
+          await getPublicServiceBySlug(
+            slug,
+          );
 
         if (ignore) {
           return;
         }
 
         setService(data.service);
-        setRelatedProjects(data.relatedProjects);
+
+        setRelatedProjects(
+          data.relatedProjects,
+        );
       } catch (error) {
         if (ignore) {
           return;
@@ -71,27 +100,41 @@ const EngineeringServiceDeatilsPage = () => {
   }, [slug]);
 
   if (!slug || requestFailed) {
-    return <Navigate to="/services" replace />;
+    return (
+      <Navigate
+        to="/services"
+        replace
+      />
+    );
   }
 
   if (loading) {
-    return <Loader isVisible />;
+    return (
+      <ServiceDetailsPageSkeleton />
+    );
   }
 
   if (!service) {
-    return <Navigate to="/services" replace />;
+    return (
+      <Navigate
+        to="/services"
+        replace
+      />
+    );
   }
 
   const heroSlides: HeroSlide[] = [
     {
       id: service._id,
       type: "image",
-      src: service.heroSection.image.url,
+      src:
+        service.heroSection.image.url,
       position: "center",
     },
   ];
 
-  const hasRelatedProjects = relatedProjects.length > 0;
+  const hasRelatedProjects =
+    relatedProjects.length > 0;
 
   return (
     <div
@@ -109,15 +152,25 @@ const EngineeringServiceDeatilsPage = () => {
     >
       <HeroSection
         slides={heroSlides}
-        title={service.heroSection.title}
-        description={service.heroSection.description}
+        title={
+          service.heroSection.title
+        }
+        description={
+          service.heroSection.description
+        }
       />
 
-      <HotTappingProcess service={service} />
+      <HotTappingProcess
+        service={service}
+      />
 
-      <OperationalRangesSection service={service} />
+      <OperationalRangesSection
+        service={service}
+      />
 
-      <RelatedProjects projects={relatedProjects} />
+      <RelatedProjects
+        projects={relatedProjects}
+      />
     </div>
   );
 };

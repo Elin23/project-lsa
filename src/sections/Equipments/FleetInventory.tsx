@@ -3,6 +3,7 @@ import {
   useMemo,
   useState,
 } from "react";
+
 import { Search } from "lucide-react";
 
 import TitleComponent from "../../components/shared/TitleComponent";
@@ -10,6 +11,8 @@ import TabsComponent from "../../components/shared/TabsComponent";
 import FleetCard from "../../components/shared/FleetCard";
 import FleetRequestModal from "../../components/shared/FleetRequestModal";
 import Pagination from "../../components/navigation/Pagination";
+
+import FleetCardSkeleton from "../../components/skeletons/FleetCardSkeleton";
 
 import type {
   EquipmentCategory,
@@ -38,26 +41,37 @@ function getItemsPerPage() {
 }
 
 export default function FleetInventory() {
-  const [equipment, setEquipment] = useState<
-    PublicEquipment[]
-  >([]);
+  const [equipment, setEquipment] =
+    useState<PublicEquipment[]>([]);
 
-  const [categories, setCategories] = useState<
-    EquipmentCategory[]
-  >([]);
+  const [categories, setCategories] =
+    useState<EquipmentCategory[]>(
+      [],
+    );
 
   const [activeTab, setActiveTab] =
-    useState<string>("all");
+    useState("all");
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] =
+    useState("");
 
-  const [selectedItem, setSelectedItem] =
-    useState<PublicEquipment | null>(null);
+  const [
+    selectedItem,
+    setSelectedItem,
+  ] =
+    useState<PublicEquipment | null>(
+      null,
+    );
 
-  const [currentPage, setCurrentPage] =
-    useState(1);
+  const [
+    currentPage,
+    setCurrentPage,
+  ] = useState(1);
 
-  const [itemsPerPage, setItemsPerPage] =
+  const [
+    itemsPerPage,
+    setItemsPerPage,
+  ] =
     useState(getItemsPerPage);
 
   const [loading, setLoading] =
@@ -66,33 +80,40 @@ export default function FleetInventory() {
   useEffect(() => {
     let ignore = false;
 
-    const fetchFleetData = async () => {
-      try {
-        const [
-          equipmentData,
-          categoriesData,
-        ] = await Promise.all([
-          getPublicEquipment(),
-          getPublicEquipmentCategories(),
-        ]);
+    const fetchFleetData =
+      async () => {
+        try {
+          const [
+            equipmentData,
+            categoriesData,
+          ] =
+            await Promise.all([
+              getPublicEquipment(),
+              getPublicEquipmentCategories(),
+            ]);
 
-        if (ignore) {
-          return;
-        }
+          if (ignore) {
+            return;
+          }
 
-        setEquipment(equipmentData);
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error(
-          "Failed to fetch equipment:",
-          error,
-        );
-      } finally {
-        if (!ignore) {
-          setLoading(false);
+          setEquipment(
+            equipmentData,
+          );
+
+          setCategories(
+            categoriesData,
+          );
+        } catch (error) {
+          console.error(
+            "Failed to fetch equipment:",
+            error,
+          );
+        } finally {
+          if (!ignore) {
+            setLoading(false);
+          }
         }
-      }
-    };
+      };
 
     fetchFleetData();
 
@@ -139,6 +160,7 @@ export default function FleetInventory() {
         value: "all",
         label: "All Equipment",
       },
+
       ...categories.map(
         (category) => ({
           value: category.slug,
@@ -149,59 +171,82 @@ export default function FleetInventory() {
     [categories],
   );
 
-  const filteredFleet = useMemo(() => {
-    const searchValue =
-      search.toLowerCase().trim();
+  const filteredFleet =
+    useMemo(() => {
+      const searchValue =
+        search
+          .toLowerCase()
+          .trim();
 
-    return equipment.filter((item) => {
-      const matchesTab =
-        activeTab === "all" ||
-        item.category.slug ===
-          activeTab;
+      return equipment.filter(
+        (item) => {
+          const matchesTab =
+            activeTab ===
+              "all" ||
+            item.category.slug ===
+              activeTab;
 
-      const matchesSearch =
-        searchValue === "" ||
-        item.title
-          .toLowerCase()
-          .includes(searchValue) ||
-        item.location
-          .toLowerCase()
-          .includes(searchValue) ||
-        item.shortDescription
-          .toLowerCase()
-          .includes(searchValue) ||
-        item.primarySpecification.label
-          .toLowerCase()
-          .includes(searchValue) ||
-        item.primarySpecification.value
-          .toLowerCase()
-          .includes(searchValue);
+          const matchesSearch =
+            searchValue ===
+              "" ||
+            item.title
+              .toLowerCase()
+              .includes(
+                searchValue,
+              ) ||
+            item.location
+              .toLowerCase()
+              .includes(
+                searchValue,
+              ) ||
+            item.shortDescription
+              .toLowerCase()
+              .includes(
+                searchValue,
+              ) ||
+            item.primarySpecification.label
+              .toLowerCase()
+              .includes(
+                searchValue,
+              ) ||
+            item.primarySpecification.value
+              .toLowerCase()
+              .includes(
+                searchValue,
+              );
 
-      return (
-        matchesTab &&
-        matchesSearch
+          return (
+            matchesTab &&
+            matchesSearch
+          );
+        },
       );
-    });
-  }, [
-    equipment,
-    activeTab,
-    search,
-  ]);
+    }, [
+      equipment,
+      activeTab,
+      search,
+    ]);
 
-  const totalPages = Math.ceil(
-    filteredFleet.length /
-      itemsPerPage,
-  );
+  const totalPages =
+    Math.ceil(
+      filteredFleet.length /
+        itemsPerPage,
+    );
 
-  const safeCurrentPage = Math.min(
-    currentPage,
-    Math.max(totalPages, 1),
-  );
+  const safeCurrentPage =
+    Math.min(
+      currentPage,
+      Math.max(
+        totalPages,
+        1,
+      ),
+    );
 
   const paginatedFleet =
     useMemo(() => {
       const startIndex =
-        (safeCurrentPage - 1) *
+        (safeCurrentPage -
+          1) *
         itemsPerPage;
 
       return filteredFleet.slice(
@@ -225,7 +270,9 @@ export default function FleetInventory() {
       <div className="mt-12 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
         <TabsComponent
           tabs={fleetTabs}
-          activeTab={activeTab}
+          activeTab={
+            activeTab
+          }
           onChange={(tab) => {
             setActiveTab(tab);
             setCurrentPage(1);
@@ -238,16 +285,36 @@ export default function FleetInventory() {
           <input
             type="search"
             value={search}
+            disabled={loading}
             onChange={(event) => {
               setSearch(
-                event.target.value,
+                event.target
+                  .value,
               );
 
               setCurrentPage(1);
             }}
             placeholder="Search Fleet..."
             aria-label="Search equipment fleet"
-            className="h-12 w-full rounded-xl border border-transparent bg-blue-01/5 pl-12 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-01/30 focus:bg-white"
+            className="
+              h-12
+              w-full
+              rounded-xl
+              border
+              border-transparent
+              bg-blue-01/5
+              pl-12
+              pr-4
+              text-sm
+              text-slate-700
+              outline-none
+              transition
+              placeholder:text-slate-400
+              focus:border-blue-01/30
+              focus:bg-white
+              disabled:cursor-not-allowed
+              disabled:opacity-60
+            "
           />
         </div>
       </div>
@@ -255,25 +322,35 @@ export default function FleetInventory() {
       {loading ? (
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({
-            length: itemsPerPage,
-          }).map((_, index) => (
-            <div
-              key={index}
-              className="h-80 animate-pulse rounded-xl bg-slate-100"
-            />
-          ))}
+            length:
+              itemsPerPage,
+          }).map(
+            (_, index) => (
+              <FleetCardSkeleton
+                key={index}
+              />
+            ),
+          )}
         </div>
       ) : filteredFleet.length >
         0 ? (
         <>
           <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {paginatedFleet.map(
-              (item, index) => (
+              (
+                item,
+                index,
+              ) => (
                 <FleetCard
-                  key={item._id}
-                  item={item}
+                  key={
+                    item._id
+                  }
+                  item={
+                    item
+                  }
                   animationDelay={
-                    (index % 3) *
+                    (index %
+                      3) *
                     60
                   }
                   onRequest={() =>
@@ -305,7 +382,8 @@ export default function FleetInventory() {
       ) : (
         <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-10 text-center">
           <h3 className="text-xl font-extrabold text-blue-01">
-            No equipment found
+            No equipment
+            found
           </h3>
 
           <p className="mt-2 text-sm text-slate-500">
@@ -319,7 +397,9 @@ export default function FleetInventory() {
       <FleetRequestModal
         item={selectedItem}
         onClose={() =>
-          setSelectedItem(null)
+          setSelectedItem(
+            null,
+          )
         }
       />
     </section>
