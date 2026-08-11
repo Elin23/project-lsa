@@ -1,6 +1,6 @@
 import { ArrowRight, Check } from "lucide-react";
-import ButtonComponent from "../../components/shared/ButtonComponent";
 
+import ButtonComponent from "../../components/shared/ButtonComponent";
 
 export interface ServiceCardProps {
   id: number;
@@ -8,7 +8,9 @@ export interface ServiceCardProps {
   title: string;
   description: string;
   image: string;
+  imageAlt?: string;
   features: string[];
+  label?: string;
   reverse?: boolean;
   animationDelay?: number;
 }
@@ -19,7 +21,9 @@ export default function ServiceCard({
   title,
   description,
   image,
+  imageAlt,
   features,
+  label,
   reverse = false,
   animationDelay = 0,
 }: ServiceCardProps) {
@@ -32,8 +36,7 @@ export default function ServiceCard({
       data-aos-offset="60"
       data-aos-once="true"
     >
-      <div className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_16px_50px_rgba(15,35,70,0.08)] transition-all duration-500 hover:-translate-y-1 hover:border-blue-01/20 hover:shadow-[0_26px_70px_rgba(15,35,70,0.14)]"
-      >
+      <div className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_16px_50px_rgba(15,35,70,0.08)] transition-all duration-500 hover:-translate-y-1 hover:border-blue-01/20 hover:shadow-[0_26px_70px_rgba(15,35,70,0.14)]">
         <div className="grid lg:min-h-97.5 lg:grid-cols-[72px_1fr_0.9fr]">
           {/* Service number */}
           <div className="relative hidden overflow-hidden border-r border-slate-200 bg-[#0b1d38] lg:flex lg:flex-col lg:items-center lg:justify-between lg:py-7">
@@ -50,8 +53,9 @@ export default function ServiceCard({
 
           {/* Content */}
           <div
-            className={`relative flex flex-col justify-center px-5 py-7 sm:px-7 sm:py-8 lg:px-8 lg:py-9 xl:px-10 ${reverse ? "lg:order-3" : "lg:order-2"
-              }`}
+            className={`relative flex flex-col justify-center px-5 py-7 sm:px-7 sm:py-8 lg:px-8 lg:py-9 xl:px-10 ${
+              reverse ? "lg:order-3" : "lg:order-2"
+            }`}
           >
             <div className="absolute left-0 top-0 h-1 w-20 bg-red-600 transition-all duration-500 group-hover:w-32 lg:hidden" />
 
@@ -69,7 +73,7 @@ export default function ServiceCard({
               <span className="h-px w-8 bg-red-600" />
 
               <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">
-                Industrial Solutions
+                {label || "Industrial Solutions"}
               </span>
             </div>
 
@@ -81,20 +85,24 @@ export default function ServiceCard({
               {description}
             </p>
 
-            <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
-              {features.slice(0, 4).map((feature) => (
-                <li
-                  key={feature}
-                  className="flex items-center gap-2.5 text-sm font-medium text-slate-600"
-                >
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600">
-                    <Check size={11} strokeWidth={3} />
-                  </span>
+            {features.length > 0 && (
+              <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
+                {features.slice(0, 4).map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex items-center gap-2.5 text-sm font-medium text-slate-600"
+                  >
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600">
+                      <Check size={11} strokeWidth={3} />
+                    </span>
 
-                  <span className="leading-5">{feature}</span>
-                </li>
-              ))}
-            </ul>
+                    <span className="leading-5">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <div className="mt-6 flex items-center gap-5 border-t border-slate-200 pt-5">
               <ButtonComponent
@@ -125,12 +133,13 @@ export default function ServiceCard({
 
           {/* Image */}
           <div
-            className={`relative min-h-62.5 overflow-hidden sm:min-h-75 lg:min-h-full ${reverse ? "lg:order-2" : "lg:order-3"
-              }`}
+            className={`relative min-h-62.5 overflow-hidden sm:min-h-75 lg:min-h-full ${
+              reverse ? "lg:order-2" : "lg:order-3"
+            }`}
           >
             <img
               src={image}
-              alt={title}
+              alt={imageAlt || title}
               loading="lazy"
               decoding="async"
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
@@ -139,10 +148,11 @@ export default function ServiceCard({
             <div className="absolute inset-0 bg-linear-to-t from-[#061427]/45 via-transparent to-transparent" />
 
             <div
-              className={`absolute inset-y-0 hidden w-24 lg:block ${reverse
-                ? "right-0 bg-linear-to-l from-white/15 to-transparent"
-                : "left-0 bg-linear-to-r from-white/15 to-transparent"
-                }`}
+              className={`absolute inset-y-0 hidden w-24 lg:block ${
+                reverse
+                  ? "right-0 bg-linear-to-l from-white/15 to-transparent"
+                  : "left-0 bg-linear-to-r from-white/15 to-transparent"
+              }`}
             />
 
             <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between">
@@ -150,12 +160,11 @@ export default function ServiceCard({
                 Oil & Gas
               </span>
 
-              <span className="h-px flex-1 bg-linear-to-r from-white/50 to-transparent ml-4" />
+              <span className="ml-4 h-px flex-1 bg-linear-to-r from-white/50 to-transparent" />
             </div>
           </div>
         </div>
       </div>
-
     </article>
   );
 }

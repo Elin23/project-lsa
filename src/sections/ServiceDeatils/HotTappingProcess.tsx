@@ -1,77 +1,57 @@
-import { useEffect, useState } from "react";
-
 import TitleComponent from "../../components/shared/TitleComponent";
 import Slider from "../../components/shared/Slider";
-import { DirectionCard } from "../About/StrategicDirectionsSection/StratigicDirectionsCard";
-import DirectionCardSkeleton from "../../components/skeletons/DirectionCardSkeleton";
 
-import { servicesData2 } from "../../data/servicesData2";
+import { DirectionCard } from "../About/StrategicDirectionsSection/StratigicDirectionsCard";
+
+import type { Service } from "../../Types/service";
+
+import { getLucideIcon } from "../../utils/getLucideIcon";
 
 type HotTappingProcessProps = {
-  service: (typeof servicesData2)[number];
+  service: Service;
 };
 
 export default function HotTappingProcess({
   service,
 }: HotTappingProcessProps) {
-  const [loading, setLoading] = useState<boolean>(true);
+  const { title, description, steps } =
+    service.deliveryProcessSection;
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const {
-    processTitle,
-    processDescription,
-    process: processData,
-  } = service.details;
+  if (!steps.length) {
+    return null;
+  }
 
   return (
     <div className="mt-24">
       <TitleComponent
-        title={processTitle}
-        description={processDescription}
+        title={title}
+        description={description}
       />
 
       {/* Mobile */}
       <div className="mt-8 md:hidden">
-        {loading ? (
-          <Slider
-            items={Array.from({ length: 1 })}
-            renderItem={() => <DirectionCardSkeleton />}
-          />
-        ) : (
-          <Slider
-            items={processData}
-            renderItem={(item) => (
-              <DirectionCard
-                icon={item.icon}
-                title={item.title}
-                description={item.description}
-              />
-            )}
-          />
-        )}
-      </div>
-
-      {/* Desktop */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8 mt-20">
-        {loading
-          ? Array.from({ length: 4 }).map((_, index) => (
-            <DirectionCardSkeleton key={index} />
-          ))
-          : processData.map((item) => (
+        <Slider
+          items={steps}
+          renderItem={(item) => (
             <DirectionCard
-              key={item.id}
-              icon={item.icon}
+              icon={getLucideIcon(item.icon)}
               title={item.title}
               description={item.description}
             />
-          ))}
+          )}
+        />
+      </div>
+
+      {/* Desktop */}
+      <div className="mt-20 hidden gap-8 md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        {steps.map((item, index) => (
+          <DirectionCard
+            key={`${item.title}-${index}`}
+            icon={getLucideIcon(item.icon)}
+            title={item.title}
+            description={item.description}
+          />
+        ))}
       </div>
     </div>
   );

@@ -1,59 +1,97 @@
+import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 
+import HeroSection, {
+  type HeroSlide,
+} from "../sections/HeroSection";
+
 import HotTappingProcess from "../sections/ServiceDeatils/HotTappingProcess";
-import RelatedProjects from "../sections/ServiceDeatils/RelatedProjects/RelatedProjects";
-import HeroSection from "../sections/HeroSection";
-
-import { servicesData2 } from "../data/servicesData2";
-import {
-  projectsData,
-  type ProjectCategory,
-} from "../data/projectsData";
 import OperationalRangesSection from "../sections/ServiceDeatils/OperationalRangesSection/OperationalRangesSection";
+import RelatedProjects from "../sections/ServiceDeatils/RelatedProjects/RelatedProjects";
 
-const serviceCategoryMap: Record<string, ProjectCategory> = {
-  "epc-projects": "EPC Projects",
-  "pipeline-services": "Pipeline Services",
-  "process-piping": "Process Piping",
-  "hot-tapping": "Hot Tapping",
-  "pipeline-integrity": "Pipeline Integrity",
-  "storage-tanks": "Storage Tanks",
-  "mechanical-works": "Mechanical Works",
-  "cathodic-protection": "Cathodic Protection",
-  "civil-works": "Civil Works",
-  "electrical-instrumentation": "Electrical & Instrumentation",
-  "auger-boring-hdd-crossing": "Auger Boring & HDD Crossing",
-};
+import Loader from "../components/feedback/Loader";
 
-const getServiceDetailsHeroSlides = (
-  service: (typeof servicesData2)[number],
-) => [
-  {
-    id: service.slug,
-    type: "image" as const,
-    src: service.details.heroImage,
-    position: "center",
-  },
-];
+import type {
+  Service,
+  ServiceRelatedProject,
+} from "../Types/service";
+
+import { getPublicServiceBySlug } from "../services/serviceService";
 
 const EngineeringServiceDeatilsPage = () => {
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug: string }>();
 
-  const service = servicesData2.find(
-    (item) => item.slug === slug,
-  );
+  const [service, setService] = useState<Service | null>(null);
+  const [relatedProjects, setRelatedProjects] = useState<
+    ServiceRelatedProject[]
+  >([]);
+  const [loading, setLoading] = useState(Boolean(slug));
+  const [requestFailed, setRequestFailed] = useState(false);
+
+  useEffect(() => {
+    if (!slug) {
+      return;
+    }
+
+    let ignore = false;
+
+    const fetchService = async () => {
+      try {
+        const data = await getPublicServiceBySlug(slug);
+
+        if (ignore) {
+          return;
+        }
+
+        setService(data.service);
+        setRelatedProjects(data.relatedProjects);
+      } catch (error) {
+        if (ignore) {
+          return;
+        }
+
+        console.error(
+          "Failed to fetch public service details:",
+          error,
+        );
+
+        setRequestFailed(true);
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchService();
+
+    return () => {
+      ignore = true;
+    };
+  }, [slug]);
+
+  if (!slug || requestFailed) {
+    return <Navigate to="/services" replace />;
+  }
+
+  if (loading) {
+    return <Loader isVisible />;
+  }
 
   if (!service) {
     return <Navigate to="/services" replace />;
   }
 
-  const serviceCategory = serviceCategoryMap[service.slug];
+  const heroSlides: HeroSlide[] = [
+    {
+      id: service._id,
+      type: "image",
+      src: service.heroSection.image.url,
+      position: "center",
+    },
+  ];
 
-  const hasRelatedProjects = serviceCategory
-    ? projectsData.some(
-        (project) => project.category === serviceCategory,
-      )
-    : false;
+  const hasRelatedProjects = relatedProjects.length > 0;
 
   return (
     <div
@@ -70,16 +108,16 @@ const EngineeringServiceDeatilsPage = () => {
       `}
     >
       <HeroSection
-        slides={getServiceDetailsHeroSlides(service)}
-        title={service.details.heroTitle}
-        description={service.details.heroDescription}
+        slides={heroSlides}
+        title={service.heroSection.title}
+        description={service.heroSection.description}
       />
 
       <HotTappingProcess service={service} />
 
       <OperationalRangesSection service={service} />
 
-      <RelatedProjects service={service} />
+      <RelatedProjects projects={relatedProjects} />
     </div>
   );
 };
