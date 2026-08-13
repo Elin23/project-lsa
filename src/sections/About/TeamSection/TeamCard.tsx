@@ -1,10 +1,12 @@
-import type { TeamMember } from "./TeamSection";
+import type { TeamMember } from "../../../Types/team";
 
 interface TeamCardProps {
   member: TeamMember;
 }
 
-export default function TeamCard({ member }: TeamCardProps) {
+export default function TeamCard({
+  member,
+}: TeamCardProps) {
   return (
     <article
       data-aos="fade-up"
@@ -27,11 +29,10 @@ export default function TeamCard({ member }: TeamCardProps) {
           hover:shadow-xl
         "
       >
-        {/* Image */}
         <div className="relative h-64 overflow-hidden lg:h-72">
           <img
-            src={member.image}
-            alt={member.name}
+            src={member.image.url}
+            alt={member.fullName}
             loading="lazy"
             decoding="async"
             className="
@@ -57,7 +58,6 @@ export default function TeamCard({ member }: TeamCardProps) {
           />
         </div>
 
-        {/* Content */}
         <div className="flex flex-1 flex-col p-6">
           <span
             className="
@@ -76,11 +76,11 @@ export default function TeamCard({ member }: TeamCardProps) {
           </span>
 
           <h3 className="mt-4 text-xl font-bold text-blue-01">
-            {member.name}
+            {member.fullName}
           </h3>
 
           <p className="mt-1 text-sm font-medium text-muted-blue">
-            {member.role}
+            {member.position}
           </p>
 
           <div className="mt-auto pt-5">
