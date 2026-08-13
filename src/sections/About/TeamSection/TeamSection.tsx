@@ -1,5 +1,4 @@
 import {
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -10,112 +9,28 @@ import TeamCardSkeleton from "../../../components/skeletons/TeamCardSkeleton";
 import Slider from "../../../components/shared/Slider";
 import Pagination from "../../../components/navigation/Pagination";
 
-import member_1 from "../../../assets/imgs/member-1.webp";
-import member_2 from "../../../assets/imgs/member-2.webp";
-import member_3 from "../../../assets/imgs/member-3.webp";
-import member_4 from "../../../assets/imgs/member-4.webp";
 import TeamCard from "./TeamCard";
 
-export interface TeamMember {
-  id: number;
-  name: string;
-  role: string;
-  experience: string;
-  image: string;
-}
-
-const teamData: TeamMember[] = [
-  {
-    id: 1,
-    name: "Haider Kareem Malik",
-    role: "Direct Manager",
-    experience: "20+ Years",
-    image: member_1,
-  },
-  {
-    id: 2,
-    name: "Ahmed Raad Jalal",
-    role: "EPC Project Manager",
-    experience: "15+ Years",
-    image: member_2,
-  },
-  {
-    id: 3,
-    name: "Mohammed Ali Hamza",
-    role: "Senior Mechanical Engineer",
-    experience: "12+ Years",
-    image: member_3,
-  },
-  {
-    id: 4,
-    name: "Ahmed Ali Hamza",
-    role: "HSE Manager",
-    experience: "10+ Years",
-    image: member_4,
-  },
-
-  /*
-  {
-    id: 5,
-    name: "Team Member Five",
-    role: "Project Engineer",
-    experience: "9+ Years",
-    image: member_1,
-  },
-  {
-    id: 6,
-    name: "Team Member Six",
-    role: "Site Manager",
-    experience: "11+ Years",
-    image: member_2,
-  },
-  {
-    id: 7,
-    name: "Team Member Seven",
-    role: "Civil Engineer",
-    experience: "8+ Years",
-    image: member_3,
-  },
-  {
-    id: 8,
-    name: "Team Member Eight",
-    role: "Quality Manager",
-    experience: "13+ Years",
-    image: member_4,
-  },
-  {
-    id: 9,
-    name: "Team Member Nine",
-    role: "Planning Engineer",
-    experience: "7+ Years",
-    image: member_1,
-  },
-  */
-];
+import { useTeamMembers } from "../../../hooks/queries/useTeamMembers";
 
 const TEAM_MEMBERS_PER_PAGE = 8;
 
 export default function TeamSection() {
-  const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] =
     useState<number>(1);
 
   const teamContainerRef =
     useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, []);
+  const {
+    data: teamMembers = [],
+    isLoading,
+  } = useTeamMembers();
 
   const totalPages = Math.max(
     Math.ceil(
-      teamData.length / TEAM_MEMBERS_PER_PAGE,
+      teamMembers.length /
+      TEAM_MEMBERS_PER_PAGE,
     ),
     1,
   );
@@ -130,25 +45,27 @@ export default function TeamSection() {
       (safeCurrentPage - 1) *
       TEAM_MEMBERS_PER_PAGE;
 
-    return teamData.slice(
+    return teamMembers.slice(
       startIndex,
       startIndex + TEAM_MEMBERS_PER_PAGE,
     );
-  }, [safeCurrentPage]);
+  }, [teamMembers, safeCurrentPage]);
 
-  const skeletonItems = useMemo(() => {
-    const skeletonCount = Math.min(
-      Math.max(teamData.length, 4),
-      TEAM_MEMBERS_PER_PAGE,
-    );
+  const skeletonItems = useMemo(
+    () =>
+      Array.from(
+        {
+          length:
+            TEAM_MEMBERS_PER_PAGE,
+        },
+        (_, index) => index,
+      ),
+    [],
+  );
 
-    return Array.from(
-      { length: skeletonCount },
-      (_, index) => index,
-    );
-  }, []);
-
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (
+    page: number,
+  ) => {
     const nextPage = Math.min(
       Math.max(page, 1),
       totalPages,
@@ -157,10 +74,12 @@ export default function TeamSection() {
     setCurrentPage(nextPage);
 
     window.requestAnimationFrame(() => {
-      teamContainerRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      teamContainerRef.current?.scrollIntoView(
+        {
+          behavior: "smooth",
+          block: "start",
+        },
+      );
     });
   };
 
@@ -185,13 +104,12 @@ export default function TeamSection() {
         ref={teamContainerRef}
         className="scroll-mt-24"
       >
-        {/* Mobile Slider */}
         <div className="w-full min-w-0 sm:hidden">
-          {loading ? (
+          {isLoading ? (
             <TeamCardSkeleton />
           ) : (
             <Slider
-              items={teamData}
+              items={teamMembers}
               autoPlayDelay={4000}
               showDots
               renderItem={(member) => (
@@ -201,7 +119,6 @@ export default function TeamSection() {
           )}
         </div>
 
-        {/* Tablet and Desktop Grid */}
         <div
           className="
             hidden
@@ -212,53 +129,59 @@ export default function TeamSection() {
             sm:flex
           "
         >
-          {loading
-            ? skeletonItems.map((item) => (
+          {isLoading
+            ? skeletonItems.map(
+              (item) => (
                 <div
                   key={item}
                   className="
-                    flex
-                    w-[calc(50%-10px)]
-                    lg:w-[calc(33.333333%-14px)]
-                    xl:w-[calc(25%-15px)]
-                  "
-                >
-                  <div className="w-full">
-                    <TeamCardSkeleton />
-                  </div>
-                </div>
-              ))
-            : paginatedTeamMembers.map(
-                (member) => (
-                  <div
-                    key={member.id}
-                    className="
                       flex
                       w-[calc(50%-10px)]
                       lg:w-[calc(33.333333%-14px)]
                       xl:w-[calc(25%-15px)]
                     "
-                  >
-                    <div className="w-full">
-                      <TeamCard
-                        member={member}
-                      />
-                    </div>
+                >
+                  <div className="w-full">
+                    <TeamCardSkeleton />
                   </div>
-                ),
-              )}
+                </div>
+              ),
+            )
+            : paginatedTeamMembers.map(
+              (member) => (
+                <div
+                  key={member._id}
+                  className="
+                      flex
+                      w-[calc(50%-10px)]
+                      lg:w-[calc(33.333333%-14px)]
+                      xl:w-[calc(25%-15px)]
+                    "
+                >
+                  <div className="w-full">
+                    <TeamCard
+                      member={member}
+                    />
+                  </div>
+                </div>
+              ),
+            )}
         </div>
 
-        {/* Tablet and Desktop Pagination */}
-        {!loading && totalPages > 1 && (
-          <div className="mt-10 hidden sm:block">
-            <Pagination
-              currentPage={safeCurrentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        )}
+        {!isLoading &&
+          totalPages > 1 && (
+            <div className="mt-10 hidden sm:block">
+              <Pagination
+                currentPage={
+                  safeCurrentPage
+                }
+                totalPages={totalPages}
+                onPageChange={
+                  handlePageChange
+                }
+              />
+            </div>
+          )}
       </div>
     </section>
   );
