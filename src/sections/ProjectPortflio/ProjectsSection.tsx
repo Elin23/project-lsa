@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import TitleComponent from "../../components/shared/TitleComponent";
 import ProjectCardSkeleton from "../../components/skeletons/ProjectCardSkeleton";
@@ -6,66 +6,24 @@ import TabsComponent from "../../components/shared/TabsComponent";
 import LoadMoreButton from "../../components/shared/LoadMoreButton";
 import ProjectCard from "../../components/cards/ProjectCard";
 
-import {
-  getPublicProjects,
-} from "../../services/projectService";
-import type { ProjectListItem } from "../../Types/project";
-
+// استدعاء الهوك الجديد الخاص بـ React Query
+import { usePublicProjects } from "../../hooks/queries/useProjects";
 
 const INITIAL_VISIBLE_COUNT = 6;
 const LOAD_MORE_COUNT = 6;
 
 const ProjectsSection = () => {
-  const [projects, setProjects] = useState<ProjectListItem[]>([]);
+  // جلب البيانات عبر React Query فوراً
+  const { data: response, isLoading: loading, isError, error } = usePublicProjects();
 
-  const [loading, setLoading] = useState(true);
-
-  const [error, setError] = useState<string | null>(null);
+  // استخراج قائمة المشاريع من الـ response بشكل آمن
+  const projects = useMemo(() => response?.data || [], [response]);
 
   const [activeTab, setActiveTab] = useState("All Projects");
 
   const [visibleCount, setVisibleCount] = useState(
-    INITIAL_VISIBLE_COUNT,
+    INITIAL_VISIBLE_COUNT
   );
-
-  // ======================================================
-  // Fetch Projects
-  // ======================================================
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await getPublicProjects();
-
-        if (!isMounted) return;
-
-        setProjects(response.data);
-      } catch (error) {
-        if (!isMounted) return;
-
-        console.error("Failed to load projects:", error);
-
-        setError(
-          "Unable to load projects. Please try again later.",
-        );
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchProjects();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   // ======================================================
   // Categories
@@ -76,8 +34,8 @@ const ProjectsSection = () => {
       new Set(
         projects
           .map((project) => project.categoryLabel)
-          .filter(Boolean),
-      ),
+          .filter(Boolean)
+      )
     );
 
     return [
@@ -102,7 +60,7 @@ const ProjectsSection = () => {
     }
 
     return projects.filter(
-      (project) => project.categoryLabel === activeTab,
+      (project) => project.categoryLabel === activeTab
     );
   }, [projects, activeTab]);
 
@@ -112,7 +70,7 @@ const ProjectsSection = () => {
 
   const visibleProjects = filteredProjects.slice(
     0,
-    visibleCount,
+    visibleCount
   );
 
   // ======================================================
@@ -137,8 +95,8 @@ const ProjectsSection = () => {
     setVisibleCount((previousCount) =>
       Math.min(
         previousCount + LOAD_MORE_COUNT,
-        filteredProjects.length,
-      ),
+        filteredProjects.length
+      )
     );
   };
 
@@ -162,7 +120,7 @@ const ProjectsSection = () => {
           description="Showcasing our engineering excellence and infrastructure development across the energy sector in Iraq."
         />
 
-        {!loading && !error && projectCategories.length > 1 && (
+        {!loading && !isError && projectCategories.length > 1 && (
           <div className="flex justify-center">
             <TabsComponent
               tabs={projectCategories}
@@ -175,7 +133,7 @@ const ProjectsSection = () => {
 
       {/* Error State */}
 
-      {!loading && error && (
+      {!loading && isError && (
         <div
           className="
             mt-12
@@ -183,13 +141,13 @@ const ProjectsSection = () => {
             text-muted-blue
           "
         >
-          {error}
+          {error?.message || "Unable to load projects. Please try again later."}
         </div>
       )}
 
       {/* Projects Grid */}
 
-      {!error && (
+      {!isError && (
         <div
           key={`${activeTab}-${visibleCount}-${loading}`}
           className="
@@ -238,7 +196,7 @@ const ProjectsSection = () => {
       {/* Empty State */}
 
       {!loading &&
-        !error &&
+        !isError &&
         filteredProjects.length === 0 && (
           <div
             key={activeTab}
@@ -256,7 +214,7 @@ const ProjectsSection = () => {
       {/* Load More */}
 
       {!loading &&
-        !error &&
+        !isError &&
         filteredProjects.length > INITIAL_VISIBLE_COUNT && (
           <div
             data-aos="fade-up"

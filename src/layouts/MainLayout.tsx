@@ -21,13 +21,7 @@ const MainLayout = () => {
   return (
     <div className="min-h-screen bg-white-gray-04 font-urbanist">
       <ScrollToSection />
-      <FloatingTabs
-        heroId="hero"
-        footerId="footer"
-        phoneNumber="+964 770 000 0000"
-        whatsappNumber="9647700000000"
-        email="info@lsa-iq.com"
-      />
+      <FloatingTabs />
       <Navbar />
       <main data-scroll-container className="">
         <div className="mx-auto max-w-[1920px] px-container ">
