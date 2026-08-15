@@ -1,82 +1,176 @@
-import { useEffect, useMemo, useState } from "react";
-import { ourCoreCapabilitiesData } from "../../../data/OurCoreCapabilitiesData";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
 import TitleComponent from "../../../components/shared/TitleComponent";
+
 import OurCoreCapabilitiesCardSkeleton from "../../../components/skeletons/OurCoreCapabilitiesCardSkeleton";
+
 import OurCoreCapabilitiesCard from "./OurCoreCapabilitiesCard";
+
 import Pagination from "../../../components/navigation/Pagination";
 
+import {
+  usePublicHomeCapabilities,
+} from "../../../hooks/queries/useServices";
 
-const getItemsPerPage = (width: number) => {
-  if (width < 768) return 2;
-  if (width < 1024) return 4;
+const getItemsPerPage = (
+  width: number,
+) => {
+  if (width < 768) {
+    return 2;
+  }
+
+  if (width < 1024) {
+    return 4;
+  }
 
   return 6;
 };
 
 export default function OurCoreCapabilities() {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [
+    currentPage,
+    setCurrentPage,
+  ] = useState(1);
 
-  const [itemsPerPage, setItemsPerPage] = useState<number>(() => {
-    if (typeof window === "undefined") {
+  const [
+    itemsPerPage,
+    setItemsPerPage,
+  ] = useState(() => {
+    if (
+      typeof window ===
+      "undefined"
+    ) {
       return 6;
     }
 
-    return getItemsPerPage(window.innerWidth);
+    return getItemsPerPage(
+      window.innerWidth,
+    );
   });
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setLoading(false);
-    }, 1500);
+  // ====================================================
+  // React Query
+  // ====================================================
 
-    return () => window.clearTimeout(timer);
-  }, []);
+  const {
+    data: capabilities = [],
+    isLoading,
+    isError,
+  } =
+    usePublicHomeCapabilities();
+
+  // ====================================================
+  // Responsive Pagination
+  // ====================================================
 
   useEffect(() => {
     const handleResize = () => {
-      const nextItemsPerPage = getItemsPerPage(window.innerWidth);
+      const nextItemsPerPage =
+        getItemsPerPage(
+          window.innerWidth,
+        );
 
-      setItemsPerPage((previousItemsPerPage) => {
-        if (previousItemsPerPage === nextItemsPerPage) {
-          return previousItemsPerPage;
-        }
+      setItemsPerPage(
+        (
+          previousItemsPerPage,
+        ) => {
+          if (
+            previousItemsPerPage ===
+            nextItemsPerPage
+          ) {
+            return previousItemsPerPage;
+          }
 
-        setCurrentPage(1);
+          setCurrentPage(1);
 
-        return nextItemsPerPage;
-      });
+          return nextItemsPerPage;
+        },
+      );
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener(
+      "resize",
+      handleResize,
+    );
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener(
+        "resize",
+        handleResize,
+      );
     };
   }, []);
 
+  // ====================================================
+  // Pagination
+  // ====================================================
+
   const totalPages = Math.max(
     1,
-    Math.ceil(ourCoreCapabilitiesData.length / itemsPerPage),
+    Math.ceil(
+      capabilities.length /
+        itemsPerPage,
+    ),
   );
 
-  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const safeCurrentPage =
+    Math.min(
+      currentPage,
+      totalPages,
+    );
 
-  const currentItems = useMemo(() => {
-    const startIndex = (safeCurrentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
+  const currentItems =
+    useMemo(() => {
+      const startIndex =
+        (safeCurrentPage -
+          1) *
+        itemsPerPage;
 
-    return ourCoreCapabilitiesData.slice(startIndex, endIndex);
-  }, [safeCurrentPage, itemsPerPage]);
+      const endIndex =
+        startIndex +
+        itemsPerPage;
 
-  const handlePageChange = (page: number) => {
-    const nextPage = Math.min(Math.max(page, 1), totalPages);
+      return capabilities.slice(
+        startIndex,
+        endIndex,
+      );
+    }, [
+      capabilities,
+      safeCurrentPage,
+      itemsPerPage,
+    ]);
 
-    setCurrentPage(nextPage);
+  const handlePageChange = (
+    page: number,
+  ) => {
+    const nextPage =
+      Math.min(
+        Math.max(
+          page,
+          1,
+        ),
+        totalPages,
+      );
+
+    setCurrentPage(
+      nextPage,
+    );
   };
 
+  // ====================================================
+  // Render
+  // ====================================================
+
   return (
-    <section className="relative overflow-hidden" id="projects">
+    <section
+      className="relative overflow-hidden"
+      id="projects"
+    >
+      {/* Background Decoration */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-01/10 blur-3xl" />
 
@@ -84,6 +178,7 @@ export default function OurCoreCapabilities() {
       </div>
 
       <div className="w-full p-0">
+        {/* Title */}
         <div className="mx-auto mb-12 max-w-3xl text-center lg:mb-16">
           <TitleComponent
             title="Our Core Capabilities"
@@ -91,6 +186,7 @@ export default function OurCoreCapabilities() {
           />
         </div>
 
+        {/* Cards */}
         <div
           key={`${safeCurrentPage}-${itemsPerPage}`}
           className="
@@ -104,30 +200,98 @@ export default function OurCoreCapabilities() {
             lg:gap-7
           "
         >
-          {loading
-            ? Array.from({ length: itemsPerPage }).map((_, index) => (
-                <OurCoreCapabilitiesCardSkeleton key={index} />
-              ))
-            : currentItems.map((item) => (
-                <OurCoreCapabilitiesCard
-                  key={item.id}
-                  id={item.id}
-                  title={item.title}
-                  path={item.path}
-                  description={item.description}
+          {isLoading ? (
+            Array.from({
+              length:
+                itemsPerPage,
+            }).map(
+              (_, index) => (
+                <OurCoreCapabilitiesCardSkeleton
+                  key={
+                    index
+                  }
                 />
-              ))}
+              ),
+            )
+          ) : isError ? (
+            <div
+              className="
+                col-span-full
+                rounded-2xl
+                border
+                border-red-200
+                bg-red-50
+                p-10
+                text-center
+              "
+            >
+              <h3 className="text-xl font-bold text-red-600">
+                Unable to load
+                capabilities
+              </h3>
+
+              <p className="mt-2 text-sm text-red-500">
+                Something went
+                wrong while
+                loading our core
+                capabilities.
+              </p>
+            </div>
+          ) : (
+            currentItems.map(
+              (
+                item,
+                index,
+              ) => (
+                <OurCoreCapabilitiesCard
+                  key={
+                    item._id
+                  }
+                  id={String(
+                    (safeCurrentPage -
+                      1) *
+                      itemsPerPage +
+                      index +
+                      1,
+                  ).padStart(
+                    2,
+                    "0",
+                  )}
+                  title={
+                    item
+                      .homeCapability
+                      .title
+                  }
+                  path={`/services/${item.slug}`}
+                  description={
+                    item
+                      .homeCapability
+                      .shortDescription
+                  }
+                />
+              ),
+            )
+          )}
         </div>
 
-        {!loading && totalPages > 1 && (
-          <div className="mt-10 flex justify-center sm:mt-12 lg:mt-14">
-            <Pagination
-              currentPage={safeCurrentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        )}
+        {/* Pagination */}
+        {!isLoading &&
+          !isError &&
+          totalPages > 1 && (
+            <div className="mt-10 flex justify-center sm:mt-12 lg:mt-14">
+              <Pagination
+                currentPage={
+                  safeCurrentPage
+                }
+                totalPages={
+                  totalPages
+                }
+                onPageChange={
+                  handlePageChange
+                }
+              />
+            </div>
+          )}
       </div>
     </section>
   );

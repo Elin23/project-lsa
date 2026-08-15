@@ -140,3 +140,28 @@ export interface PublicServiceDetailsResponse {
     relatedProjects: ServiceRelatedProject[];
   };
 }
+// ======================================================
+// Home Capabilities
+// Returned by:
+// GET /api/v1/services/public/home-capabilities
+// ======================================================
+
+export interface ServiceHomeCapabilityData {
+  isVisible: boolean;
+  title: string;
+  shortDescription: string;
+  displayOrder: number;
+}
+
+export interface PublicHomeCapability {
+  _id: string;
+  title: string;
+  slug: string;
+  homeCapability: ServiceHomeCapabilityData;
+}
+
+export interface PublicHomeCapabilitiesResponse {
+  success: boolean;
+  count: number;
+  data: PublicHomeCapability[];
+}
