@@ -1,9 +1,4 @@
 import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
   Navigate,
   useParams,
 } from "react-router-dom";
@@ -20,159 +15,127 @@ import RelatedProjects from "../sections/ServiceDeatils/RelatedProjects/RelatedP
 
 import ServiceDetailsPageSkeleton from "../components/skeletons/ServiceDetailsPageSkeleton";
 
-import type {
-  Service,
-  ServiceRelatedProject,
-} from "../Types/service";
-
 import {
-  getPublicServiceBySlug,
-} from "../services/serviceService";
+  usePublicServiceBySlug,
+} from "../hooks/queries/useServices";
 
-const EngineeringServiceDeatilsPage = () => {
-  const { slug } =
-    useParams<{ slug: string }>();
+const EngineeringServiceDeatilsPage =
+  () => {
+    const { slug } =
+      useParams<{
+        slug: string;
+      }>();
 
-  const [service, setService] =
-    useState<Service | null>(null);
+    const {
+      data,
+      isLoading,
+      isError,
+    } =
+      usePublicServiceBySlug(
+        slug,
+      );
 
-  const [
-    relatedProjects,
-    setRelatedProjects,
-  ] = useState<
-    ServiceRelatedProject[]
-  >([]);
-
-  const [loading, setLoading] =
-    useState(Boolean(slug));
-
-  const [
-    requestFailed,
-    setRequestFailed,
-  ] = useState(false);
-
-  useEffect(() => {
     if (!slug) {
-      return;
+      return (
+        <Navigate
+          to="/services"
+          replace
+        />
+      );
     }
 
-    let ignore = false;
+    if (isLoading) {
+      return (
+        <ServiceDetailsPageSkeleton />
+      );
+    }
 
-    const fetchService = async () => {
-      try {
-        const data =
-          await getPublicServiceBySlug(
-            slug,
-          );
+    if (
+      isError ||
+      !data?.service
+    ) {
+      return (
+        <Navigate
+          to="/services"
+          replace
+        />
+      );
+    }
 
-        if (ignore) {
-          return;
-        }
+    const service =
+      data.service;
 
-        setService(data.service);
+    const relatedProjects =
+      data.relatedProjects ??
+      [];
 
-        setRelatedProjects(
-          data.relatedProjects,
-        );
-      } catch (error) {
-        if (ignore) {
-          return;
-        }
+    const heroSlides: HeroSlide[] =
+      [
+        {
+          id: service._id,
+          type: "image",
+          src:
+            service
+              .heroSection
+              .image.url,
+          position:
+            "center",
+        },
+      ];
 
-        console.error(
-          "Failed to fetch public service details:",
-          error,
-        );
+    const hasRelatedProjects =
+      relatedProjects.length >
+      0;
 
-        setRequestFailed(true);
-      } finally {
-        if (!ignore) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchService();
-
-    return () => {
-      ignore = true;
-    };
-  }, [slug]);
-
-  if (!slug || requestFailed) {
     return (
-      <Navigate
-        to="/services"
-        replace
-      />
+      <div
+        className={`
+          space-y-16
+          md:space-y-20
+          lg:space-y-24
+          xl:space-y-28
+          ${
+            hasRelatedProjects
+              ? ""
+              : "pb-16 md:pb-20 lg:pb-24 xl:pb-28"
+          }
+        `}
+      >
+        <HeroSection
+          slides={
+            heroSlides
+          }
+          title={
+            service
+              .heroSection
+              .title
+          }
+          description={
+            service
+              .heroSection
+              .description
+          }
+        />
+
+        <HotTappingProcess
+          service={
+            service
+          }
+        />
+
+        <OperationalRangesSection
+          service={
+            service
+          }
+        />
+
+        <RelatedProjects
+          projects={
+            relatedProjects
+          }
+        />
+      </div>
     );
-  }
-
-  if (loading) {
-    return (
-      <ServiceDetailsPageSkeleton />
-    );
-  }
-
-  if (!service) {
-    return (
-      <Navigate
-        to="/services"
-        replace
-      />
-    );
-  }
-
-  const heroSlides: HeroSlide[] = [
-    {
-      id: service._id,
-      type: "image",
-      src:
-        service.heroSection.image.url,
-      position: "center",
-    },
-  ];
-
-  const hasRelatedProjects =
-    relatedProjects.length > 0;
-
-  return (
-    <div
-      className={`
-        space-y-16
-        md:space-y-20
-        lg:space-y-24
-        xl:space-y-28
-        ${
-          hasRelatedProjects
-            ? ""
-            : "pb-16 md:pb-20 lg:pb-24 xl:pb-28"
-        }
-      `}
-    >
-      <HeroSection
-        slides={heroSlides}
-        title={
-          service.heroSection.title
-        }
-        description={
-          service.heroSection.description
-        }
-      />
-
-      <HotTappingProcess
-        service={service}
-      />
-
-      <OperationalRangesSection
-        service={service}
-      />
-
-      <RelatedProjects
-        projects={relatedProjects}
-      />
-    </div>
-  );
-};
+  };
 
 export default EngineeringServiceDeatilsPage;

@@ -1,8 +1,3 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
 import { Autoplay } from "swiper/modules";
 import {
   Swiper,
@@ -18,51 +13,19 @@ import type {
 } from "../../Types/partner";
 
 import {
-  getPublicPartners,
-} from "../../services/partnerService";
+  usePublicPartners,
+} from "../../hooks/queries/usePartners";
 
 const SKELETON_ITEMS = 5;
 
 const TrustedCompanies = () => {
-  const [partners, setPartners] =
-    useState<PublicPartner[]>([]);
+  const {
+    data: partners = [],
+    isLoading,
+    isError,
+  } = usePublicPartners();
 
-  const [loading, setLoading] =
-    useState(true);
-
-  useEffect(() => {
-    let ignore = false;
-
-    const fetchPartners = async () => {
-      try {
-        const data =
-          await getPublicPartners();
-
-        if (ignore) {
-          return;
-        }
-
-        setPartners(data);
-      } catch (error) {
-        console.error(
-          "Failed to fetch trusted partners:",
-          error,
-        );
-      } finally {
-        if (!ignore) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchPartners();
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
-  if (!loading && partners.length === 0) {
+  if (!isLoading && !isError && partners.length === 0) {
     return null;
   }
 
@@ -76,7 +39,7 @@ const TrustedCompanies = () => {
           Trusted by Industry Leaders
         </h2>
 
-        {loading ? (
+        {isLoading ? (
           <div
             className="
               grid
@@ -98,6 +61,16 @@ const TrustedCompanies = () => {
               />
             ))}
           </div>
+        ) : isError ? (
+          <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
+            <h3 className="text-lg font-bold text-red-600">
+              Unable to load trusted partners
+            </h3>
+
+            <p className="mt-2 text-sm text-red-500">
+              Something went wrong while loading partner logos.
+            </p>
+          </div>
         ) : (
           <Swiper
             modules={[Autoplay]}
@@ -107,10 +80,8 @@ const TrustedCompanies = () => {
               partners.length > 1
                 ? {
                     delay: 0,
-                    disableOnInteraction:
-                      false,
-                    pauseOnMouseEnter:
-                      true,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
                   }
                 : false
             }
@@ -122,7 +93,6 @@ const TrustedCompanies = () => {
                 ),
                 spaceBetween: 8,
               },
-
               640: {
                 slidesPerView: Math.min(
                   3,
@@ -130,7 +100,6 @@ const TrustedCompanies = () => {
                 ),
                 spaceBetween: 12,
               },
-
               1024: {
                 slidesPerView: Math.min(
                   4,
@@ -138,7 +107,6 @@ const TrustedCompanies = () => {
                 ),
                 spaceBetween: 16,
               },
-
               1280: {
                 slidesPerView: Math.min(
                   5,

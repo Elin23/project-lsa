@@ -4,7 +4,9 @@ import {
   useState,
 } from "react";
 
-import { Search } from "lucide-react";
+import {
+  Search,
+} from "lucide-react";
 
 import TitleComponent from "../../components/shared/TitleComponent";
 import TabsComponent from "../../components/shared/TabsComponent";
@@ -15,25 +17,33 @@ import Pagination from "../../components/navigation/Pagination";
 import FleetCardSkeleton from "../../components/skeletons/FleetCardSkeleton";
 
 import type {
-  EquipmentCategory,
   PublicEquipment,
 } from "../../Types/equipment";
 
 import {
-  getPublicEquipment,
-  getPublicEquipmentCategories,
-} from "../../services/equipmentService";
+  usePublicEquipment,
+  usePublicEquipmentCategories,
+} from "../../hooks/queries/useEquipment";
 
 function getItemsPerPage() {
-  if (typeof window === "undefined") {
+  if (
+    typeof window ===
+    "undefined"
+  ) {
     return 6;
   }
 
-  if (window.innerWidth < 768) {
+  if (
+    window.innerWidth <
+    768
+  ) {
     return 3;
   }
 
-  if (window.innerWidth < 1024) {
+  if (
+    window.innerWidth <
+    1024
+  ) {
     return 4;
   }
 
@@ -41,14 +51,6 @@ function getItemsPerPage() {
 }
 
 export default function FleetInventory() {
-  const [equipment, setEquipment] =
-    useState<PublicEquipment[]>([]);
-
-  const [categories, setCategories] =
-    useState<EquipmentCategory[]>(
-      [],
-    );
-
   const [activeTab, setActiveTab] =
     useState("all");
 
@@ -74,53 +76,31 @@ export default function FleetInventory() {
   ] =
     useState(getItemsPerPage);
 
-  const [loading, setLoading] =
-    useState(true);
+  const {
+    data: equipment = [],
+    isLoading:
+      isEquipmentLoading,
+    isError:
+      isEquipmentError,
+  } =
+    usePublicEquipment();
 
-  useEffect(() => {
-    let ignore = false;
+  const {
+    data: categories = [],
+    isLoading:
+      isCategoriesLoading,
+    isError:
+      isCategoriesError,
+  } =
+    usePublicEquipmentCategories();
 
-    const fetchFleetData =
-      async () => {
-        try {
-          const [
-            equipmentData,
-            categoriesData,
-          ] =
-            await Promise.all([
-              getPublicEquipment(),
-              getPublicEquipmentCategories(),
-            ]);
+  const isLoading =
+    isEquipmentLoading ||
+    isCategoriesLoading;
 
-          if (ignore) {
-            return;
-          }
-
-          setEquipment(
-            equipmentData,
-          );
-
-          setCategories(
-            categoriesData,
-          );
-        } catch (error) {
-          console.error(
-            "Failed to fetch equipment:",
-            error,
-          );
-        } finally {
-          if (!ignore) {
-            setLoading(false);
-          }
-        }
-      };
-
-    fetchFleetData();
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
+  const isError =
+    isEquipmentError ||
+    isCategoriesError;
 
   useEffect(() => {
     const handleResize = () => {
@@ -128,7 +108,9 @@ export default function FleetInventory() {
         getItemsPerPage();
 
       setItemsPerPage(
-        (previousValue) => {
+        (
+          previousValue,
+        ) => {
           if (
             previousValue ===
             newItemsPerPage
@@ -154,22 +136,28 @@ export default function FleetInventory() {
     };
   }, []);
 
-  const fleetTabs = useMemo(
-    () => [
-      {
-        value: "all",
-        label: "All Equipment",
-      },
+  const fleetTabs =
+    useMemo(
+      () => [
+        {
+          value: "all",
+          label:
+            "All Equipment",
+        },
 
-      ...categories.map(
-        (category) => ({
-          value: category.slug,
-          label: category.name,
-        }),
-      ),
-    ],
-    [categories],
-  );
+        ...categories.map(
+          (
+            category,
+          ) => ({
+            value:
+              category.slug,
+            label:
+              category.name,
+          }),
+        ),
+      ],
+      [categories],
+    );
 
   const filteredFleet =
     useMemo(() => {
@@ -183,7 +171,8 @@ export default function FleetInventory() {
           const matchesTab =
             activeTab ===
               "all" ||
-            item.category.slug ===
+            item.category
+              .slug ===
               activeTab;
 
           const matchesSearch =
@@ -204,12 +193,16 @@ export default function FleetInventory() {
               .includes(
                 searchValue,
               ) ||
-            item.primarySpecification.label
+            item
+              .primarySpecification
+              .label
               .toLowerCase()
               .includes(
                 searchValue,
               ) ||
-            item.primarySpecification.value
+            item
+              .primarySpecification
+              .value
               .toLowerCase()
               .includes(
                 searchValue,
@@ -274,8 +267,13 @@ export default function FleetInventory() {
             activeTab
           }
           onChange={(tab) => {
-            setActiveTab(tab);
-            setCurrentPage(1);
+            setActiveTab(
+              tab,
+            );
+
+            setCurrentPage(
+              1,
+            );
           }}
         />
 
@@ -285,14 +283,20 @@ export default function FleetInventory() {
           <input
             type="search"
             value={search}
-            disabled={loading}
-            onChange={(event) => {
+            disabled={
+              isLoading
+            }
+            onChange={(
+              event,
+            ) => {
               setSearch(
                 event.target
                   .value,
               );
 
-              setCurrentPage(1);
+              setCurrentPage(
+                1,
+              );
             }}
             placeholder="Search Fleet..."
             aria-label="Search equipment fleet"
@@ -319,18 +323,36 @@ export default function FleetInventory() {
         </div>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({
             length:
               itemsPerPage,
           }).map(
-            (_, index) => (
+            (
+              _,
+              index,
+            ) => (
               <FleetCardSkeleton
-                key={index}
+                key={
+                  index
+                }
               />
             ),
           )}
+        </div>
+      ) : isError ? (
+        <div className="mt-10 rounded-2xl border border-red-200 bg-red-50 p-10 text-center">
+          <h3 className="text-xl font-bold text-red-600">
+            Unable to load
+            equipment
+          </h3>
+
+          <p className="mt-2 text-sm text-red-500">
+            Something went wrong
+            while loading the
+            equipment inventory.
+          </p>
         </div>
       ) : filteredFleet.length >
         0 ? (
@@ -363,7 +385,8 @@ export default function FleetInventory() {
             )}
           </div>
 
-          {totalPages > 1 && (
+          {totalPages >
+            1 && (
             <div className="mt-10 flex justify-center">
               <Pagination
                 currentPage={
@@ -395,7 +418,9 @@ export default function FleetInventory() {
       )}
 
       <FleetRequestModal
-        item={selectedItem}
+        item={
+          selectedItem
+        }
         onClose={() =>
           setSelectedItem(
             null,
