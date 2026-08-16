@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import logo from "../../assets/Logo2.webp";
 import { footerData } from "../../data/footerData";
+import { useContactInfo } from "../../hooks/queries/useContactInfo";
 
 export interface FooterTitleProps {
   title: string;
@@ -23,13 +24,50 @@ const FooterTitle = ({ title }: FooterTitleProps) => {
   );
 };
 
-/**
- * Footer Component
- * Primary site footer containing company logo, social channels, navigation links, and dynamic copyright year.
- * Formatted and optimized for strict accessibility, clean DOM structure, and single-line Tailwind rules.
- */
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { data: contact } = useContactInfo();
+
+  // 1. الوصف: نستخدم القادم من الـ API أو نرجع للـ footerData
+  const companyDescription = contact?.description || footerData.company.description;
+
+  // 2. السوشيال ميديا: ندمج روابط الـ API مع الأيقونات والـ hoverClass الموجودين في footerData
+  const socialLinks = footerData.socialLinks.map((social) => {
+    let dynamicUrl = social.url;
+
+    if (contact?.socialLinks) {
+      const key = social.label.toLowerCase();
+      if (key === "facebook" && contact.socialLinks.facebook) {
+        dynamicUrl = contact.socialLinks.facebook;
+      } else if (key === "instagram" && contact.socialLinks.instagram) {
+        dynamicUrl = contact.socialLinks.instagram;
+      } else if (key === "linkedin" && contact.socialLinks.linkedin) {
+        dynamicUrl = contact.socialLinks.linkedin;
+      } else if (key === "whatsapp" && contact.socialLinks.whatsapp) {
+        const wa = contact.socialLinks.whatsapp;
+        dynamicUrl = wa.startsWith("http") ? wa : `https://wa.me/${wa.replace(/\D/g, "")}`;
+      }
+    }
+
+    return {
+      ...social,
+      url: dynamicUrl,
+    };
+  });
+
+  // 3. بيانات التواصل: تحديث القيم مع الحفاظ على الأيقونات من footerData
+  const contactItems = footerData.contact.map((item) => {
+    if (item.icon.name === "MapPin" || item.icon === footerData.contact[0].icon) {
+      return { ...item, value: contact?.location?.address || item.value };
+    }
+    if (item.icon.name === "Phone" || item.icon === footerData.contact[1].icon) {
+      return { ...item, value: contact?.phones || item.value };
+    }
+    if (item.icon.name === "Mail" || item.icon === footerData.contact[2].icon) {
+      return { ...item, value: contact?.email || item.value };
+    }
+    return item;
+  });
 
   return (
     <footer id="footer" className="relative overflow-hidden bg-[#06162d] text-white">
@@ -52,11 +90,11 @@ const Footer = () => {
             </Link>
 
             <p className="mt-7 max-w-md text-sm leading-7 text-white/55 lg:max-w-sm">
-              {footerData.company.description}
+              {companyDescription}
             </p>
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              {footerData.socialLinks.map((social) => {
+              {socialLinks.map((social) => {
                 const Icon = social.icon as ElementType;
                 const isExternal = social.url.startsWith("http");
 
@@ -138,7 +176,7 @@ const Footer = () => {
           <div>
             <FooterTitle title="Contact" />
             <ul className="mt-7 space-y-4">
-              {footerData.contact.map((item, index) => {
+              {contactItems.map((item, index) => {
                 const Icon = item.icon as ElementType;
 
                 return (
@@ -147,9 +185,24 @@ const Footer = () => {
                       <Icon size={16} />
                     </span>
 
-                    <div className="text-sm leading-6 text-white/55">
+                    <div className="text-sm leading-6 text-white/55 whitespace-pre-line">
                       {Array.isArray(item.value) ? (
-                        item.value.map((value) => <div key={value}>{value}</div>)
+                        item.value.map((val) => (
+                          <a
+                            key={val}
+                            href={`tel:${val.replace(/\s+/g, "")}`}
+                            className="block transition-colors hover:text-white"
+                          >
+                            {val}
+                          </a>
+                        ))
+                      ) : item.value.includes("@") ? (
+                        <a
+                          href={`mailto:${item.value}`}
+                          className="block transition-colors hover:text-white"
+                        >
+                          {item.value}
+                        </a>
                       ) : (
                         <span>{item.value}</span>
                       )}

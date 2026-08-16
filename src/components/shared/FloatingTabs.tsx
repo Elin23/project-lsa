@@ -6,12 +6,14 @@ import { useLocation } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";
 import { HiOutlineMail, HiOutlinePhone } from "react-icons/hi";
 
+import { useContactInfo } from "../../hooks/queries/useContactInfo";
+
 interface FloatingTabsProps {
   heroId?: string;
   footerId?: string;
-  phoneNumber: string;
-  whatsappNumber: string;
-  email: string;
+  phoneNumber?: string;
+  whatsappNumber?: string;
+  email?: string;
 }
 
 interface FloatingTabItem {
@@ -33,6 +35,12 @@ const FloatingTabs = ({
   email,
 }: FloatingTabsProps) => {
   const { pathname } = useLocation();
+  const { data: contact } = useContactInfo();
+
+  // جلب البيانات المباشرة من الـ API كقيم افتراضية
+  const resolvedPhone = phoneNumber || contact?.primaryPhone || "";
+  const resolvedWhatsapp = whatsappNumber || contact?.socialLinks?.whatsapp || "";
+  const resolvedEmail = email || contact?.email || "";
 
   const [showAfterHero, setShowAfterHero] = useState<boolean>(false);
   const [hideNearFooter, setHideNearFooter] = useState<boolean>(false);
@@ -109,8 +117,10 @@ const FloatingTabs = ({
       {
         id: "whatsapp",
         label: "WhatsApp",
-        value: whatsappNumber,
-        href: `https://wa.me/${whatsappNumber.replace(/\D/g, "")}`,
+        value: resolvedWhatsapp,
+        href: resolvedWhatsapp.startsWith("http")
+          ? resolvedWhatsapp
+          : `https://wa.me/${resolvedWhatsapp.replace(/\D/g, "")}`,
         icon: <FaWhatsapp />,
         external: true,
         accentClassName: "bg-[#25D366]",
@@ -119,8 +129,8 @@ const FloatingTabs = ({
       {
         id: "phone",
         label: "Call Us",
-        value: phoneNumber,
-        href: `tel:${phoneNumber.replace(/[^\d+]/g, "")}`,
+        value: resolvedPhone,
+        href: `tel:${resolvedPhone.replace(/[^\d+]/g, "")}`,
         icon: <HiOutlinePhone />,
         accentClassName: "bg-[#102344]",
         iconClassName: "text-[#102344] group-hover/tab:bg-[#102344] group-hover/tab:text-white",
@@ -128,14 +138,14 @@ const FloatingTabs = ({
       {
         id: "email",
         label: "Email Us",
-        value: email,
-        href: `mailto:${email}`,
+        value: resolvedEmail,
+        href: `mailto:${resolvedEmail}`,
         icon: <HiOutlineMail />,
         accentClassName: "bg-[#722740]",
         iconClassName: "text-[#722740] group-hover/tab:bg-[#722740] group-hover/tab:text-white",
       },
     ],
-    [email, phoneNumber, whatsappNumber],
+    [resolvedEmail, resolvedPhone, resolvedWhatsapp],
   );
 
   const isVisible = showAfterHero && !hideNearFooter;

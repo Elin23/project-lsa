@@ -13,7 +13,7 @@ import TeamCard from "./TeamCard";
 
 import { useTeamMembers } from "../../../hooks/queries/useTeamMembers";
 
-const TEAM_MEMBERS_PER_PAGE = 8;
+const TEAM_MEMBERS_PER_PAGE = 4;
 
 export default function TeamSection() {
   const [currentPage, setCurrentPage] =
