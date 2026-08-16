@@ -8,7 +8,6 @@ import ProjectCardSkeleton from "../../components/skeletons/ProjectCardSkeleton"
 import TabsComponent from "../../components/shared/TabsComponent";
 import LoadMoreButton from "../../components/shared/LoadMoreButton";
 import SectionState from "../../components/feedback/SectionState";
-
 import ProjectCard from "../../components/cards/ProjectCard";
 
 import {
@@ -57,7 +56,12 @@ const ProjectsSection = () => {
                 (project) =>
                   project.categoryLabel,
               )
-              .filter(Boolean),
+              .filter(
+                (
+                  category,
+                ): category is string =>
+                  Boolean(category),
+              ),
           ),
         );
 
@@ -66,7 +70,6 @@ const ProjectsSection = () => {
           label: "All Projects",
           value: "All Projects",
         },
-
         ...categories.map(
           (category) => ({
             label: category,
@@ -129,10 +132,11 @@ const ProjectsSection = () => {
 
   const handleToggleProjects =
     () => {
-      if (
+      const isExpanded =
         visibleCount >=
-        filteredProjects.length
-      ) {
+        filteredProjects.length;
+
+      if (isExpanded) {
         setVisibleCount(
           INITIAL_VISIBLE_COUNT,
         );
@@ -156,7 +160,9 @@ const ProjectsSection = () => {
 
   return (
     <section id="our-projects">
-      {/* Title and Tabs */}
+      {/* ==================================================
+          Title
+      =================================================== */}
 
       <div
         data-aos="fade-up"
@@ -172,8 +178,7 @@ const ProjectsSection = () => {
 
         {!isLoading &&
           !isError &&
-          projects.length >
-            0 &&
+          projects.length > 0 &&
           projectCategories.length >
             1 && (
             <div className="flex justify-center">
@@ -193,7 +198,7 @@ const ProjectsSection = () => {
       </div>
 
       {/* ==================================================
-          Loading
+          Loading State
       =================================================== */}
 
       {isLoading ? (
@@ -220,7 +225,7 @@ const ProjectsSection = () => {
         </div>
       ) : isError ? (
         /* ==================================================
-           Error
+            Error State
         =================================================== */
 
         <div className="mt-10">
@@ -239,7 +244,7 @@ const ProjectsSection = () => {
       ) : projects.length ===
         0 ? (
         /* ==================================================
-           Empty API State
+            Empty API State
         =================================================== */
 
         <div className="mt-10">
@@ -252,7 +257,7 @@ const ProjectsSection = () => {
       ) : filteredProjects.length ===
         0 ? (
         /* ==================================================
-           Empty Category State
+            Empty Category State
         =================================================== */
 
         <div className="mt-10">
@@ -265,7 +270,7 @@ const ProjectsSection = () => {
         </div>
       ) : (
         /* ==================================================
-           Success
+            Success State
         =================================================== */
 
         <>
@@ -320,7 +325,9 @@ const ProjectsSection = () => {
             )}
           </div>
 
-          {/* Load More */}
+          {/* ==================================================
+              Load More / Show Less
+          =================================================== */}
 
           {filteredProjects.length >
             INITIAL_VISIBLE_COUNT && (
