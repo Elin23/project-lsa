@@ -12,6 +12,8 @@ import OurCoreCapabilitiesCard from "./OurCoreCapabilitiesCard";
 
 import Pagination from "../../../components/navigation/Pagination";
 
+import SectionState from "../../../components/feedback/SectionState";
+
 import {
   usePublicHomeCapabilities,
 } from "../../../hooks/queries/useServices";
@@ -60,6 +62,8 @@ export default function OurCoreCapabilities() {
     data: capabilities = [],
     isLoading,
     isError,
+    isFetching,
+    refetch,
   } =
     usePublicHomeCapabilities();
 
@@ -186,7 +190,7 @@ export default function OurCoreCapabilities() {
           />
         </div>
 
-        {/* Cards */}
+        {/* Content */}
         <div
           key={`${safeCurrentPage}-${itemsPerPage}`}
           className="
@@ -214,28 +218,25 @@ export default function OurCoreCapabilities() {
               ),
             )
           ) : isError ? (
-            <div
-              className="
-                col-span-full
-                rounded-2xl
-                border
-                border-red-200
-                bg-red-50
-                p-10
-                text-center
-              "
-            >
-              <h3 className="text-xl font-bold text-red-600">
-                Unable to load
-                capabilities
-              </h3>
-
-              <p className="mt-2 text-sm text-red-500">
-                Something went
-                wrong while
-                loading our core
-                capabilities.
-              </p>
+            <div className="col-span-full">
+              <SectionState
+                variant="error"
+                title="Unable to load capabilities"
+                message="We couldn't load our core capabilities right now. Please try again in a moment."
+                onRetry={() => {
+                  void refetch();
+                }}
+                isRetrying={isFetching}
+              />
+            </div>
+          ) : capabilities.length ===
+            0 ? (
+            <div className="col-span-full">
+              <SectionState
+                variant="empty"
+                title="No capabilities added yet"
+                message="Core capabilities have not been published yet. They will appear here once available."
+              />
             </div>
           ) : (
             currentItems.map(
@@ -277,6 +278,8 @@ export default function OurCoreCapabilities() {
         {/* Pagination */}
         {!isLoading &&
           !isError &&
+          capabilities.length >
+            0 &&
           totalPages > 1 && (
             <div className="mt-10 flex justify-center sm:mt-12 lg:mt-14">
               <Pagination

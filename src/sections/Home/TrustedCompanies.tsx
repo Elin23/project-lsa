@@ -7,6 +7,7 @@ import {
 import "swiper/css";
 
 import TrustedCompanySkeleton from "../../components/skeletons/TrustedCompanySkeleton";
+import SectionState from "../../components/feedback/SectionState";
 
 import type {
   PublicPartner,
@@ -23,11 +24,9 @@ const TrustedCompanies = () => {
     data: partners = [],
     isLoading,
     isError,
+    isFetching,
+    refetch,
   } = usePublicPartners();
-
-  if (!isLoading && !isError && partners.length === 0) {
-    return null;
-  }
 
   return (
     <section
@@ -62,15 +61,23 @@ const TrustedCompanies = () => {
             ))}
           </div>
         ) : isError ? (
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
-            <h3 className="text-lg font-bold text-red-600">
-              Unable to load trusted partners
-            </h3>
-
-            <p className="mt-2 text-sm text-red-500">
-              Something went wrong while loading partner logos.
-            </p>
-          </div>
+          <SectionState
+            variant="error"
+            title="Unable to load trusted partners"
+            message="We couldn't load our trusted partners right now. Please try again in a moment."
+            onRetry={() => {
+              void refetch();
+            }}
+            isRetrying={isFetching}
+            compact
+          />
+        ) : partners.length === 0 ? (
+          <SectionState
+            variant="empty"
+            title="No trusted partners added yet"
+            message="Trusted company logos have not been added yet. They will appear here once available."
+            compact
+          />
         ) : (
           <Swiper
             modules={[Autoplay]}
