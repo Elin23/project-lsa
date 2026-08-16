@@ -15,6 +15,7 @@ interface HeroButton {
   text: string;
   to?: string;
   href?: string;
+  onClick?: () => void | Promise<void>;
   icon?: ReactNode;
   iconPosition?: "left" | "right";
   variant?: "primary" | "outline";
@@ -190,15 +191,23 @@ const HeroSection = ({
                     key={button.text}
                     to={button.to}
                     href={button.href}
+                    onClick={button.onClick}
                     icon={button.icon}
                     iconPosition={button.iconPosition}
                     padding="px-5 py-3.5 sm:px-6 md:px-7 md:py-4"
                     fontSize="text-sm md:text-[15px]"
                     fontWeight="font-semibold"
                     bg={isOutline ? "bg-white/12" : "bg-red-01"}
-                    hoverBg={isOutline ? "hover:bg-white hover:text-blue-02" : "hover:bg-[#ad0e28]"}
+                    hoverBg={
+                      isOutline
+                        ? "hover:bg-white hover:text-blue-02"
+                        : "hover:bg-[#ad0e28]"
+                    }
                     textColor="text-white"
-                    className={`w-full justify-center backdrop-blur-sm sm:w-auto ${isOutline ? "border border-white/65 shadow-[0_8px_24px_rgba(7,18,37,0.12)] hover:border-white" : "border border-red-01 shadow-[0_10px_25px_rgba(200,16,46,0.2)]"}`}
+                    className={`w-full justify-center backdrop-blur-sm sm:w-auto ${isOutline
+                        ? "border border-white/65 shadow-[0_8px_24px_rgba(7,18,37,0.12)] hover:border-white"
+                        : "border border-red-01 shadow-[0_10px_25px_rgba(200,16,46,0.2)]"
+                      }`}
                   >
                     {button.text}
                   </ButtonComponent>

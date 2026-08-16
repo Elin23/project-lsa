@@ -15,6 +15,7 @@ import FleetRequestModal from "../../components/shared/FleetRequestModal";
 import Pagination from "../../components/navigation/Pagination";
 
 import FleetCardSkeleton from "../../components/skeletons/FleetCardSkeleton";
+import SectionState from "../../components/feedback/SectionState";
 
 import type {
   PublicEquipment,
@@ -51,11 +52,15 @@ function getItemsPerPage() {
 }
 
 export default function FleetInventory() {
-  const [activeTab, setActiveTab] =
-    useState("all");
+  const [
+    activeTab,
+    setActiveTab,
+  ] = useState("all");
 
-  const [search, setSearch] =
-    useState("");
+  const [
+    search,
+    setSearch,
+  ] = useState("");
 
   const [
     selectedItem,
@@ -76,14 +81,26 @@ export default function FleetInventory() {
   ] =
     useState(getItemsPerPage);
 
+  // ======================================================
+  // React Query - Equipment
+  // ======================================================
+
   const {
     data: equipment = [],
     isLoading:
       isEquipmentLoading,
     isError:
       isEquipmentError,
+    isFetching:
+      isEquipmentFetching,
+    refetch:
+      refetchEquipment,
   } =
     usePublicEquipment();
+
+  // ======================================================
+  // React Query - Categories
+  // ======================================================
 
   const {
     data: categories = [],
@@ -91,6 +108,10 @@ export default function FleetInventory() {
       isCategoriesLoading,
     isError:
       isCategoriesError,
+    isFetching:
+      isCategoriesFetching,
+    refetch:
+      refetchCategories,
   } =
     usePublicEquipmentCategories();
 
@@ -101,6 +122,14 @@ export default function FleetInventory() {
   const isError =
     isEquipmentError ||
     isCategoriesError;
+
+  const isRetrying =
+    isEquipmentFetching ||
+    isCategoriesFetching;
+
+  // ======================================================
+  // Responsive Pagination
+  // ======================================================
 
   useEffect(() => {
     const handleResize = () => {
@@ -136,6 +165,10 @@ export default function FleetInventory() {
     };
   }, []);
 
+  // ======================================================
+  // Tabs
+  // ======================================================
+
   const fleetTabs =
     useMemo(
       () => [
@@ -158,6 +191,10 @@ export default function FleetInventory() {
       ],
       [categories],
     );
+
+  // ======================================================
+  // Filter
+  // ======================================================
 
   const filteredFleet =
     useMemo(() => {
@@ -220,6 +257,10 @@ export default function FleetInventory() {
       search,
     ]);
 
+  // ======================================================
+  // Pagination
+  // ======================================================
+
   const totalPages =
     Math.ceil(
       filteredFleet.length /
@@ -253,6 +294,21 @@ export default function FleetInventory() {
       itemsPerPage,
     ]);
 
+  // ======================================================
+  // Retry
+  // ======================================================
+
+  const handleRetry = () => {
+    void Promise.all([
+      refetchEquipment(),
+      refetchCategories(),
+    ]);
+  };
+
+  // ======================================================
+  // Render
+  // ======================================================
+
   return (
     <section id="fleet-inventory">
       <TitleComponent
@@ -260,68 +316,75 @@ export default function FleetInventory() {
         description="Browse our ready-to-deploy equipment catalog."
       />
 
-      <div className="mt-12 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-        <TabsComponent
-          tabs={fleetTabs}
-          activeTab={
-            activeTab
-          }
-          onChange={(tab) => {
-            setActiveTab(
-              tab,
-            );
-
-            setCurrentPage(
-              1,
-            );
-          }}
-        />
-
-        <div className="relative w-full lg:w-[320px]">
-          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500" />
-
-          <input
-            type="search"
-            value={search}
-            disabled={
-              isLoading
+      {/* Filters */}
+      {!isError && (
+        <div className="mt-12 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <TabsComponent
+            tabs={fleetTabs}
+            activeTab={
+              activeTab
             }
-            onChange={(
-              event,
-            ) => {
-              setSearch(
-                event.target
-                  .value,
+            onChange={(tab) => {
+              setActiveTab(
+                tab,
               );
 
               setCurrentPage(
                 1,
               );
             }}
-            placeholder="Search Fleet..."
-            aria-label="Search equipment fleet"
-            className="
-              h-12
-              w-full
-              rounded-xl
-              border
-              border-transparent
-              bg-blue-01/5
-              pl-12
-              pr-4
-              text-sm
-              text-slate-700
-              outline-none
-              transition
-              placeholder:text-slate-400
-              focus:border-blue-01/30
-              focus:bg-white
-              disabled:cursor-not-allowed
-              disabled:opacity-60
-            "
           />
+
+          <div className="relative w-full lg:w-[320px]">
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500" />
+
+            <input
+              type="search"
+              value={search}
+              disabled={
+                isLoading
+              }
+              onChange={(
+                event,
+              ) => {
+                setSearch(
+                  event.target
+                    .value,
+                );
+
+                setCurrentPage(
+                  1,
+                );
+              }}
+              placeholder="Search Fleet..."
+              aria-label="Search equipment fleet"
+              className="
+                h-12
+                w-full
+                rounded-xl
+                border
+                border-transparent
+                bg-blue-01/5
+                pl-12
+                pr-4
+                text-sm
+                text-slate-700
+                outline-none
+                transition
+                placeholder:text-slate-400
+                focus:border-blue-01/30
+                focus:bg-white
+                disabled:cursor-not-allowed
+                disabled:opacity-60
+              "
+            />
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* ==================================================
+          Loading
+      =================================================== */}
 
       {isLoading ? (
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -342,20 +405,55 @@ export default function FleetInventory() {
           )}
         </div>
       ) : isError ? (
-        <div className="mt-10 rounded-2xl border border-red-200 bg-red-50 p-10 text-center">
-          <h3 className="text-xl font-bold text-red-600">
-            Unable to load
-            equipment
-          </h3>
+        /* ==================================================
+           Error
+        =================================================== */
 
-          <p className="mt-2 text-sm text-red-500">
-            Something went wrong
-            while loading the
-            equipment inventory.
-          </p>
+        <div className="mt-10">
+          <SectionState
+            variant="error"
+            title="Unable to load equipment"
+            message="We couldn't load the equipment inventory right now. Please try again in a moment."
+            onRetry={
+              handleRetry
+            }
+            isRetrying={
+              isRetrying
+            }
+          />
         </div>
-      ) : filteredFleet.length >
+      ) : equipment.length ===
         0 ? (
+        /* ==================================================
+           Empty API State
+        =================================================== */
+
+        <div className="mt-10">
+          <SectionState
+            variant="empty"
+            title="No equipment added yet"
+            message="The equipment inventory has not been published yet. Available equipment will appear here once added."
+          />
+        </div>
+      ) : filteredFleet.length ===
+        0 ? (
+        /* ==================================================
+           No Search / Filter Results
+        =================================================== */
+
+        <div className="mt-10">
+          <SectionState
+            variant="empty"
+            title="No matching equipment found"
+            message="No equipment matches your current category or search. Try changing the filter or using a different keyword."
+            compact
+          />
+        </div>
+      ) : (
+        /* ==================================================
+           Success
+        =================================================== */
+
         <>
           <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {paginatedFleet.map(
@@ -402,19 +500,6 @@ export default function FleetInventory() {
             </div>
           )}
         </>
-      ) : (
-        <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-10 text-center">
-          <h3 className="text-xl font-extrabold text-blue-01">
-            No equipment
-            found
-          </h3>
-
-          <p className="mt-2 text-sm text-slate-500">
-            Try changing the
-            category or search
-            keyword.
-          </p>
-        </div>
       )}
 
       <FleetRequestModal

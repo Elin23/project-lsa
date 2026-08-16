@@ -15,6 +15,7 @@ import {
   LoaderCircle,
   MapPin,
   PackageCheck,
+  RefreshCw,
   X,
 } from "lucide-react";
 
@@ -259,6 +260,8 @@ export default function FleetRequestModal({
     data: equipmentDetails,
     isLoading: isDetailsLoading,
     isError: isDetailsError,
+    isFetching: isDetailsFetching,
+    refetch: refetchDetails,
   } = usePublicEquipmentBySlug(
     item?.slug,
   );
@@ -303,10 +306,6 @@ export default function FleetRequestModal({
 
     setForm(updatedForm);
 
-    /*
-     * Once the user has touched a field,
-     * keep validating it while they correct it.
-     */
     if (touched[field]) {
       const updatedErrors =
         validateForm(updatedForm);
@@ -600,12 +599,67 @@ export default function FleetRequestModal({
                 </p>
 
                 {isDetailsError && (
-                  <p className="mt-3 text-xs font-semibold text-amber-600">
-                    Detailed equipment
-                    information could not
-                    be loaded. Showing
-                    available information.
-                  </p>
+                  <div
+                    className="
+                      mt-4
+                      rounded-xl
+                      border
+                      border-amber-200
+                      bg-amber-50
+                      p-3.5
+                    "
+                  >
+                    <div className="flex items-start gap-3">
+                      <AlertCircle
+                        size={17}
+                        className="mt-0.5 shrink-0 text-amber-600"
+                      />
+
+                      <div className="flex-1">
+                        <p className="text-xs font-semibold leading-5 text-amber-700">
+                          Detailed equipment information could not be loaded.
+                          Available information is being shown instead.
+                        </p>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            void refetchDetails();
+                          }}
+                          disabled={
+                            isDetailsFetching
+                          }
+                          className="
+                            mt-2
+                            inline-flex
+                            cursor-pointer
+                            items-center
+                            gap-1.5
+                            text-xs
+                            font-bold
+                            text-blue-01
+                            transition-colors
+                            hover:text-red-01
+                            disabled:cursor-not-allowed
+                            disabled:opacity-60
+                          "
+                        >
+                          <RefreshCw
+                            size={13}
+                            className={
+                              isDetailsFetching
+                                ? "animate-spin"
+                                : ""
+                            }
+                          />
+
+                          {isDetailsFetching
+                            ? "Trying again..."
+                            : "Retry details"}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>

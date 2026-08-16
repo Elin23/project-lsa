@@ -17,7 +17,7 @@ export const getPublicServices = async (): Promise<
 > => {
   const response =
     await apiClient.get<PublicServicesResponse>(
-      "/services/public",
+      "/services/public/",
     );
 
   return response.data.data;

@@ -9,20 +9,23 @@ import AOS from "aos";
 import TitleComponent from "../../components/shared/TitleComponent";
 import LoadMoreButton from "../../components/shared/LoadMoreButton";
 import ServiceCardSkeleton from "../../components/skeletons/ServiceCardSkeleton";
+import SectionState from "../../components/feedback/SectionState";
 import ServiceCard from "./ServiceCard";
 
 import {
   usePublicServices,
 } from "../../hooks/queries/useServices";
 
-const INITIAL_VISIBLE_SERVICES = 3;
-const SERVICES_PER_LOAD = 3;
+const INITIAL_VISIBLE_SERVICES = 5;
+const SERVICES_PER_LOAD = 5;
 
 const OurServices = () => {
-  const [visibleCount, setVisibleCount] =
-    useState(
-      INITIAL_VISIBLE_SERVICES,
-    );
+  const [
+    visibleCount,
+    setVisibleCount,
+  ] = useState(
+    INITIAL_VISIBLE_SERVICES,
+  );
 
   const sectionRef =
     useRef<HTMLElement | null>(
@@ -33,6 +36,8 @@ const OurServices = () => {
     data: services = [],
     isLoading,
     isError,
+    isFetching,
+    refetch,
   } = usePublicServices();
 
   useEffect(() => {
@@ -131,18 +136,23 @@ const OurServices = () => {
             ),
           )
         ) : isError ? (
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-10 text-center">
-            <h3 className="text-xl font-bold text-red-600">
-              Unable to load
-              services
-            </h3>
-
-            <p className="mt-2 text-sm text-red-500">
-              Something went wrong
-              while loading our
-              services.
-            </p>
-          </div>
+          <SectionState
+            variant="error"
+            title="Unable to load services"
+            message="We couldn't load our services right now. Please try again in a moment."
+            onRetry={() => {
+              void refetch();
+            }}
+            isRetrying={
+              isFetching
+            }
+          />
+        ) : services.length === 0 ? (
+          <SectionState
+            variant="empty"
+            title="No services added yet"
+            message="Services have not been published yet. They will appear here once available."
+          />
         ) : (
           visibleServices.map(
             (
@@ -193,8 +203,7 @@ const OurServices = () => {
                   0
                 }
                 animationDelay={
-                  (index %
-                    3) *
+                  (index % 5) *
                   70
                 }
               />

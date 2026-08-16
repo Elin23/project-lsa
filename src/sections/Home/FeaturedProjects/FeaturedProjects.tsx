@@ -1,46 +1,62 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import TitleComponent from "../../../components/shared/TitleComponent";
 import Slider2 from "../../../components/shared/Slider2";
+
 import FeaturedProjectsCardSkeleton from "../../../components/skeletons/FeaturedProjectsCardSkeleton";
+
+import SectionState from "../../../components/feedback/SectionState";
+
 import FeaturedProjectsCard from "./FeaturedProjectsCard";
 
-import type { ProjectListItem } from "../../../Types/project";
-import { getPublicProjects } from "../../../services/projectService";
+import {
+  usePublicProjects,
+} from "../../../hooks/queries/useProjects";
+
+const SKELETON_ITEMS = 6;
 
 export default function FeaturedProjects() {
-  const [projects, setProjects] = useState<ProjectListItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  // ====================================================
+  // React Query
+  // ====================================================
 
-  useEffect(() => {
-    const fetchFeaturedProjects = async () => {
-      try {
-        const response = await getPublicProjects();
+  const {
+    data: projects = [],
+    isLoading,
+    isError,
+    isFetching,
+    refetch,
+  } = usePublicProjects();
 
-        setProjects(response.data);
-      } catch (error) {
-        console.error(
-          "Failed to fetch featured projects:",
-          error,
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+  // ====================================================
+  // Featured Projects
+  // ====================================================
 
-    fetchFeaturedProjects();
-  }, []);
-
-  const featuredProjects = useMemo(() => {
-    return projects.filter(
-      (project) => project.isFeatured,
-    );
-  }, [projects]);
+  const featuredProjects = useMemo(
+    () =>
+      projects.filter(
+        (project) =>
+          project.isFeatured,
+      ),
+    [projects],
+  );
 
   const skeletonItems = useMemo(
-    () => Array.from({ length: 6 }, (_, index) => index),
+    () =>
+      Array.from(
+        {
+          length:
+            SKELETON_ITEMS,
+        },
+        (_, index) =>
+          index,
+      ),
     [],
   );
+
+  // ====================================================
+  // Render
+  // ====================================================
 
   return (
     <section id="featured-projects">
@@ -49,73 +65,178 @@ export default function FeaturedProjects() {
         description="A showcase of our engineering scale and precision across the region's most challenging landscapes."
       />
 
-      {/* Mobile slider */}
-      <div className="md:hidden">
-        {loading ? (
-          <Slider2
-            items={skeletonItems}
-            visibleItems={1}
-            gap={16}
-            autoPlay={false}
-            showControls={false}
-            renderItem={(item) => (
-              <FeaturedProjectsCardSkeleton key={item} />
-            )}
-          />
-        ) : featuredProjects.length > 0 ? (
-          <Slider2
-            items={featuredProjects}
-            visibleItems={{
-              default: 1,
-              sm:
-                featuredProjects.length >= 2
-                  ? 2
-                  : 1,
-            }}
-            gap={16}
-            autoPlay
-            autoPlayDelay={4000}
-            showControls={featuredProjects.length > 1}
-            renderItem={(project) => (
-              <FeaturedProjectsCard
-                key={project._id}
-                image={project.cardImage.url}
-                category={project.categoryLabel}
-                title={project.title}
-                path={`/projects/${project.slug}`}
-              />
-            )}
-          />
-        ) : null}
-      </div>
+      {/* ================================================
+          Loading
+      ================================================= */}
 
-      {/* Tablet and desktop grid */}
-      <div
-        className="
-          hidden
-          gap-6
-          md:grid
-          md:grid-cols-2
-          lg:grid-cols-3
-          lg:gap-8
-        "
-      >
-        {loading
-          ? skeletonItems.map((item) => (
-            <FeaturedProjectsCardSkeleton
-              key={item}
+      {isLoading ? (
+        <>
+          {/* Mobile */}
+          <div className="md:hidden">
+            <Slider2
+              items={
+                skeletonItems
+              }
+              visibleItems={1}
+              gap={16}
+              autoPlay={false}
+              showControls={
+                false
+              }
+              renderItem={(
+                item,
+              ) => (
+                <FeaturedProjectsCardSkeleton
+                  key={
+                    item
+                  }
+                />
+              )}
             />
-          ))
-          : featuredProjects.map((project) => (
-            <FeaturedProjectsCard
-              key={project._id}
-              image={project.cardImage.url}
-              category={project.categoryLabel}
-              title={project.title}
-              path={`/projects/${project.slug}`}
+          </div>
+
+          {/* Tablet & Desktop */}
+          <div
+            className="
+              hidden
+              gap-6
+              md:grid
+              md:grid-cols-2
+              lg:grid-cols-3
+              lg:gap-8
+            "
+          >
+            {skeletonItems.map(
+              (item) => (
+                <FeaturedProjectsCardSkeleton
+                  key={
+                    item
+                  }
+                />
+              ),
+            )}
+          </div>
+        </>
+      ) : isError ? (
+        /* ================================================
+           Error
+        ================================================= */
+
+        <SectionState
+          variant="error"
+          title="Unable to load featured projects"
+          message="We couldn't load our featured projects right now. Please try again in a moment."
+          onRetry={() => {
+            void refetch();
+          }}
+          isRetrying={
+            isFetching
+          }
+        />
+      ) : featuredProjects.length ===
+        0 ? (
+        /* ================================================
+           Empty
+        ================================================= */
+
+        <SectionState
+          variant="empty"
+          title="No featured projects added yet"
+          message="Featured projects have not been published yet. They will appear here once available."
+        />
+      ) : (
+        /* ================================================
+           Success
+        ================================================= */
+
+        <>
+          {/* Mobile Slider */}
+          <div className="md:hidden">
+            <Slider2
+              items={
+                featuredProjects
+              }
+              visibleItems={{
+                default: 1,
+                sm:
+                  featuredProjects.length >=
+                  2
+                    ? 2
+                    : 1,
+              }}
+              gap={16}
+              autoPlay={
+                featuredProjects.length >
+                1
+              }
+              autoPlayDelay={
+                4000
+              }
+              showControls={
+                featuredProjects.length >
+                1
+              }
+              renderItem={(
+                project,
+              ) => (
+                <FeaturedProjectsCard
+                  key={
+                    project._id
+                  }
+                  image={
+                    project
+                      .cardImage
+                      .url
+                  }
+                  category={
+                    project.categoryLabel
+                  }
+                  title={
+                    project.title
+                  }
+                  path={`/projects/${project.slug}`}
+                />
+              )}
             />
-          ))}
-      </div>
+          </div>
+
+          {/* Tablet and Desktop Grid */}
+          <div
+            className="
+              hidden
+              gap-6
+              md:grid
+              md:grid-cols-2
+              lg:grid-cols-3
+              lg:gap-8
+            "
+          >
+            {featuredProjects.map(
+              (
+                project,
+              ) => (
+                <FeaturedProjectsCard
+                  key={
+                    project._id
+                  }
+                  image={
+                    project
+                      .cardImage
+                      .url
+                  }
+                  category={
+                    project.categoryLabel
+                  }
+                  title={
+                    project.title
+                  }
+                  path={`/projects/${project.slug}`}
+                />
+              ),
+            )}
+          </div>
+        </>
+      )}
     </section>
   );
 }
