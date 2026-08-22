@@ -3,7 +3,7 @@ import { getJourneyItems } from "../../services/journeyApi";
 
 export const useJourney = () => {
   return useQuery({
-    queryKey: ["journeysع"],
+    queryKey: ["journeys"],
     queryFn: getJourneyItems,
   });
 };
