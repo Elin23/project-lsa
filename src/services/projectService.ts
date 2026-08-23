@@ -1,38 +1,38 @@
-import type { Project, ProjectResponse, ProjectsResponse } from "../Types/project";
+import apiClient from "../lib/apiClient";
 
+import type {
+  Project,
+  ProjectListItem,
+  ProjectResponse,
+  ProjectsResponse,
+} from "../Types/project";
 
-const API_BASE_URL = "/api/v1/projects";
+// ======================================================
+// Public Projects
+// ======================================================
 
 export const getPublicProjects = async (): Promise<
-    ProjectsResponse
+  ProjectListItem[]
 > => {
-    const response = await fetch(`${API_BASE_URL}/public`);
-
-    if (!response.ok) {
-        throw new Error("Failed to fetch projects");
-    }
-
-    const data: ProjectsResponse = await response.json();
-
-    return data;
-};
-
-export const getPublicProjectBySlug = async (
-    slug: string,
-): Promise<Project> => {
-    const response = await fetch(
-        `${API_BASE_URL}/public/${encodeURIComponent(slug)}`,
+  const response =
+    await apiClient.get<ProjectsResponse>(
+      "/projects/public",
     );
 
-    if (!response.ok) {
-        if (response.status === 404) {
-            throw new Error("Project not found");
-        }
+  return response.data.data;
+};
 
-        throw new Error("Failed to fetch project");
-    }
+// ======================================================
+// Public Project Details
+// ======================================================
 
-    const data: ProjectResponse = await response.json();
+export const getPublicProjectBySlug = async (
+  slug: string,
+): Promise<Project> => {
+  const response =
+    await apiClient.get<ProjectResponse>(
+      `/projects/public/${encodeURIComponent(slug)}`,
+    );
 
-    return data.data;
+  return response.data.data;
 };

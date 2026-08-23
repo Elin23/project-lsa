@@ -1,17 +1,46 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPublicProjectBySlug, getPublicProjects } from "../../services/projectService";
+import {
+  useQuery,
+} from "@tanstack/react-query";
+
+import {
+  getPublicProjectBySlug,
+  getPublicProjects,
+} from "../../services/projectService";
+
+// ======================================================
+// Public Projects
+// ======================================================
 
 export const usePublicProjects = () => {
-    return useQuery({
-        queryKey: ["projects"],
-        queryFn: getPublicProjects,
-    });
+  return useQuery({
+    queryKey: [
+      "projects",
+      "public",
+    ],
+    queryFn: getPublicProjects,
+  });
 };
 
-export const usePublicProjectBySlug = (slug: string) => {
-    return useQuery({
-        queryKey: ["project", slug],
-        queryFn: () => getPublicProjectBySlug(slug),
-        enabled: Boolean(slug), 
-    });
+// ======================================================
+// Public Project Details
+// ======================================================
+
+export const usePublicProjectBySlug = (
+  slug?: string,
+) => {
+  return useQuery({
+    queryKey: [
+      "projects",
+      "public",
+      slug,
+    ],
+
+    queryFn: () =>
+      getPublicProjectBySlug(
+        slug as string,
+      ),
+
+    enabled:
+      Boolean(slug),
+  });
 };

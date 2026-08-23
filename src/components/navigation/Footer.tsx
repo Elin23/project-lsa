@@ -1,236 +1,857 @@
-import type { ElementType } from "react";
-import { ArrowUpRight, ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import type {
+  ElementType,
+} from "react";
+
+import {
+  ArrowUpRight,
+  ChevronRight,
+} from "lucide-react";
+
+import {
+  Link,
+} from "react-router-dom";
 
 import logo from "../../assets/Logo2.webp";
-import { footerData } from "../../data/footerData";
-import { useContactInfo } from "../../hooks/queries/useContactInfo";
+
+import {
+  footerData,
+} from "../../data/footerData";
+
+import {
+  useContactInfo,
+} from "../../hooks/queries/useContactInfo";
+
+// ======================================================
+// Types
+// ======================================================
 
 export interface FooterTitleProps {
   title: string;
 }
 
-const FooterTitle = ({ title }: FooterTitleProps) => {
+interface ResolvedContactItem {
+  icon: ElementType;
+  value:
+    | string
+    | string[];
+  type:
+    | "address"
+    | "phone"
+    | "email";
+}
+
+// ======================================================
+// Footer Title
+// ======================================================
+
+const FooterTitle = ({
+  title,
+}: FooterTitleProps) => {
   return (
     <div>
-      <h3 className="text-base font-bold tracking-[-0.01em] text-white sm:text-lg">
+      <h3
+        className="
+          text-base
+          font-bold
+          tracking-[-0.01em]
+          text-white
+          sm:text-lg
+        "
+      >
         {title}
       </h3>
+
       <div className="mt-3 flex items-center gap-1.5">
         <span className="h-0.5 w-8 rounded-full bg-red-01" />
+
         <span className="h-0.5 w-2 rounded-full bg-white/20" />
       </div>
     </div>
   );
 };
 
+// ======================================================
+// Footer
+// ======================================================
+
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-  const { data: contact } = useContactInfo();
+  const currentYear =
+    new Date().getFullYear();
 
-  // 1. الوصف: نستخدم القادم من الـ API أو نرجع للـ footerData
-  const companyDescription = contact?.description || footerData.company.description;
+  const {
+    data: contact,
+    isError,
+  } = useContactInfo();
 
-  // 2. السوشيال ميديا: ندمج روابط الـ API مع الأيقونات والـ hoverClass الموجودين في footerData
-  const socialLinks = footerData.socialLinks.map((social) => {
-    let dynamicUrl = social.url;
+  // ====================================================
+  // Company Description
+  // ====================================================
 
-    if (contact?.socialLinks) {
-      const key = social.label.toLowerCase();
-      if (key === "facebook" && contact.socialLinks.facebook) {
-        dynamicUrl = contact.socialLinks.facebook;
-      } else if (key === "instagram" && contact.socialLinks.instagram) {
-        dynamicUrl = contact.socialLinks.instagram;
-      } else if (key === "linkedin" && contact.socialLinks.linkedin) {
-        dynamicUrl = contact.socialLinks.linkedin;
-      } else if (key === "whatsapp" && contact.socialLinks.whatsapp) {
-        const wa = contact.socialLinks.whatsapp;
-        dynamicUrl = wa.startsWith("http") ? wa : `https://wa.me/${wa.replace(/\D/g, "")}`;
-      }
-    }
+  const companyDescription =
+    !isError &&
+    contact?.description?.trim()
+      ? contact.description
+      : footerData.company.description;
 
-    return {
-      ...social,
-      url: dynamicUrl,
-    };
-  });
+  // ====================================================
+  // Social Links
+  // ====================================================
 
-  // 3. بيانات التواصل: تحديث القيم مع الحفاظ على الأيقونات من footerData
-  const contactItems = footerData.contact.map((item) => {
-    if (item.icon.name === "MapPin" || item.icon === footerData.contact[0].icon) {
-      return { ...item, value: contact?.location?.address || item.value };
-    }
-    if (item.icon.name === "Phone" || item.icon === footerData.contact[1].icon) {
-      return { ...item, value: contact?.phones || item.value };
-    }
-    if (item.icon.name === "Mail" || item.icon === footerData.contact[2].icon) {
-      return { ...item, value: contact?.email || item.value };
-    }
-    return item;
-  });
+  const socialLinks =
+    footerData.socialLinks
+      .map((social) => {
+        let dynamicUrl =
+          social.url?.trim() ||
+          "";
+
+        if (
+          !isError &&
+          contact?.socialLinks
+        ) {
+          const key =
+            social.label
+              .toLowerCase()
+              .trim();
+
+          if (
+            key ===
+              "facebook" &&
+            contact.socialLinks
+              .facebook
+          ) {
+            dynamicUrl =
+              contact.socialLinks.facebook.trim();
+          }
+
+          if (
+            key ===
+              "instagram" &&
+            contact.socialLinks
+              .instagram
+          ) {
+            dynamicUrl =
+              contact.socialLinks.instagram.trim();
+          }
+
+          if (
+            key ===
+              "linkedin" &&
+            contact.socialLinks
+              .linkedin
+          ) {
+            dynamicUrl =
+              contact.socialLinks.linkedin.trim();
+          }
+
+          if (
+            key ===
+              "whatsapp" &&
+            contact.socialLinks
+              .whatsapp
+          ) {
+            const whatsapp =
+              contact.socialLinks.whatsapp.trim();
+
+            dynamicUrl =
+              whatsapp.startsWith(
+                "http://",
+              ) ||
+              whatsapp.startsWith(
+                "https://",
+              )
+                ? whatsapp
+                : `https://wa.me/${whatsapp.replace(
+                    /\D/g,
+                    "",
+                  )}`;
+          }
+        }
+
+        return {
+          ...social,
+          url:
+            dynamicUrl,
+        };
+      })
+      .filter(
+        (social) =>
+          Boolean(
+            social.url,
+          ),
+      );
+
+  // ====================================================
+  // Contact Items
+  // ====================================================
+
+  const fallbackAddress =
+    footerData.contact[0];
+
+  const fallbackPhone =
+    footerData.contact[1];
+
+  const fallbackEmail =
+    footerData.contact[2];
+
+  const resolvedContactItems: ResolvedContactItem[] =
+    [];
+
+  const addressValue =
+    !isError &&
+    contact?.location?.address?.trim()
+      ? contact.location.address
+      : typeof fallbackAddress
+            ?.value ===
+          "string"
+        ? fallbackAddress.value
+        : "";
+
+  if (
+    addressValue
+  ) {
+    resolvedContactItems.push(
+      {
+        icon:
+          fallbackAddress.icon as ElementType,
+
+        value:
+          addressValue,
+
+        type:
+          "address",
+      },
+    );
+  }
+
+  const phoneValues =
+    !isError &&
+    Array.isArray(
+      contact?.phones,
+    ) &&
+    contact.phones.length >
+      0
+      ? contact.phones.filter(
+          (phone) =>
+            Boolean(
+              phone?.trim(),
+            ),
+        )
+      : Array.isArray(
+            fallbackPhone?.value,
+          )
+        ? fallbackPhone.value.filter(
+            (phone) =>
+              Boolean(
+                phone?.trim(),
+              ),
+          )
+        : typeof fallbackPhone
+              ?.value ===
+            "string" &&
+          fallbackPhone.value.trim()
+          ? [
+              fallbackPhone.value,
+            ]
+          : [];
+
+  if (
+    phoneValues.length >
+    0
+  ) {
+    resolvedContactItems.push(
+      {
+        icon:
+          fallbackPhone.icon as ElementType,
+
+        value:
+          phoneValues,
+
+        type:
+          "phone",
+      },
+    );
+  }
+
+  const emailValue =
+    !isError &&
+    contact?.email?.trim()
+      ? contact.email
+      : typeof fallbackEmail
+            ?.value ===
+          "string"
+        ? fallbackEmail.value
+        : "";
+
+  if (
+    emailValue
+  ) {
+    resolvedContactItems.push(
+      {
+        icon:
+          fallbackEmail.icon as ElementType,
+
+        value:
+          emailValue,
+
+        type:
+          "email",
+      },
+    );
+  }
+
+  // ====================================================
+  // Render
+  // ====================================================
 
   return (
-    <footer id="footer" className="relative overflow-hidden bg-[#06162d] text-white">
-      {/* Background decorations */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -right-40 -top-40 h-107.5 w-107.5 rounded-full border border-white/4" />
-        <div className="absolute -right-24 -top-24 h-75 w-75 rounded-full border border-white/5" />
-        <div className="absolute right-[12%] top-[18%] h-52 w-52 rounded-full bg-blue-500/5 blur-3xl" />
-        <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-red-600/4 blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.018)_1px,transparent_1px)] bg-size-[70px_70px] mask-[linear-gradient(to_bottom,black,transparent_78%)]" />
+    <footer
+      id="footer"
+      className="
+        relative
+        overflow-hidden
+        bg-[#06162d]
+        text-white
+      "
+    >
+      {/* Background Decorations */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+        "
+      >
+        <div
+          className="
+            absolute
+            -right-40
+            -top-40
+            h-107.5
+            w-107.5
+            rounded-full
+            border
+            border-white/4
+          "
+        />
+
+        <div
+          className="
+            absolute
+            -right-24
+            -top-24
+            h-75
+            w-75
+            rounded-full
+            border
+            border-white/5
+          "
+        />
+
+        <div
+          className="
+            absolute
+            right-[12%]
+            top-[18%]
+            h-52
+            w-52
+            rounded-full
+            bg-blue-500/5
+            blur-3xl
+          "
+        />
+
+        <div
+          className="
+            absolute
+            -bottom-32
+            -left-20
+            h-80
+            w-80
+            rounded-full
+            bg-red-600/4
+            blur-3xl
+          "
+        />
+
+        <div
+          className="
+            absolute
+            inset-0
+            bg-[linear-gradient(rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.018)_1px,transparent_1px)]
+            bg-size-[70px_70px]
+            mask-[linear-gradient(to_bottom,black,transparent_78%)]
+          "
+        />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1920px] px-container">
-        {/* Main footer layout */}
-        <div className="grid grid-cols-1 gap-x-8 gap-y-12 py-14 sm:grid-cols-2 sm:py-16 lg:grid-cols-[1.25fr_0.72fr_0.95fr_1.25fr] lg:gap-x-10 lg:gap-y-0 lg:py-18 xl:grid-cols-[1.35fr_0.7fr_0.95fr_1.35fr] xl:gap-x-16">
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-[1920px]
+          px-container
+        "
+      >
+        {/* Main Footer Layout */}
+        <div
+          className="
+            grid
+            grid-cols-1
+            gap-x-8
+            gap-y-12
+            py-14
+            sm:grid-cols-2
+            sm:py-16
+            lg:grid-cols-[1.25fr_0.72fr_0.95fr_1.25fr]
+            lg:gap-x-10
+            lg:gap-y-0
+            lg:py-18
+            xl:grid-cols-[1.35fr_0.7fr_0.95fr_1.35fr]
+            xl:gap-x-16
+          "
+        >
           {/* Company Column */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link to="/" aria-label="Go to home page" className="inline-block">
-              <img src={logo} alt="LSA Logo" className="w-28 object-contain sm:w-32" />
+            <Link
+              to="/"
+              aria-label="Go to home page"
+              className="inline-block"
+            >
+              <img
+                src={logo}
+                alt="LSA Logo"
+                className="
+                  w-28
+                  object-contain
+                  sm:w-32
+                "
+              />
             </Link>
 
-            <p className="mt-7 max-w-md text-sm leading-7 text-white/55 lg:max-w-sm">
-              {companyDescription}
+            <p
+              className="
+                mt-7
+                max-w-md
+                text-sm
+                leading-7
+                text-white/55
+                lg:max-w-sm
+              "
+            >
+              {
+                companyDescription
+              }
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
-              {socialLinks.map((social) => {
-                const Icon = social.icon as ElementType;
-                const isExternal = social.url.startsWith("http");
+            {socialLinks.length >
+              0 && (
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                {socialLinks.map(
+                  (
+                    social,
+                  ) => {
+                    const Icon =
+                      social.icon as ElementType;
 
-                return (
-                  <a
-                    key={social.label}
-                    href={social.url}
-                    aria-label={social.label}
-                    title={social.label}
-                    target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noopener noreferrer" : undefined}
-                    className={`group flex h-10 w-10 items-center justify-center rounded-lg border border-white/12 bg-white/[0.035] text-white/70 transition-all duration-300 hover:-translate-y-1 hover:text-white ${social.hoverClass}`}
-                  >
-                    <Icon size={17} className="transition-transform duration-300 group-hover:scale-110" />
-                  </a>
-                );
-              })}
-            </div>
+                    const isExternal =
+                      social.url.startsWith(
+                        "http",
+                      );
+
+                    return (
+                      <a
+                        key={
+                          social.label
+                        }
+                        href={
+                          social.url
+                        }
+                        aria-label={
+                          social.label
+                        }
+                        title={
+                          social.label
+                        }
+                        target={
+                          isExternal
+                            ? "_blank"
+                            : undefined
+                        }
+                        rel={
+                          isExternal
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
+                        className={`
+                          group
+                          flex
+                          h-10
+                          w-10
+                          items-center
+                          justify-center
+                          rounded-lg
+                          border
+                          border-white/12
+                          bg-white/[0.035]
+                          text-white/70
+                          transition-all
+                          duration-300
+                          hover:-translate-y-1
+                          hover:text-white
+                          ${social.hoverClass}
+                        `}
+                      >
+                        <Icon
+                          size={
+                            17
+                          }
+                          className="
+                            transition-transform
+                            duration-300
+                            group-hover:scale-110
+                          "
+                        />
+                      </a>
+                    );
+                  },
+                )}
+              </div>
+            )}
           </div>
 
           {/* Quick Links Column */}
           <div>
             <FooterTitle title="Quick Links" />
+
             <ul className="mt-7 space-y-3.5">
-              {footerData.quickLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    to={link.path}
-                    className="group inline-flex items-center gap-1.5 text-sm font-medium text-white/55 transition-colors duration-300 hover:text-white"
+              {footerData.quickLinks.map(
+                (link) => (
+                  <li
+                    key={
+                      link.label
+                    }
                   >
-                    <ChevronRight
-                      size={14}
-                      className="-ml-2 shrink-0 text-red-01 opacity-0 transition-all duration-300 group-hover:ml-0 group-hover:opacity-100"
-                    />
-                    <span className="transition-transform duration-300 group-hover:translate-x-0.5">
-                      {link.label}
-                    </span>
-                  </Link>
-                </li>
-              ))}
+                    <Link
+                      to={
+                        link.path
+                      }
+                      className="
+                        group
+                        inline-flex
+                        items-center
+                        gap-1.5
+                        text-sm
+                        font-medium
+                        text-white/55
+                        transition-colors
+                        duration-300
+                        hover:text-white
+                      "
+                    >
+                      <ChevronRight
+                        size={
+                          14
+                        }
+                        className="
+                          -ml-2
+                          shrink-0
+                          text-red-01
+                          opacity-0
+                          transition-all
+                          duration-300
+                          group-hover:ml-0
+                          group-hover:opacity-100
+                        "
+                      />
+
+                      <span
+                        className="
+                          transition-transform
+                          duration-300
+                          group-hover:translate-x-0.5
+                        "
+                      >
+                        {
+                          link.label
+                        }
+                      </span>
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 
           {/* Services Column */}
           <div>
             <FooterTitle title="Our Services" />
+
             <ul className="mt-7 space-y-3.5">
-              {footerData.services.map((service) => (
-                <li key={service.label}>
-                  <Link
-                    to={service.path}
-                    className="group inline-flex items-center gap-1.5 text-sm font-medium text-white/55 transition-colors duration-300 hover:text-white"
+              {footerData.services.map(
+                (
+                  service,
+                ) => (
+                  <li
+                    key={
+                      service.label
+                    }
                   >
-                    <ChevronRight
-                      size={14}
-                      className="-ml-2 shrink-0 text-red-01 opacity-0 transition-all duration-300 group-hover:ml-0 group-hover:opacity-100"
-                    />
-                    <span className="transition-transform duration-300 group-hover:translate-x-0.5">
-                      {service.label}
-                    </span>
-                  </Link>
-                </li>
-              ))}
+                    <Link
+                      to={
+                        service.path
+                      }
+                      className="
+                        group
+                        inline-flex
+                        items-center
+                        gap-1.5
+                        text-sm
+                        font-medium
+                        text-white/55
+                        transition-colors
+                        duration-300
+                        hover:text-white
+                      "
+                    >
+                      <ChevronRight
+                        size={
+                          14
+                        }
+                        className="
+                          -ml-2
+                          shrink-0
+                          text-red-01
+                          opacity-0
+                          transition-all
+                          duration-300
+                          group-hover:ml-0
+                          group-hover:opacity-100
+                        "
+                      />
+
+                      <span
+                        className="
+                          transition-transform
+                          duration-300
+                          group-hover:translate-x-0.5
+                        "
+                      >
+                        {
+                          service.label
+                        }
+                      </span>
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
 
             <Link
               to="/services"
-              className="group mt-7 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-red-01 transition-colors duration-300 hover:text-white"
+              className="
+                group
+                mt-7
+                inline-flex
+                items-center
+                gap-2
+                text-xs
+                font-bold
+                uppercase
+                tracking-[0.14em]
+                text-red-01
+                transition-colors
+                duration-300
+                hover:text-white
+              "
             >
               View all services
+
               <ArrowUpRight
                 size={15}
-                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                className="
+                  transition-transform
+                  duration-300
+                  group-hover:-translate-y-0.5
+                  group-hover:translate-x-0.5
+                "
               />
             </Link>
           </div>
 
           {/* Contact Column */}
-          <div>
-            <FooterTitle title="Contact" />
-            <ul className="mt-7 space-y-4">
-              {contactItems.map((item, index) => {
-                const Icon = item.icon as ElementType;
+          {resolvedContactItems.length >
+            0 && (
+            <div>
+              <FooterTitle title="Contact" />
 
-                return (
-                  <li key={`contact-item-${index}`} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 text-red-01 transition-all duration-300 hover:bg-red-01 hover:text-white">
-                      <Icon size={16} />
-                    </span>
+              <ul className="mt-7 space-y-4">
+                {resolvedContactItems.map(
+                  (
+                    item,
+                    index,
+                  ) => {
+                    const Icon =
+                      item.icon;
 
-                    <div className="text-sm leading-6 text-white/55 whitespace-pre-line">
-                      {Array.isArray(item.value) ? (
-                        item.value.map((val) => (
-                          <a
-                            key={val}
-                            href={`tel:${val.replace(/\s+/g, "")}`}
-                            className="block transition-colors hover:text-white"
-                          >
-                            {val}
-                          </a>
-                        ))
-                      ) : item.value.includes("@") ? (
-                        <a
-                          href={`mailto:${item.value}`}
-                          className="block transition-colors hover:text-white"
+                    return (
+                      <li
+                        key={`${item.type}-${index}`}
+                        className="
+                          flex
+                          items-start
+                          gap-3
+                        "
+                      >
+                        <span
+                          className="
+                            mt-0.5
+                            flex
+                            h-8
+                            w-8
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-lg
+                            bg-white/5
+                            text-red-01
+                            transition-all
+                            duration-300
+                            hover:bg-red-01
+                            hover:text-white
+                          "
                         >
-                          {item.value}
-                        </a>
-                      ) : (
-                        <span>{item.value}</span>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+                          <Icon
+                            size={
+                              16
+                            }
+                          />
+                        </span>
+
+                        <div
+                          className="
+                            whitespace-pre-line
+                            text-sm
+                            leading-6
+                            text-white/55
+                          "
+                        >
+                          {item.type ===
+                            "phone" &&
+                          Array.isArray(
+                            item.value,
+                          ) ? (
+                            item.value.map(
+                              (
+                                value,
+                              ) => (
+                                <a
+                                  key={
+                                    value
+                                  }
+                                  href={`tel:${value.replace(
+                                    /[^\d+]/g,
+                                    "",
+                                  )}`}
+                                  className="
+                                    block
+                                    transition-colors
+                                    hover:text-white
+                                  "
+                                >
+                                  {
+                                    value
+                                  }
+                                </a>
+                              ),
+                            )
+                          ) : item.type ===
+                              "email" &&
+                            typeof item.value ===
+                              "string" ? (
+                            <a
+                              href={`mailto:${item.value}`}
+                              className="
+                                block
+                                transition-colors
+                                hover:text-white
+                              "
+                            >
+                              {
+                                item.value
+                              }
+                            </a>
+                          ) : (
+                            <span>
+                              {
+                                item.value
+                              }
+                            </span>
+                          )}
+                        </div>
+                      </li>
+                    );
+                  },
+                )}
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 py-6">
-          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+          <div
+            className="
+              flex
+              flex-col
+              gap-5
+              md:flex-row
+              md:items-center
+              md:justify-between
+            "
+          >
             <p className="text-xs leading-6 text-white/40">
-              {footerData.company.copyright || `© ${currentYear} LSA. All rights reserved.`}
+              {footerData.company
+                .copyright ||
+                `© ${currentYear} LSA. All rights reserved.`}
             </p>
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-              {footerData.bottomLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.path}
-                  className="relative text-xs font-medium text-white/40 transition-colors duration-300 hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-red-01 after:transition-all after:duration-300 hover:after:w-full"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {footerData.bottomLinks.map(
+                (link) => (
+                  <Link
+                    key={
+                      link.label
+                    }
+                    to={
+                      link.path
+                    }
+                    className="
+                      relative
+                      text-xs
+                      font-medium
+                      text-white/40
+                      transition-colors
+                      duration-300
+                      hover:text-white
+                      after:absolute
+                      after:-bottom-1
+                      after:left-0
+                      after:h-px
+                      after:w-0
+                      after:bg-red-01
+                      after:transition-all
+                      after:duration-300
+                      hover:after:w-full
+                    "
+                  >
+                    {
+                      link.label
+                    }
+                  </Link>
+                ),
+              )}
             </div>
           </div>
         </div>
