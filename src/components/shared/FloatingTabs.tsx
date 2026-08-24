@@ -15,12 +15,14 @@ import {
 } from "react-router-dom";
 
 import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
   FaWhatsapp,
 } from "react-icons/fa";
 
 import {
   HiOutlineMail,
-  HiOutlinePhone,
 } from "react-icons/hi";
 
 import {
@@ -35,8 +37,10 @@ interface FloatingTabsProps {
   heroId?: string;
   footerId?: string;
 
-  phoneNumber?: string;
   whatsappNumber?: string;
+  instagramUrl?: string;
+  linkedinUrl?: string;
+  facebookUrl?: string;
   email?: string;
 }
 
@@ -58,16 +62,15 @@ interface FloatingTabItem {
 const FloatingTabs = ({
   heroId = "hero",
   footerId = "footer",
-  phoneNumber,
   whatsappNumber,
+  instagramUrl,
+  linkedinUrl,
+  facebookUrl,
   email,
 }: FloatingTabsProps) => {
-  const { pathname } =
-    useLocation();
+  const { pathname } = useLocation();
 
-  const {
-    data: contact,
-  } = useContactInfo();
+  const { data: contact } = useContactInfo();
 
   const [
     showAfterHero,
@@ -83,14 +86,24 @@ const FloatingTabs = ({
   // Resolve Contact Data
   // ====================================================
 
-  const resolvedPhone =
-    phoneNumber?.trim() ||
-    contact?.primaryPhone?.trim() ||
-    "";
-
   const resolvedWhatsapp =
     whatsappNumber?.trim() ||
     contact?.socialLinks?.whatsapp?.trim() ||
+    "";
+
+  const resolvedInstagram =
+    instagramUrl?.trim() ||
+    contact?.socialLinks?.instagram?.trim() ||
+    "";
+
+  const resolvedLinkedin =
+    linkedinUrl?.trim() ||
+    contact?.socialLinks?.linkedin?.trim() ||
+    "";
+
+  const resolvedFacebook =
+    facebookUrl?.trim() ||
+    contact?.socialLinks?.facebook?.trim() ||
     "";
 
   const resolvedEmail =
@@ -115,93 +128,86 @@ const FloatingTabs = ({
       | (() => void)
       | null = null;
 
-    const initializeObservers =
-      () => {
-        const heroElement =
-          document.getElementById(
-            heroId,
-          );
+    const initializeObservers = () => {
+      const heroElement =
+        document.getElementById(heroId);
 
-        const footerElement =
-          document.getElementById(
-            footerId,
-          );
+      const footerElement =
+        document.getElementById(footerId);
 
-        // =================================================
-        // Hero Visibility
-        // =================================================
+      // =================================================
+      // Hero Visibility
+      // =================================================
 
-        if (heroElement) {
-          heroObserver =
-            new IntersectionObserver(
-              ([entry]) => {
-                setShowAfterHero(
-                  !entry.isIntersecting,
-                );
-              },
-              {
-                threshold: 0,
-                rootMargin:
-                  "-100px 0px 0px 0px",
-              },
-            );
-
-          heroObserver.observe(
-            heroElement,
-          );
-        } else {
-          const handleScroll =
-            () => {
+      if (heroElement) {
+        heroObserver =
+          new IntersectionObserver(
+            ([entry]) => {
               setShowAfterHero(
-                window.scrollY >
-                  window.innerHeight *
-                    0.8,
+                !entry.isIntersecting,
               );
-            };
-
-          handleScroll();
-
-          window.addEventListener(
-            "scroll",
-            handleScroll,
+            },
             {
-              passive: true,
+              threshold: 0,
+              rootMargin:
+                "-100px 0px 0px 0px",
             },
           );
 
-          removeFallbackScrollListener =
-            () => {
-              window.removeEventListener(
-                "scroll",
-                handleScroll,
-              );
-            };
-        }
-
-        // =================================================
-        // Footer Visibility
-        // =================================================
-
-        if (footerElement) {
-          footerObserver =
-            new IntersectionObserver(
-              ([entry]) => {
-                setHideNearFooter(
-                  entry.isIntersecting,
-                );
-              },
-              {
-                threshold: 0,
-                rootMargin:
-                  "250px 0px 0px 0px",
-              },
-            );
-
-          footerObserver.observe(
-            footerElement,
+        heroObserver.observe(
+          heroElement,
+        );
+      } else {
+        const handleScroll = () => {
+          setShowAfterHero(
+            window.scrollY >
+            window.innerHeight * 0.8,
           );
-        }
-      };
+        };
+
+        handleScroll();
+
+        window.addEventListener(
+          "scroll",
+          handleScroll,
+          {
+            passive: true,
+          },
+        );
+
+        removeFallbackScrollListener =
+          () => {
+            window.removeEventListener(
+              "scroll",
+              handleScroll,
+            );
+          };
+      }
+
+      // =================================================
+      // Footer Visibility
+      // =================================================
+
+      if (footerElement) {
+        footerObserver =
+          new IntersectionObserver(
+            ([entry]) => {
+              setHideNearFooter(
+                entry.isIntersecting,
+              );
+            },
+            {
+              threshold: 0,
+              rootMargin:
+                "250px 0px 0px 0px",
+            },
+          );
+
+        footerObserver.observe(
+          footerElement,
+        );
+      }
+    };
 
     const frameId =
       window.requestAnimationFrame(
@@ -230,94 +236,153 @@ const FloatingTabs = ({
   // ====================================================
 
   const contactItems =
-    useMemo<
-      FloatingTabItem[]
-    >(() => {
-      const items:
-        FloatingTabItem[] = [];
+    useMemo<FloatingTabItem[]>(
+      () => {
+        const items: FloatingTabItem[] =
+          [];
 
-      if (resolvedWhatsapp) {
-        const whatsappHref =
-          resolvedWhatsapp.startsWith(
-            "http://",
-          ) ||
-          resolvedWhatsapp.startsWith(
-            "https://",
-          )
-            ? resolvedWhatsapp
-            : `https://wa.me/${resolvedWhatsapp.replace(
+        // =================================================
+        // WhatsApp
+        // =================================================
+
+        if (resolvedWhatsapp) {
+          const whatsappHref =
+            resolvedWhatsapp.startsWith(
+              "http://",
+            ) ||
+              resolvedWhatsapp.startsWith(
+                "https://",
+              )
+              ? resolvedWhatsapp
+              : `https://wa.me/${resolvedWhatsapp.replace(
                 /\D/g,
                 "",
               )}`;
 
-        items.push({
-          id: "whatsapp",
-          label: "WhatsApp",
-          value:
-            resolvedWhatsapp,
-          href:
-            whatsappHref,
-          icon:
-            <FaWhatsapp />,
-          external: true,
+          items.push({
+            id: "whatsapp",
+            label: "WhatsApp",
+            value:
+              resolvedWhatsapp,
+            href:
+              whatsappHref,
+            icon:
+              <FaWhatsapp />,
+            external: true,
 
-          accentClassName:
-            "bg-[#25D366]",
+            accentClassName:
+              "bg-[#25D366]",
 
-          iconClassName:
-            "text-[#25D366] group-hover/tab:bg-[#25D366]/12 group-hover/tab:text-[#1FAE54]",
-        });
-      }
+            iconClassName:
+              "text-[#25D366] group-hover/tab:bg-[#25D366]/12 group-hover/tab:text-[#1FAE54]",
+          });
+        }
 
-      if (resolvedPhone) {
-        items.push({
-          id: "phone",
-          label: "Call Us",
-          value:
-            resolvedPhone,
+        // =================================================
+        // Instagram
+        // =================================================
 
-          href: `tel:${resolvedPhone.replace(
-            /[^\d+]/g,
-            "",
-          )}`,
+        if (resolvedInstagram) {
+          items.push({
+            id: "instagram",
+            label: "Instagram",
+            value:
+              resolvedInstagram,
+            href:
+              resolvedInstagram,
+            icon:
+              <FaInstagram />,
+            external: true,
 
-          icon:
-            <HiOutlinePhone />,
+            accentClassName:
+              "bg-[#E1306C]",
 
-          accentClassName:
-            "bg-[#2F6FAE]",
+            iconClassName:
+              "text-[#E1306C] group-hover/tab:bg-[#E1306C]/12 group-hover/tab:text-[#C62A5B]",
+          });
+        }
 
-          iconClassName:
-            "text-[#2F6FAE] group-hover/tab:bg-[#2F6FAE]/12 group-hover/tab:text-[#24598F]",
-        });
-      }
+        // =================================================
+        // LinkedIn
+        // =================================================
 
-      if (resolvedEmail) {
-        items.push({
-          id: "email",
-          label: "Email Us",
-          value:
-            resolvedEmail,
+        if (resolvedLinkedin) {
+          items.push({
+            id: "linkedin",
+            label: "LinkedIn",
+            value:
+              resolvedLinkedin,
+            href:
+              resolvedLinkedin,
+            icon:
+              <FaLinkedinIn />,
+            external: true,
 
-          href: `mailto:${resolvedEmail}`,
+            accentClassName:
+              "bg-[#0A66C2]",
 
-          icon:
-            <HiOutlineMail />,
+            iconClassName:
+              "text-[#0A66C2] group-hover/tab:bg-[#0A66C2]/12 group-hover/tab:text-[#084F96]",
+          });
+        }
 
-          accentClassName:
-            "bg-[#8A3653]",
+        // =================================================
+        // Facebook
+        // =================================================
 
-          iconClassName:
-            "text-[#8A3653] group-hover/tab:bg-[#8A3653]/12 group-hover/tab:text-[#743046]",
-        });
-      }
+        if (resolvedFacebook) {
+          items.push({
+            id: "facebook",
+            label: "Facebook",
+            value:
+              resolvedFacebook,
+            href:
+              resolvedFacebook,
+            icon:
+              <FaFacebookF />,
+            external: true,
 
-      return items;
-    }, [
-      resolvedEmail,
-      resolvedPhone,
-      resolvedWhatsapp,
-    ]);
+            accentClassName:
+              "bg-[#1877F2]",
+
+            iconClassName:
+              "text-[#1877F2] group-hover/tab:bg-[#1877F2]/12 group-hover/tab:text-[#1264D4]",
+          });
+        }
+
+        // =================================================
+        // Email
+        // =================================================
+
+        if (resolvedEmail) {
+          items.push({
+            id: "email",
+            label: "Email Us",
+            value:
+              resolvedEmail,
+            href:
+              `mailto:${resolvedEmail}`,
+            icon:
+              <HiOutlineMail />,
+
+            accentClassName:
+              "bg-[#8A3653]",
+
+            iconClassName:
+              "text-[#8A3653] group-hover/tab:bg-[#8A3653]/12 group-hover/tab:text-[#743046]",
+          });
+        }
+
+        return items;
+      },
+      [
+        resolvedEmail,
+        resolvedFacebook,
+        resolvedInstagram,
+        resolvedLinkedin,
+        resolvedWhatsapp,
+      ],
+    );
 
   // ====================================================
   // Visibility
@@ -461,9 +526,7 @@ const FloatingTabs = ({
                     index,
                   ) => (
                     <motion.div
-                      key={
-                        item.id
-                      }
+                      key={item.id}
                       initial={{
                         opacity: 0,
                         x: -16,
@@ -475,8 +538,7 @@ const FloatingTabs = ({
                       transition={{
                         delay:
                           0.08 +
-                          index *
-                            0.07,
+                          index * 0.07,
                         duration:
                           0.35,
                         ease: [
@@ -550,9 +612,7 @@ const FloatingTabs = ({
                             ${item.iconClassName}
                           `}
                         >
-                          {
-                            item.icon
-                          }
+                          {item.icon}
                         </span>
 
                         {/* Accent Line */}
@@ -630,9 +690,7 @@ const FloatingTabs = ({
                                 text-white/60
                               "
                             >
-                              {
-                                item.label
-                              }
+                              {item.label}
                             </span>
 
                             <span
@@ -647,9 +705,7 @@ const FloatingTabs = ({
                                 text-white
                               "
                             >
-                              {
-                                item.value
-                              }
+                              {item.value}
                             </span>
                           </span>
                         </span>
@@ -658,10 +714,10 @@ const FloatingTabs = ({
                       {/* Separator */}
                       {index <
                         contactItems.length -
-                          1 && (
-                        <div
-                          aria-hidden="true"
-                          className="
+                        1 && (
+                          <div
+                            aria-hidden="true"
+                            className="
                             mx-auto
                             h-px
                             w-6
@@ -670,8 +726,8 @@ const FloatingTabs = ({
                             via-[#315F91]/15
                             to-transparent
                           "
-                        />
-                      )}
+                          />
+                        )}
                     </motion.div>
                   ),
                 )}
