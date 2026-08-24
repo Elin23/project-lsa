@@ -19,7 +19,9 @@ const ContactPage = () => {
   return (
     <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
       <HeroSection
-        slides={ContactHeroSlides}
+        slides={
+          ContactHeroSlides
+        }
         title="Contact Us"
         description="Our engineering teams are strategically located to rapidly deploy across Iraq's major oil and gas infrastructure. Reach out today to discuss your project requirements."
       />

@@ -14,7 +14,7 @@ export interface ContactInfo {
 
   location: {
     address: string;
-    googleMapsEmbedUrl: string;
+    mapUrl: string;
   };
 
   socialLinks: {
