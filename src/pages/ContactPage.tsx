@@ -1,8 +1,9 @@
-import LocationMap from "../sections/Contact/LocationMap"
-import ContactSection from "../sections/Contact/ContactSection"
-import HeroSection from "../sections/HeroSection"
-import ContactHero from "../assets/Images/Contacts/Hero/contactHero.webp"
+import LocationMap from "../sections/Contact/LocationMap";
+import ContactSection from "../sections/Contact/ContactSection";
+import HeroSection from "../sections/HeroSection";
 import FAQSection from "../sections/FAQS/FAQSection";
+
+import ContactHero from "../assets/Images/Contacts/Hero/contactHero.webp";
 
 const ContactHeroSlides = [
   {
@@ -17,18 +18,19 @@ const ContactHeroSlides = [
 const ContactPage = () => {
   return (
     <div className="space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28">
-       <HeroSection
-                slides={ContactHeroSlides}
-                title="Contact Us"
-                description="Our engineering teams are strategically located to rapidly deploy
-                across Iraq's major oil and gas infrastructure. Reach out today to
-                discuss your project requirements."
-            />
-      <ContactSection />
-      <LocationMap googleMapsEmbedUrl="https://www.google.com/maps?q=Basra,+Iraq&output=embed"/>
-      <FAQSection className="pb-16 md:pb-20 lg:pb-24 xl:pb-28"/>
-    </div>
-  )
-}
+      <HeroSection
+        slides={ContactHeroSlides}
+        title="Contact Us"
+        description="Our engineering teams are strategically located to rapidly deploy across Iraq's major oil and gas infrastructure. Reach out today to discuss your project requirements."
+      />
 
-export default ContactPage
+      <ContactSection />
+
+      <LocationMap />
+
+      <FAQSection className="pb-16 md:pb-20 lg:pb-24 xl:pb-28" />
+    </div>
+  );
+};
+
+export default ContactPage;

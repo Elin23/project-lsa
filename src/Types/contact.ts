@@ -1,29 +1,24 @@
-export interface SocialLinks {
+export interface ContactInfo {
+  title: string;
+  description: string;
+
+  primaryPhone: string;
+  phones: string[];
+
+  email: string;
+
+  workingHours: string;
+  emergencyHours: string;
+
+  location: {
+    address: string;
+    googleMapsEmbedUrl: string;
+  };
+
+  socialLinks: {
     facebook?: string;
     instagram?: string;
     linkedin?: string;
     whatsapp?: string;
-}
-
-export interface ContactLocation {
-    address: string;
-    mapUrl?: string;
-}
-
-export interface ContactInfo {
-    _id: string;
-    title: string;
-    description: string;
-    location: ContactLocation;
-    phones: string[];
-    primaryPhone: string;
-    email: string;
-    workingHours: string;
-    emergencyHours: string;
-    socialLinks: SocialLinks;
-}
-
-export interface ContactInfoResponse {
-    success: boolean;
-    data: ContactInfo;
+  };
 }
