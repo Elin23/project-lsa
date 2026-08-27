@@ -1,23 +1,23 @@
-import { Autoplay } from "swiper/modules";
+import { Autoplay } from 'swiper/modules'
 import {
   Swiper,
   SwiperSlide,
-} from "swiper/react";
+} from 'swiper/react'
 
-import "swiper/css";
+import 'swiper/css'
 
-import TrustedCompanySkeleton from "../../components/skeletons/TrustedCompanySkeleton";
-import SectionState from "../../components/feedback/SectionState";
+import TrustedCompanySkeleton from '../../components/skeletons/TrustedCompanySkeleton'
+import SectionState from '../../components/feedback/SectionState'
 
 import type {
   PublicPartner,
-} from "../../Types/partner";
+} from '../../Types/partner'
 
 import {
   usePublicPartners,
-} from "../../hooks/queries/usePartners";
+} from '../../hooks/queries/usePartners'
 
-const SKELETON_ITEMS = 5;
+const SKELETON_ITEMS = 5
 
 const TrustedCompanies = () => {
   const {
@@ -26,7 +26,15 @@ const TrustedCompanies = () => {
     isError,
     isFetching,
     refetch,
-  } = usePublicPartners();
+  } = usePublicPartners()
+
+  // ==================== Sort Partners ====================
+
+  const sortedPartners = [...partners].sort(
+    (a, b) => a.displayOrder - b.displayOrder,
+  )
+
+  // ==================== Render ====================
 
   return (
     <section
@@ -34,9 +42,13 @@ const TrustedCompanies = () => {
       id="trusted-companies"
     >
       <div className="mx-auto">
+        {/* ==================== Section Title ==================== */}
+
         <h2 className="mb-8 text-center text-sm font-semibold uppercase tracking-[4px] text-gray-500">
           Trusted by Industry Leaders
         </h2>
+
+        {/* ==================== Loading ==================== */}
 
         {isLoading ? (
           <div
@@ -61,17 +73,21 @@ const TrustedCompanies = () => {
             ))}
           </div>
         ) : isError ? (
+          /* ==================== Error ==================== */
+
           <SectionState
             variant="error"
             title="Unable to load trusted partners"
             message="We couldn't load our trusted partners right now. Please try again in a moment."
             onRetry={() => {
-              void refetch();
+              void refetch()
             }}
             isRetrying={isFetching}
             compact
           />
-        ) : partners.length === 0 ? (
+        ) : sortedPartners.length === 0 ? (
+          /* ==================== Empty ==================== */
+
           <SectionState
             variant="empty"
             title="No trusted partners added yet"
@@ -79,12 +95,14 @@ const TrustedCompanies = () => {
             compact
           />
         ) : (
+          /* ==================== Partners Slider ==================== */
+
           <Swiper
             modules={[Autoplay]}
-            loop={partners.length > 5}
+            loop={sortedPartners.length > 5}
             speed={3000}
             autoplay={
-              partners.length > 1
+              sortedPartners.length > 1
                 ? {
                     delay: 0,
                     disableOnInteraction: false,
@@ -96,34 +114,37 @@ const TrustedCompanies = () => {
               320: {
                 slidesPerView: Math.min(
                   2,
-                  partners.length,
+                  sortedPartners.length,
                 ),
                 spaceBetween: 8,
               },
+
               640: {
                 slidesPerView: Math.min(
                   3,
-                  partners.length,
+                  sortedPartners.length,
                 ),
                 spaceBetween: 12,
               },
+
               1024: {
                 slidesPerView: Math.min(
                   4,
-                  partners.length,
+                  sortedPartners.length,
                 ),
                 spaceBetween: 16,
               },
+
               1280: {
                 slidesPerView: Math.min(
                   5,
-                  partners.length,
+                  sortedPartners.length,
                 ),
                 spaceBetween: 18,
               },
             }}
           >
-            {partners.map((partner) => (
+            {sortedPartners.map((partner) => (
               <SwiperSlide
                 key={partner._id}
               >
@@ -136,13 +157,15 @@ const TrustedCompanies = () => {
         )}
       </div>
     </section>
-  );
-};
+  )
+}
+
+// ==================== Partner Logo ====================
 
 function PartnerLogo({
   partner,
 }: {
-  partner: PublicPartner;
+  partner: PublicPartner
 }) {
   const logo = (
     <div
@@ -175,11 +198,15 @@ function PartnerLogo({
         "
       />
     </div>
-  );
+  )
+
+  // ==================== Without Website ====================
 
   if (!partner.website) {
-    return logo;
+    return logo
   }
+
+  // ==================== With Website ====================
 
   return (
     <a
@@ -191,7 +218,7 @@ function PartnerLogo({
     >
       {logo}
     </a>
-  );
+  )
 }
 
-export default TrustedCompanies;
+export default TrustedCompanies
