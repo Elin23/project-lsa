@@ -1,13 +1,26 @@
-import { useMutation } from "@tanstack/react-query";
 import {
-    createJobRequest,
-    type CreateJobRequestPayload,
+  useMutation,
+} from "@tanstack/react-query";
+
+import {
+  createJobRequest,
+  type CreateJobRequestPayload,
 } from "../../services/jobRequestsApi";
 
-export const useCreateJobRequest = () => {
+import {
+  SUBMISSION_MUTATION_CONFIG,
+} from "../../config/submissionMutationConfig";
+
+export const useCreateJobRequest =
+  () => {
     return useMutation({
-        mutationFn: (
-            payload: CreateJobRequestPayload,
-        ) => createJobRequest(payload),
+      mutationFn: (
+        payload: CreateJobRequestPayload,
+      ) =>
+        createJobRequest(
+          payload,
+        ),
+
+      ...SUBMISSION_MUTATION_CONFIG,
     });
-};
+  };

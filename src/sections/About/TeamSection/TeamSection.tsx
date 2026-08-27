@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -6,7 +7,6 @@ import {
 
 import TitleComponent from "../../../components/shared/TitleComponent";
 import TeamCardSkeleton from "../../../components/skeletons/TeamCardSkeleton";
-import Slider from "../../../components/shared/Slider";
 import Pagination from "../../../components/navigation/Pagination";
 import SectionState from "../../../components/feedback/SectionState";
 
@@ -16,16 +16,54 @@ import {
   useTeamMembers,
 } from "../../../hooks/queries/useTeamMembers";
 
-const TEAM_MEMBERS_PER_PAGE = 4;
+// ======================================================
+// Pagination
+// ======================================================
+
+const getTeamMembersPerPage = (
+  width: number,
+) => {
+  if (width < 640) {
+    return 2;
+  }
+
+  return 4;
+};
+
+// ======================================================
+// Component
+// ======================================================
 
 export default function TeamSection() {
   const [
     currentPage,
     setCurrentPage,
-  ] = useState<number>(1);
+  ] = useState(1);
+
+  const [
+    itemsPerPage,
+    setItemsPerPage,
+  ] = useState(() => {
+    if (
+      typeof window ===
+      "undefined"
+    ) {
+      return 4;
+    }
+
+    return getTeamMembersPerPage(
+      window.innerWidth,
+    );
+  });
 
   const teamContainerRef =
-    useRef<HTMLDivElement | null>(null);
+    useRef<HTMLDivElement | null>(
+      null,
+    );
+
+  // ====================================================
+  // React Query
+  // ====================================================
 
   const {
     data: teamMembers = [],
@@ -35,10 +73,54 @@ export default function TeamSection() {
     refetch,
   } = useTeamMembers();
 
+  // ====================================================
+  // Responsive Pagination
+  // ====================================================
+
+  useEffect(() => {
+    const handleResize = () => {
+      const nextItemsPerPage =
+        getTeamMembersPerPage(
+          window.innerWidth,
+        );
+
+      setItemsPerPage(
+        (previousValue) => {
+          if (
+            previousValue ===
+            nextItemsPerPage
+          ) {
+            return previousValue;
+          }
+
+          setCurrentPage(1);
+
+          return nextItemsPerPage;
+        },
+      );
+    };
+
+    window.addEventListener(
+      "resize",
+      handleResize,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "resize",
+        handleResize,
+      );
+    };
+  }, []);
+
+  // ====================================================
+  // Pagination
+  // ====================================================
+
   const totalPages = Math.max(
     Math.ceil(
       teamMembers.length /
-        TEAM_MEMBERS_PER_PAGE,
+        itemsPerPage,
     ),
     1,
   );
@@ -52,29 +134,40 @@ export default function TeamSection() {
     useMemo(() => {
       const startIndex =
         (safeCurrentPage - 1) *
-        TEAM_MEMBERS_PER_PAGE;
+        itemsPerPage;
 
       return teamMembers.slice(
         startIndex,
         startIndex +
-          TEAM_MEMBERS_PER_PAGE,
+          itemsPerPage,
       );
     }, [
       teamMembers,
       safeCurrentPage,
+      itemsPerPage,
     ]);
 
-  const skeletonItems = useMemo(
-    () =>
-      Array.from(
-        {
-          length:
-            TEAM_MEMBERS_PER_PAGE,
-        },
-        (_, index) => index,
-      ),
-    [],
-  );
+  // ====================================================
+  // Skeleton Items
+  // ====================================================
+
+  const skeletonItems =
+    useMemo(
+      () =>
+        Array.from(
+          {
+            length:
+              itemsPerPage,
+          },
+          (_, index) =>
+            index,
+        ),
+      [itemsPerPage],
+    );
+
+  // ====================================================
+  // Page Change
+  // ====================================================
 
   const handlePageChange = (
     page: number,
@@ -86,15 +179,22 @@ export default function TeamSection() {
 
     setCurrentPage(nextPage);
 
-    window.requestAnimationFrame(() => {
-      teamContainerRef.current?.scrollIntoView(
-        {
-          behavior: "smooth",
-          block: "start",
-        },
-      );
-    });
+    window.requestAnimationFrame(
+      () => {
+        teamContainerRef.current?.scrollIntoView(
+          {
+            behavior:
+              "smooth",
+            block: "start",
+          },
+        );
+      },
+    );
   };
+
+  // ====================================================
+  // Render
+  // ====================================================
 
   return (
     <section
@@ -106,6 +206,7 @@ export default function TeamSection() {
         xl:pb-28
       "
     >
+      {/* Title */}
       <div className="mb-10">
         <TitleComponent
           title="Meet the Experts"
@@ -114,45 +215,43 @@ export default function TeamSection() {
       </div>
 
       <div
-        ref={teamContainerRef}
+        ref={
+          teamContainerRef
+        }
         className="scroll-mt-24"
       >
-        {isLoading ? (
-          <>
-            {/* Mobile Skeleton */}
-            <div className="w-full min-w-0 sm:hidden">
-              <TeamCardSkeleton />
-            </div>
+        {/* =================================================
+            Loading
+        ================================================= */}
 
-            {/* Tablet & Desktop Skeletons */}
-            <div
-              className="
-                hidden
-                flex-wrap
-                items-stretch
-                justify-start
-                gap-5
-                sm:flex
-              "
-            >
-              {skeletonItems.map((item) => (
+        {isLoading ? (
+          <div
+            className="
+              grid
+              grid-cols-1
+              gap-5
+              sm:grid-cols-2
+              xl:grid-cols-4
+            "
+          >
+            {skeletonItems.map(
+              (item) => (
                 <div
-                  key={item}
-                  className="
-                    flex
-                    w-[calc(50%-10px)]
-                    lg:w-[calc(33.333333%-14px)]
-                    xl:w-[calc(25%-15px)]
-                  "
+                  key={
+                    item
+                  }
+                  className="h-full"
                 >
-                  <div className="w-full">
-                    <TeamCardSkeleton />
-                  </div>
+                  <TeamCardSkeleton />
                 </div>
-              ))}
-            </div>
-          </>
+              ),
+            )}
+          </div>
         ) : isError ? (
+          /* =================================================
+              Error
+          ================================================= */
+
           <SectionState
             variant="error"
             title="Unable to load team members"
@@ -160,67 +259,82 @@ export default function TeamSection() {
             onRetry={() => {
               void refetch();
             }}
-            isRetrying={isFetching}
+            isRetrying={
+              isFetching
+            }
           />
-        ) : teamMembers.length === 0 ? (
+        ) : teamMembers.length ===
+          0 ? (
+          /* =================================================
+              Empty
+          ================================================= */
+
           <SectionState
             variant="empty"
             title="No team members added yet"
             message="Team members have not been published yet. They will appear here once available."
           />
         ) : (
-          <>
-            {/* Mobile */}
-            <div className="w-full min-w-0 sm:hidden">
-              <Slider
-                items={teamMembers}
-                autoPlayDelay={4000}
-                showDots={
-                  teamMembers.length > 1
-                }
-                renderItem={(member) => (
-                  <TeamCard
-                    member={member}
-                  />
-                )}
-              />
-            </div>
+          /* =================================================
+              Success
+          ================================================= */
 
-            {/* Tablet & Desktop */}
+          <>
+            {/* Team Grid */}
             <div
+              key={`${safeCurrentPage}-${itemsPerPage}`}
               className="
-                hidden
-                flex-wrap
+                grid
+                grid-cols-1
                 items-stretch
-                justify-start
                 gap-5
-                sm:flex
+                animate-[fadeSlide_0.45s_ease-out]
+                sm:grid-cols-2
+                xl:grid-cols-4
               "
             >
               {paginatedTeamMembers.map(
-                (member) => (
+                (
+                  member,
+                  index,
+                ) => (
                   <div
-                    key={member._id}
-                    className="
-                      flex
-                      w-[calc(50%-10px)]
-                      lg:w-[calc(33.333333%-14px)]
-                      xl:w-[calc(25%-15px)]
-                    "
+                    key={
+                      member._id
+                    }
+                    data-aos="fade-up"
+                    data-aos-duration="500"
+                    data-aos-delay={
+                      index *
+                      60
+                    }
+                    data-aos-easing="ease-out"
+                    data-aos-offset="30"
+                    data-aos-once="true"
+                    className="h-full"
                   >
-                    <div className="w-full">
-                      <TeamCard
-                        member={member}
-                      />
-                    </div>
+                    <TeamCard
+                      member={
+                        member
+                      }
+                    />
                   </div>
                 ),
               )}
             </div>
 
             {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="mt-10 hidden sm:block">
+            {teamMembers.length >
+              itemsPerPage && (
+              <div
+                className="
+                  mt-10
+                  flex
+                  justify-center
+                  sm:mt-12
+                  lg:mt-14
+                "
+              >
                 <Pagination
                   currentPage={
                     safeCurrentPage

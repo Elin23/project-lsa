@@ -1,6 +1,8 @@
 import apiClient from "../lib/apiClient";
 
 export interface CreateEquipmentRequestPayload {
+  clientRequestId: string;
+
   equipment: string;
   fullName: string;
   email: string;
@@ -17,6 +19,8 @@ export interface EquipmentRequestResponse {
 
   data?: {
     _id: string;
+
+    clientRequestId?: string;
 
     equipment: {
       _id: string;

@@ -2,6 +2,7 @@ import {
   AlertCircle,
   CheckCircle2,
   LoaderCircle,
+  RefreshCw,
 } from "lucide-react";
 
 import {
@@ -10,11 +11,13 @@ import {
   type FormEvent,
 } from "react";
 
-import axios from "axios";
-
 import {
   useCreateContactMessage,
 } from "../../hooks/mutations/useCreateContactMessage";
+
+import useSubmissionNetwork from "../../hooks/useSubmissionNetwork";
+
+import SubmissionNotice from "../../components/feedback/SubmissionNotice";
 
 // ======================================================
 // Service Options
@@ -72,9 +75,6 @@ const EMAIL_PATTERN =
 
 const PHONE_PATTERN =
   /^[+]?[\d\s\-().]{7,20}$/;
-
-const DEFAULT_SUBMIT_ERROR =
-  "We couldn't send your message. Please try again.";
 
 // ======================================================
 // Validation
@@ -159,142 +159,13 @@ const validateForm = (
     errors.projectDescription =
       "Project description must contain at least 10 characters.";
   } else if (
-    projectDescription.length >
-    5000
+    projectDescription.length > 5000
   ) {
     errors.projectDescription =
       "Project description must not exceed 5000 characters.";
   }
 
   return errors;
-};
-
-// ======================================================
-// Friendly API Error Messages
-// ======================================================
-
-const getContactErrorMessage = (
-  error: unknown,
-): string => {
-  if (
-    !axios.isAxiosError(
-      error,
-    )
-  ) {
-    return DEFAULT_SUBMIT_ERROR;
-  }
-
-  const status =
-    error.response?.status;
-
-  const backendMessage =
-    error.response?.data
-      ?.message;
-
-  // Network Error
-  if (
-    error.code ===
-      "ERR_NETWORK" ||
-    !error.response
-  ) {
-    return "We couldn't connect to the server. Please check your internet connection and try again.";
-  }
-
-  // Validation / Bad Request
-  if (status === 400) {
-    const backendErrors =
-      error.response?.data
-        ?.errors;
-
-    if (
-      Array.isArray(
-        backendErrors,
-      ) &&
-      backendErrors.length >
-        0
-    ) {
-      const firstMessage =
-        backendErrors[0]
-          ?.message;
-
-      if (
-        typeof firstMessage ===
-          "string" &&
-        !isTechnicalMessage(
-          firstMessage,
-        )
-      ) {
-        return firstMessage;
-      }
-    }
-
-    if (
-      typeof backendMessage ===
-        "string" &&
-      !isTechnicalMessage(
-        backendMessage,
-      )
-    ) {
-      return backendMessage;
-    }
-
-    return "Some of the submitted information is invalid. Please review the form and try again.";
-  }
-
-  // Unauthorized / Forbidden
-  if (
-    status === 401 ||
-    status === 403
-  ) {
-    return "Your message could not be sent at this time. Please try again later.";
-  }
-
-  // Route / Resource Missing
-  if (status === 404) {
-    return "The contact service is currently unavailable. Please try again later.";
-  }
-
-  // Duplicate / Conflict
-  if (status === 409) {
-    return "We couldn't send this message because of a conflicting request. Please review your information and try again.";
-  }
-
-  // Too Many Requests
-  if (status === 429) {
-    return "Too many messages were sent in a short period. Please wait a moment and try again.";
-  }
-
-  // Server Error
-  if (
-    status &&
-    status >= 500
-  ) {
-    return "The server encountered a problem while sending your message. Please try again in a moment.";
-  }
-
-  return DEFAULT_SUBMIT_ERROR;
-};
-
-const isTechnicalMessage = (
-  message: string,
-) => {
-  const normalized =
-    message.toLowerCase();
-
-  return (
-    normalized.includes(
-      "route",
-    ) ||
-    normalized.includes(
-      "/api/",
-    ) ||
-    normalized.includes(
-      "stack",
-    ) ||
-    normalized.includes(
-      "internal server",
-    )
-  );
 };
 
 // ======================================================
@@ -319,20 +190,38 @@ export default function ContactFormCard() {
     );
 
   const [
-    successMessage,
-    setSuccessMessage,
-  ] = useState("");
+    submissionCompleted,
+    setSubmissionCompleted,
+  ] = useState(false);
 
-  const [
-    apiError,
-    setApiError,
-  ] = useState("");
+  // ====================================================
+  // Shared Submission State
+  // ====================================================
+
+  const {
+    isOnline,
+    notice,
+    isSubmissionUncertain,
+    canSubmit,
+    clearNotice,
+    getOrCreateRequestId,
+    markSubmissionStarted,
+    markSubmissionSuccess,
+    handleSubmissionError,
+    resetSubmissionState,
+  } =
+    useSubmissionNetwork();
+
+  // ====================================================
+  // React Query Mutation
+  // ====================================================
 
   const {
     mutateAsync:
       createMessage,
     isPending,
-    reset,
+    reset:
+      resetMutation,
   } =
     useCreateContactMessage();
 
@@ -364,16 +253,19 @@ export default function ContactFormCard() {
       updatedForm,
     );
 
-    // Clear previous API/success states
-    if (apiError) {
-      setApiError("");
+    /*
+     * Do not clear an interrupted warning when the user
+     * edits a field. The previous request may already exist
+     * on the server.
+     */
+    if (
+      notice &&
+      notice.type !==
+        "interrupted"
+    ) {
+      clearNotice();
     }
 
-    if (successMessage) {
-      setSuccessMessage("");
-    }
-
-    // Revalidate field only when it already has an error
     if (formErrors[field]) {
       const nextErrors =
         validateForm(
@@ -424,9 +316,6 @@ export default function ContactFormCard() {
   ) => {
     event.preventDefault();
 
-    setApiError("");
-    setSuccessMessage("");
-
     const validationErrors =
       validateForm(
         formData,
@@ -441,17 +330,28 @@ export default function ContactFormCard() {
         validationErrors,
       ).length > 0
     ) {
-      setApiError(
-        "Please correct the highlighted fields before sending your message.",
-      );
-
       return;
     }
 
+    if (!canSubmit()) {
+      return;
+    }
+
+    /*
+     * The first submission creates an ID.
+     * An interrupted retry reuses the same ID.
+     */
+    const clientRequestId =
+      getOrCreateRequestId();
+
     try {
+      markSubmissionStarted();
+
       const response =
         await createMessage(
           {
+            clientRequestId,
+
             fullName:
               formData.fullName.trim(),
 
@@ -469,9 +369,13 @@ export default function ContactFormCard() {
           },
         );
 
-      setSuccessMessage(
+      markSubmissionSuccess(
         response.message ||
           "Your message has been sent successfully!",
+      );
+
+      setSubmissionCompleted(
+        true,
       );
 
       setFormData(
@@ -479,33 +383,29 @@ export default function ContactFormCard() {
       );
 
       setFormErrors({});
-      setApiError("");
     } catch (
       error: unknown
     ) {
-      console.error(
-        "Failed to send contact message:",
+      handleSubmissionError(
         error,
-      );
-
-      setApiError(
-        getContactErrorMessage(
-          error,
-        ),
       );
     }
   };
 
   // ====================================================
-  // Reset Success
+  // Reset / New Message
   // ====================================================
 
   const handleSendAnother =
     () => {
-      reset();
+      resetMutation();
 
-      setSuccessMessage("");
-      setApiError("");
+      resetSubmissionState();
+
+      setSubmissionCompleted(
+        false,
+      );
+
       setFormErrors({});
 
       setFormData(
@@ -562,7 +462,9 @@ export default function ContactFormCard() {
             Success
         ================================================= */}
 
-        {successMessage ? (
+        {submissionCompleted &&
+        notice?.type ===
+          "success" ? (
           <div
             role="status"
             className="
@@ -614,9 +516,7 @@ export default function ContactFormCard() {
                 text-slate-600
               "
             >
-              {
-                successMessage
-              }
+              {notice.message}
             </p>
 
             <button
@@ -656,58 +556,22 @@ export default function ContactFormCard() {
             }
           >
             {/* =============================================
-                API / General Error
+                Submission Notice
             ============================================== */}
 
-            {apiError && (
-              <div
-                role="alert"
-                className="
-                  mb-5
-                  flex
-                  items-start
-                  gap-3
-                  rounded-xl
-                  border
-                  border-red-200
-                  bg-red-50
-                  p-4
-                "
-              >
-                <AlertCircle
-                  className="
-                    mt-0.5
-                    h-5
-                    w-5
-                    shrink-0
-                    text-red-600
-                  "
+            {notice && (
+              <div className="mb-5">
+                <SubmissionNotice
+                  notice={
+                    notice
+                  }
+                  onDismiss={
+                    notice.type ===
+                    "interrupted"
+                      ? undefined
+                      : clearNotice
+                  }
                 />
-
-                <div>
-                  <p
-                    className="
-                      text-sm
-                      font-bold
-                      text-red-700
-                    "
-                  >
-                    Message could not be sent
-                  </p>
-
-                  <p
-                    className="
-                      mt-1
-                      text-sm
-                      leading-6
-                      text-red-600
-                    "
-                  >
-                    {
-                      apiError
-                    }
-                  </p>
-                </div>
               </div>
             )}
 
@@ -888,9 +752,7 @@ export default function ContactFormCard() {
                           option
                         }
                       >
-                        {
-                          option
-                        }
+                        {option}
                       </option>
                     ),
                   )}
@@ -1012,7 +874,8 @@ export default function ContactFormCard() {
             <button
               type="submit"
               disabled={
-                isPending
+                isPending ||
+                !isOnline
               }
               className="
                 mt-5
@@ -1051,6 +914,19 @@ export default function ContactFormCard() {
 
                   Sending...
                 </>
+              ) : !isOnline ? (
+                "No Internet Connection"
+              ) : isSubmissionUncertain ? (
+                <>
+                  <RefreshCw
+                    className="
+                      h-4
+                      w-4
+                    "
+                  />
+
+                  Retry Submission Safely
+                </>
               ) : (
                 "Send Message"
               )}
@@ -1067,9 +943,13 @@ export default function ContactFormCard() {
 // ======================================================
 
 interface FormFieldProps {
-  id: keyof ContactFormState;
+  id:
+    keyof ContactFormState;
+
   label: string;
+
   value: string;
+
   placeholder: string;
 
   type?:
@@ -1083,11 +963,13 @@ interface FormFieldProps {
 
   autoComplete?: string;
 
-  onBlur: () => void;
+  onBlur:
+    () => void;
 
-  onChange: (
-    value: string,
-  ) => void;
+  onChange:
+    (
+      value: string,
+    ) => void;
 }
 
 function FormField({
@@ -1147,7 +1029,9 @@ function FormField({
             : undefined
         }
         onBlur={onBlur}
-        onChange={(event) =>
+        onChange={(
+          event,
+        ) =>
           onChange(
             event.target.value,
           )
@@ -1173,7 +1057,9 @@ function FormField({
 
       <FieldError
         id={errorId}
-        message={error}
+        message={
+          error
+        }
       />
     </div>
   );
