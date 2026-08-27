@@ -1,14 +1,6 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
-import {
-  counterData,
-  type CounterItemData,
-} from "../../data/counterData";
-
+import { counterData, type CounterItemData } from "../../data/counterData";
 import { useAppLoading } from "../../context/AppLoadingContext";
 
 interface CounterItemProps extends CounterItemData {
@@ -18,6 +10,9 @@ interface CounterItemProps extends CounterItemData {
 interface CounterSectionProps {
   data?: CounterItemData[];
 }
+
+// Simple ease-out quadratic function for smooth deceleration
+const easeOutQuad = (t: number): number => t * (2 - t);
 
 const CounterItem = ({
   value,
@@ -30,114 +25,77 @@ const CounterItem = ({
   const [isInView, setIsInView] = useState(false);
 
   const itemRef = useRef<HTMLDivElement | null>(null);
-  const started = useRef(false);
+  const startedRef = useRef(false);
 
+  // Observer to track element visibility
   useEffect(() => {
     const element = itemRef.current;
-
-    if (!element) {
-      return;
-    }
-
-    const checkVisibility = () => {
-      const rect = element.getBoundingClientRect();
-
-      const isElementVisible =
-        rect.top < window.innerHeight + 100 &&
-        rect.bottom > -100;
-
-      setIsInView(isElementVisible);
-    };
-
-    checkVisibility();
+    if (!element) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
       },
       {
-        threshold: 0.01,
-        rootMargin: "120px 0px",
+        threshold: 0.1,
+        rootMargin: "50px 0px",
       }
     );
 
     observer.observe(element);
 
-    window.addEventListener("resize", checkVisibility);
-
     return () => {
       observer.disconnect();
-      window.removeEventListener("resize", checkVisibility);
     };
-  }, [canStart]);
+  }, []);
 
+  // Animation effect driven by requestAnimationFrame
   useEffect(() => {
     if (
       !canStart ||
       !isInView ||
-      started.current ||
+      startedRef.current ||
       Boolean(customValue)
     ) {
       return;
     }
 
-    started.current = true;
+    startedRef.current = true;
 
-    let current = 0;
+    let animationFrameId: number;
+    const startTime = performance.now();
+    const duration = 1600; // ms
 
-    const duration = 1500;
-    const frameDuration = 16;
-    const totalFrames = duration / frameDuration;
-    const increment = value / totalFrames;
+    const updateCount = (currentTime: number) => {
+      const elapsedTime = currentTime - startTime;
+      const progress = Math.min(elapsedTime / duration, 1);
+      const easedProgress = easeOutQuad(progress);
 
-    const timer = window.setInterval(() => {
-      current += increment;
+      const currentCount = Math.floor(easedProgress * value);
+      setCount(currentCount);
 
-      if (current >= value) {
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(updateCount);
+      } else {
         setCount(value);
-        window.clearInterval(timer);
-        return;
       }
+    };
 
-      setCount(Math.floor(current));
-    }, frameDuration);
+    animationFrameId = requestAnimationFrame(updateCount);
 
     return () => {
-      window.clearInterval(timer);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
   }, [canStart, isInView, customValue, value]);
 
   return (
     <div
       ref={itemRef}
-      className="
-        group
-        flex
-        h-full
-        w-full
-        flex-col
-        items-center
-        justify-center
-        text-center
-        transition-all
-        duration-500
-      "
+      className="group flex h-full w-full flex-col items-center justify-center text-center transition-all duration-500"
     >
-      <h3
-        className="
-          text-4xl
-          font-bold
-          leading-none
-          text-white
-          opacity-75
-          transition-all
-          duration-300
-          ease-out
-          group-hover:scale-105
-          group-hover:opacity-100
-          md:text-[42px]
-        "
-      >
+      <h3 className="text-4xl font-bold leading-none text-white opacity-75 transition-all duration-300 ease-out group-hover:scale-105 group-hover:opacity-100 md:text-[42px]">
         {customValue ?? count}
         {!customValue && suffix}
       </h3>
@@ -149,42 +107,20 @@ const CounterItem = ({
   );
 };
 
-const CounterSection = ({
+export default function CounterSection({
   data = counterData,
-}: CounterSectionProps) => {
+}: CounterSectionProps) {
   const { isAppReady } = useAppLoading();
 
   return (
-    <section
-      className="
-        relative
-        left-1/2
-        w-screen
-        -translate-x-1/2
-        bg-[#24449B]
-        px-1
-        sm:px-5
-        lg:px-8
-      "
-    >
-      <div className="mx-auto grid min-h-30  grid-cols-2 md:grid-cols-4">
+    <section className="relative left-1/2 w-screen -translate-x-1/2 bg-[#24449B] px-1 sm:px-5 lg:px-8">
+      <div className="mx-auto grid min-h-30 grid-cols-2 md:grid-cols-4">
         {data.map((item, index) => (
           <div
             key={`${item.label}-${index}`}
-            className={`
-              flex
-              items-center
-              justify-center
-              px-4
-              py-8
-              sm:px-6
-              md:py-5
-              ${
-                index !== 0
-                  ? "md:border-l md:border-white/15"
-                  : ""
-              }
-            `}
+            className={`flex items-center justify-center px-4 py-8 sm:px-6 md:py-5 ${
+              index !== 0 ? "md:border-l md:border-white/15" : ""
+            }`}
           >
             <CounterItem
               value={item.value}
@@ -198,6 +134,4 @@ const CounterSection = ({
       </div>
     </section>
   );
-};
-
-export default CounterSection;
+}
