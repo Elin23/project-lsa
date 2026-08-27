@@ -1,11 +1,5 @@
-import {
-  ArrowRight,
-  Circle,
-  MapPin,
-  Settings2,
-} from "lucide-react";
+import { ArrowRight, Circle, MapPin, Settings2 } from "lucide-react";
 import type { PublicEquipment } from "../../Types/equipment";
-
 
 interface FleetCardProps {
   item: PublicEquipment;
@@ -18,8 +12,7 @@ export default function FleetCard({
   onRequest,
   animationDelay = 0,
 }: FleetCardProps) {
-  const isAvailable =
-    item.availableUnits > 0;
+  const isAvailable = item.availableUnits > 0;
 
   return (
     <div
@@ -31,108 +24,33 @@ export default function FleetCard({
       data-aos-once="true"
       className="h-full"
     >
-      <article
-        className="
-          group
-          flex
-          h-full
-          flex-col
-          overflow-hidden
-          rounded-xl
-          border
-          border-slate-200/80
-          bg-white
-          shadow-[0_5px_18px_rgba(31,63,147,0.05)]
-          transition-all
-          duration-500
-          hover:-translate-y-1
-          hover:shadow-[0_18px_45px_rgba(31,63,147,0.15)]
-        "
-      >
+      <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_5px_18px_rgba(31,63,147,0.05)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(31,63,147,0.15)]">
         {/* Image */}
         <div className="relative h-36 shrink-0 overflow-hidden sm:h-38">
           <img
             src={item.image.url}
-            alt={
-              item.image.alt ||
-              item.title
-            }
+            alt={item.image.alt || item.title}
             loading="lazy"
             decoding="async"
-            className="
-              h-full
-              w-full
-              object-cover
-              transition-transform
-              duration-700
-              group-hover:scale-110
-            "
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
 
           <div
             aria-hidden="true"
-            className="
-              absolute
-              inset-0
-              bg-linear-to-t
-              from-[#08162d]/50
-              via-transparent
-              to-transparent
-            "
+            className="absolute inset-0 bg-linear-to-t from-[#08162d]/50 via-transparent to-transparent"
           />
 
-          <div
-            className="
-              absolute
-              right-2.5
-              top-2.5
-              inline-flex
-              items-center
-              gap-1.5
-              rounded-full
-              border
-              border-white/70
-              bg-white/95
-              px-2.5
-              py-1
-              text-[8px]
-              font-semibold
-              uppercase
-              tracking-[0.04em]
-              text-slate-600
-              shadow-sm
-            "
-          >
+          <div className="absolute right-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/95 px-2.5 py-1 text-[8px] font-semibold uppercase tracking-[0.04em] text-slate-600 shadow-sm">
             <Circle
-              className={`h-1.5 w-1.5 ${
-                isAvailable
+              className={`h-1.5 w-1.5 ${isAvailable
                   ? "fill-green-500 text-green-500"
                   : "fill-red-500 text-red-500"
-              }`}
+                }`}
             />
-
-            {isAvailable
-              ? "Ready to Mobilize"
-              : "Currently Unavailable"}
+            {isAvailable ? "Ready to Mobilize" : "Currently Unavailable"}
           </div>
 
-          <span
-            className="
-              absolute
-              bottom-2.5
-              left-2.5
-              rounded-md
-              border
-              border-white/30
-              bg-blue-01
-              px-2.5
-              py-1
-              text-[9px]
-              font-bold
-              text-white
-              shadow-sm
-            "
-          >
+          <span className="absolute bottom-2.5 left-2.5 rounded-md border border-white/30 bg-blue-01 px-2.5 py-1 text-[9px] font-bold text-white shadow-sm">
             {item.availableUnits} Available
           </span>
         </div>
@@ -140,62 +58,26 @@ export default function FleetCard({
         {/* Content */}
         <div className="flex flex-1 flex-col p-4">
           <div>
-            <span
-              className="
-                text-[8px]
-                font-bold
-                uppercase
-                tracking-[0.12em]
-                text-red-01
-              "
-            >
+            <span className="text-[8px] font-bold uppercase tracking-[0.12em] text-red-01">
               {item.category.name}
             </span>
 
-            <h3
-              className="
-                mt-0.5
-                text-base
-                font-bold
-                leading-snug
-                text-blue-01
-                md:text-[17px]
-              "
-            >
+            <h3 className="mt-0.5 text-base font-bold leading-snug text-blue-01 md:text-[17px]">
               {item.title}
             </h3>
           </div>
 
-          <div
-            className="
-              mt-3
-              grid
-              grid-cols-2
-              divide-x
-              divide-slate-200
-              border-y
-              border-slate-100
-              py-2.5
-            "
-          >
+          <div className="mt-3 grid grid-cols-2 divide-x divide-slate-200 border-y border-slate-100 py-2.5">
             <div className="flex min-w-0 items-start gap-2 pr-3">
               <Settings2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-01" />
 
               <div className="min-w-0">
                 <p className="text-[8px] font-bold uppercase tracking-[0.06em] text-slate-400">
-                  {
-                    item
-                      .primarySpecification
-                      .label
-                  }
+                  {item.primarySpecification.label}
                 </p>
 
                 <p className="mt-0.5 line-clamp-2 text-[11px] font-semibold leading-4 text-slate-700 sm:text-xs">
-                  {
-                    item
-                      .primarySpecification
-                      .value
-                  }
+                  {item.primarySpecification.value}
                 </p>
               </div>
             </div>
@@ -219,39 +101,9 @@ export default function FleetCard({
             type="button"
             disabled={!isAvailable}
             onClick={onRequest}
-            className="
-              group/button
-              mt-3
-              inline-flex
-              h-9
-              w-full
-              cursor-pointer
-              items-center
-              justify-center
-              gap-1.5
-              rounded-lg
-              border
-              border-blue-01/15
-              bg-blue-01/5
-              px-3
-              text-[11px]
-              font-bold
-              text-blue-01
-              shadow-sm
-              transition-all
-              duration-300
-              ease-out
-              hover:-translate-y-0.5
-              hover:border-blue-01/30
-              hover:bg-blue-01/10
-              hover:shadow-md
-              disabled:cursor-not-allowed
-              disabled:opacity-45
-              disabled:hover:translate-y-0
-            "
+            className="group/button mt-3 inline-flex h-9 w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-blue-01/15 bg-blue-01/5 px-3 text-[11px] font-bold text-blue-01 shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-blue-01/30 hover:bg-blue-01/10 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:translate-y-0"
           >
             Request Availability
-
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/button:translate-x-1" />
           </button>
         </div>
