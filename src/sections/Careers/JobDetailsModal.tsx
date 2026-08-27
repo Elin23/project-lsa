@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import {
+  useEffect,
   useRef,
   useState,
   type ChangeEvent,
@@ -50,6 +51,24 @@ interface FormErrors {
   email?: string;
   phone?: string;
   cv?: string;
+}
+
+// ======================================================
+// Form Input Props
+// ======================================================
+
+interface FormInputProps {
+  id: string;
+  label: string;
+  value: string;
+  placeholder?: string;
+  type?: "text" | "email" | "tel";
+  error?: string;
+  disabled?: boolean;
+  autoComplete?: string;
+  onChange: (
+    value: string,
+  ) => void;
 }
 
 // ======================================================
@@ -162,6 +181,101 @@ export default function JobDetailsModal({
   } =
     useCreateJobRequest();
 
+  // ====================================================
+  // Reset
+  // ====================================================
+
+  const resetForm = () => {
+    setStep(1);
+
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPhone("");
+
+    setCv(null);
+
+    setFormErrors({});
+
+    setSubmissionCompleted(
+      false,
+    );
+
+    if (
+      fileInputRef.current
+    ) {
+      fileInputRef.current.value =
+        "";
+    }
+
+    resetMutation();
+
+    resetSubmissionState();
+  };
+
+  // ====================================================
+  // Close
+  // ====================================================
+
+  const handleClose = () => {
+    if (isPending) {
+      return;
+    }
+
+    /*
+     * Preserve the current clientRequestId while the
+     * submission status is uncertain so a later retry
+     * can safely reuse the same request identity.
+     */
+    if (
+      isSubmissionUncertain
+    ) {
+      return;
+    }
+
+    resetForm();
+
+    onClose();
+  };
+
+  // ====================================================
+  // Close With Escape
+  // ====================================================
+
+  useEffect(() => {
+    const handleKeyDown = (
+      event: KeyboardEvent,
+    ) => {
+      if (
+        event.key ===
+          "Escape" &&
+        !isPending &&
+        !isSubmissionUncertain
+      ) {
+        handleClose();
+      }
+    };
+
+    window.addEventListener(
+      "keydown",
+      handleKeyDown,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown,
+      );
+    };
+  }, [
+    isPending,
+    isSubmissionUncertain,
+  ]);
+
+  // ====================================================
+  // Guard
+  // ====================================================
+
   if (!job) {
     return null;
   }
@@ -210,7 +324,9 @@ export default function JobDetailsModal({
       const trimmedPhone =
         phone.trim();
 
-      if (!trimmedFirstName) {
+      if (
+        !trimmedFirstName
+      ) {
         errors.firstName =
           "First name is required.";
       } else if (
@@ -221,7 +337,9 @@ export default function JobDetailsModal({
           "First name must contain at least 2 characters.";
       }
 
-      if (!trimmedLastName) {
+      if (
+        !trimmedLastName
+      ) {
         errors.lastName =
           "Last name is required.";
       } else if (
@@ -265,69 +383,12 @@ export default function JobDetailsModal({
     };
 
   // ====================================================
-  // Reset
-  // ====================================================
-
-  const resetForm = () => {
-    setStep(1);
-
-    setFirstName("");
-    setLastName("");
-
-    setEmail("");
-    setPhone("");
-
-    setCv(null);
-
-    setFormErrors({});
-
-    setSubmissionCompleted(
-      false,
-    );
-
-    if (
-      fileInputRef.current
-    ) {
-      fileInputRef.current.value =
-        "";
-    }
-
-    resetMutation();
-
-    resetSubmissionState();
-  };
-
-  // ====================================================
-  // Close
-  // ====================================================
-
-  const handleClose = () => {
-    if (isPending) {
-      return;
-    }
-
-    /*
-     * Avoid closing an interrupted submission because
-     * its current clientRequestId must be preserved for
-     * a safe retry.
-     */
-    if (
-      isSubmissionUncertain
-    ) {
-      return;
-    }
-
-    resetForm();
-
-    onClose();
-  };
-
-  // ====================================================
   // File Change
   // ====================================================
 
   const handleFileChange = (
-    event: ChangeEvent<HTMLInputElement>,
+    event:
+      ChangeEvent<HTMLInputElement>,
   ) => {
     const file =
       event.target.files?.[0];
@@ -411,7 +472,8 @@ export default function JobDetailsModal({
 
   const handleSubmit =
     async (
-      event: FormEvent<HTMLFormElement>,
+      event:
+        FormEvent<HTMLFormElement>,
     ) => {
       event.preventDefault();
 
@@ -439,8 +501,8 @@ export default function JobDetailsModal({
       }
 
       /*
-       * The same ID will be reused if the connection
-       * is interrupted and this application is retried.
+       * The same ID is reused if the previous request
+       * reached the backend but its response was lost.
        */
       const clientRequestId =
         getOrCreateRequestId();
@@ -532,36 +594,37 @@ export default function JobDetailsModal({
           shadow-2xl
         "
       >
-        {/* Close */}
-        <button
-          type="button"
-          onClick={
-            handleClose
-          }
-          disabled={
-            isPending ||
-            isSubmissionUncertain
-          }
-          aria-label="Close job details"
-          className="
-            absolute
-            right-5
-            top-5
-            z-10
-            cursor-pointer
-            rounded-full
-            bg-slate-100
-            p-2
-            text-slate-500
-            transition
-            hover:bg-red-100
-            hover:text-red-01
-            disabled:cursor-not-allowed
-            disabled:opacity-50
-          "
-        >
-          <X className="h-5 w-5" />
-        </button>
+        {/* Sticky Close Button */}
+        <div className="sticky top-0 z-50 h-0 w-full">
+          <button
+            type="button"
+            onClick={
+              handleClose
+            }
+            disabled={
+              isPending ||
+              isSubmissionUncertain
+            }
+            aria-label="Close job details"
+            className="
+              absolute
+              right-5
+              top-5
+              cursor-pointer
+              rounded-full
+              bg-slate-100
+              p-2
+              text-slate-500
+              transition
+              hover:bg-red-100
+              hover:text-red-01
+              disabled:cursor-not-allowed
+              disabled:opacity-50
+            "
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
 
         {/* =================================================
             Header
@@ -732,22 +795,22 @@ export default function JobDetailsModal({
 
         {!isSubmitted &&
           step === 1 && (
-            <div className="p-6 md:p-8">
-              <div className="mb-8 rounded-2xl bg-[#f7f8ff] p-5">
+            <div className="p-4 sm:p-6 md:p-8">
+              <div className="mb-8 min-w-0 rounded-2xl bg-[#f7f8ff] p-4 sm:p-5">
                 <h4 className="mb-3 text-xl font-bold text-blue-01">
                   About the Role
                 </h4>
 
-                <p className="text-sm leading-7 text-slate-600">
+                <p className="min-w-0 break-words text-sm leading-7 text-slate-600">
                   {
                     job.description
                   }
                 </p>
               </div>
 
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="grid min-w-0 gap-6 md:grid-cols-2">
                 {/* Responsibilities */}
-                <div>
+                <div className="min-w-0">
                   <h4 className="mb-4 text-xl font-bold text-blue-01">
                     Responsibilities
                   </h4>
@@ -760,11 +823,11 @@ export default function JobDetailsModal({
                       ) => (
                         <div
                           key={`${job._id}-responsibility-${index}`}
-                          className="flex gap-3"
+                          className="flex min-w-0 gap-3"
                         >
                           <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-blue-01" />
 
-                          <p className="text-sm leading-6 text-slate-600">
+                          <p className="min-w-0 break-words text-sm leading-6 text-slate-600">
                             {
                               item
                             }
@@ -776,7 +839,7 @@ export default function JobDetailsModal({
                 </div>
 
                 {/* Requirements */}
-                <div>
+                <div className="min-w-0">
                   <h4 className="mb-4 text-xl font-bold text-blue-01">
                     Requirements
                   </h4>
@@ -789,11 +852,11 @@ export default function JobDetailsModal({
                       ) => (
                         <div
                           key={`${job._id}-requirement-${index}`}
-                          className="flex gap-3"
+                          className="flex min-w-0 gap-3"
                         >
                           <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-01" />
 
-                          <p className="text-sm leading-6 text-slate-600">
+                          <p className="min-w-0 break-words text-sm leading-6 text-slate-600">
                             {
                               item
                             }
@@ -895,7 +958,8 @@ export default function JobDetailsModal({
               className="p-6 md:p-8"
             >
               <p className="mb-6 text-sm leading-6 text-slate-500">
-                Please fill in your information and upload your CV to apply for this position.
+                Please fill in your information and upload your CV to apply for
+                this position.
               </p>
 
               {/* Submission Notice */}
@@ -1104,22 +1168,13 @@ export default function JobDetailsModal({
 
                 {/* CV */}
                 <div className="md:col-span-2">
-                  <label
-                    htmlFor="cv"
-                    className="
-                      mb-2
-                      block
-                      text-sm
-                      font-semibold
-                      text-blue-01
-                    "
-                  >
+                  <span className="mb-2 block text-sm font-semibold text-blue-01">
                     Upload CV
 
                     <span className="ml-1 text-red-01">
                       *
                     </span>
-                  </label>
+                  </span>
 
                   <label
                     htmlFor="cv"
@@ -1267,49 +1322,79 @@ export default function JobDetailsModal({
                   Back
                 </button>
 
-                <button
-                  type="submit"
-                  disabled={
-                    isPending ||
-                    !isOnline
-                  }
-                  className="
-                    inline-flex
-                    h-12
-                    cursor-pointer
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-xl
-                    bg-blue-01
-                    px-8
-                    text-sm
-                    font-bold
-                    text-white
-                    transition
-                    hover:bg-red-01
-                    disabled:cursor-not-allowed
-                    disabled:opacity-60
-                  "
-                >
-                  {isPending ? (
-                    <>
-                      <LoaderCircle className="h-4 w-4 animate-spin" />
+                <div className="flex flex-col gap-3 md:flex-row">
+                  <button
+                    type="button"
+                    onClick={
+                      handleClose
+                    }
+                    disabled={
+                      isPending ||
+                      isSubmissionUncertain
+                    }
+                    className="
+                      h-12
+                      cursor-pointer
+                      rounded-xl
+                      border
+                      border-slate-200
+                      px-8
+                      text-sm
+                      font-bold
+                      text-slate-600
+                      transition
+                      hover:bg-slate-100
+                      disabled:cursor-not-allowed
+                      disabled:opacity-50
+                    "
+                  >
+                    Cancel
+                  </button>
 
-                      Submitting...
-                    </>
-                  ) : !isOnline ? (
-                    "No Internet Connection"
-                  ) : isSubmissionUncertain ? (
-                    <>
-                      <RefreshCw className="h-4 w-4" />
+                  <button
+                    type="submit"
+                    disabled={
+                      isPending ||
+                      !isOnline
+                    }
+                    className="
+                      inline-flex
+                      h-12
+                      cursor-pointer
+                      items-center
+                      justify-center
+                      gap-2
+                      rounded-xl
+                      bg-blue-01
+                      px-8
+                      text-sm
+                      font-bold
+                      text-white
+                      transition
+                      hover:bg-red-01
+                      disabled:cursor-not-allowed
+                      disabled:opacity-60
+                    "
+                  >
+                    {isPending ? (
+                      <>
+                        <LoaderCircle className="h-4 w-4 animate-spin" />
 
-                      Retry Application Safely
-                    </>
-                  ) : (
-                    "Submit Application"
-                  )}
-                </button>
+                        Submitting...
+                      </>
+                    ) : !isOnline ? (
+                      "No Internet Connection"
+                    ) : isSubmissionUncertain ? (
+                      <>
+                        <RefreshCw className="h-4 w-4" />
+
+                        Retry Application Safely
+                      </>
+                    ) : (
+                      "Submit Application"
+                    )}
+                  </button>
+                </div>
               </div>
             </form>
           )}
@@ -1322,39 +1407,13 @@ export default function JobDetailsModal({
 // Form Input
 // ======================================================
 
-interface FormInputProps {
-  id: string;
-
-  label: string;
-
-  value: string;
-
-  placeholder: string;
-
-  error?: string;
-
-  type?:
-    | "text"
-    | "email"
-    | "tel";
-
-  disabled?: boolean;
-
-  autoComplete?: string;
-
-  onChange:
-    (
-      value: string,
-    ) => void;
-}
-
 function FormInput({
   id,
   label,
   value,
   placeholder,
-  error,
   type = "text",
+  error,
   disabled = false,
   autoComplete,
   onChange,
@@ -1385,14 +1444,14 @@ function FormInput({
         id={id}
         type={type}
         value={value}
-        autoComplete={
-          autoComplete
-        }
         placeholder={
           placeholder
         }
         disabled={
           disabled
+        }
+        autoComplete={
+          autoComplete
         }
         aria-invalid={Boolean(
           error,
@@ -1416,14 +1475,16 @@ function FormInput({
           border
           px-4
           text-sm
+          text-slate-800
           outline-none
           transition
+          placeholder:text-slate-400
           disabled:cursor-not-allowed
-          disabled:bg-slate-100
+          disabled:opacity-60
           ${
             error
-              ? "border-red-400 bg-red-50/30 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
-              : "border-slate-200 focus:border-blue-01 focus:ring-4 focus:ring-blue-01/10"
+              ? "border-red-300 bg-red-50/20 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+              : "border-slate-200 bg-slate-50 focus:border-blue-01 focus:bg-white focus:ring-4 focus:ring-blue-01/10"
           }
         `}
       />

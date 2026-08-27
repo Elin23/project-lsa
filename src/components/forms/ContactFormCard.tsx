@@ -21,7 +21,6 @@ import SubmissionNotice from "../../components/feedback/SubmissionNotice";
 
 // ======================================================
 // Service Options
-// Must match backend values exactly.
 // ======================================================
 
 const serviceOptions = [
@@ -39,6 +38,9 @@ const serviceOptions = [
   "Auger Boring & HDD",
 ] as const;
 
+type ServiceOption =
+  (typeof serviceOptions)[number];
+
 // ======================================================
 // Types
 // ======================================================
@@ -47,7 +49,7 @@ interface ContactFormState {
   fullName: string;
   email: string;
   phone: string;
-  service: string;
+  service: ServiceOption;
   projectDescription: string;
 }
 
@@ -77,6 +79,29 @@ const PHONE_PATTERN =
   /^[+]?[\d\s\-().]{7,20}$/;
 
 // ======================================================
+// Shared Field Styles
+// ======================================================
+
+const getFieldStyles = (
+  hasError?: boolean,
+) => `
+  w-full
+  rounded-lg
+  border
+  px-4
+  text-sm
+  outline-none
+  transition
+  disabled:cursor-not-allowed
+  disabled:opacity-60
+  ${
+    hasError
+      ? "border-red-400 bg-red-50/30 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
+      : "border-transparent bg-[#F6F7FB] focus:border-blue-01/20 focus:bg-white focus:ring-2 focus:ring-blue-01/25"
+  }
+`;
+
+// ======================================================
 // Validation
 // ======================================================
 
@@ -93,9 +118,6 @@ const validateForm = (
 
   const phone =
     formData.phone.trim();
-
-  const service =
-    formData.service.trim();
 
   const projectDescription =
     formData.projectDescription.trim();
@@ -121,7 +143,9 @@ const validateForm = (
     errors.email =
       "Email address is required.";
   } else if (
-    !EMAIL_PATTERN.test(email)
+    !EMAIL_PATTERN.test(
+      email,
+    )
   ) {
     errors.email =
       "Please enter a valid email address.";
@@ -132,7 +156,9 @@ const validateForm = (
     errors.phone =
       "Phone number is required.";
   } else if (
-    !PHONE_PATTERN.test(phone)
+    !PHONE_PATTERN.test(
+      phone,
+    )
   ) {
     errors.phone =
       "Please enter a valid phone number.";
@@ -140,9 +166,8 @@ const validateForm = (
 
   // Service
   if (
-    !service ||
     !serviceOptions.includes(
-      service as (typeof serviceOptions)[number],
+      formData.service,
     )
   ) {
     errors.service =
@@ -154,12 +179,14 @@ const validateForm = (
     errors.projectDescription =
       "Project description is required.";
   } else if (
-    projectDescription.length < 10
+    projectDescription.length <
+    10
   ) {
     errors.projectDescription =
       "Project description must contain at least 10 characters.";
   } else if (
-    projectDescription.length > 5000
+    projectDescription.length >
+    5000
   ) {
     errors.projectDescription =
       "Project description must not exceed 5000 characters.";
@@ -247,16 +274,15 @@ export default function ContactFormCard() {
     const updatedForm = {
       ...formData,
       [field]: value,
-    };
+    } as ContactFormState;
 
     setFormData(
       updatedForm,
     );
 
     /*
-     * Do not clear an interrupted warning when the user
-     * edits a field. The previous request may already exist
-     * on the server.
+     * Keep an interrupted notice visible because the
+     * previous request may already have reached the backend.
      */
     if (
       notice &&
@@ -266,7 +292,10 @@ export default function ContactFormCard() {
       clearNotice();
     }
 
-    if (formErrors[field]) {
+    // Revalidate only fields that already contain an error.
+    if (
+      formErrors[field]
+    ) {
       const nextErrors =
         validateForm(
           updatedForm,
@@ -289,7 +318,8 @@ export default function ContactFormCard() {
   // ====================================================
 
   const handleBlur = (
-    field: keyof ContactFormState,
+    field:
+      keyof ContactFormState,
   ) => {
     const validationErrors =
       validateForm(
@@ -312,7 +342,8 @@ export default function ContactFormCard() {
   // ====================================================
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>,
+    event:
+      FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
 
@@ -333,13 +364,18 @@ export default function ContactFormCard() {
       return;
     }
 
+    // ==================================================
+    // Offline Guard
+    // ==================================================
+
     if (!canSubmit()) {
       return;
     }
 
     /*
-     * The first submission creates an ID.
-     * An interrupted retry reuses the same ID.
+     * First submission creates an ID.
+     * If the request becomes uncertain, a retry reuses
+     * exactly the same ID.
      */
     const clientRequestId =
       getOrCreateRequestId();
@@ -459,7 +495,7 @@ export default function ContactFormCard() {
         </h2>
 
         {/* =================================================
-            Success
+            Success State
         ================================================= */}
 
         {submissionCompleted &&
@@ -516,7 +552,9 @@ export default function ContactFormCard() {
                 text-slate-600
               "
             >
-              {notice.message}
+              {
+                notice.message
+              }
             </p>
 
             <button
@@ -556,7 +594,7 @@ export default function ContactFormCard() {
             }
           >
             {/* =============================================
-                Submission Notice
+                Submission / Network Notice
             ============================================== */}
 
             {notice && (
@@ -574,6 +612,10 @@ export default function ContactFormCard() {
                 />
               </div>
             )}
+
+            {/* =============================================
+                Form Grid
+            ============================================== */}
 
             <div className="grid gap-x-5 gap-y-4 md:grid-cols-2">
               {/* Name */}
@@ -596,16 +638,8 @@ export default function ContactFormCard() {
                     "fullName",
                   )
                 }
-                onChange={(
-                  value,
-                ) =>
-                  handleChange({
-                    target: {
-                      name:
-                        "fullName",
-                      value,
-                    },
-                  } as ChangeEvent<HTMLInputElement>)
+                onChange={
+                  handleChange
                 }
               />
 
@@ -630,16 +664,8 @@ export default function ContactFormCard() {
                     "email",
                   )
                 }
-                onChange={(
-                  value,
-                ) =>
-                  handleChange({
-                    target: {
-                      name:
-                        "email",
-                      value,
-                    },
-                  } as ChangeEvent<HTMLInputElement>)
+                onChange={
+                  handleChange
                 }
               />
 
@@ -664,16 +690,8 @@ export default function ContactFormCard() {
                     "phone",
                   )
                 }
-                onChange={(
-                  value,
-                ) =>
-                  handleChange({
-                    target: {
-                      name:
-                        "phone",
-                      value,
-                    },
-                  } as ChangeEvent<HTMLInputElement>)
+                onChange={
+                  handleChange
                 }
               />
 
@@ -723,21 +741,12 @@ export default function ContactFormCard() {
                   }
                   className={`
                     h-11
-                    w-full
                     cursor-pointer
-                    rounded-lg
-                    border
-                    px-4
-                    text-sm
-                    outline-none
-                    transition
-                    disabled:cursor-not-allowed
-                    disabled:opacity-60
-                    ${
-                      formErrors.service
-                        ? "border-red-400 bg-red-50/30 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
-                        : "border-transparent bg-[#F6F7FB] focus:border-blue-01/20 focus:bg-white focus:ring-2 focus:ring-blue-01/25"
-                    }
+                    ${getFieldStyles(
+                      Boolean(
+                        formErrors.service,
+                      ),
+                    )}
                   `}
                 >
                   {serviceOptions.map(
@@ -752,7 +761,9 @@ export default function ContactFormCard() {
                           option
                         }
                       >
-                        {option}
+                        {
+                          option
+                        }
                       </option>
                     ),
                   )}
@@ -767,7 +778,10 @@ export default function ContactFormCard() {
               </div>
             </div>
 
-            {/* Project Description */}
+            {/* =============================================
+                Project Description
+            ============================================== */}
+
             <div className="mt-4">
               <label
                 htmlFor="projectDescription"
@@ -818,22 +832,13 @@ export default function ContactFormCard() {
                 placeholder="Briefly describe your project requirements (at least 10 characters)..."
                 className={`
                   min-h-27.5
-                  w-full
                   resize-none
-                  rounded-lg
-                  border
-                  px-4
                   py-3
-                  text-sm
-                  outline-none
-                  transition
-                  disabled:cursor-not-allowed
-                  disabled:opacity-60
-                  ${
-                    formErrors.projectDescription
-                      ? "border-red-400 bg-red-50/30 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
-                      : "border-transparent bg-[#F6F7FB] focus:border-blue-01/20 focus:bg-white focus:ring-2 focus:ring-blue-01/25"
-                  }
+                  ${getFieldStyles(
+                    Boolean(
+                      formErrors.projectDescription,
+                    ),
+                  )}
                 `}
               />
 
@@ -870,7 +875,10 @@ export default function ContactFormCard() {
               </div>
             </div>
 
-            {/* Submit */}
+            {/* =============================================
+                Submit
+            ============================================== */}
+
             <button
               type="submit"
               disabled={
@@ -966,10 +974,10 @@ interface FormFieldProps {
   onBlur:
     () => void;
 
-  onChange:
-    (
-      value: string,
-    ) => void;
+  onChange: (
+    event:
+      ChangeEvent<HTMLInputElement>,
+  ) => void;
 }
 
 function FormField({
@@ -1028,35 +1036,26 @@ function FormField({
             ? errorId
             : undefined
         }
-        onBlur={onBlur}
-        onChange={(
-          event,
-        ) =>
-          onChange(
-            event.target.value,
-          )
+        onBlur={
+          onBlur
+        }
+        onChange={
+          onChange
         }
         className={`
           h-11
-          w-full
-          rounded-lg
-          border
-          px-4
-          text-sm
-          outline-none
-          transition
-          disabled:cursor-not-allowed
-          disabled:opacity-60
-          ${
-            error
-              ? "border-red-400 bg-red-50/30 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
-              : "border-transparent bg-[#F6F7FB] focus:border-blue-01/20 focus:bg-white focus:ring-2 focus:ring-blue-01/25"
-          }
+          ${getFieldStyles(
+            Boolean(
+              error,
+            ),
+          )}
         `}
       />
 
       <FieldError
-        id={errorId}
+        id={
+          errorId
+        }
         message={
           error
         }

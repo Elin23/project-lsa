@@ -19,9 +19,7 @@ import {
   X,
 } from "lucide-react";
 
-import type {
-  PublicEquipment,
-} from "../../Types/equipment";
+import type { PublicEquipment } from "../../Types/equipment";
 
 import {
   usePublicEquipmentBySlug,
@@ -58,6 +56,13 @@ type FormErrors = Partial<
   Record<
     keyof RequestFormState,
     string
+  >
+>;
+
+type TouchedFields = Partial<
+  Record<
+    keyof RequestFormState,
+    boolean
   >
 >;
 
@@ -215,14 +220,12 @@ const validateForm = (
     errors.workDescription =
       "Work description is required.";
   } else if (
-    workDescription.length <
-    10
+    workDescription.length < 10
   ) {
     errors.workDescription =
       "Work description must contain at least 10 characters.";
   } else if (
-    workDescription.length >
-    5000
+    workDescription.length > 5000
   ) {
     errors.workDescription =
       "Work description must not exceed 5000 characters.";
@@ -242,8 +245,7 @@ export default function FleetRequestModal({
   const [
     step,
     setStep,
-  ] =
-    useState<1 | 2>(1);
+  ] = useState<1 | 2>(1);
 
   const [
     form,
@@ -257,22 +259,15 @@ export default function FleetRequestModal({
     errors,
     setErrors,
   ] =
-    useState<FormErrors>(
-      {},
-    );
+    useState<FormErrors>({});
 
   const [
     touched,
     setTouched,
   ] =
-    useState<
-      Partial<
-        Record<
-          keyof RequestFormState,
-          boolean
-        >
-      >
-    >({});
+    useState<TouchedFields>(
+      {},
+    );
 
   const [
     submissionCompleted,
@@ -370,8 +365,8 @@ export default function FleetRequestModal({
 
     /*
      * Never clear an interrupted warning automatically.
-     * The previous submission may already exist on the
-     * backend.
+     * The previous request may already have reached the
+     * backend and the same request ID must be preserved.
      */
     if (
       notice &&
@@ -402,7 +397,7 @@ export default function FleetRequestModal({
   };
 
   // ====================================================
-  // Blur
+  // Blur Validation
   // ====================================================
 
   const handleBlur = (
@@ -462,17 +457,16 @@ export default function FleetRequestModal({
 
   const closeModal = () => {
     /*
-     * Do not let the user destroy the current submission
-     * state while a request is in-flight.
+     * Do not destroy the submission state while the
+     * request is still in-flight.
      */
     if (isPending) {
       return;
     }
 
     /*
-     * Preserve the clientRequestId when the submission
-     * status is uncertain, otherwise a later retry could
-     * accidentally create a new request ID.
+     * When the result is uncertain, keep the modal open
+     * so the same clientRequestId can be reused safely.
      */
     if (
       isSubmissionUncertain
@@ -489,123 +483,117 @@ export default function FleetRequestModal({
   // Submit
   // ====================================================
 
-  const handleSubmit =
-    async (
-      event:
-        FormEvent<HTMLFormElement>,
-    ) => {
-      event.preventDefault();
+  const handleSubmit = async (
+    event:
+      FormEvent<HTMLFormElement>,
+  ) => {
+    event.preventDefault();
 
-      const validationErrors =
-        validateForm(
-          form,
-        );
-
-      setErrors(
-        validationErrors,
+    const validationErrors =
+      validateForm(
+        form,
       );
 
-      setTouched({
-        fullName: true,
-        email: true,
-        phone: true,
-        company: true,
-        workLocation:
-          true,
-        estimatedRequiredDays:
-          true,
-        workDescription:
-          true,
-      });
+    setErrors(
+      validationErrors,
+    );
 
-      if (
-        Object.keys(
-          validationErrors,
-        ).length > 0
-      ) {
-        return;
-      }
+    setTouched({
+      fullName: true,
+      email: true,
+      phone: true,
+      company: true,
+      workLocation: true,
+      estimatedRequiredDays:
+        true,
+      workDescription: true,
+    });
 
-      // ==================================================
-      // Offline Guard
-      // ==================================================
+    if (
+      Object.keys(
+        validationErrors,
+      ).length > 0
+    ) {
+      return;
+    }
 
-      if (!canSubmit()) {
-        return;
-      }
+    // Prevent submission while offline.
+    if (!canSubmit()) {
+      return;
+    }
 
-      /*
-       * First attempt creates an ID.
-       *
-       * If the connection is interrupted, retrying this
-       * request will reuse exactly the same ID.
-       */
-      const clientRequestId =
-        getOrCreateRequestId();
+    /*
+     * The first attempt creates the request ID.
+     *
+     * If the connection is interrupted after the backend
+     * receives the request, the retry reuses this exact ID.
+     */
+    const clientRequestId =
+      getOrCreateRequestId();
 
-      try {
-        markSubmissionStarted();
+    try {
+      markSubmissionStarted();
 
-        const response =
-          await submitEquipmentRequest(
-            {
-              clientRequestId,
+      const response =
+        await submitEquipmentRequest(
+          {
+            clientRequestId,
 
-              equipment:
-                item._id,
+            equipment:
+              item._id,
 
-              fullName:
-                form.fullName.trim(),
+            fullName:
+              form.fullName.trim(),
 
-              email:
-                form.email.trim(),
+            email:
+              form.email.trim(),
 
-              phone:
-                form.phone.trim(),
+            phone:
+              form.phone.trim(),
 
-              company:
-                form.company.trim(),
+            company:
+              form.company.trim(),
 
-              workLocation:
-                form.workLocation.trim(),
+            workLocation:
+              form.workLocation.trim(),
 
-              estimatedRequiredDays:
-                Number(
-                  form.estimatedRequiredDays,
-                ),
+            estimatedRequiredDays:
+              Number(
+                form.estimatedRequiredDays,
+              ),
 
-              workDescription:
-                form.workDescription.trim(),
-            },
-          );
-
-        markSubmissionSuccess(
-          response.message ||
-            "Your equipment request has been submitted successfully.",
+            workDescription:
+              form.workDescription.trim(),
+          },
         );
 
-        setSubmissionCompleted(
-          true,
-        );
+      markSubmissionSuccess(
+        response.message ||
+          "Your equipment request has been submitted successfully.",
+      );
 
-        setForm(
-          INITIAL_FORM,
-        );
+      setSubmissionCompleted(
+        true,
+      );
 
-        setErrors({});
+      setForm(
+        INITIAL_FORM,
+      );
 
-        setTouched({});
-      } catch (
-        error: unknown
-      ) {
-        handleSubmissionError(
-          error,
-        );
-      }
-    };
+      setErrors({});
+
+      setTouched({});
+    } catch (
+      error: unknown
+    ) {
+      handleSubmissionError(
+        error,
+      );
+    }
+  };
 
   // ====================================================
-  // Success
+  // Success State
   // ====================================================
 
   const isSubmitted =
@@ -648,43 +636,57 @@ export default function FleetRequestModal({
           md:p-8
         "
       >
-        {/* Close */}
-        <button
-          type="button"
-          onClick={
-            closeModal
-          }
-          aria-label="Close equipment request"
-          disabled={
-            isPending ||
-            isSubmissionUncertain
-          }
+        {/* Sticky Close Button */}
+        <div
           className="
-            absolute
-            right-5
-            top-5
+            sticky
+            top-0
+            z-20
+            -mx-5
+            -mt-5
+            mb-2
             flex
-            h-10
-            w-10
-            cursor-pointer
-            items-center
-            justify-center
-            rounded-full
-            bg-slate-100
-            text-slate-600
-            transition
-            hover:bg-red-01
-            hover:text-white
-            disabled:cursor-not-allowed
-            disabled:opacity-50
+            justify-end
+            p-3
+            md:-mx-8
+            md:-mt-8
           "
         >
-          <X className="h-5 w-5" />
-        </button>
+          <button
+            type="button"
+            onClick={
+              closeModal
+            }
+            aria-label="Close equipment request"
+            disabled={
+              isPending ||
+              isSubmissionUncertain
+            }
+            className="
+              flex
+              h-10
+              w-10
+              cursor-pointer
+              items-center
+              justify-center
+              rounded-full
+              bg-slate-100
+              text-slate-600
+              shadow-sm
+              transition
+              hover:bg-red-01
+              hover:text-white
+              disabled:cursor-not-allowed
+              disabled:opacity-50
+            "
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
 
         {/* Progress */}
         {!isSubmitted && (
-          <div className="mb-7 flex items-center gap-3 pr-14">
+          <div className="mb-7 flex items-center gap-3 pr-10">
             <div className="h-2 flex-1 rounded-full bg-blue-01" />
 
             <div
@@ -708,6 +710,7 @@ export default function FleetRequestModal({
 
         {isSubmitted ? (
           <div
+            role="status"
             className="
               flex
               min-h-100
@@ -758,9 +761,7 @@ export default function FleetRequestModal({
                 text-slate-500
               "
             >
-              {
-                notice.message
-              }
+              {notice.message}
             </p>
 
             <button
@@ -793,7 +794,7 @@ export default function FleetRequestModal({
           ================================================= */
 
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-            {/* Left */}
+            {/* Equipment Preview */}
             <div>
               <div className="relative overflow-hidden rounded-2xl">
                 <img
@@ -828,9 +829,7 @@ export default function FleetRequestModal({
 
               <div className="mt-5 rounded-2xl bg-[#F7F8FD] p-5">
                 <h3 className="text-2xl font-extrabold text-blue-01">
-                  {
-                    equipment.title
-                  }
+                  {equipment.title}
                 </h3>
 
                 <p className="mt-3 text-sm leading-7 text-slate-500">
@@ -840,16 +839,7 @@ export default function FleetRequestModal({
                 </p>
 
                 {isDetailsError && (
-                  <div
-                    className="
-                      mt-4
-                      rounded-xl
-                      border
-                      border-amber-200
-                      bg-amber-50
-                      p-3.5
-                    "
-                  >
+                  <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3.5">
                     <div className="flex items-start gap-3">
                       <AlertCircle
                         size={17}
@@ -905,21 +895,9 @@ export default function FleetRequestModal({
               </div>
             </div>
 
-            {/* Right */}
+            {/* Equipment Information */}
             <div>
-              <span
-                className="
-                  mb-3
-                  inline-flex
-                  rounded-full
-                  bg-blue-01/10
-                  px-4
-                  py-2
-                  text-sm
-                  font-bold
-                  text-blue-01
-                "
-              >
+              <span className="mb-3 inline-flex rounded-full bg-blue-01/10 px-4 py-2 text-sm font-bold text-blue-01">
                 {
                   equipment
                     .category.name
@@ -1087,19 +1065,7 @@ export default function FleetRequestModal({
           ================================================= */
 
           <div>
-            <span
-              className="
-                mb-3
-                inline-flex
-                rounded-full
-                bg-blue-01/10
-                px-4
-                py-2
-                text-sm
-                font-bold
-                text-blue-01
-              "
-            >
+            <span className="mb-3 inline-flex rounded-full bg-blue-01/10 px-4 py-2 text-sm font-bold text-blue-01">
               Request Availability
             </span>
 
@@ -1124,9 +1090,7 @@ export default function FleetRequestModal({
             {notice && (
               <div className="mt-6">
                 <SubmissionNotice
-                  notice={
-                    notice
-                  }
+                  notice={notice}
                   onDismiss={
                     notice.type ===
                     "interrupted"
@@ -1321,7 +1285,7 @@ export default function FleetRequestModal({
                 max={3650}
               />
 
-              {/* Description */}
+              {/* Work Description */}
               <div className="md:col-span-2">
                 <label
                   htmlFor="work-description"
@@ -1343,6 +1307,7 @@ export default function FleetRequestModal({
                 <textarea
                   id="work-description"
                   rows={5}
+                  maxLength={5000}
                   value={
                     form.workDescription
                   }
@@ -1382,6 +1347,7 @@ export default function FleetRequestModal({
                     outline-none
                     transition
                     disabled:cursor-not-allowed
+                    disabled:bg-slate-100
                     disabled:opacity-60
                     ${
                       errors.workDescription
@@ -1392,7 +1358,7 @@ export default function FleetRequestModal({
                 />
 
                 <div className="mt-1.5 flex items-start justify-between gap-4">
-                  <div>
+                  <div className="min-h-5">
                     {errors.workDescription && (
                       <p
                         id="work-description-error"
@@ -1416,15 +1382,10 @@ export default function FleetRequestModal({
                     )}
                   </div>
 
-                  <span
-                    className="
-                      shrink-0
-                      text-[11px]
-                      text-slate-400
-                    "
-                  >
+                  <span className="shrink-0 text-[11px] text-slate-400">
                     {
-                      form.workDescription
+                      form
+                        .workDescription
                         .length
                     }
                     /5000
@@ -1583,7 +1544,6 @@ interface InputProps {
   onBlur: () => void;
 
   error?: string;
-
   disabled?: boolean;
 
   type?: HTMLInputTypeAttribute;
@@ -1625,13 +1585,7 @@ function Input({
     <div>
       <label
         htmlFor={id}
-        className="
-          mb-2
-          block
-          text-sm
-          font-bold
-          text-slate-700
-        "
+        className="mb-2 block text-sm font-bold text-slate-700"
       >
         {label}
 

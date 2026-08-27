@@ -1,11 +1,6 @@
-import {
-  Navigate,
-  useParams,
-} from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
-import HeroSection, {
-  type HeroSlide,
-} from "../sections/HeroSection";
+import HeroSection, { type HeroSlide } from "../sections/HeroSection";
 
 import HotTappingProcess from "../sections/ServiceDeatils/HotTappingProcess";
 
@@ -17,35 +12,18 @@ import ServiceDetailsPageSkeleton from "../components/skeletons/ServiceDetailsPa
 
 import SectionState from "../components/feedback/SectionState";
 
-import {
-  usePublicServiceBySlug,
-} from "../hooks/queries/useServices";
+import { usePublicServiceBySlug } from "../hooks/queries/useServices";
 
 const EngineeringServiceDeatilsPage = () => {
-  const { slug } =
-    useParams<{
-      slug: string;
-    }>();
+  const { slug } = useParams<{
+    slug: string;
+  }>();
 
-  const {
-    data,
-    isLoading,
-    isError,
-    isFetching,
-    refetch,
-  } =
-    usePublicServiceBySlug(
-      slug,
-    );
+  const { data, isLoading, isError, isFetching, refetch } = usePublicServiceBySlug(slug);
 
   // Invalid route parameter
   if (!slug) {
-    return (
-      <Navigate
-        to="/services"
-        replace
-      />
-    );
+    return <Navigate to="/services" replace />;
   }
 
   // ====================================================
@@ -53,9 +31,7 @@ const EngineeringServiceDeatilsPage = () => {
   // ====================================================
 
   if (isLoading) {
-    return (
-      <ServiceDetailsPageSkeleton />
-    );
+    return <ServiceDetailsPageSkeleton />;
   }
 
   // ====================================================
@@ -64,18 +40,7 @@ const EngineeringServiceDeatilsPage = () => {
 
   if (isError) {
     return (
-      <main
-        className="
-          flex
-          min-h-[70svh]
-          w-full
-          items-center
-          justify-center
-          py-16
-          md:py-20
-          lg:py-24
-        "
-      >
+      <main className="flex min-h-[70svh] w-full items-center justify-center py-16 md:py-20 lg:py-24">
         <div className="w-full">
           <SectionState
             variant="error"
@@ -84,9 +49,7 @@ const EngineeringServiceDeatilsPage = () => {
             onRetry={() => {
               void refetch();
             }}
-            isRetrying={
-              isFetching
-            }
+            isRetrying={isFetching}
           />
         </div>
       </main>
@@ -99,18 +62,7 @@ const EngineeringServiceDeatilsPage = () => {
 
   if (!data?.service) {
     return (
-      <main
-        className="
-          flex
-          min-h-[70svh]
-          w-full
-          items-center
-          justify-center
-          py-16
-          md:py-20
-          lg:py-24
-        "
-      >
+      <main className="flex min-h-[70svh] w-full items-center justify-center py-16 md:py-20 lg:py-24">
         <div className="w-full">
           <SectionState
             variant="empty"
@@ -126,25 +78,20 @@ const EngineeringServiceDeatilsPage = () => {
   // Data
   // ====================================================
 
-  const service =
-    data.service;
+  const service = data.service;
 
-  const relatedProjects =
-    data.relatedProjects ?? [];
+  const relatedProjects = data.relatedProjects ?? [];
 
   const heroSlides: HeroSlide[] = [
     {
       id: service._id,
       type: "image",
-      src:
-        service.heroSection
-          .image.url,
+      src: service.heroSection.image.url,
       position: "center",
     },
   ];
 
-  const hasRelatedProjects =
-    relatedProjects.length > 0;
+  const hasRelatedProjects = relatedProjects.length > 0;
 
   // ====================================================
   // Success
@@ -152,43 +99,20 @@ const EngineeringServiceDeatilsPage = () => {
 
   return (
     <div
-      className={`
-        space-y-16
-        md:space-y-20
-        lg:space-y-24
-        xl:space-y-28
-        ${
-          hasRelatedProjects
-            ? ""
-            : "pb-16 md:pb-20 lg:pb-24 xl:pb-28"
-        }
-      `}
+      className={`space-y-16 md:space-y-20 lg:space-y-24 xl:space-y-28 ${hasRelatedProjects ? "" : "pb-16 md:pb-20 lg:pb-24 xl:pb-28"
+        }`}
     >
       <HeroSection
         slides={heroSlides}
-        title={
-          service.heroSection
-            .title
-        }
-        description={
-          service.heroSection
-            .description
-        }
+        title={service.heroSection.title}
+        description={service.heroSection.description}
       />
 
-      <HotTappingProcess
-        service={service}
-      />
+      <HotTappingProcess service={service} />
 
-      <OperationalRangesSection
-        service={service}
-      />
+      <OperationalRangesSection service={service} />
 
-      <RelatedProjects
-        projects={
-          relatedProjects
-        }
-      />
+      <RelatedProjects projects={relatedProjects} />
     </div>
   );
 };
