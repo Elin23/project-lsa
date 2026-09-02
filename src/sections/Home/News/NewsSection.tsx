@@ -119,7 +119,7 @@ export default function NewsSection() {
             className="
               rounded-3xl
               bg-[#F7F8FD]
-              p-3
+             
 
               sm:p-4
               md:p-5
