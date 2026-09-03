@@ -25,30 +25,30 @@ export const certificationStats = [
 
 export const certificationsData = [
   {
-    title: "ISO 9001:2015",
+    title: "ISO 9001:2015 – Quality Management",
     description:
-      "Quality Management Systems certification, ensuring consistent delivery of products and services that meet customer and regulatory requirements.",
+      "Ensures consistent delivery of EPC, pipeline, and infrastructure projects that meet client and regulatory requirements.",
     icon: BadgeCheck,
     image: iso9001,
   },
   {
-    title: "ISO 14001:2015",
+    title: "ISO 14001:2015 – Environmental Management",
     description:
-      "Environmental Management Systems certification, demonstrating our commitment to minimizing environmental impact across all operations.",
+      "Demonstrates our commitment to minimizing environmental impact and implementing sustainable practices across all operations.",
     icon: Leaf,
     image: iso14001,
   },
   {
-    title: "ISO 45001:2018",
+    title: "ISO 45001:2018 – Occupational Health & Safety",
     description:
-      "Occupational Health and Safety Management certification, providing safe and healthy workplaces by preventing work-related injury and ill health.",
+      "Guarantees safe and healthy workplaces, preventing work‑related injury and ensuring compliance with global HSE standards.",
     icon: ShieldCheck,
     image: iso45001,
   },
   {
-    title: "OHSAS 18001:2007",
+    title: "OHSAS 18001:2007 – Safety Assessment",
     description:
-      "Occupational Health and Safety Assessment Series certification, further reinforcing our dedication to strict safety protocols.",
+      "Further reinforces our dedication to strict safety protocols and continuous improvement in occupational health.",
     icon: Shield,
     image: ohsas18001,
   },

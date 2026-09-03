@@ -12,7 +12,7 @@ const StrategicDirectionsSection = () => {
             <div className="mb-12">
                 <TitleComponent
                     title="Strategic Directions"
-                    description="Guiding principles that drive our engineering solutions and corporate growth."
+                    description="Guiding principles that drive our engineering solutions and corporate growth across Iraq’s energy sector."
                 />
             </div>
 

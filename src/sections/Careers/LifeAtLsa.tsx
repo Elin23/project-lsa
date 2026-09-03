@@ -23,7 +23,7 @@ const LifeAtLsa = () => {
     <section id="life-at-lsa">
       <TitleComponent
         title="Life at Loaloat Shatt Al-Arab"
-        description="At LSA, we believe that exceptional projects are built by empowering our people to shape the future of energy."
+        description="At LSA, we empower our people to deliver world-class oil & gas EPC projects in Iraq, shaping the future of energy with safety, innovation, and excellence."
       />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

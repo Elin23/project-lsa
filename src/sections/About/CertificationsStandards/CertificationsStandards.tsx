@@ -116,7 +116,7 @@ const CertificationsStandards = () => {
         >
           <TitleComponent
             title="Certifications & Standards"
-            description="Our commitment to international standards ensures the highest levels of quality, safety, and environmental responsibility across all operations."
+            description="At Loaloat Shatt Al‑Arab (LSA), we operate to the highest international standards of quality, safety, and environmental responsibility. Our certifications demonstrate a proven commitment to excellence and reliability across Iraq’s oil & gas sector."
           />
         </div>
 

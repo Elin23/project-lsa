@@ -10,14 +10,14 @@ export const lifeAtLsaData = [
     icon2: ShieldCheck,
     title: "Safety-First Culture",
     description:
-      "We prioritize the health and safety of our people above all else. Our zero-incident goal is backed by world-class HSE standards and continuous training.",
+      "We prioritize the health and safety of our teams with international HSE standards and continuous training, ensuring zero incidents across all energy and pipeline projects.",
   },
   {
     id: 2,
     icon2: TrendingUp,
     title: "Professional Growth",
     description:
-      "Your career trajectory matters. We offer structured mentorship, global exposure, and clear paths to leadership within the energy sector.",
+      "Your career matters. We provide mentorship, global exposure, and clear leadership paths within the Iraq oil & gas sector, helping professionals thrive in complex EPC environments.",
           isActive: true,
 
   },
@@ -26,6 +26,6 @@ export const lifeAtLsaData = [
     icon2: Cpu,
     title: "Technical Excellence",
     description:
-      "Work with cutting-edge technology and Iraq's brightest engineering minds. We deliver complex EPC solutions that set industry benchmarks for quality.",
+      "Work with cutting-edge technology and Iraq’s brightest engineers. We deliver pipeline maintenance, hot tapping, and EPC solutions that set industry benchmarks for quality and reliability.",
   },
 ];
