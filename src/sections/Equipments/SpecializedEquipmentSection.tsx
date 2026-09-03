@@ -1,63 +1,25 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  Activity,
-  Bolt,
+
   Construction,
+  Flame,
   Gauge,
-  Settings2,
-  SlidersHorizontal,
+  Route,
+  Truck,
+  Zap,
 } from "lucide-react";
 
 import TitleComponent from "../../components/shared/TitleComponent";
 import Pagination from "../../components/navigation/Pagination";
 import { DirectionCard } from "../About/StrategicDirectionsSection/StratigicDirectionsCard";
 import { type AdvantageItem } from "../Advantages/AdvantageCard";
-
 const equipmentData: AdvantageItem[] = [
-  {
-    title: "Pipeline Construction",
-    description:
-      "Equipped for major pipeline spreads including heavy-duty Side Booms, Tier-1 Excavators, and D7 Dozers.",
-    icon: Activity,
-    features: ["Side Booms (CAT 583/594)", "Heavy Duty Excavators"],
-  },
-  {
-    title: "Lifting & Heavy Support",
-    description:
-      "Precision lifting capacity with a fleet of mobile cranes up to 50 tons and high-capacity HIAB trucks.",
-    icon: Construction,
-    features: ["50T Mobile Cranes", "Telescopic & Boom Trucks"],
-  },
-  {
-    title: "Road & Asphalt",
-    description:
-      "Full infrastructure suite including asphalt pavers, milling machines, and high-vibration rollers.",
-    icon: Settings2,
-    features: ["Asphalt Pavers", "Cold Milling Machines"],
-  },
-  {
-    title: "Welding & Fabrication",
-    description:
-      "Large-scale fabrication support with over 86 heavy-duty multi-process welding machines and testing kits.",
-    icon: Bolt,
-    features: ["86 Welding Units", "X-Ray Testing Support"],
-  },
-  {
-    title: "Power & Utilities",
-    description:
-      "Mobile power solutions including high-capacity diesel generators and site utility lighting towers.",
-    icon: Gauge,
-    features: ["100KVA - 500KVA Gensets", "Site Lighting Towers"],
-  },
-  {
-    title: "Specialized Services",
-    description:
-      "Expert equipment for hot tapping, line stopping, and thrust boring operations under pressure.",
-    icon: SlidersHorizontal,
-    features: ["Hot Tapping Machines", "Thrust Boring Rigs"],
-  },
-];
-
+   { title: "Advanced Pipeline Construction", description: "Built for large-scale pipeline spreads across Iraq, supporting cross-country lines, gathering systems, and refinery connections with speed and precision.", icon: Route, features: [ "CAT 583/594 Side Booms", "Heavy-Duty Excavators & D7 Dozers", ], },
+    { title: "Heavy Lifting & Structural Support", description: "Comprehensive lifting capability for heavy modules, refinery equipment, and pipeline components in demanding site conditions.", icon: Truck, features: [ "Mobile Cranes up to 100T", "HIAB & Telescopic Boom Trucks", ], }, 
+    { title: "Road & Civil Infrastructure", description: "Full civil works capability supporting refinery access roads, oilfield camps, and industrial infrastructure with durable and efficient execution.", icon: Construction, features: [ "Asphalt Pavers & Milling Machines", "Graders & High-Vibration Rollers", ], },
+     { title: "Welding & Fabrication Excellence", description: "Large-scale welding and fabrication capability supporting pipelines, structures, and pressure vessels to international standards.", icon: Flame, features: [ "100+ Multi-Process Welding Units", "X-Ray & NDT Testing Kits", ], }, 
+     { title: "Power & Utilities", description: "Reliable mobile power and utility solutions for continuous EPC operations in remote and high-demand project environments.", icon: Zap, features: [ "100KVA - 1000KVA Diesel Generators", "Site Lighting & Utility Systems", ], },
+      { title: "Specialized Services Under Pressure", description: "In-house capability for live pipeline interventions, enabling safe modifications and maintenance without interrupting service.", icon: Gauge, features: [ "Hot Tapping & Line Stopping", "Thrust Boring & Live Interventions", ], }, ];
 /**
  * SpecializedEquipmentSection Component
  * Renders equipment capabilities directly from static data with dynamic pagination.
@@ -99,7 +61,7 @@ export default function SpecializedEquipmentSection() {
     <section id="specialized-equipment-capabilities">
       <TitleComponent
         title="Specialized Equipment Capabilities"
-        description="Providing heavy-duty solutions for the most demanding engineering environments in the region."
+        description="At Loaloat Shatt Al-Arab (LSA), we deliver unmatched equipment strength and technical capacity to execute Iraq’s most complex EPC, pipeline, and oilfield infrastructure projects. Our fleet covers every critical discipline, ensuring nationwide reliability, rapid mobilization, and world‑class performance."
       />
 
       <div

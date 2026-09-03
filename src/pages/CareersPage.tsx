@@ -47,7 +47,7 @@ const CareersPage = () => {
         <HeroSection
           slides={careersHeroSlides}
           title="Build Your Future with L.S.A"
-          description="Be part of the engineering excellence that powers a nation. We are looking for visionaries to help us execute Iraq's most complex EPC projects."
+          description="Join Loaloat Shatt Al-Arab and be part of the engineering excellence driving Iraq’s oil & gas sector. We are hiring visionaries to deliver complex EPC projects in Basra and across Iraq, shaping the nation’s energy future."
           buttons={[
             {
               text: "Get In Touch",

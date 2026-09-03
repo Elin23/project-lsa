@@ -26,18 +26,14 @@ export default function EquipmentFleetSection() {
 
           <div className="mt-6 space-y-5 text-base leading-7 text-muted-blue md:text-lg md:leading-8">
             <p>
-              At Laaloat Shatt Al-Arab (LSA), we believe that project success is
-              built on a foundation of reliability and autonomy. Unlike many
-              firms that rely on third-party leasing, LSA owns a comprehensive
-              fleet of heavy equipment and specialized machinery.
+              At Loaloat Shatt Al-Arab (LSA), project success is built on reliability and autonomy. Unlike firms that depend on third‑party leasing, LSA owns a comprehensive fleet of heavy equipment and specialized machinery, ensuring full control and immediate availability for critical oil & gas projects.
             </p>
 
             <p>
-              Our main operations yard in Basra serves as the central hub for
-              maintenance, mobilization, and technical support. Every unit in
-              our fleet undergoes rigorous preventive maintenance programs to
-              ensure zero downtime on critical oil and gas project sites.
+              Our main operations yard in Basra serves as the hub for maintenance, mobilization, and technical support. Strategically located, it enables rapid deployment to Iraq’s major oil fields—including Majnoon, Rumaila, West Qurna, Zubair, Halfaya, Badra, Nasiriyah, Ratawi, Block 9, and Siba.
             </p>
+             <p>
+Every unit in our fleet undergoes rigorous preventive maintenance programs, guaranteeing zero downtime and maximum reliability on EPC and pipeline project sites.            </p>
           </div>
         </div>
 

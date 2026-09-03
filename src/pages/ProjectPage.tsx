@@ -19,7 +19,9 @@ const ProjectPage = () => {
             <HeroSection
                 slides={ProjectPortfolioHeroSlides}
                 title="Project Portfolio"
-                description="Showcasing engineering excellence and infrastructure development across the energy sector in Iraq."
+                description="Showcasing engineering excellence and infrastructure development across Iraq’s energy sector. At Loaloat Shatt Al‑Arab (LSA), we deliver world‑class EPC, pipeline, and oilfield infrastructure projects for SOC and global oil majors.
+
+From Majnoon, Rumaila, West Qurna, Zubair, Halfaya, Badra, Nasiriyah, Ratawi, Block 9, and Siba, our portfolio reflects nationwide capability, rapid mobilization, and benchmark performance in Iraq’s oil & gas industry."
             />
             <ProjectsSection />
             <HotTappingBanner className="pb-16 md:pb-24 2xl:pb-28" />

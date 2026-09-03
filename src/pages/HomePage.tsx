@@ -14,6 +14,7 @@ import CounterSection from "../sections/Home/CounterSection";
 import OurCoreCapabilities from "../sections/Home/OurCoreCapabilities/OurCoreCapabilities";
 import FeaturedProjects from "../sections/Home/FeaturedProjects/FeaturedProjects";
 import FAQSection from "../sections/FAQS/FAQSection";
+import NewsSection from "../sections/Home/News/NewsSection";
 
 const homeHeroSlides = [
   {
@@ -95,6 +96,7 @@ const HomePage = () => {
           items={partnerItems}
         />
         <FeaturedProjects />
+        <NewsSection />
         <HotTappingBanner />
         <FAQSection />
         <Testimonials />

@@ -22,7 +22,9 @@ const EquipmentsPage = () => {
         <HeroSection
           slides={EquipmentsHeroSlides}
           title="Company-Owned Equipment Fleet Ready for Projects & Rental"
-          description="LSA maintains a multi-million dollar inventory of heavy machinery, specialized tools, and support units. Our Basra-based yard ensures immediate mobilization for Pipeline, EPCC, and Infrastructure projects across Iraq."
+          description="At Loaloat Shatt Al‑Arab (LSA), we maintain a multi‑million‑dollar fleet of heavy machinery, specialized tools, and support units dedicated to Iraq’s oil & gas sector. Our Basra operations hub ensures immediate mobilization for pipeline construction, EPCC, and infrastructure projects across all major oil fields—including Majnoon, Rumaila, West Qurna, Zubair, Halfaya, Badra, Nasiriyah, Ratawi, Block 9, and Siba.
+
+With full ownership of our fleet, strict preventive maintenance programs, and nationwide reach, LSA delivers zero downtime, faster deployment, and benchmark performance for SOC projects and global oil majors operating in Iraq."
         />
         <FleetInventory />
         <SpecializedEquipmentSection />
