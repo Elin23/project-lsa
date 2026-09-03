@@ -8,27 +8,9 @@ interface OperationalRangesContentProps {
   fullWidth?: boolean;
 }
 
-const OperationalRangesContent: React.FC<
-  OperationalRangesContentProps
-> = ({
-  title,
-  description,
-  sideNotes,
-  fullWidth = false,
-}) => {
+const OperationalRangesContent: React.FC<OperationalRangesContentProps> = ({ title, description, sideNotes, fullWidth = false }) => {
   return (
-    <div
-      className={`
-        flex
-        w-full
-        flex-col
-        ${
-          fullWidth
-            ? ""
-            : "lg:w-[31.53%] 2xl:w-[31.32%]"
-        }
-      `}
-    >
+    <div className={`flex w-full flex-col ${fullWidth ? "" : "lg:w-[31.53%] 2xl:w-[31.32%]"}`}>
       {(title || description) && (
         <div className="text-center lg:text-start">
           {title && (
@@ -54,78 +36,19 @@ const OperationalRangesContent: React.FC<
           {sideNotes.map((note, index) => (
             <div
               key={`${note}-${index}`}
-              className="
-                group
-                relative
-                overflow-hidden
-                rounded-xl
-                border
-                border-[#DCE5F3]
-                bg-white
-                px-5
-                py-4
-                shadow-[0_4px_16px_rgba(0,35,111,0.035)]
-                transition-[border-color,box-shadow,background-color]
-                duration-300
-                ease-out
-                hover:border-blue-01/25
-                hover:bg-[#FCFDFF]
-                hover:shadow-[0_10px_26px_rgba(0,35,111,0.07)]
-                md:px-6
-                md:py-5
-              "
+              className="group relative overflow-hidden rounded-xl border border-[#DCE5F3] bg-white px-5 py-4 shadow-[0_4px_16px_rgba(0,35,111,0.035)] transition-[border-color,box-shadow,background-color] duration-300 ease-out hover:border-blue-01/25 hover:bg-[#FCFDFF] hover:shadow-[0_10px_26px_rgba(0,35,111,0.07)] md:px-6 md:py-5"
             >
               <span
                 aria-hidden="true"
-                className="
-                  absolute
-                  bottom-0
-                  left-0
-                  top-0
-                  w-0.75
-                  bg-blue-01
-                  opacity-35
-                  transition-opacity
-                  duration-300
-                  group-hover:opacity-100
-                "
+                className="absolute bottom-0 left-0 top-0 w-0.75 bg-blue-01 opacity-35 transition-opacity duration-300 group-hover:opacity-100"
               />
 
               <div className="relative flex items-start gap-3">
-                <span
-                  className="
-                    mt-0.5
-                    flex
-                    h-7
-                    w-7
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-blue-01/8
-                    text-blue-01
-                    transition-[background-color,color]
-                    duration-300
-                    group-hover:bg-blue-01
-                    group-hover:text-white
-                  "
-                >
+                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-01/8 text-blue-01 transition-[background-color,color] duration-300 group-hover:bg-blue-01 group-hover:text-white">
                   <Check size={15} strokeWidth={2.5} />
                 </span>
 
-                <p
-                  className="
-                    text-sm
-                    font-semibold
-                    leading-6
-                    text-blue-01
-                    transition-colors
-                    duration-300
-                    group-hover:text-blue-02
-                    md:text-base
-                    2xl:text-lg
-                  "
-                >
+                <p className="text-sm font-semibold leading-6 text-blue-01 transition-colors duration-300 group-hover:text-blue-02 md:text-base 2xl:text-lg">
                   {note}
                 </p>
               </div>

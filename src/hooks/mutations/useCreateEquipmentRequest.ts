@@ -7,6 +7,10 @@ import {
   type CreateEquipmentRequestPayload,
 } from "../../services/equipmentRequestService";
 
+import {
+  SUBMISSION_MUTATION_CONFIG,
+} from "../../config/submissionMutationConfig";
+
 export const useCreateEquipmentRequest =
   () => {
     return useMutation({
@@ -16,5 +20,7 @@ export const useCreateEquipmentRequest =
         createEquipmentRequest(
           payload,
         ),
+
+      ...SUBMISSION_MUTATION_CONFIG,
     });
   };

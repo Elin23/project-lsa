@@ -7,29 +7,43 @@ import {
   Clock,
   LoaderCircle,
   MapPin,
+  RefreshCw,
   Upload,
   X,
 } from "lucide-react";
 
 import {
+  useEffect,
   useRef,
   useState,
   type ChangeEvent,
   type FormEvent,
 } from "react";
 
-import axios from "axios";
-
-import type { Job } from "../../services/jobsApi";
+import type {
+  Job,
+} from "../../services/jobsApi";
 
 import {
   useCreateJobRequest,
 } from "../../hooks/mutations/useCreateJobRequest";
 
+import useSubmissionNetwork from "../../hooks/useSubmissionNetwork";
+
+import SubmissionNotice from "../../components/feedback/SubmissionNotice";
+
+// ======================================================
+// Props
+// ======================================================
+
 interface JobDetailsModalProps {
   job: Job | null;
   onClose: () => void;
 }
+
+// ======================================================
+// Form Errors
+// ======================================================
 
 interface FormErrors {
   firstName?: string;
@@ -38,6 +52,28 @@ interface FormErrors {
   phone?: string;
   cv?: string;
 }
+
+// ======================================================
+// Form Input Props
+// ======================================================
+
+interface FormInputProps {
+  id: string;
+  label: string;
+  value: string;
+  placeholder?: string;
+  type?: "text" | "email" | "tel";
+  error?: string;
+  disabled?: boolean;
+  autoComplete?: string;
+  onChange: (
+    value: string,
+  ) => void;
+}
+
+// ======================================================
+// Validation Constants
+// ======================================================
 
 const EMAIL_PATTERN =
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -54,115 +90,18 @@ const ALLOWED_CV_TYPES = [
 const MAX_CV_SIZE =
   10 * 1024 * 1024;
 
-const DEFAULT_SUBMIT_ERROR =
-  "We couldn't submit your application. Please try again.";
-
-const getJobRequestErrorMessage = (
-  error: unknown,
-): string => {
-  if (!axios.isAxiosError(error)) {
-    return DEFAULT_SUBMIT_ERROR;
-  }
-
-  const status =
-    error.response?.status;
-
-  const backendMessage =
-    error.response?.data?.message;
-
-  // Network / connection error
-  if (
-    error.code === "ERR_NETWORK" ||
-    !error.response
-  ) {
-    return "We couldn't connect to the server. Please check your internet connection and try again.";
-  }
-
-  // Bad request / validation
-  if (status === 400) {
-    if (
-      typeof backendMessage === "string"
-    ) {
-      const normalizedMessage =
-        backendMessage.toLowerCase();
-
-      const looksTechnical =
-        normalizedMessage.includes(
-          "route",
-        ) ||
-        normalizedMessage.includes(
-          "/api/",
-        ) ||
-        normalizedMessage.includes(
-          "not found",
-        );
-
-      if (!looksTechnical) {
-        return backendMessage;
-      }
-    }
-
-    return "Some of the submitted information is invalid. Please review your details and try again.";
-  }
-
-  // Unauthorized / forbidden
-  if (
-    status === 401 ||
-    status === 403
-  ) {
-    return "Your application could not be submitted at this time. Please try again later.";
-  }
-
-  // Route / resource not found
-  if (status === 404) {
-    return "We couldn't submit your application because the application service is currently unavailable. Please try again later.";
-  }
-
-  // Conflict
-  if (status === 409) {
-    if (
-      typeof backendMessage === "string" &&
-      !backendMessage
-        .toLowerCase()
-        .includes("route")
-    ) {
-      return backendMessage;
-    }
-
-    return "This application could not be submitted because of a conflicting request. Please review your information and try again.";
-  }
-
-  // File too large
-  if (status === 413) {
-    return "Your CV file is too large. Please upload a smaller file and try again.";
-  }
-
-  // Unsupported file / media type
-  if (status === 415) {
-    return "The uploaded CV format is not supported. Please upload a PDF, DOC, or DOCX file.";
-  }
-
-  // Rate limit
-  if (status === 429) {
-    return "Too many submission attempts were made. Please wait a moment and try again.";
-  }
-
-  // Backend/server error
-  if (
-    status &&
-    status >= 500
-  ) {
-    return "The server encountered a problem while submitting your application. Please try again in a moment.";
-  }
-
-  return DEFAULT_SUBMIT_ERROR;
-};
+// ======================================================
+// Component
+// ======================================================
 
 export default function JobDetailsModal({
   job,
   onClose,
 }: JobDetailsModalProps) {
-  const [step, setStep] =
+  const [
+    step,
+    setStep,
+  ] =
     useState<1 | 2>(1);
 
   const [
@@ -185,7 +124,10 @@ export default function JobDetailsModal({
     setPhone,
   ] = useState("");
 
-  const [cv, setCv] =
+  const [
+    cv,
+    setCv,
+  ] =
     useState<File | null>(
       null,
     );
@@ -193,29 +135,158 @@ export default function JobDetailsModal({
   const [
     formErrors,
     setFormErrors,
-  ] = useState<FormErrors>(
-    {},
-  );
+  ] =
+    useState<FormErrors>(
+      {},
+    );
 
   const [
-    apiError,
-    setApiError,
-  ] = useState("");
+    submissionCompleted,
+    setSubmissionCompleted,
+  ] = useState(false);
 
   const fileInputRef =
     useRef<HTMLInputElement | null>(
       null,
     );
 
-  const createJobRequest =
+  // ====================================================
+  // Shared Submission State
+  // ====================================================
+
+  const {
+    isOnline,
+    notice,
+    isSubmissionUncertain,
+    canSubmit,
+    clearNotice,
+    getOrCreateRequestId,
+    markSubmissionStarted,
+    markSubmissionSuccess,
+    handleSubmissionError,
+    resetSubmissionState,
+  } =
+    useSubmissionNetwork();
+
+  // ====================================================
+  // React Query Mutation
+  // ====================================================
+
+  const {
+    mutateAsync:
+      createJobRequest,
+    isPending,
+    reset:
+      resetMutation,
+  } =
     useCreateJobRequest();
+
+  // ====================================================
+  // Reset
+  // ====================================================
+
+  const resetForm = () => {
+    setStep(1);
+
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPhone("");
+
+    setCv(null);
+
+    setFormErrors({});
+
+    setSubmissionCompleted(
+      false,
+    );
+
+    if (
+      fileInputRef.current
+    ) {
+      fileInputRef.current.value =
+        "";
+    }
+
+    resetMutation();
+
+    resetSubmissionState();
+  };
+
+  // ====================================================
+  // Close
+  // ====================================================
+
+  const handleClose = () => {
+    if (isPending) {
+      return;
+    }
+
+    /*
+     * Preserve the current clientRequestId while the
+     * submission status is uncertain so a later retry
+     * can safely reuse the same request identity.
+     */
+    if (
+      isSubmissionUncertain
+    ) {
+      return;
+    }
+
+    resetForm();
+
+    onClose();
+  };
+
+  // ====================================================
+  // Close With Escape
+  // ====================================================
+
+  useEffect(() => {
+    const handleKeyDown = (
+      event: KeyboardEvent,
+    ) => {
+      if (
+        event.key ===
+          "Escape" &&
+        !isPending &&
+        !isSubmissionUncertain
+      ) {
+        handleClose();
+      }
+    };
+
+    window.addEventListener(
+      "keydown",
+      handleKeyDown,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown,
+      );
+    };
+  }, [
+    isPending,
+    isSubmissionUncertain,
+  ]);
+
+  // ====================================================
+  // Guard
+  // ====================================================
 
   if (!job) {
     return null;
   }
 
+  // ====================================================
+  // Job State
+  // ====================================================
+
   const isOpen =
-    job.status === "published" &&
+    job.status ===
+      "published" &&
     new Date(
       job.deadline,
     ) >= new Date();
@@ -231,6 +302,10 @@ export default function JobDetailsModal({
         day: "numeric",
       },
     );
+
+  // ====================================================
+  // Validation
+  // ====================================================
 
   const validateForm =
     (): FormErrors => {
@@ -249,7 +324,9 @@ export default function JobDetailsModal({
       const trimmedPhone =
         phone.trim();
 
-      if (!trimmedFirstName) {
+      if (
+        !trimmedFirstName
+      ) {
         errors.firstName =
           "First name is required.";
       } else if (
@@ -260,7 +337,9 @@ export default function JobDetailsModal({
           "First name must contain at least 2 characters.";
       }
 
-      if (!trimmedLastName) {
+      if (
+        !trimmedLastName
+      ) {
         errors.lastName =
           "Last name is required.";
       } else if (
@@ -303,46 +382,24 @@ export default function JobDetailsModal({
       return errors;
     };
 
-  const resetForm = () => {
-    setStep(1);
-
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPhone("");
-    setCv(null);
-
-    setFormErrors({});
-    setApiError("");
-
-    if (
-      fileInputRef.current
-    ) {
-      fileInputRef.current.value =
-        "";
-    }
-
-    createJobRequest.reset();
-  };
-
-  const handleClose = () => {
-    if (
-      createJobRequest.isPending
-    ) {
-      return;
-    }
-
-    resetForm();
-    onClose();
-  };
+  // ====================================================
+  // File Change
+  // ====================================================
 
   const handleFileChange = (
-    event: ChangeEvent<HTMLInputElement>,
+    event:
+      ChangeEvent<HTMLInputElement>,
   ) => {
     const file =
       event.target.files?.[0];
 
-    setApiError("");
+    if (
+      notice &&
+      notice.type !==
+        "interrupted"
+    ) {
+      clearNotice();
+    }
 
     if (!file) {
       setCv(null);
@@ -409,13 +466,16 @@ export default function JobDetailsModal({
     );
   };
 
+  // ====================================================
+  // Submit
+  // ====================================================
+
   const handleSubmit =
     async (
-      event: FormEvent<HTMLFormElement>,
+      event:
+        FormEvent<HTMLFormElement>,
     ) => {
       event.preventDefault();
-
-      setApiError("");
 
       const validationErrors =
         validateForm();
@@ -432,39 +492,79 @@ export default function JobDetailsModal({
         return;
       }
 
+      if (!canSubmit()) {
+        return;
+      }
+
+      if (!cv) {
+        return;
+      }
+
+      /*
+       * The same ID is reused if the previous request
+       * reached the backend but its response was lost.
+       */
+      const clientRequestId =
+        getOrCreateRequestId();
+
       try {
-        await createJobRequest.mutateAsync(
-          {
-            job: job._id,
-            firstName:
-              firstName.trim(),
-            lastName:
-              lastName.trim(),
-            email:
-              email.trim(),
-            phone:
-              phone.trim(),
-            cv: cv as File,
-          },
-        );
-      } catch (error: unknown) {
-        console.error(
-          "Failed to submit job application:",
-          error,
+        markSubmissionStarted();
+
+        const response =
+          await createJobRequest(
+            {
+              clientRequestId,
+
+              job:
+                job._id,
+
+              firstName:
+                firstName.trim(),
+
+              lastName:
+                lastName.trim(),
+
+              email:
+                email.trim(),
+
+              phone:
+                phone.trim(),
+
+              cv,
+            },
+          );
+
+        markSubmissionSuccess(
+          response.message ||
+            "Your job application has been submitted successfully.",
         );
 
-        setApiError(
-          getJobRequestErrorMessage(
-            error,
-          ),
+        setSubmissionCompleted(
+          true,
+        );
+
+        setFormErrors({});
+      } catch (
+        error: unknown
+      ) {
+        handleSubmissionError(
+          error,
         );
       }
     };
 
+  // ====================================================
+  // Submitted
+  // ====================================================
+
   const isSubmitted =
-    createJobRequest.isSuccess &&
-    createJobRequest.data
-      ?.success === true;
+    submissionCompleted &&
+    notice?.type ===
+      "success";
+
+  // ====================================================
+  // Render
+  // ====================================================
 
   return (
     <div
@@ -494,34 +594,42 @@ export default function JobDetailsModal({
           shadow-2xl
         "
       >
-        <button
-          type="button"
-          onClick={handleClose}
-          disabled={
-            createJobRequest.isPending
-          }
-          aria-label="Close job details"
-          className="
-            absolute
-            right-5
-            top-5
-            z-10
-            cursor-pointer
-            rounded-full
-            bg-slate-100
-            p-2
-            text-slate-500
-            transition
-            hover:bg-red-100
-            hover:text-red-01
-            disabled:cursor-not-allowed
-            disabled:opacity-50
-          "
-        >
-          <X className="h-5 w-5" />
-        </button>
+        {/* Sticky Close Button */}
+        <div className="sticky top-0 z-50 h-0 w-full">
+          <button
+            type="button"
+            onClick={
+              handleClose
+            }
+            disabled={
+              isPending ||
+              isSubmissionUncertain
+            }
+            aria-label="Close job details"
+            className="
+              absolute
+              right-5
+              top-5
+              cursor-pointer
+              rounded-full
+              bg-slate-100
+              p-2
+              text-slate-500
+              transition
+              hover:bg-red-100
+              hover:text-red-01
+              disabled:cursor-not-allowed
+              disabled:opacity-50
+            "
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
 
-        {/* Header */}
+        {/* =================================================
+            Header
+        ================================================= */}
+
         <div className="border-b border-slate-100 p-6 md:p-8">
           <span
             className="
@@ -546,7 +654,13 @@ export default function JobDetailsModal({
 
           <h3
             id="job-details-title"
-            className="pr-10 text-2xl font-bold text-blue-01 md:text-3xl"
+            className="
+              pr-10
+              text-2xl
+              font-bold
+              text-blue-01
+              md:text-3xl
+            "
           >
             {job.title}
           </h3>
@@ -554,16 +668,21 @@ export default function JobDetailsModal({
           <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-500">
             <span className="flex items-center gap-1.5">
               <MapPin className="h-4 w-4 text-blue-01" />
+
               {job.location}
             </span>
 
             <span className="flex items-center gap-1.5">
               <Clock className="h-4 w-4 text-blue-01" />
-              {job.employmentType}
+
+              {
+                job.employmentType
+              }
             </span>
 
             <span className="flex items-center gap-1.5">
               <Briefcase className="h-4 w-4 text-blue-01" />
+
               {job.department}
             </span>
           </div>
@@ -571,8 +690,11 @@ export default function JobDetailsModal({
           {isOpen && (
             <div className="mt-4 flex items-center gap-2 text-sm font-medium text-amber-700">
               <CalendarClock className="h-4 w-4" />
+
               Applications close on{" "}
-              {formattedDeadline}
+              {
+                formattedDeadline
+              }
             </div>
           )}
 
@@ -596,7 +718,10 @@ export default function JobDetailsModal({
           )}
         </div>
 
-        {/* Success */}
+        {/* =================================================
+            Success
+        ================================================= */}
+
         {isSubmitted && (
           <div className="p-6 md:p-8">
             <div
@@ -612,7 +737,18 @@ export default function JobDetailsModal({
                 text-center
               "
             >
-              <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-blue-01/10">
+              <div
+                className="
+                  mb-5
+                  flex
+                  h-16
+                  w-16
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-blue-01/10
+                "
+              >
                 <CheckCircle className="h-9 w-9 text-blue-01" />
               </div>
 
@@ -621,16 +757,18 @@ export default function JobDetailsModal({
               </h4>
 
               <p className="mt-3 max-w-lg text-sm leading-7 text-slate-500">
-                {createJobRequest
-                  .data?.message ||
-                  "Your job application has been submitted successfully."}
+                {
+                  notice.message
+                }
               </p>
 
               <button
                 type="button"
-                onClick={
-                  handleClose
-                }
+                onClick={() => {
+                  resetForm();
+
+                  onClose();
+                }}
                 className="
                   mt-8
                   h-12
@@ -651,22 +789,28 @@ export default function JobDetailsModal({
           </div>
         )}
 
-        {/* Step 1 */}
+        {/* =================================================
+            Step 1
+        ================================================= */}
+
         {!isSubmitted &&
           step === 1 && (
-            <div className="p-6 md:p-8">
-              <div className="mb-8 rounded-2xl bg-[#f7f8ff] p-5">
+            <div className="p-4 sm:p-6 md:p-8">
+              <div className="mb-8 min-w-0 rounded-2xl bg-[#f7f8ff] p-4 sm:p-5">
                 <h4 className="mb-3 text-xl font-bold text-blue-01">
                   About the Role
                 </h4>
 
-                <p className="text-sm leading-7 text-slate-600">
-                  {job.description}
+                <p className="min-w-0 break-words text-sm leading-7 text-slate-600">
+                  {
+                    job.description
+                  }
                 </p>
               </div>
 
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
+              <div className="grid min-w-0 gap-6 md:grid-cols-2">
+                {/* Responsibilities */}
+                <div className="min-w-0">
                   <h4 className="mb-4 text-xl font-bold text-blue-01">
                     Responsibilities
                   </h4>
@@ -679,12 +823,14 @@ export default function JobDetailsModal({
                       ) => (
                         <div
                           key={`${job._id}-responsibility-${index}`}
-                          className="flex gap-3"
+                          className="flex min-w-0 gap-3"
                         >
                           <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-blue-01" />
 
-                          <p className="text-sm leading-6 text-slate-600">
-                            {item}
+                          <p className="min-w-0 break-words text-sm leading-6 text-slate-600">
+                            {
+                              item
+                            }
                           </p>
                         </div>
                       ),
@@ -692,7 +838,8 @@ export default function JobDetailsModal({
                   </div>
                 </div>
 
-                <div>
+                {/* Requirements */}
+                <div className="min-w-0">
                   <h4 className="mb-4 text-xl font-bold text-blue-01">
                     Requirements
                   </h4>
@@ -705,12 +852,14 @@ export default function JobDetailsModal({
                       ) => (
                         <div
                           key={`${job._id}-requirement-${index}`}
-                          className="flex gap-3"
+                          className="flex min-w-0 gap-3"
                         >
                           <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-01" />
 
-                          <p className="text-sm leading-6 text-slate-600">
-                            {item}
+                          <p className="min-w-0 break-words text-sm leading-6 text-slate-600">
+                            {
+                              item
+                            }
                           </p>
                         </div>
                       ),
@@ -756,7 +905,9 @@ export default function JobDetailsModal({
 
                 <button
                   type="button"
-                  disabled={!isOpen}
+                  disabled={
+                    !isOpen
+                  }
                   onClick={() => {
                     if (isOpen) {
                       setStep(2);
@@ -793,7 +944,10 @@ export default function JobDetailsModal({
             </div>
           )}
 
-        {/* Step 2 */}
+        {/* =================================================
+            Step 2
+        ================================================= */}
+
         {!isSubmitted &&
           step === 2 && (
             <form
@@ -808,39 +962,37 @@ export default function JobDetailsModal({
                 this position.
               </p>
 
-              {/* API Error */}
-              {apiError && (
-                <div
-                  role="alert"
-                  className="
-                    mb-6
-                    rounded-xl
-                    border
-                    border-red-200
-                    bg-red-50
-                    px-4
-                    py-3
-                    text-sm
-                    font-medium
-                    leading-6
-                    text-red-700
-                  "
-                >
-                  {apiError}
+              {/* Submission Notice */}
+              {notice && (
+                <div className="mb-6">
+                  <SubmissionNotice
+                    notice={
+                      notice
+                    }
+                    onDismiss={
+                      notice.type ===
+                      "interrupted"
+                        ? undefined
+                        : clearNotice
+                    }
+                  />
                 </div>
               )}
 
               <div className="grid gap-x-4 gap-y-5 md:grid-cols-2">
+                {/* First Name */}
                 <FormInput
                   id="firstName"
                   label="First Name"
-                  value={firstName}
+                  value={
+                    firstName
+                  }
                   error={
                     formErrors.firstName
                   }
                   placeholder="Enter first name"
                   disabled={
-                    createJobRequest.isPending
+                    isPending
                   }
                   autoComplete="given-name"
                   onChange={(
@@ -849,7 +1001,14 @@ export default function JobDetailsModal({
                     setFirstName(
                       value,
                     );
-                    setApiError("");
+
+                    if (
+                      notice &&
+                      notice.type !==
+                        "interrupted"
+                    ) {
+                      clearNotice();
+                    }
 
                     if (
                       formErrors.firstName
@@ -867,16 +1026,19 @@ export default function JobDetailsModal({
                   }}
                 />
 
+                {/* Last Name */}
                 <FormInput
                   id="lastName"
                   label="Last Name"
-                  value={lastName}
+                  value={
+                    lastName
+                  }
                   error={
                     formErrors.lastName
                   }
                   placeholder="Enter last name"
                   disabled={
-                    createJobRequest.isPending
+                    isPending
                   }
                   autoComplete="family-name"
                   onChange={(
@@ -885,7 +1047,14 @@ export default function JobDetailsModal({
                     setLastName(
                       value,
                     );
-                    setApiError("");
+
+                    if (
+                      notice &&
+                      notice.type !==
+                        "interrupted"
+                    ) {
+                      clearNotice();
+                    }
 
                     if (
                       formErrors.lastName
@@ -903,17 +1072,20 @@ export default function JobDetailsModal({
                   }}
                 />
 
+                {/* Email */}
                 <FormInput
                   id="email"
                   label="Email Address"
                   type="email"
-                  value={email}
+                  value={
+                    email
+                  }
                   error={
                     formErrors.email
                   }
                   placeholder="Enter email address"
                   disabled={
-                    createJobRequest.isPending
+                    isPending
                   }
                   autoComplete="email"
                   onChange={(
@@ -922,7 +1094,14 @@ export default function JobDetailsModal({
                     setEmail(
                       value,
                     );
-                    setApiError("");
+
+                    if (
+                      notice &&
+                      notice.type !==
+                        "interrupted"
+                    ) {
+                      clearNotice();
+                    }
 
                     if (
                       formErrors.email
@@ -940,17 +1119,20 @@ export default function JobDetailsModal({
                   }}
                 />
 
+                {/* Phone */}
                 <FormInput
                   id="phone"
                   label="Mobile Number"
                   type="tel"
-                  value={phone}
+                  value={
+                    phone
+                  }
                   error={
                     formErrors.phone
                   }
                   placeholder="Enter mobile number"
                   disabled={
-                    createJobRequest.isPending
+                    isPending
                   }
                   autoComplete="tel"
                   onChange={(
@@ -959,7 +1141,14 @@ export default function JobDetailsModal({
                     setPhone(
                       value,
                     );
-                    setApiError("");
+
+                    if (
+                      notice &&
+                      notice.type !==
+                        "interrupted"
+                    ) {
+                      clearNotice();
+                    }
 
                     if (
                       formErrors.phone
@@ -979,16 +1168,13 @@ export default function JobDetailsModal({
 
                 {/* CV */}
                 <div className="md:col-span-2">
-                  <label
-                    htmlFor="cv"
-                    className="mb-2 block text-sm font-semibold text-blue-01"
-                  >
+                  <span className="mb-2 block text-sm font-semibold text-blue-01">
                     Upload CV
 
                     <span className="ml-1 text-red-01">
                       *
                     </span>
-                  </label>
+                  </span>
 
                   <label
                     htmlFor="cv"
@@ -1010,7 +1196,7 @@ export default function JobDetailsModal({
                           : "border-slate-300 bg-slate-50 hover:border-blue-01"
                       }
                       ${
-                        createJobRequest.isPending
+                        isPending
                           ? "cursor-not-allowed opacity-60"
                           : ""
                       }
@@ -1051,7 +1237,7 @@ export default function JobDetailsModal({
                         handleFileChange
                       }
                       disabled={
-                        createJobRequest.isPending
+                        isPending
                       }
                     />
                   </label>
@@ -1060,9 +1246,16 @@ export default function JobDetailsModal({
                     {formErrors.cv && (
                       <p
                         role="alert"
-                        className="text-xs font-semibold leading-5 text-red-600"
+                        className="
+                          text-xs
+                          font-semibold
+                          leading-5
+                          text-red-600
+                        "
                       >
-                        {formErrors.cv}
+                        {
+                          formErrors.cv
+                        }
                       </p>
                     )}
                   </div>
@@ -1086,14 +1279,23 @@ export default function JobDetailsModal({
                 <button
                   type="button"
                   onClick={() => {
-                    setApiError("");
+                    if (
+                      isSubmissionUncertain
+                    ) {
+                      return;
+                    }
+
+                    clearNotice();
+
                     setFormErrors(
                       {},
                     );
+
                     setStep(1);
                   }}
                   disabled={
-                    createJobRequest.isPending
+                    isPending ||
+                    isSubmissionUncertain
                   }
                   className="
                     inline-flex
@@ -1120,39 +1322,79 @@ export default function JobDetailsModal({
                   Back
                 </button>
 
-                <button
-                  type="submit"
-                  disabled={
-                    createJobRequest.isPending
-                  }
-                  className="
-                    inline-flex
-                    h-12
-                    cursor-pointer
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-xl
-                    bg-blue-01
-                    px-8
-                    text-sm
-                    font-bold
-                    text-white
-                    transition
-                    hover:bg-red-01
-                    disabled:cursor-not-allowed
-                    disabled:opacity-60
-                  "
-                >
-                  {createJobRequest.isPending ? (
-                    <>
-                      <LoaderCircle className="h-4 w-4 animate-spin" />
-                      Submitting...
-                    </>
-                  ) : (
-                    "Submit Application"
-                  )}
-                </button>
+                <div className="flex flex-col gap-3 md:flex-row">
+                  <button
+                    type="button"
+                    onClick={
+                      handleClose
+                    }
+                    disabled={
+                      isPending ||
+                      isSubmissionUncertain
+                    }
+                    className="
+                      h-12
+                      cursor-pointer
+                      rounded-xl
+                      border
+                      border-slate-200
+                      px-8
+                      text-sm
+                      font-bold
+                      text-slate-600
+                      transition
+                      hover:bg-slate-100
+                      disabled:cursor-not-allowed
+                      disabled:opacity-50
+                    "
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    disabled={
+                      isPending ||
+                      !isOnline
+                    }
+                    className="
+                      inline-flex
+                      h-12
+                      cursor-pointer
+                      items-center
+                      justify-center
+                      gap-2
+                      rounded-xl
+                      bg-blue-01
+                      px-8
+                      text-sm
+                      font-bold
+                      text-white
+                      transition
+                      hover:bg-red-01
+                      disabled:cursor-not-allowed
+                      disabled:opacity-60
+                    "
+                  >
+                    {isPending ? (
+                      <>
+                        <LoaderCircle className="h-4 w-4 animate-spin" />
+
+                        Submitting...
+                      </>
+                    ) : !isOnline ? (
+                      "No Internet Connection"
+                    ) : isSubmissionUncertain ? (
+                      <>
+                        <RefreshCw className="h-4 w-4" />
+
+                        Retry Application Safely
+                      </>
+                    ) : (
+                      "Submit Application"
+                    )}
+                  </button>
+                </div>
               </div>
             </form>
           )}
@@ -1161,27 +1403,17 @@ export default function JobDetailsModal({
   );
 }
 
-interface FormInputProps {
-  id: string;
-  label: string;
-  value: string;
-  placeholder: string;
-  error?: string;
-  type?: "text" | "email" | "tel";
-  disabled?: boolean;
-  autoComplete?: string;
-  onChange: (
-    value: string,
-  ) => void;
-}
+// ======================================================
+// Form Input
+// ======================================================
 
 function FormInput({
   id,
   label,
   value,
   placeholder,
-  error,
   type = "text",
+  error,
   disabled = false,
   autoComplete,
   onChange,
@@ -1193,7 +1425,13 @@ function FormInput({
     <div>
       <label
         htmlFor={id}
-        className="mb-2 block text-sm font-semibold text-blue-01"
+        className="
+          mb-2
+          block
+          text-sm
+          font-semibold
+          text-blue-01
+        "
       >
         {label}
 
@@ -1206,13 +1444,15 @@ function FormInput({
         id={id}
         type={type}
         value={value}
-        autoComplete={
-          autoComplete
-        }
         placeholder={
           placeholder
         }
-        disabled={disabled}
+        disabled={
+          disabled
+        }
+        autoComplete={
+          autoComplete
+        }
         aria-invalid={Boolean(
           error,
         )}
@@ -1221,7 +1461,9 @@ function FormInput({
             ? errorId
             : undefined
         }
-        onChange={(event) =>
+        onChange={(
+          event,
+        ) =>
           onChange(
             event.target.value,
           )
@@ -1233,14 +1475,16 @@ function FormInput({
           border
           px-4
           text-sm
+          text-slate-800
           outline-none
           transition
+          placeholder:text-slate-400
           disabled:cursor-not-allowed
-          disabled:bg-slate-100
+          disabled:opacity-60
           ${
             error
-              ? "border-red-400 bg-red-50/30 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
-              : "border-slate-200 focus:border-blue-01 focus:ring-4 focus:ring-blue-01/10"
+              ? "border-red-300 bg-red-50/20 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+              : "border-slate-200 bg-slate-50 focus:border-blue-01 focus:bg-white focus:ring-4 focus:ring-blue-01/10"
           }
         `}
       />
@@ -1248,9 +1492,16 @@ function FormInput({
       <div className="mt-1.5 min-h-5">
         {error && (
           <p
-            id={errorId}
+            id={
+              errorId
+            }
             role="alert"
-            className="text-xs font-semibold leading-5 text-red-600"
+            className="
+              text-xs
+              font-semibold
+              leading-5
+              text-red-600
+            "
           >
             {error}
           </p>

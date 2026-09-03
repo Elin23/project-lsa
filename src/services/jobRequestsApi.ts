@@ -1,58 +1,87 @@
 import apiClient from "../lib/apiClient";
 
+// ======================================================
+// Types
+// ======================================================
+
 export interface CreateJobRequestPayload {
-    job: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    cv: File;
+  clientRequestId: string;
+
+  job: string;
+
+  firstName: string;
+  lastName: string;
+
+  email: string;
+  phone: string;
+
+  cv: File;
 }
 
 export interface JobRequestResponse {
-    success: boolean;
-    message: string;
-    data?: {
-        _id: string;
-        job: {
-            _id: string;
-            title: string;
-            location: string;
-            employmentType: string;
-            department: string;
-            status: string;
-            deadline: string;
-        };
-        firstName: string;
-        lastName: string;
-        email: string;
-        phone: string;
-        status: string;
-        createdAt: string;
-    };
+  success: boolean;
+  message: string;
+  data?: unknown;
 }
 
-export const createJobRequest = async (
+// ======================================================
+// Create Job Request
+// ======================================================
+
+export const createJobRequest =
+  async (
     payload: CreateJobRequestPayload,
-): Promise<JobRequestResponse> => {
-    const formData = new FormData();
+  ): Promise<JobRequestResponse> => {
+    const formData =
+      new FormData();
 
-    formData.append("job", payload.job);
-    formData.append("firstName", payload.firstName);
-    formData.append("lastName", payload.lastName);
-    formData.append("email", payload.email);
-    formData.append("phone", payload.phone);
-    formData.append("cv", payload.cv);
-
-    const response = await apiClient.post<JobRequestResponse>(
-        "/job-requests/",
-        formData,
-        {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        },
+    formData.append(
+      "clientRequestId",
+      payload.clientRequestId,
     );
 
+    formData.append(
+      "job",
+      payload.job,
+    );
+
+    formData.append(
+      "firstName",
+      payload.firstName,
+    );
+
+    formData.append(
+      "lastName",
+      payload.lastName,
+    );
+
+    formData.append(
+      "email",
+      payload.email,
+    );
+
+    formData.append(
+      "phone",
+      payload.phone,
+    );
+
+    formData.append(
+      "cv",
+      payload.cv,
+    );
+
+    const response =
+      await apiClient.post<JobRequestResponse>(
+        "/job-requests",
+        formData,
+      );
+
+    /*
+     * Do not manually set Content-Type here.
+     *
+     * Axios/browser must generate the correct multipart
+     * boundary automatically for FormData requests.
+     */
+
     return response.data;
-};
+  };

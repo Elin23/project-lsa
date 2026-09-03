@@ -37,10 +37,7 @@ const TrustedCompanies = () => {
   // ==================== Render ====================
 
   return (
-    <section
-      className="pt-16 md:pt-20 lg:pt-24 xl:pt-28"
-      id="trusted-companies"
-    >
+    <section className="pt-16 md:pt-20 lg:pt-24 xl:pt-28" id="trusted-companies">
       <div className="mx-auto">
         {/* ==================== Section Title ==================== */}
 
@@ -51,25 +48,9 @@ const TrustedCompanies = () => {
         {/* ==================== Loading ==================== */}
 
         {isLoading ? (
-          <div
-            className="
-              grid
-              grid-cols-2
-              gap-2
-              sm:grid-cols-3
-              sm:gap-3
-              lg:grid-cols-4
-              lg:gap-4
-              xl:grid-cols-5
-              xl:gap-4.5
-            "
-          >
-            {Array.from({
-              length: SKELETON_ITEMS,
-            }).map((_, index) => (
-              <TrustedCompanySkeleton
-                key={index}
-              />
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5 xl:gap-4.5">
+            {Array.from({ length: SKELETON_ITEMS }).map((_, index) => (
+              <TrustedCompanySkeleton key={index} />
             ))}
           </div>
         ) : isError ? (
@@ -168,34 +149,13 @@ function PartnerLogo({
   partner: PublicPartner
 }) {
   const logo = (
-    <div
-      className="
-        group
-        flex
-        h-28.75
-        w-full
-        items-center
-        justify-center
-        md:h-31.25
-        lg:h-33.75
-      "
-    >
+    <div className="group flex h-28.75 w-full items-center justify-center md:h-31.25 lg:h-33.75">
       <img
         src={partner.logo.url}
         alt="LSA trusted partner"
         loading="lazy"
         decoding="async"
-        className="
-          block
-          h-full
-          w-full
-          object-contain
-          transition-transform
-          duration-300
-          ease-out
-          group-hover:-translate-y-1
-          group-hover:scale-[1.04]
-        "
+        className="block h-full w-full object-contain transition-transform duration-300 ease-out group-hover:-translate-y-1 group-hover:scale-[1.04]"
       />
     </div>
   )
@@ -209,13 +169,7 @@ function PartnerLogo({
   // ==================== With Website ====================
 
   return (
-    <a
-      href={partner.website}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Visit trusted partner website"
-      className="block"
-    >
+    <a href={partner.website} target="_blank" rel="noopener noreferrer" aria-label="Visit trusted partner website" className="block">
       {logo}
     </a>
   )

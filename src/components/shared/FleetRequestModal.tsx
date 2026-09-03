@@ -19,9 +19,7 @@ import {
   X,
 } from "lucide-react";
 
-import type {
-  PublicEquipment,
-} from "../../Types/equipment";
+import type { PublicEquipment } from "../../Types/equipment";
 
 import {
   usePublicEquipmentBySlug,
@@ -30,6 +28,10 @@ import {
 import {
   useCreateEquipmentRequest,
 } from "../../hooks/mutations/useCreateEquipmentRequest";
+
+import useSubmissionNetwork from "../../hooks/useSubmissionNetwork";
+
+import SubmissionNotice from "../feedback/SubmissionNotice";
 
 // ======================================================
 // Types
@@ -51,7 +53,17 @@ interface RequestFormState {
 }
 
 type FormErrors = Partial<
-  Record<keyof RequestFormState, string>
+  Record<
+    keyof RequestFormState,
+    string
+  >
+>;
+
+type TouchedFields = Partial<
+  Record<
+    keyof RequestFormState,
+    boolean
+  >
 >;
 
 // ======================================================
@@ -98,9 +110,10 @@ const validateForm = (
   const workLocation =
     form.workLocation.trim();
 
-  const requiredDays = Number(
-    form.estimatedRequiredDays,
-  );
+  const requiredDays =
+    Number(
+      form.estimatedRequiredDays,
+    );
 
   const workDescription =
     form.workDescription.trim();
@@ -109,10 +122,14 @@ const validateForm = (
   if (!fullName) {
     errors.fullName =
       "Full name is required.";
-  } else if (fullName.length < 2) {
+  } else if (
+    fullName.length < 2
+  ) {
     errors.fullName =
       "Full name must contain at least 2 characters.";
-  } else if (fullName.length > 100) {
+  } else if (
+    fullName.length > 100
+  ) {
     errors.fullName =
       "Full name must not exceed 100 characters.";
   }
@@ -122,7 +139,9 @@ const validateForm = (
     errors.email =
       "Email address is required.";
   } else if (
-    !EMAIL_PATTERN.test(email)
+    !EMAIL_PATTERN.test(
+      email,
+    )
   ) {
     errors.email =
       "Please enter a valid email address.";
@@ -133,7 +152,9 @@ const validateForm = (
     errors.phone =
       "Mobile number is required.";
   } else if (
-    !PHONE_PATTERN.test(phone)
+    !PHONE_PATTERN.test(
+      phone,
+    )
   ) {
     errors.phone =
       "Please enter a valid mobile number.";
@@ -221,58 +242,87 @@ export default function FleetRequestModal({
   item,
   onClose,
 }: FleetRequestModalProps) {
-  const [step, setStep] =
-    useState<1 | 2>(1);
+  const [
+    step,
+    setStep,
+  ] = useState<1 | 2>(1);
 
-  const [form, setForm] =
+  const [
+    form,
+    setForm,
+  ] =
     useState<RequestFormState>(
       INITIAL_FORM,
     );
 
-  const [errors, setErrors] =
+  const [
+    errors,
+    setErrors,
+  ] =
     useState<FormErrors>({});
 
-  const [touched, setTouched] =
-    useState<
-      Partial<
-        Record<
-          keyof RequestFormState,
-          boolean
-        >
-      >
-    >({});
+  const [
+    touched,
+    setTouched,
+  ] =
+    useState<TouchedFields>(
+      {},
+    );
 
   const [
-    successMessage,
-    setSuccessMessage,
-  ] = useState("");
-
-  const [
-    errorMessage,
-    setErrorMessage,
-  ] = useState("");
+    submissionCompleted,
+    setSubmissionCompleted,
+  ] = useState(false);
 
   // ====================================================
-  // React Query
+  // React Query - Equipment Details
   // ====================================================
 
   const {
     data: equipmentDetails,
-    isLoading: isDetailsLoading,
-    isError: isDetailsError,
-    isFetching: isDetailsFetching,
-    refetch: refetchDetails,
-  } = usePublicEquipmentBySlug(
-    item?.slug,
-  );
+    isLoading:
+      isDetailsLoading,
+    isError:
+      isDetailsError,
+    isFetching:
+      isDetailsFetching,
+    refetch:
+      refetchDetails,
+  } =
+    usePublicEquipmentBySlug(
+      item?.slug,
+    );
+
+  // ====================================================
+  // React Query - Request Mutation
+  // ====================================================
 
   const {
     mutateAsync:
       submitEquipmentRequest,
     isPending,
-    reset: resetMutation,
+    reset:
+      resetMutation,
   } =
     useCreateEquipmentRequest();
+
+  // ====================================================
+  // Shared Submission Network State
+  // ====================================================
+
+  const {
+    isOnline,
+    notice,
+    isSubmissionUncertain,
+    canSubmit,
+    clearNotice,
+    getOrCreateRequestId,
+    markSubmissionStarted,
+    markSubmissionSuccess,
+    handleSubmissionError,
+    resetSubmissionState,
+  } =
+    useSubmissionNetwork();
 
   // ====================================================
   // Guard
@@ -282,13 +332,17 @@ export default function FleetRequestModal({
     return null;
   }
 
-  // Use detailed API data when available.
-  // Until then, fallback to the equipment list item.
+  // ====================================================
+  // Equipment Data
+  // ====================================================
+
   const equipment =
-    equipmentDetails ?? item;
+    equipmentDetails ??
+    item;
 
   const equipmentDescription =
-    equipmentDetails?.description ??
+    equipmentDetails
+      ?.description ??
     item.shortDescription;
 
   // ====================================================
@@ -296,7 +350,8 @@ export default function FleetRequestModal({
   // ====================================================
 
   const updateField = (
-    field: keyof RequestFormState,
+    field:
+      keyof RequestFormState,
     value: string,
   ) => {
     const updatedForm = {
@@ -304,11 +359,30 @@ export default function FleetRequestModal({
       [field]: value,
     };
 
-    setForm(updatedForm);
+    setForm(
+      updatedForm,
+    );
 
-    if (touched[field]) {
+    /*
+     * Never clear an interrupted warning automatically.
+     * The previous request may already have reached the
+     * backend and the same request ID must be preserved.
+     */
+    if (
+      notice &&
+      notice.type !==
+        "interrupted"
+    ) {
+      clearNotice();
+    }
+
+    if (
+      touched[field]
+    ) {
       const updatedErrors =
-        validateForm(updatedForm);
+        validateForm(
+          updatedForm,
+        );
 
       setErrors(
         (previous) => ({
@@ -320,14 +394,15 @@ export default function FleetRequestModal({
         }),
       );
     }
-
-    if (errorMessage) {
-      setErrorMessage("");
-    }
   };
 
+  // ====================================================
+  // Blur Validation
+  // ====================================================
+
   const handleBlur = (
-    field: keyof RequestFormState,
+    field:
+      keyof RequestFormState,
   ) => {
     setTouched(
       (previous) => ({
@@ -337,22 +412,26 @@ export default function FleetRequestModal({
     );
 
     const currentErrors =
-      validateForm(form);
+      validateForm(
+        form,
+      );
 
     setErrors(
       (previous) => ({
         ...previous,
         [field]:
-          currentErrors[field],
+          currentErrors[
+            field
+          ],
       }),
     );
   };
 
   // ====================================================
-  // Close
+  // Reset
   // ====================================================
 
-  const closeModal = () => {
+  const resetForm = () => {
     setStep(1);
 
     setForm(
@@ -363,11 +442,39 @@ export default function FleetRequestModal({
 
     setTouched({});
 
-    setSuccessMessage("");
-
-    setErrorMessage("");
+    setSubmissionCompleted(
+      false,
+    );
 
     resetMutation();
+
+    resetSubmissionState();
+  };
+
+  // ====================================================
+  // Close
+  // ====================================================
+
+  const closeModal = () => {
+    /*
+     * Do not destroy the submission state while the
+     * request is still in-flight.
+     */
+    if (isPending) {
+      return;
+    }
+
+    /*
+     * When the result is uncertain, keep the modal open
+     * so the same clientRequestId can be reused safely.
+     */
+    if (
+      isSubmissionUncertain
+    ) {
+      return;
+    }
+
+    resetForm();
 
     onClose();
   };
@@ -377,12 +484,15 @@ export default function FleetRequestModal({
   // ====================================================
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>,
+    event:
+      FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
 
     const validationErrors =
-      validateForm(form);
+      validateForm(
+        form,
+      );
 
     setErrors(
       validationErrors,
@@ -404,21 +514,33 @@ export default function FleetRequestModal({
         validationErrors,
       ).length > 0
     ) {
-      setErrorMessage(
-        "Please correct the highlighted fields before submitting your request.",
-      );
-
       return;
     }
 
-    setErrorMessage("");
-    setSuccessMessage("");
+    // Prevent submission while offline.
+    if (!canSubmit()) {
+      return;
+    }
+
+    /*
+     * The first attempt creates the request ID.
+     *
+     * If the connection is interrupted after the backend
+     * receives the request, the retry reuses this exact ID.
+     */
+    const clientRequestId =
+      getOrCreateRequestId();
 
     try {
+      markSubmissionStarted();
+
       const response =
         await submitEquipmentRequest(
           {
-            equipment: item._id,
+            clientRequestId,
+
+            equipment:
+              item._id,
 
             fullName:
               form.fullName.trim(),
@@ -445,9 +567,13 @@ export default function FleetRequestModal({
           },
         );
 
-      setSuccessMessage(
+      markSubmissionSuccess(
         response.message ||
           "Your equipment request has been submitted successfully.",
+      );
+
+      setSubmissionCompleted(
+        true,
       );
 
       setForm(
@@ -457,17 +583,23 @@ export default function FleetRequestModal({
       setErrors({});
 
       setTouched({});
-    } catch (error) {
-      console.error(
-        "Failed to submit equipment request:",
+    } catch (
+      error: unknown
+    ) {
+      handleSubmissionError(
         error,
-      );
-
-      setErrorMessage(
-        "We could not submit your request. Please review your information and try again.",
       );
     }
   };
+
+  // ====================================================
+  // Success State
+  // ====================================================
+
+  const isSubmitted =
+    submissionCompleted &&
+    notice?.type ===
+      "success";
 
   // ====================================================
   // Render
@@ -504,67 +636,175 @@ export default function FleetRequestModal({
           md:p-8
         "
       >
-        {/* Close */}
-        <button
-          type="button"
-          onClick={closeModal}
-          aria-label="Close equipment request"
-          disabled={isPending}
+        {/* Sticky Close Button */}
+        <div
           className="
-            absolute
-            right-5
-            top-5
+            sticky
+            top-0
+            z-20
+            -mx-5
+            -mt-5
+            mb-2
             flex
-            h-10
-            w-10
-            cursor-pointer
-            items-center
-            justify-center
-            rounded-full
-            bg-slate-100
-            text-slate-600
-            transition
-            hover:bg-red-01
-            hover:text-white
-            disabled:cursor-not-allowed
-            disabled:opacity-50
+            justify-end
+            p-3
+            md:-mx-8
+            md:-mt-8
           "
         >
-          <X className="h-5 w-5" />
-        </button>
-
-        {/* Progress */}
-        <div className="mb-7 flex items-center gap-3 pr-14">
-          <div className="h-2 flex-1 rounded-full bg-blue-01" />
-
-          <div
-            className={`
-              h-2
-              flex-1
+          <button
+            type="button"
+            onClick={
+              closeModal
+            }
+            aria-label="Close equipment request"
+            disabled={
+              isPending ||
+              isSubmissionUncertain
+            }
+            className="
+              flex
+              h-10
+              w-10
+              cursor-pointer
+              items-center
+              justify-center
               rounded-full
-              ${
-                step >= 2
-                  ? "bg-blue-01"
-                  : "bg-slate-200"
-              }
-            `}
-          />
+              bg-slate-100
+              text-slate-600
+              shadow-sm
+              transition
+              hover:bg-red-01
+              hover:text-white
+              disabled:cursor-not-allowed
+              disabled:opacity-50
+            "
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
 
+        {/* Progress */}
+        {!isSubmitted && (
+          <div className="mb-7 flex items-center gap-3 pr-10">
+            <div className="h-2 flex-1 rounded-full bg-blue-01" />
+
+            <div
+              className={`
+                h-2
+                flex-1
+                rounded-full
+                ${
+                  step >= 2
+                    ? "bg-blue-01"
+                    : "bg-slate-200"
+                }
+              `}
+            />
+          </div>
+        )}
+
         {/* =================================================
-            STEP 1
+            Success
         ================================================= */}
-        {step === 1 ? (
+
+        {isSubmitted ? (
+          <div
+            role="status"
+            className="
+              flex
+              min-h-100
+              flex-col
+              items-center
+              justify-center
+              rounded-2xl
+              bg-[#F7F8FD]
+              px-6
+              py-12
+              text-center
+            "
+          >
+            <div
+              className="
+                flex
+                h-16
+                w-16
+                items-center
+                justify-center
+                rounded-full
+                bg-green-100
+                text-green-700
+              "
+            >
+              <CheckCircle2
+                size={30}
+              />
+            </div>
+
+            <h3
+              className="
+                mt-5
+                text-2xl
+                font-extrabold
+                text-blue-01
+              "
+            >
+              Request Submitted
+            </h3>
+
+            <p
+              className="
+                mt-3
+                max-w-lg
+                text-sm
+                leading-7
+                text-slate-500
+              "
+            >
+              {notice.message}
+            </p>
+
+            <button
+              type="button"
+              onClick={() => {
+                resetForm();
+
+                onClose();
+              }}
+              className="
+                mt-8
+                h-12
+                cursor-pointer
+                rounded-xl
+                bg-blue-01
+                px-8
+                text-sm
+                font-bold
+                text-white
+                transition
+                hover:bg-red-01
+              "
+            >
+              Close
+            </button>
+          </div>
+        ) : step === 1 ? (
+          /* =================================================
+              STEP 1
+          ================================================= */
+
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-            {/* Left */}
+            {/* Equipment Preview */}
             <div>
               <div className="relative overflow-hidden rounded-2xl">
                 <img
                   src={
-                    equipment.image.url
+                    equipment
+                      .image.url
                   }
                   alt={
-                    equipment.image.alt ||
+                    equipment
+                      .image.alt ||
                     equipment.title
                   }
                   className="
@@ -599,16 +839,7 @@ export default function FleetRequestModal({
                 </p>
 
                 {isDetailsError && (
-                  <div
-                    className="
-                      mt-4
-                      rounded-xl
-                      border
-                      border-amber-200
-                      bg-amber-50
-                      p-3.5
-                    "
-                  >
+                  <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3.5">
                     <div className="flex items-start gap-3">
                       <AlertCircle
                         size={17}
@@ -664,21 +895,9 @@ export default function FleetRequestModal({
               </div>
             </div>
 
-            {/* Right */}
+            {/* Equipment Information */}
             <div>
-              <span
-                className="
-                  mb-3
-                  inline-flex
-                  rounded-full
-                  bg-blue-01/10
-                  px-4
-                  py-2
-                  text-sm
-                  font-bold
-                  text-blue-01
-                "
-              >
+              <span className="mb-3 inline-flex rounded-full bg-blue-01/10 px-4 py-2 text-sm font-bold text-blue-01">
                 {
                   equipment
                     .category.name
@@ -694,18 +913,14 @@ export default function FleetRequestModal({
                   md:text-3xl
                 "
               >
-                Review Equipment
-                Information
+                Review Equipment Information
               </h2>
 
               <p className="mt-3 text-sm leading-7 text-slate-500">
-                Please review the
-                equipment details before
-                submitting your
+                Please review the equipment details before submitting your
                 availability request.
               </p>
 
-              {/* Info */}
               <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <Info
                   icon={Gauge}
@@ -740,7 +955,6 @@ export default function FleetRequestModal({
                 />
               </div>
 
-              {/* Certificate */}
               <div
                 className={`
                   mt-6
@@ -849,20 +1063,9 @@ export default function FleetRequestModal({
           /* =================================================
               STEP 2
           ================================================= */
+
           <div>
-            <span
-              className="
-                mb-3
-                inline-flex
-                rounded-full
-                bg-blue-01/10
-                px-4
-                py-2
-                text-sm
-                font-bold
-                text-blue-01
-              "
-            >
+            <span className="mb-3 inline-flex rounded-full bg-blue-01/10 px-4 py-2 text-sm font-bold text-blue-01">
               Request Availability
             </span>
 
@@ -875,437 +1078,421 @@ export default function FleetRequestModal({
                 md:text-3xl
               "
             >
-              Submit Your Equipment
-              Request
+              Submit Your Equipment Request
             </h2>
 
             <p className="mt-3 text-sm leading-7 text-slate-500">
-              Fill in the details below
-              and our team will contact
-              you with availability and
-              mobilization details.
+              Fill in the details below and our team will contact you with
+              availability and mobilization details.
             </p>
 
-            {/* Success */}
-            {successMessage && (
-              <div
-                role="status"
-                className="
-                  mt-6
-                  flex
-                  items-start
-                  gap-3
-                  rounded-xl
-                  border
-                  border-green-200
-                  bg-green-50
-                  p-4
-                  text-sm
-                  font-semibold
-                  text-green-700
-                "
-              >
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
-
-                <span>
-                  {successMessage}
-                </span>
+            {/* Submission State */}
+            {notice && (
+              <div className="mt-6">
+                <SubmissionNotice
+                  notice={notice}
+                  onDismiss={
+                    notice.type ===
+                    "interrupted"
+                      ? undefined
+                      : clearNotice
+                  }
+                />
               </div>
             )}
 
-            {/* General Error */}
-            {errorMessage && (
-              <div
-                role="alert"
-                className="
-                  mt-6
-                  flex
-                  items-start
-                  gap-3
-                  rounded-xl
-                  border
-                  border-red-200
-                  bg-red-50
-                  p-4
-                  text-sm
-                  font-semibold
-                  leading-6
-                  text-red-700
-                "
-              >
-                <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
-
-                <span>
-                  {errorMessage}
-                </span>
-              </div>
-            )}
-
-            {!successMessage && (
-              <form
-                noValidate
-                onSubmit={
-                  handleSubmit
+            <form
+              noValidate
+              onSubmit={
+                handleSubmit
+              }
+              className="
+                mt-6
+                grid
+                gap-x-4
+                gap-y-5
+                md:grid-cols-2
+              "
+            >
+              <Input
+                label="Full Name"
+                value={
+                  form.fullName
                 }
-                className="
-                  mt-6
-                  grid
-                  gap-x-4
-                  gap-y-5
-                  md:grid-cols-2
-                "
-              >
-                <Input
-                  label="Full Name"
-                  value={
-                    form.fullName
-                  }
-                  error={
-                    errors.fullName
-                  }
-                  onBlur={() =>
-                    handleBlur(
-                      "fullName",
-                    )
-                  }
-                  onChange={(
+                error={
+                  errors.fullName
+                }
+                disabled={
+                  isPending
+                }
+                onBlur={() =>
+                  handleBlur(
+                    "fullName",
+                  )
+                }
+                onChange={(
+                  value,
+                ) =>
+                  updateField(
+                    "fullName",
                     value,
-                  ) =>
-                    updateField(
-                      "fullName",
-                      value,
-                    )
-                  }
-                  placeholder="Enter your name"
-                  autoComplete="name"
-                />
+                  )
+                }
+                placeholder="Enter your name"
+                autoComplete="name"
+              />
 
-                <Input
-                  label="Email Address"
-                  type="email"
-                  value={
-                    form.email
-                  }
-                  error={
-                    errors.email
-                  }
-                  onBlur={() =>
-                    handleBlur(
-                      "email",
-                    )
-                  }
-                  onChange={(
+              <Input
+                label="Email Address"
+                type="email"
+                value={
+                  form.email
+                }
+                error={
+                  errors.email
+                }
+                disabled={
+                  isPending
+                }
+                onBlur={() =>
+                  handleBlur(
+                    "email",
+                  )
+                }
+                onChange={(
+                  value,
+                ) =>
+                  updateField(
+                    "email",
                     value,
-                  ) =>
-                    updateField(
-                      "email",
-                      value,
-                    )
-                  }
-                  placeholder="Enter your email"
-                  autoComplete="email"
-                />
+                  )
+                }
+                placeholder="Enter your email"
+                autoComplete="email"
+              />
 
-                <Input
-                  label="Mobile Number"
-                  type="tel"
-                  value={
-                    form.phone
-                  }
-                  error={
-                    errors.phone
-                  }
-                  onBlur={() =>
-                    handleBlur(
-                      "phone",
-                    )
-                  }
-                  onChange={(
+              <Input
+                label="Mobile Number"
+                type="tel"
+                value={
+                  form.phone
+                }
+                error={
+                  errors.phone
+                }
+                disabled={
+                  isPending
+                }
+                onBlur={() =>
+                  handleBlur(
+                    "phone",
+                  )
+                }
+                onChange={(
+                  value,
+                ) =>
+                  updateField(
+                    "phone",
                     value,
-                  ) =>
-                    updateField(
-                      "phone",
-                      value,
-                    )
-                  }
-                  placeholder="Enter your mobile number"
-                  autoComplete="tel"
-                />
+                  )
+                }
+                placeholder="Enter your mobile number"
+                autoComplete="tel"
+              />
 
-                <Input
-                  label="Requesting Company"
-                  value={
-                    form.company
-                  }
-                  error={
-                    errors.company
-                  }
-                  onBlur={() =>
-                    handleBlur(
-                      "company",
-                    )
-                  }
-                  onChange={(
+              <Input
+                label="Requesting Company"
+                value={
+                  form.company
+                }
+                error={
+                  errors.company
+                }
+                disabled={
+                  isPending
+                }
+                onBlur={() =>
+                  handleBlur(
+                    "company",
+                  )
+                }
+                onChange={(
+                  value,
+                ) =>
+                  updateField(
+                    "company",
                     value,
-                  ) =>
-                    updateField(
-                      "company",
-                      value,
-                    )
-                  }
-                  placeholder="Company name"
-                  autoComplete="organization"
-                />
+                  )
+                }
+                placeholder="Company name"
+                autoComplete="organization"
+              />
 
-                <Input
-                  label="Work Location"
-                  value={
-                    form.workLocation
-                  }
-                  error={
-                    errors.workLocation
-                  }
-                  onBlur={() =>
-                    handleBlur(
-                      "workLocation",
-                    )
-                  }
-                  onChange={(
+              <Input
+                label="Work Location"
+                value={
+                  form.workLocation
+                }
+                error={
+                  errors.workLocation
+                }
+                disabled={
+                  isPending
+                }
+                onBlur={() =>
+                  handleBlur(
+                    "workLocation",
+                  )
+                }
+                onChange={(
+                  value,
+                ) =>
+                  updateField(
+                    "workLocation",
                     value,
-                  ) =>
-                    updateField(
-                      "workLocation",
-                      value,
-                    )
-                  }
-                  placeholder="Example: Basra / Rumaila site"
-                />
+                  )
+                }
+                placeholder="Example: Basra / Rumaila site"
+              />
 
-                <Input
-                  label="Estimated Required Days"
-                  type="number"
-                  value={
-                    form.estimatedRequiredDays
-                  }
-                  error={
-                    errors.estimatedRequiredDays
-                  }
-                  onBlur={() =>
-                    handleBlur(
-                      "estimatedRequiredDays",
-                    )
-                  }
-                  onChange={(
+              <Input
+                label="Estimated Required Days"
+                type="number"
+                value={
+                  form.estimatedRequiredDays
+                }
+                error={
+                  errors.estimatedRequiredDays
+                }
+                disabled={
+                  isPending
+                }
+                onBlur={() =>
+                  handleBlur(
+                    "estimatedRequiredDays",
+                  )
+                }
+                onChange={(
+                  value,
+                ) =>
+                  updateField(
+                    "estimatedRequiredDays",
                     value,
-                  ) =>
-                    updateField(
-                      "estimatedRequiredDays",
-                      value,
-                    )
-                  }
-                  placeholder="Example: 7"
-                  min={1}
-                  max={3650}
-                />
+                  )
+                }
+                placeholder="Example: 7"
+                min={1}
+                max={3650}
+              />
 
-                {/* Description */}
-                <div className="md:col-span-2">
-                  <label
-                    htmlFor="work-description"
-                    className="
-                      mb-2
-                      block
-                      text-sm
-                      font-bold
-                      text-slate-700
-                    "
-                  >
-                    Work Description
-
-                    <span className="ml-1 text-red-600">
-                      *
-                    </span>
-                  </label>
-
-                  <textarea
-                    id="work-description"
-                    rows={5}
-                    value={
-                      form.workDescription
-                    }
-                    aria-invalid={Boolean(
-                      errors.workDescription,
-                    )}
-                    aria-describedby={
-                      errors.workDescription
-                        ? "work-description-error"
-                        : undefined
-                    }
-                    onBlur={() =>
-                      handleBlur(
-                        "workDescription",
-                      )
-                    }
-                    onChange={(
-                      event,
-                    ) =>
-                      updateField(
-                        "workDescription",
-                        event.target
-                          .value,
-                      )
-                    }
-                    placeholder="Describe the required work..."
-                    className={`
-                      w-full
-                      resize-none
-                      rounded-xl
-                      border
-                      p-4
-                      text-sm
-                      text-slate-700
-                      outline-none
-                      transition
-                      ${
-                        errors.workDescription
-                          ? "border-red-500 bg-red-50/40 focus:border-red-500 focus:ring-3 focus:ring-red-500/10"
-                          : "border-slate-200 bg-slate-50 focus:border-blue-01 focus:bg-white focus:ring-3 focus:ring-blue-01/10"
-                      }
-                    `}
-                  />
-
-                  <div className="mt-1.5 flex items-start justify-between gap-4">
-                    <div>
-                      {errors.workDescription && (
-                        <p
-                          id="work-description-error"
-                          role="alert"
-                          className="
-                            flex
-                            items-start
-                            gap-1.5
-                            text-xs
-                            font-semibold
-                            leading-5
-                            text-red-600
-                          "
-                        >
-                          <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-
-                          {
-                            errors.workDescription
-                          }
-                        </p>
-                      )}
-                    </div>
-
-                    <span
-                      className={`
-                        shrink-0
-                        text-[11px]
-                        ${
-                          form
-                            .workDescription
-                            .length >
-                          5000
-                            ? "font-semibold text-red-600"
-                            : "text-slate-400"
-                        }
-                      `}
-                    >
-                      {
-                        form
-                          .workDescription
-                          .length
-                      }
-                      /5000
-                    </span>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div
+              {/* Work Description */}
+              <div className="md:col-span-2">
+                <label
+                  htmlFor="work-description"
                   className="
-                    mt-2
-                    flex
-                    flex-col
-                    gap-3
-                    md:col-span-2
-                    md:flex-row
+                    mb-2
+                    block
+                    text-sm
+                    font-bold
+                    text-slate-700
                   "
                 >
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setStep(1)
-                    }
-                    disabled={
-                      isPending
-                    }
-                    className="
-                      inline-flex
-                      h-12
-                      w-full
-                      cursor-pointer
-                      items-center
-                      justify-center
-                      gap-2
-                      rounded-xl
-                      border
-                      border-slate-200
-                      bg-white
-                      text-sm
-                      font-extrabold
-                      text-blue-01
-                      transition
-                      hover:border-blue-01
-                      hover:bg-blue-01/5
-                      disabled:cursor-not-allowed
-                      disabled:opacity-60
-                    "
-                  >
-                    <ArrowLeft className="h-4 w-4" />
+                  Work Description
 
-                    Back
-                  </button>
+                  <span className="ml-1 text-red-600">
+                    *
+                  </span>
+                </label>
 
-                  <button
-                    type="submit"
-                    disabled={
-                      isPending
+                <textarea
+                  id="work-description"
+                  rows={5}
+                  maxLength={5000}
+                  value={
+                    form.workDescription
+                  }
+                  disabled={
+                    isPending
+                  }
+                  aria-invalid={Boolean(
+                    errors.workDescription,
+                  )}
+                  aria-describedby={
+                    errors.workDescription
+                      ? "work-description-error"
+                      : undefined
+                  }
+                  onBlur={() =>
+                    handleBlur(
+                      "workDescription",
+                    )
+                  }
+                  onChange={(
+                    event,
+                  ) =>
+                    updateField(
+                      "workDescription",
+                      event.target.value,
+                    )
+                  }
+                  placeholder="Describe the required work..."
+                  className={`
+                    w-full
+                    resize-none
+                    rounded-xl
+                    border
+                    p-4
+                    text-sm
+                    text-slate-700
+                    outline-none
+                    transition
+                    disabled:cursor-not-allowed
+                    disabled:bg-slate-100
+                    disabled:opacity-60
+                    ${
+                      errors.workDescription
+                        ? "border-red-500 bg-red-50/40 focus:border-red-500 focus:ring-3 focus:ring-red-500/10"
+                        : "border-slate-200 bg-slate-50 focus:border-blue-01 focus:bg-white focus:ring-3 focus:ring-blue-01/10"
                     }
-                    className="
-                      inline-flex
-                      h-12
-                      w-full
-                      cursor-pointer
-                      items-center
-                      justify-center
-                      gap-2
-                      rounded-xl
-                      bg-blue-01
-                      text-sm
-                      font-extrabold
-                      text-white
-                      transition
-                      hover:bg-red-01
-                      disabled:cursor-not-allowed
-                      disabled:opacity-60
-                    "
-                  >
-                    {isPending ? (
-                      <>
-                        <LoaderCircle className="h-4 w-4 animate-spin" />
+                  `}
+                />
 
-                        Submitting...
-                      </>
-                    ) : (
-                      "Submit Request"
+                <div className="mt-1.5 flex items-start justify-between gap-4">
+                  <div className="min-h-5">
+                    {errors.workDescription && (
+                      <p
+                        id="work-description-error"
+                        role="alert"
+                        className="
+                          flex
+                          items-start
+                          gap-1.5
+                          text-xs
+                          font-semibold
+                          leading-5
+                          text-red-600
+                        "
+                      >
+                        <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+
+                        {
+                          errors.workDescription
+                        }
+                      </p>
                     )}
-                  </button>
+                  </div>
+
+                  <span className="shrink-0 text-[11px] text-slate-400">
+                    {
+                      form
+                        .workDescription
+                        .length
+                    }
+                    /5000
+                  </span>
                 </div>
-              </form>
-            )}
+              </div>
+
+              {/* Actions */}
+              <div
+                className="
+                  mt-2
+                  flex
+                  flex-col
+                  gap-3
+                  md:col-span-2
+                  md:flex-row
+                "
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (
+                      isSubmissionUncertain
+                    ) {
+                      return;
+                    }
+
+                    clearNotice();
+
+                    setStep(1);
+                  }}
+                  disabled={
+                    isPending ||
+                    isSubmissionUncertain
+                  }
+                  className="
+                    inline-flex
+                    h-12
+                    w-full
+                    cursor-pointer
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-xl
+                    border
+                    border-slate-200
+                    bg-white
+                    text-sm
+                    font-extrabold
+                    text-blue-01
+                    transition
+                    hover:border-blue-01
+                    hover:bg-blue-01/5
+                    disabled:cursor-not-allowed
+                    disabled:opacity-60
+                  "
+                >
+                  <ArrowLeft className="h-4 w-4" />
+
+                  Back
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={
+                    isPending ||
+                    !isOnline
+                  }
+                  className="
+                    inline-flex
+                    h-12
+                    w-full
+                    cursor-pointer
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-xl
+                    bg-blue-01
+                    text-sm
+                    font-extrabold
+                    text-white
+                    transition
+                    hover:bg-red-01
+                    disabled:cursor-not-allowed
+                    disabled:opacity-60
+                  "
+                >
+                  {isPending ? (
+                    <>
+                      <LoaderCircle className="h-4 w-4 animate-spin" />
+
+                      Submitting...
+                    </>
+                  ) : !isOnline ? (
+                    "No Internet Connection"
+                  ) : isSubmissionUncertain ? (
+                    <>
+                      <RefreshCw className="h-4 w-4" />
+
+                      Retry Request Safely
+                    </>
+                  ) : (
+                    "Submit Request"
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
         )}
       </div>
@@ -1357,6 +1544,7 @@ interface InputProps {
   onBlur: () => void;
 
   error?: string;
+  disabled?: boolean;
 
   type?: HTMLInputTypeAttribute;
 
@@ -1373,6 +1561,7 @@ function Input({
   onChange,
   onBlur,
   error,
+  disabled = false,
   type = "text",
   min,
   max,
@@ -1396,13 +1585,7 @@ function Input({
     <div>
       <label
         htmlFor={id}
-        className="
-          mb-2
-          block
-          text-sm
-          font-bold
-          text-slate-700
-        "
+        className="mb-2 block text-sm font-bold text-slate-700"
       >
         {label}
 
@@ -1417,6 +1600,9 @@ function Input({
         value={value}
         min={min}
         max={max}
+        disabled={
+          disabled
+        }
         autoComplete={
           autoComplete
         }
@@ -1429,7 +1615,9 @@ function Input({
             : undefined
         }
         onBlur={onBlur}
-        onChange={(event) =>
+        onChange={(
+          event,
+        ) =>
           onChange(
             event.target.value,
           )
@@ -1447,6 +1635,9 @@ function Input({
           text-slate-700
           outline-none
           transition
+          disabled:cursor-not-allowed
+          disabled:bg-slate-100
+          disabled:opacity-60
           ${
             error
               ? "border-red-500 bg-red-50/40 focus:border-red-500 focus:ring-3 focus:ring-red-500/10"
