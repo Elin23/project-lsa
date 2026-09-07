@@ -19,6 +19,9 @@ export interface PublicPartner {
   logo: PartnerLogo;
 
   website: string | null;
+
+    displayOrder: number
+
 }
 
 // ======================================================
