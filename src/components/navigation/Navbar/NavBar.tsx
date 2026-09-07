@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 
 import HamburgerButton from "./HamburgerButton";
-import logo from "../../../assets/Logo.png";
+import logo from "../../../assets/LogoWithoutName.png";
 
 interface NavSubLink {
   name: string;
@@ -239,7 +239,7 @@ const Navbar = () => {
     };
   }, []);
 
- 
+
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
 
@@ -266,11 +266,10 @@ const Navbar = () => {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 w-full">
       <nav
-        className={`relative h-18 w-full border-b transition-all duration-500  ${
-          useTransparentStyle
-            ? "border-white/10 bg-transparent"
-            : "border-black/6 bg-white/90 shadow-[0_10px_40px_rgba(0,35,111,0.08)] backdrop-blur-xl"
-        }`}
+        className={`relative h-18 w-full border-b transition-all duration-500  ${useTransparentStyle
+          ? "border-white/10 bg-transparent"
+          : "border-black/6 bg-white/90 shadow-[0_10px_40px_rgba(0,35,111,0.08)] backdrop-blur-xl"
+          }`}
       >
         <div className="mx-auto flex h-full w-full max-w-[1920px] items-center justify-between px-container">
           {/* Logo */}
@@ -278,13 +277,22 @@ const Navbar = () => {
             to="/"
             onClick={closeAllMenus}
             aria-label="Go to home page"
-            className="relative z-20 flex shrink-0 items-center"
+            className="relative z-20 flex shrink-0 items-center gap-2"
           >
             <img
               src={logo}
               alt="LSA Logo"
               className="h-11 w-auto object-contain transition-all duration-300 md:h-13 lg:h-14 2xl:h-16"
             />
+
+            <span
+              className={`max-w-[220px] text-[10px] font-semibold leading-tight tracking-[0.08em] transition-colors duration-300 sm:text-[11px] md:text-xs lg:text-sm ${useTransparentStyle
+                  ? "text-white/90 hover:text-white"
+                  : "text-blue-01 hover:text-red-01"
+                }`}
+            >
+              Loaloat Shatt Al-Arab
+            </span>
           </NavLink>
 
           {/* Desktop Navigation */}
@@ -309,12 +317,11 @@ const Navbar = () => {
                     end={link.path === "/"}
                     onClick={() => setActiveDropdown(null)}
                     className={({ isActive }) =>
-                      `group relative flex h-full items-center gap-1.5 text-[12px] font-bold tracking-[0.08em] transition-colors duration-300 xl:text-[13px] ${
-                        isActive || isDropdownOpen
-                          ? "text-red-01"
-                          : useTransparentStyle
-                            ? "text-white/90 hover:text-white"
-                            : "text-blue-02 hover:text-red-01"
+                      `group relative flex h-full items-center gap-1.5 text-[12px] font-bold tracking-[0.08em] transition-colors duration-300 xl:text-[13px] ${isActive || isDropdownOpen
+                        ? "text-red-01"
+                        : useTransparentStyle
+                          ? "text-white/90 hover:text-white"
+                          : "text-blue-02 hover:text-red-01"
                       }`
                     }
                   >
@@ -409,12 +416,11 @@ const Navbar = () => {
             to="/contact"
             onClick={closeAllMenus}
             className={({ isActive }) =>
-              `group hidden items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-bold tracking-[0.08em] transition-all duration-300 min-[1024px]:inline-flex xl:px-6 ${
-                isActive
-                  ? "border-red-01 bg-red-01 text-white"
-                  : useTransparentStyle
-                    ? "border-white/40 bg-white/10 text-white backdrop-blur-md hover:border-red-01 hover:bg-red-01"
-                    : "border-red-01 bg-transparent text-red-01 hover:bg-red-01 hover:text-white"
+              `group hidden items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-bold tracking-[0.08em] transition-all duration-300 min-[1024px]:inline-flex xl:px-6 ${isActive
+                ? "border-red-01 bg-red-01 text-white"
+                : useTransparentStyle
+                  ? "border-white/40 bg-white/10 text-white backdrop-blur-md hover:border-red-01 hover:bg-red-01"
+                  : "border-red-01 bg-transparent text-red-01 hover:bg-red-01 hover:text-white"
               }`
             }
           >
@@ -429,9 +435,8 @@ const Navbar = () => {
           {/* Mobile Hamburger */}
           <div className="relative z-20 flex items-center min-[1024px]:hidden">
             <div
-              className={`rounded-lg transition-colors duration-300 ${
-                useTransparentStyle ? "text-white" : "text-blue-02"
-              }`}
+              className={`rounded-lg transition-colors duration-300 ${useTransparentStyle ? "text-white" : "text-blue-02"
+                }`}
             >
               <HamburgerButton
                 isOpen={open}
@@ -487,10 +492,9 @@ const Navbar = () => {
                           end={link.path === "/"}
                           onClick={closeAllMenus}
                           className={({ isActive }) =>
-                            `flex flex-1 items-center px-4 py-3.5 text-sm font-bold tracking-[0.06em] transition-colors duration-300 ${
-                              isActive
-                                ? "text-red-01"
-                                : "text-blue-02 hover:text-red-01"
+                            `flex flex-1 items-center px-4 py-3.5 text-sm font-bold tracking-[0.06em] transition-colors duration-300 ${isActive
+                              ? "text-red-01"
+                              : "text-blue-02 hover:text-red-01"
                             }`
                           }
                         >
@@ -557,10 +561,9 @@ const Navbar = () => {
                 to="/contact"
                 onClick={closeAllMenus}
                 className={({ isActive }) =>
-                  `group mt-5 flex w-full items-center justify-center gap-2 rounded-full border px-6 py-3.5 text-sm font-bold tracking-[0.08em] transition-all duration-300 ${
-                    isActive
-                      ? "border-red-01 bg-red-01 text-white"
-                      : "border-red-01 bg-red-01 text-white hover:bg-blue-02 hover:border-blue-02"
+                  `group mt-5 flex w-full items-center justify-center gap-2 rounded-full border px-6 py-3.5 text-sm font-bold tracking-[0.08em] transition-all duration-300 ${isActive
+                    ? "border-red-01 bg-red-01 text-white"
+                    : "border-red-01 bg-red-01 text-white hover:bg-blue-02 hover:border-blue-02"
                   }`
                 }
               >

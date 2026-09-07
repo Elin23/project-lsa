@@ -1,14 +1,19 @@
+// src/Types/news.ts
+
 export interface NewsImage {
   url: string;
   alt: string;
+  publicId?: string;
 }
 
 export interface NewsItem {
-  id: string;
+  _id: string;
   category: string;
   title: string;
-  summary: string;
+  shortDescription: string;
   content?: string;
   publishedAt: string;
-  images: NewsImage[];
+  image: NewsImage;
+  isFeatured?: boolean;
+  displayOrder?: number;
 }

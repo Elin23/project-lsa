@@ -3,29 +3,23 @@ import {
   useState,
 } from "react";
 
-import TitleComponent from "../../../components/shared/TitleComponent";
-
-import NewsCard from "../../../components/news/NewsCard";
-import NewsDetailsDialog from "../../../components/news/NewsDetailsDialog";
-
-import { newsData } from "../../../data/newsData";
-
 import type { NewsItem } from "../../../Types/news";
 
+import TitleComponent from "../../../components/shared/TitleComponent";
+import NewsCard from "../../../components/news/NewsCard";
+import NewsDetailsDialog from "../../../components/news/NewsDetailsDialog";
+import SectionState from "../../../components/feedback/SectionState";
 import Pagination from "../../../components/navigation/Pagination";
 
-const NEWS_PER_PAGE = 3;
+import { useNews } from "../../../hooks/queries/useNews";
+
+const ITEMS_PER_PAGE = 3;
 
 export default function NewsSection() {
   const contentRef =
     useRef<HTMLDivElement>(
       null,
     );
-
-  const [
-    currentPage,
-    setCurrentPage,
-  ] = useState(1);
 
   const [
     selectedNews,
@@ -35,36 +29,52 @@ export default function NewsSection() {
       null,
     );
 
-  const totalPages = Math.max(
-    1,
+  const [
+    currentPage,
+    setCurrentPage,
+  ] = useState(1);
+
+  const {
+    data: newsItems = [],
+    isLoading,
+    isError,
+    isFetching,
+    refetch,
+  } = useNews();
+
+  const totalPages =
     Math.ceil(
-      newsData.length /
-        NEWS_PER_PAGE,
-    ),
-  );
+      newsItems.length /
+        ITEMS_PER_PAGE,
+    );
 
   const safeCurrentPage =
-    Math.min(
-      currentPage,
-      totalPages,
-    );
+    totalPages > 0
+      ? Math.min(
+          currentPage,
+          totalPages,
+        )
+      : 1;
 
   const startIndex =
     (safeCurrentPage - 1) *
-    NEWS_PER_PAGE;
+    ITEMS_PER_PAGE;
 
-  const visibleNews =
-    newsData.slice(
+  const currentNewsItems =
+    newsItems.slice(
       startIndex,
       startIndex +
-        NEWS_PER_PAGE,
+        ITEMS_PER_PAGE,
     );
 
   const featuredNews =
-    visibleNews[0];
+    currentNewsItems[0];
 
   const secondaryNews =
-    visibleNews.slice(1);
+    currentNewsItems.slice(
+      1,
+      3,
+    );
 
   const handlePageChange = (
     page: number,
@@ -72,14 +82,15 @@ export default function NewsSection() {
     if (
       page < 1 ||
       page > totalPages ||
-      page === safeCurrentPage
+      page ===
+        safeCurrentPage
     ) {
       return;
     }
 
     setCurrentPage(page);
 
-    requestAnimationFrame(
+    window.requestAnimationFrame(
       () => {
         const prefersReducedMotion =
           window.matchMedia(
@@ -92,7 +103,7 @@ export default function NewsSection() {
               prefersReducedMotion
                 ? "auto"
                 : "smooth",
-            block: "nearest",
+            block: "start",
           },
         );
       },
@@ -112,153 +123,272 @@ export default function NewsSection() {
           />
         </div>
 
-        {newsData.length >
-          0 && (
+        {isLoading ? (
           <div
-            ref={contentRef}
+            ref={
+              contentRef
+            }
             className="
               rounded-3xl
               bg-[#F7F8FD]
-             
-
+              p-3
               sm:p-4
               md:p-5
               lg:p-6
               xl:p-7
             "
           >
-            {/* News Layout */}
             <div
-              key={
-                safeCurrentPage
-              }
               className="
                 grid
                 min-w-0
                 grid-cols-1
                 gap-4
-
                 md:gap-5
 
-                lg:grid-cols-12
-                lg:items-stretch
-                lg:gap-5
-
+                xl:grid-cols-12
+                xl:items-stretch
                 xl:gap-6
               "
             >
-              {/* Featured News */}
-              {featuredNews && (
+              {/* Featured Skeleton */}
+              <div
+                className="
+                  min-w-0
+                  xl:col-span-8
+                "
+              >
                 <div
-                  data-aos="fade-up"
-                  data-aos-duration="550"
                   className="
-                    min-w-0
+                    h-105
+                    animate-pulse
+                    rounded-2xl
+                    bg-slate-200
 
-                    lg:col-span-8
-                    lg:h-full
+                    sm:h-115
+                    md:h-120
+                    lg:h-125
+                    xl:h-full
+                    xl:min-h-125
+                  "
+                />
+              </div>
+
+              {/* Secondary Skeletons */}
+              <div
+                className="
+                  grid
+                  min-w-0
+                  grid-cols-1
+                  gap-4
+
+                  sm:grid-cols-2
+
+                  md:gap-5
+
+                  xl:col-span-4
+                  xl:grid-cols-1
+                  xl:grid-rows-2
+                  xl:gap-4
+                "
+              >
+                <div
+                  className="
+                    h-72
+                    animate-pulse
+                    rounded-2xl
+                    bg-slate-200
+
+                    sm:h-80
+                    md:h-88
+                    lg:h-96
+
+                    xl:h-auto
+                    xl:min-h-0
+                  "
+                />
+
+                <div
+                  className="
+                    h-72
+                    animate-pulse
+                    rounded-2xl
+                    bg-slate-200
+
+                    sm:h-80
+                    md:h-88
+                    lg:h-96
+
+                    xl:h-auto
+                    xl:min-h-0
+                  "
+                />
+              </div>
+            </div>
+          </div>
+        ) : isError ? (
+          <SectionState
+            variant="error"
+            title="Unable to load latest news"
+            message="We couldn't load the latest news right now. Please try again in a moment."
+            onRetry={() => {
+              void refetch();
+            }}
+            isRetrying={
+              isFetching
+            }
+          />
+        ) : newsItems.length ===
+          0 ? (
+          <SectionState
+            variant="empty"
+            title="No news available"
+            message="There are no published news articles available right now."
+          />
+        ) : (
+          <>
+            <div
+              ref={
+                contentRef
+              }
+              className="
+                rounded-3xl
+                bg-[#F7F8FD]
+                p-3
+                sm:p-4
+                md:p-5
+                lg:p-6
+                xl:p-7
+              "
+            >
+              <div
+                key={
+                  safeCurrentPage
+                }
+                className="
+                  grid
+                  min-w-0
+                  grid-cols-1
+                  gap-4
+
+                  md:gap-5
+
+                  xl:grid-cols-12
+                  xl:items-stretch
+                  xl:gap-6
+                "
+              >
+                {/* Featured News */}
+                {featuredNews && (
+                  <div
+                    data-aos="fade-up"
+                    data-aos-duration="550"
+                    className="
+                      min-w-0
+                      xl:col-span-8
+                      xl:h-full
+                    "
+                  >
+                    <NewsCard
+                      news={
+                        featuredNews
+                      }
+                      variant="featured"
+                      onOpen={
+                        setSelectedNews
+                      }
+                    />
+                  </div>
+                )}
+
+                {/* Secondary News */}
+                {secondaryNews.length >
+                  0 && (
+                  <div
+                    className="
+                      grid
+                      min-w-0
+                      grid-cols-1
+                      gap-4
+
+                      sm:grid-cols-2
+
+                      md:gap-5
+
+                      xl:col-span-4
+                      xl:h-full
+                      xl:min-h-0
+                      xl:grid-cols-1
+                      xl:grid-rows-2
+                      xl:gap-4
+                    "
+                  >
+                    {secondaryNews.map(
+                      (
+                        news,
+                        index,
+                      ) => (
+                        <div
+                          key={
+                            news._id
+                          }
+                          data-aos="fade-up"
+                          data-aos-delay={
+                            70 +
+                            index *
+                              60
+                          }
+                          data-aos-duration="550"
+                          className="
+                            min-w-0
+                            xl:h-full
+                            xl:min-h-0
+                          "
+                        >
+                          <NewsCard
+                            news={
+                              news
+                            }
+                            variant="compact"
+                            onOpen={
+                              setSelectedNews
+                            }
+                          />
+                        </div>
+                      ),
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Pagination */}
+              {totalPages >
+                1 && (
+                <div
+                  className="
+                    mt-6
+                    border-t
+                    border-slate-200/80
+                    pt-6
+                    md:mt-7
+                    md:pt-7
                   "
                 >
-                  <NewsCard
-                    news={
-                      featuredNews
+                  <Pagination
+                    currentPage={
+                      safeCurrentPage
                     }
-                    variant="featured"
-                    onOpen={
-                      setSelectedNews
+                    totalPages={
+                      totalPages
+                    }
+                    onPageChange={
+                      handlePageChange
                     }
                   />
                 </div>
               )}
-
-              {/* Secondary News */}
-              {secondaryNews.length >
-                0 && (
-                <div
-                  className="
-                    grid
-                    min-w-0
-                    grid-cols-1
-                    gap-4
-
-                    sm:grid-cols-2
-
-                    lg:col-span-4
-                    lg:h-full
-                    lg:min-h-0
-                    lg:grid-cols-1
-                    lg:grid-rows-[repeat(2,minmax(0,1fr))]
-                    lg:gap-4
-                  "
-                >
-                  {secondaryNews.map(
-                    (
-                      news,
-                      index,
-                    ) => (
-                      <div
-                        key={
-                          news.id
-                        }
-                        data-aos="fade-up"
-                        data-aos-delay={
-                          70 +
-                          index *
-                            60
-                        }
-                        data-aos-duration="550"
-                        className="
-                          min-w-0
-
-                          lg:h-full
-                          lg:min-h-0
-                        "
-                      >
-                        <NewsCard
-                          news={
-                            news
-                          }
-                          variant="compact"
-                          onOpen={
-                            setSelectedNews
-                          }
-                        />
-                      </div>
-                    ),
-                  )}
-                </div>
-              )}
             </div>
-
-            {/* Pagination */}
-            {totalPages >
-              1 && (
-              <div
-                className="
-                  mt-5
-                  border-t
-                  border-blue-01/8
-                  px-1
-                  pt-5
-
-                  sm:mt-6
-                  sm:pt-6
-                "
-              >
-                <Pagination
-                  currentPage={
-                    safeCurrentPage
-                  }
-                  totalPages={
-                    totalPages
-                  }
-                  onPageChange={
-                    handlePageChange
-                  }
-                />
-              </div>
-            )}
-          </div>
+          </>
         )}
       </section>
 

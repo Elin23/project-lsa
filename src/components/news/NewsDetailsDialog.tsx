@@ -1,18 +1,13 @@
+// src/components/news/NewsDetailsDialog.tsx
+
 import {
   useEffect,
   useRef,
-  useState,
   type MouseEvent,
 } from "react";
 
 import { createPortal } from "react-dom";
-
-import {
-  ChevronLeft,
-  ChevronRight,
-  Images,
-  X,
-} from "lucide-react";
+import { X } from "lucide-react";
 
 import type { NewsItem } from "../../Types/news";
 
@@ -32,9 +27,7 @@ const formatDate = (
       year: "numeric",
     },
   ).format(
-    new Date(
-      `${date}T00:00:00`,
-    ),
+    new Date(date),
   );
 
 export default function NewsDetailsDialog({
@@ -50,26 +43,6 @@ export default function NewsDetailsDialog({
     useRef<HTMLElement | null>(
       null,
     );
-
-  const [
-    activeImageIndex,
-    setActiveImageIndex,
-  ] = useState(0);
-
-  const imageCount =
-    news?.images.length ?? 0;
-
-  const hasMultipleImages =
-    imageCount > 1;
-
-  // Reset the gallery whenever another news item is opened.
-  useEffect(() => {
-    if (!news) {
-      return;
-    }
-
-    setActiveImageIndex(0);
-  }, [news]);
 
   useEffect(() => {
     if (!news) {
@@ -115,38 +88,6 @@ export default function NewsDetailsDialog({
         event.key === "Escape"
       ) {
         onClose();
-        return;
-      }
-
-      if (
-        !hasMultipleImages
-      ) {
-        return;
-      }
-
-      if (
-        event.key ===
-        "ArrowLeft"
-      ) {
-        setActiveImageIndex(
-          (current) =>
-            current === 0
-              ? imageCount - 1
-              : current - 1,
-        );
-      }
-
-      if (
-        event.key ===
-        "ArrowRight"
-      ) {
-        setActiveImageIndex(
-          (current) =>
-            current ===
-            imageCount - 1
-              ? 0
-              : current + 1,
-        );
       }
     };
 
@@ -161,12 +102,7 @@ export default function NewsDetailsDialog({
         handleKeyDown,
       );
     };
-  }, [
-    news,
-    hasMultipleImages,
-    imageCount,
-    onClose,
-  ]);
+  }, [news, onClose]);
 
   if (
     !news ||
@@ -175,36 +111,6 @@ export default function NewsDetailsDialog({
   ) {
     return null;
   }
-
-  const activeImage =
-    news.images[
-      activeImageIndex
-    ];
-
-  if (!activeImage) {
-    return null;
-  }
-
-  const showPreviousImage =
-    () => {
-      setActiveImageIndex(
-        (current) =>
-          current === 0
-            ? imageCount - 1
-            : current - 1,
-      );
-    };
-
-  const showNextImage =
-    () => {
-      setActiveImageIndex(
-        (current) =>
-          current ===
-          imageCount - 1
-            ? 0
-            : current + 1,
-      );
-    };
 
   const handleBackdropClick = (
     event: MouseEvent<HTMLDivElement>,
@@ -217,7 +123,7 @@ export default function NewsDetailsDialog({
     }
   };
 
-  const dialog = (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -229,7 +135,7 @@ export default function NewsDetailsDialog({
       className="
         fixed
         inset-0
-        z-[9999]
+        z-9999
         flex
         h-dvh
         w-screen
@@ -249,6 +155,7 @@ export default function NewsDetailsDialog({
           flex
           max-h-[calc(100dvh-24px)]
           w-full
+          min-w-0
           max-w-4xl
           flex-col
           overflow-hidden
@@ -259,13 +166,15 @@ export default function NewsDetailsDialog({
           md:max-h-[calc(100dvh-48px)]
         "
       >
-        {/* Fixed Close Button */}
+        {/* Close Button */}
         <button
           ref={
             closeButtonRef
           }
           type="button"
-          onClick={onClose}
+          onClick={
+            onClose
+          }
           aria-label="Close news details"
           className="
             absolute
@@ -308,7 +217,9 @@ export default function NewsDetailsDialog({
         <div
           className="
             min-h-0
+            min-w-0
             flex-1
+            overflow-x-hidden
             overflow-y-auto
             overscroll-contain
             p-3
@@ -317,9 +228,10 @@ export default function NewsDetailsDialog({
             lg:p-6
           "
         >
-          {/* Gallery */}
+          {/* Image */}
           <div
             className="
+              min-w-0
               overflow-hidden
               rounded-2xl
               bg-[#F7F8FD]
@@ -329,6 +241,8 @@ export default function NewsDetailsDialog({
               className="
                 relative
                 h-52
+                w-full
+                min-w-0
                 overflow-hidden
                 bg-slate-100
                 min-[350px]:h-58
@@ -338,246 +252,30 @@ export default function NewsDetailsDialog({
               "
             >
               <img
-                key={
-                  activeImage.url
-                }
                 src={
-                  activeImage.url
+                  news.image.url
                 }
                 alt={
-                  activeImage.alt
+                  news.image.alt ||
+                  news.title
                 }
                 decoding="async"
                 className="
+                  block
                   h-full
                   w-full
+                  max-w-full
                   object-cover
                 "
               />
-
-              <div
-                aria-hidden="true"
-                className="
-                  absolute
-                  inset-x-0
-                  bottom-0
-                  h-24
-                  bg-gradient-to-t
-                  from-slate-950/25
-                  to-transparent
-                "
-              />
-
-              {hasMultipleImages && (
-                <>
-                  <button
-                    type="button"
-                    onClick={
-                      showPreviousImage
-                    }
-                    aria-label="View previous image"
-                    className="
-                      absolute
-                      left-2.5
-                      top-1/2
-                      flex
-                      size-9
-                      -translate-y-1/2
-                      cursor-pointer
-                      items-center
-                      justify-center
-                      rounded-full
-                      border
-                      border-white/50
-                      bg-white/90
-                      text-blue-01
-                      shadow-lg
-                      backdrop-blur-md
-                      transition-all
-                      duration-300
-                      hover:scale-105
-                      hover:bg-blue-01
-                      hover:text-white
-                      focus-visible:outline-none
-                      focus-visible:ring-2
-                      focus-visible:ring-white
-                      sm:left-4
-                      sm:size-10
-                    "
-                  >
-                    <ChevronLeft
-                      aria-hidden="true"
-                      size={18}
-                    />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={
-                      showNextImage
-                    }
-                    aria-label="View next image"
-                    className="
-                      absolute
-                      right-2.5
-                      top-1/2
-                      flex
-                      size-9
-                      -translate-y-1/2
-                      cursor-pointer
-                      items-center
-                      justify-center
-                      rounded-full
-                      border
-                      border-white/50
-                      bg-white/90
-                      text-blue-01
-                      shadow-lg
-                      backdrop-blur-md
-                      transition-all
-                      duration-300
-                      hover:scale-105
-                      hover:bg-blue-01
-                      hover:text-white
-                      focus-visible:outline-none
-                      focus-visible:ring-2
-                      focus-visible:ring-white
-                      sm:right-4
-                      sm:size-10
-                    "
-                  >
-                    <ChevronRight
-                      aria-hidden="true"
-                      size={18}
-                    />
-                  </button>
-
-                  <div
-                    className="
-                      absolute
-                      bottom-3
-                      right-3
-                      inline-flex
-                      items-center
-                      gap-1.5
-                      rounded-full
-                      bg-slate-950/60
-                      px-3
-                      py-1.5
-                      text-[11px]
-                      font-bold
-                      text-white
-                      backdrop-blur-md
-                    "
-                  >
-                    <Images
-                      aria-hidden="true"
-                      size={13}
-                    />
-
-                    <span>
-                      {activeImageIndex +
-                        1}
-                      /
-                      {
-                        imageCount
-                      }
-                    </span>
-                  </div>
-                </>
-              )}
             </div>
-
-            {hasMultipleImages && (
-              <div
-                className="
-                  flex
-                  gap-2
-                  overflow-x-auto
-                  p-3
-                  [scrollbar-width:thin]
-                  sm:gap-3
-                  sm:p-4
-                "
-              >
-                {news.images.map(
-                  (
-                    image,
-                    index,
-                  ) => {
-                    const isActive =
-                      index ===
-                      activeImageIndex;
-
-                    return (
-                      <button
-                        key={`${image.url}-${index}`}
-                        type="button"
-                        onClick={() =>
-                          setActiveImageIndex(
-                            index,
-                          )
-                        }
-                        aria-label={`View image ${index + 1} of ${imageCount}`}
-                        aria-current={
-                          isActive
-                            ? "true"
-                            : undefined
-                        }
-                        className={`
-                          h-13
-                          w-18
-                          shrink-0
-                          cursor-pointer
-                          overflow-hidden
-                          rounded-lg
-                          border-2
-                          transition-all
-                          duration-300
-                          focus-visible:outline-none
-                          focus-visible:ring-2
-                          focus-visible:ring-blue-01
-                          focus-visible:ring-offset-2
-                          sm:h-15
-                          sm:w-22
-                          ${
-                            isActive
-                              ? `
-                                border-blue-01
-                                opacity-100
-                              `
-                              : `
-                                border-transparent
-                                opacity-50
-                                hover:opacity-100
-                              `
-                          }
-                        `}
-                      >
-                        <img
-                          src={
-                            image.url
-                          }
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                          className="
-                            h-full
-                            w-full
-                            object-cover
-                          "
-                        />
-                      </button>
-                    );
-                  },
-                )}
-              </div>
-            )}
           </div>
 
-          {/* Details */}
+          {/* Content */}
           <div
             className="
+              w-full
+              min-w-0
               px-1
               pb-1
               pt-5
@@ -589,6 +287,7 @@ export default function NewsDetailsDialog({
             <div
               className="
                 flex
+                min-w-0
                 flex-wrap
                 items-center
                 gap-2.5
@@ -597,6 +296,7 @@ export default function NewsDetailsDialog({
               <span
                 className="
                   inline-flex
+                  max-w-full
                   rounded-full
                   bg-blue-01/10
                   px-3
@@ -608,9 +308,7 @@ export default function NewsDetailsDialog({
                   text-blue-01
                 "
               >
-                {
-                  news.category
-                }
+                {news.category}
               </span>
 
               <span
@@ -646,7 +344,10 @@ export default function NewsDetailsDialog({
               id="news-dialog-title"
               className="
                 mt-3
+                w-full
+                min-w-0
                 max-w-3xl
+                break-words
                 text-[21px]
                 font-extrabold
                 leading-7
@@ -666,7 +367,11 @@ export default function NewsDetailsDialog({
               id="news-dialog-description"
               className="
                 mt-3
+                w-full
+                min-w-0
                 max-w-3xl
+                break-words
+                whitespace-normal
                 text-sm
                 leading-7
                 text-slate-500
@@ -675,16 +380,12 @@ export default function NewsDetailsDialog({
               "
             >
               {news.content ??
-                news.summary}
+                news.shortDescription}
             </p>
           </div>
         </div>
       </div>
-    </div>
-  );
-
-  return createPortal(
-    dialog,
+    </div>,
     document.body,
   );
 }

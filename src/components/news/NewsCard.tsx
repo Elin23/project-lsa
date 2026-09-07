@@ -1,59 +1,33 @@
-import {
-  GoArrowRight,
-} from "react-icons/go";
+import { GoArrowRight } from "react-icons/go";
+import { Images } from "lucide-react";
 
-import {
-  Images,
-} from "lucide-react";
-
-import type {
-  NewsItem,
-} from "../../Types/news";
+import type { NewsItem } from "../../Types/news";
 
 interface NewsCardProps {
   news: NewsItem;
-  variant?:
-    | "featured"
-    | "compact";
-  onOpen: (
-    news: NewsItem,
-  ) => void;
+  variant?: "featured" | "compact";
+  onOpen: (news: NewsItem) => void;
 }
 
-const formatDate = (
-  date: string,
-) =>
-  new Intl.DateTimeFormat(
-    "en-US",
-    {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    },
-  ).format(
-    new Date(
-      `${date}T00:00:00`,
-    ),
-  );
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(date));
 
 export default function NewsCard({
   news,
   variant = "compact",
   onOpen,
 }: NewsCardProps) {
-  const primaryImage =
-    news.images[0];
+  const primaryImage = news.image;
 
-  if (!primaryImage) {
+  if (!primaryImage?.url) {
     return null;
   }
 
-  /*
-   * Featured Card
-   */
-  if (
-    variant === "featured"
-  ) {
+  if (variant === "featured") {
     return (
       <article
         className="
@@ -68,7 +42,6 @@ export default function NewsCard({
           shadow-[0_6px_24px_rgba(31,63,147,0.07)]
           transition-all
           duration-500
-
           hover:-translate-y-1
           hover:shadow-[0_15px_38px_rgba(31,63,147,0.12)]
         "
@@ -76,37 +49,33 @@ export default function NewsCard({
         {/* Image */}
         <button
           type="button"
-          onClick={() =>
-            onOpen(news)
-          }
+          onClick={() => onOpen(news)}
           aria-label={`Read ${news.title}`}
           className="
             group/image
             relative
             block
-            h-52
+            h-44
             w-full
             shrink-0
             overflow-hidden
             text-left
-
             focus-visible:outline-none
             focus-visible:ring-2
             focus-visible:ring-blue-01
             focus-visible:ring-inset
 
-            sm:h-60
-            lg:h-67
+            min-[350px]:h-48
+            sm:h-56
+            md:h-64
+            lg:h-72
             xl:h-72
+            2xl:h-76
           "
         >
           <img
-            src={
-              primaryImage.url
-            }
-            alt={
-              primaryImage.alt
-            }
+            src={primaryImage.url}
+            alt={primaryImage.alt || news.title}
             loading="lazy"
             decoding="async"
             className="
@@ -116,7 +85,6 @@ export default function NewsCard({
               transition-transform
               duration-700
               ease-out
-
               group-hover/image:scale-[1.035]
             "
           />
@@ -126,14 +94,13 @@ export default function NewsCard({
             className="
               absolute
               inset-0
-              bg-gradient-to-t
+              bg-linear-to-t
               from-blue-01/20
               via-transparent
               to-transparent
               opacity-0
               transition-opacity
               duration-500
-
               group-hover/image:opacity-100
             "
           />
@@ -141,81 +108,85 @@ export default function NewsCard({
           <span
             className="
               absolute
-              left-4
-              top-4
+              left-3
+              top-3
               rounded-lg
               bg-blue-01
-              px-3
-              py-1.5
-              text-[10px]
+              px-2.5
+              py-1
+              text-[9px]
               font-extrabold
               uppercase
               tracking-[0.08em]
               text-white
               shadow-sm
+
+              sm:left-4
+              sm:top-4
+              sm:px-3
+              sm:py-1.5
+              sm:text-[10px]
             "
           >
             {news.category}
           </span>
 
-          {news.images.length >
-            1 && (
-            <span
-              className="
-                absolute
-                bottom-4
-                right-4
-                inline-flex
-                items-center
-                gap-1.5
-                rounded-full
-                bg-white/95
-                px-3
-                py-1.5
-                text-[11px]
-                font-bold
-                text-blue-01
-                shadow-sm
-                backdrop-blur-sm
-              "
-            >
-              <Images
-                aria-hidden="true"
-                size={13}
-              />
+          <span
+            className="
+              absolute
+              bottom-3
+              right-3
+              inline-flex
+              items-center
+              gap-1.5
+              rounded-full
+              bg-white/95
+              px-2.5
+              py-1
+              text-[10px]
+              font-bold
+              text-blue-01
+              shadow-sm
+              backdrop-blur-sm
 
-              {
-                news.images
-                  .length
-              }
-            </span>
-          )}
+              sm:bottom-4
+              sm:right-4
+              sm:px-3
+              sm:py-1.5
+              sm:text-[11px]
+            "
+          >
+            <Images
+              aria-hidden="true"
+              size={13}
+            />
+
+            1
+          </span>
         </button>
 
         {/* Content */}
         <div
           className="
             flex
-            min-h-45
+            min-h-0
             flex-1
             flex-col
-            p-5
-
-            sm:p-6
-
-            lg:min-h-47
+            p-4
+            sm:p-5
+            md:p-6
           "
         >
           <time
-            dateTime={
-              news.publishedAt
-            }
+            dateTime={news.publishedAt}
             className="
-              text-[11px]
+              text-[10px]
               font-bold
               uppercase
               tracking-[0.08em]
               text-red-01
+
+              sm:text-[11px]
             "
           >
             {formatDate(
@@ -227,13 +198,16 @@ export default function NewsCard({
             className="
               mt-2
               line-clamp-2
-              text-xl
+              text-lg
               font-extrabold
-              leading-7
+              leading-6
               text-blue-01
 
-              sm:text-[22px]
-              sm:leading-8
+              min-[350px]:text-xl
+              min-[350px]:leading-7
+
+              md:text-[22px]
+              md:leading-8
             "
           >
             {news.title}
@@ -248,7 +222,9 @@ export default function NewsCard({
               text-muted-blue
             "
           >
-            {news.summary}
+            {
+              news.shortDescription
+            }
           </p>
 
           <button
@@ -264,18 +240,18 @@ export default function NewsCard({
               items-center
               gap-2
               pt-4
-              text-sm
+              text-xs
               font-extrabold
               text-blue-01
               transition-colors
               duration-300
-
               hover:text-red-01
-
               focus-visible:outline-none
               focus-visible:ring-2
               focus-visible:ring-blue-01
               focus-visible:ring-offset-4
+
+              sm:text-sm
             "
           >
             Read More
@@ -286,7 +262,6 @@ export default function NewsCard({
                 text-lg
                 transition-transform
                 duration-300
-
                 group-hover/button:translate-x-1
               "
             />
@@ -296,30 +271,26 @@ export default function NewsCard({
     );
   }
 
-  /*
-   * Compact Card
-   */
   return (
     <article
       className="
         group
-        grid
+        flex
         h-full
         min-h-0
         min-w-0
+        flex-col
         overflow-hidden
         rounded-2xl
         bg-white
         shadow-[0_6px_24px_rgba(31,63,147,0.07)]
         transition-all
         duration-500
-
         hover:-translate-y-1
         hover:shadow-[0_14px_34px_rgba(31,63,147,0.11)]
 
-        sm:grid-cols-[190px_minmax(0,1fr)]
-
-        lg:grid-cols-[42%_minmax(0,58%)]
+        xl:grid
+        xl:grid-cols-[42%_minmax(0,58%)]
       "
     >
       {/* Image */}
@@ -332,28 +303,30 @@ export default function NewsCard({
         className="
           group/image
           relative
-          h-44
-          min-h-0
+          h-36
+          w-full
+          shrink-0
           overflow-hidden
           text-left
-
           focus-visible:outline-none
           focus-visible:ring-2
           focus-visible:ring-blue-01
           focus-visible:ring-inset
 
-          sm:h-full
-          sm:min-h-44
+          min-[350px]:h-40
+          sm:h-44
+          md:h-48
+          lg:h-52
 
-          lg:min-h-0
+          xl:h-full
+          xl:min-h-0
         "
       >
         <img
-          src={
-            primaryImage.url
-          }
+          src={primaryImage.url}
           alt={
-            primaryImage.alt
+            primaryImage.alt ||
+            news.title
           }
           loading="lazy"
           decoding="async"
@@ -364,16 +337,31 @@ export default function NewsCard({
             transition-transform
             duration-700
             ease-out
-
             group-hover/image:scale-[1.045]
+          "
+        />
+
+        <div
+          aria-hidden="true"
+          className="
+            absolute
+            inset-0
+            bg-linear-to-t
+            from-blue-01/15
+            via-transparent
+            to-transparent
+            opacity-0
+            transition-opacity
+            duration-500
+            group-hover/image:opacity-100
           "
         />
 
         <span
           className="
             absolute
-            left-3
-            top-3
+            left-2.5
+            top-2.5
             rounded-md
             bg-blue-01
             px-2.5
@@ -383,6 +371,9 @@ export default function NewsCard({
             uppercase
             tracking-[0.07em]
             text-white
+
+            sm:left-3
+            sm:top-3
           "
         >
           {news.category}
@@ -395,14 +386,15 @@ export default function NewsCard({
           flex
           min-h-0
           min-w-0
+          flex-1
           flex-col
           p-4
 
           sm:p-5
 
-          lg:p-4
+          xl:p-4
 
-          xl:p-5
+          2xl:p-5
         "
       >
         <time
@@ -427,13 +419,23 @@ export default function NewsCard({
           className="
             mt-2
             line-clamp-2
+            overflow-hidden
             text-base
             font-extrabold
             leading-6
             text-blue-01
 
-            xl:text-[17px]
-            xl:leading-6.5
+            sm:text-[17px]
+            sm:leading-6.5
+
+            md:text-lg
+            md:leading-7
+
+            xl:text-base
+            xl:leading-6
+
+            2xl:text-[17px]
+            2xl:leading-6.5
           "
         >
           {news.title}
@@ -443,14 +445,21 @@ export default function NewsCard({
           className="
             mt-1.5
             line-clamp-2
+            overflow-hidden
             text-xs
             leading-5
             text-muted-blue
 
-            sm:text-sm
+            min-[350px]:text-sm
+
+            xl:text-xs
+
+            2xl:text-sm
           "
         >
-          {news.summary}
+          {
+            news.shortDescription
+          }
         </p>
 
         <button
@@ -472,9 +481,7 @@ export default function NewsCard({
             text-blue-01
             transition-colors
             duration-300
-
             hover:text-red-01
-
             focus-visible:outline-none
             focus-visible:ring-2
             focus-visible:ring-blue-01
@@ -489,7 +496,6 @@ export default function NewsCard({
               text-base
               transition-transform
               duration-300
-
               group-hover/button:translate-x-1
             "
           />
