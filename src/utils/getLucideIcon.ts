@@ -1,52 +1,36 @@
-import {
-  Activity,
-  Bolt,
-  Boxes,
-  CheckCircle,
-  CircleDot,
-  Construction,
-  Cpu,
-  Gauge,
-  Hammer,
-  HardHat,
-  Layers,
-  Network,
-  Pipette,
-  Ruler,
-  Settings,
-  ShieldCheck,
-  Target,
-  Wrench,
-  type LucideIcon,
-} from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const iconMap: Record<string, LucideIcon> = {
-  Activity,
-  Bolt,
-  Boxes,
-  CheckCircle,
-  CircleDot,
-  Construction,
-  Cpu,
-  Gauge,
-  Hammer,
-  HardHat,
-  Layers,
-  Network,
-  Pipette,
-  Ruler,
-  Settings,
-  ShieldCheck,
-  Target,
-  Wrench,
-};
+function toPascalCase(value: string) {
+  return value
+    .trim()
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map(
+      (word) =>
+        word.charAt(0).toUpperCase() +
+        word.slice(1),
+    )
+    .join("");
+}
 
-export const getLucideIcon = (
+export function getLucideIcon(
   iconName?: string,
-): LucideIcon => {
+): LucideIcon {
   if (!iconName) {
-    return Settings;
+    return LucideIcons.Circle;
   }
 
-  return iconMap[iconName] ?? Settings;
-};
+  const normalizedName = toPascalCase(iconName);
+
+  const icon =
+    LucideIcons[
+      normalizedName as keyof typeof LucideIcons
+    ];
+
+  if (icon) {
+    return icon as LucideIcon;
+  }
+
+  return LucideIcons.Circle;
+}
