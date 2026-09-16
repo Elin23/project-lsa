@@ -18,24 +18,24 @@ export interface LSAAdvantageItem {
 }
 
 const advantageData: readonly LSAAdvantageItem[] = [
-  {
-    title: "Owned & Controlled Fleet",
-    description:
-      " We own 100% of our pipeline and EPC equipment fleet, eliminating third‑party rental delays and ensuring strict asset quality control for every project.",
-    icon: ClipboardCheck,
-  },
-  {
-    title: "Nationwide Operations Hub",
-    description:
-      " Our strategically located Basra yard enables immediate deployment across Iraq’s leading oil fields—including Majnoon, Rumaila, West Qurna, Zubair, Halfaya, Badra, Nasiriyah, Ratawi, Block 9, Siba, and other key sites. This nationwide coverage ensures faster mobilization, reduced downtime, and reliable support for complex EPC and pipeline projects.",
-    icon: Truck,
-  },
-  {
-    title: "Proven EPC & Pipeline Expertise",
-    description:
-      "Our fleet has successfully supported multi‑million‑dollar EPCC and pipeline projects for global oil majors, consistently delivering benchmark performance in Iraq’s energy industry.",
-    icon: BadgeCheck,
-  },
+{
+  title: "Owned & Controlled Fleet",
+  description:
+    "We own 100% of our pipeline and EPC equipment fleet, avoiding rental delays and maintaining strict quality control across every project.",
+  icon: ClipboardCheck,
+},
+{
+  title: "Nationwide Operations Hub",
+  description:
+    "Our Basra operations hub enables fast deployment across Iraq’s major oil fields, reducing downtime and providing reliable support for EPC and pipeline projects nationwide.",
+  icon: Truck,
+},
+{
+  title: "Proven EPC & Pipeline Expertise",
+  description:
+    "Our fleet has supported major EPCC and pipeline projects for global oil companies, delivering reliable performance across Iraq’s energy sector.",
+  icon: BadgeCheck,
+},
 //   {
 //   title: "Owned & Controlled Fleet",
 //   description:
@@ -66,7 +66,8 @@ export default function LSAAdvantageSection() {
       <div id="lsa-advantage-heading">
         <TitleComponent
           title="The LSA Advantage"
-          description="Delivering reliability, rapid mobilization, and exceptional EPC project performance through our integrated capabilities and experienced team in Iraq’s oil & gas sector."
+description="Delivering reliable, fast, and high-performance EPC solutions across Iraq’s oil & gas sector."
+
         />
       </div>
 

@@ -41,6 +41,11 @@ const iconMap: Record<string, LucideIcon> = {
   Wrench,
 };
 
+const backendIconMap: Record<string, LucideIcon> = {
+  "Construction & Execution": Construction,
+  "Commissioning & Handover": CheckCircle,
+};
+
 export const getLucideIcon = (
   iconName?: string,
 ): LucideIcon => {
@@ -48,5 +53,12 @@ export const getLucideIcon = (
     return Settings;
   }
 
-  return iconMap[iconName] ?? Settings;
+  const normalizedIconName =
+    iconName.trim();
+
+  return (
+    iconMap[normalizedIconName] ??
+    backendIconMap[normalizedIconName] ??
+    Settings
+  );
 };

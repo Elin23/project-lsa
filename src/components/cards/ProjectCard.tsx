@@ -2,12 +2,56 @@ import { Link } from "react-router-dom";
 import { GoArrowRight } from "react-icons/go";
 import type { ProjectListItem } from "../../Types/project";
 
-
 interface ProjectCardProps {
   project: ProjectListItem;
 }
 
+const formatDescription = (text?: string) => {
+  if (!text) return "";
+
+  const acronyms = [
+    "EPC",
+    "EPCC",
+    "LSA",
+    "SOC",
+    "HSE",
+    "QA/QC",
+    "ISO",
+    "HVAC",
+    "NDT",
+    "E&I",
+    "MEP",
+    "API",
+  ];
+
+  // أولاً: نحول كل النص إلى lowercase
+  let result = text.trim().toLowerCase();
+
+  // نخلي أول حرف من كل جملة Capital
+  result = result.replace(
+    /(^\s*[a-z])|([.!?]\s+[a-z])/g,
+    (match) => match.toUpperCase(),
+  );
+
+  // نرجع الاختصارات المعروفة إلى uppercase
+  acronyms.forEach((acronym) => {
+    const lowerAcronym = acronym.toLowerCase();
+
+    result = result.replace(
+      new RegExp(
+        lowerAcronym.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+        "gi",
+      ),
+      acronym,
+    );
+  });
+
+  return result;
+};
+
 const ProjectCard = ({ project }: ProjectCardProps) => {
+  const description = formatDescription(project.shortDescription);
+
   return (
     <div className="h-full cursor-pointer">
       <article
@@ -80,8 +124,20 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
         {/* Content */}
         <div className="flex flex-1 flex-col p-5 md:p-6">
-          <p className="flex-1 text-sm leading-6 text-muted-blue md:text-base">
-            {project.shortDescription}
+          <p
+            className="
+              flex-1
+              normal-case
+              text-sm
+              leading-6
+              text-muted-blue
+              md:text-base
+            "
+            style={{
+              textTransform: "none",
+            }}
+          >
+            {description}
           </p>
 
           <Link

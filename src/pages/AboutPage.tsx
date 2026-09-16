@@ -56,9 +56,7 @@ const AboutPage = () => {
         <HeroSection
           slides={aboutHeroSlides}
           title="A Legacy of Industrial Reliability"
-          description={`Laloat Shatt Al-Arab Company (LSA) is a leading EPC contractor in Iraq, specializing in large-scale mechanical, electrical, and civil engineering projects for the oil and gas sector. We combine technical precision with a commitment to sustainable development.
-
-Our approach is rooted in rigorous planning and execution. We leverage advanced technologies and a highly skilled workforce to deliver complex infrastructure projects on time and within budget, ensuring the highest standards of safety and quality.`}
+          description={`Laloat Shatt Al-Arab Company (LSA) is a leading Iraqi EPC contractor delivering mechanical, electrical, and civil engineering solutions for the oil and gas sector with a strong focus on safety, quality, and reliable execution.`}
           buttons={[
             {
               text: isPending

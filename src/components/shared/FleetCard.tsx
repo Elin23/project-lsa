@@ -7,6 +7,47 @@ interface FleetCardProps {
   animationDelay?: number;
 }
 
+const ACRONYMS = [
+  "EPC",
+  "EPCC",
+  "LSA",
+  "SOC",
+  "HSE",
+  "QA/QC",
+  "ISO",
+  "HVAC",
+  "NDT",
+  "E&I",
+  "MEP",
+  "API",
+  "PSI",
+  "HP",
+  "KW",
+  "KVA",
+  "RPM",
+];
+
+const formatDashboardText = (text?: string) => {
+  if (!text) return "";
+
+  let result = text.trim().toLowerCase();
+
+  result = result.replace(
+    /(^\s*[a-z])|([.!?]\s+[a-z])/g,
+    (match) => match.toUpperCase(),
+  );
+
+  ACRONYMS.forEach((acronym) => {
+    const escaped = acronym
+      .toLowerCase()
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+    result = result.replace(new RegExp(escaped, "gi"), acronym);
+  });
+
+  return result;
+};
+
 export default function FleetCard({
   item,
   onRequest,
@@ -42,11 +83,13 @@ export default function FleetCard({
 
           <div className="absolute right-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/95 px-2.5 py-1 text-[8px] font-semibold uppercase tracking-[0.04em] text-slate-600 shadow-sm">
             <Circle
-              className={`h-1.5 w-1.5 ${isAvailable
+              className={`h-1.5 w-1.5 ${
+                isAvailable
                   ? "fill-green-500 text-green-500"
                   : "fill-red-500 text-red-500"
-                }`}
+              }`}
             />
+
             {isAvailable ? "Ready to Mobilize" : "Currently Unavailable"}
           </div>
 
@@ -62,8 +105,11 @@ export default function FleetCard({
               {item.category.name}
             </span>
 
-            <h3 className="mt-0.5 text-base font-bold leading-snug text-blue-01 md:text-[17px]">
-              {item.title}
+            <h3
+              className="mt-0.5 normal-case text-base font-bold leading-snug text-blue-01 md:text-[17px]"
+              style={{ textTransform: "none" }}
+            >
+              {formatDashboardText(item.title)}
             </h3>
           </div>
 
@@ -76,8 +122,11 @@ export default function FleetCard({
                   {item.primarySpecification.label}
                 </p>
 
-                <p className="mt-0.5 line-clamp-2 text-[11px] font-semibold leading-4 text-slate-700 sm:text-xs">
-                  {item.primarySpecification.value}
+                <p
+                  className="mt-0.5 line-clamp-2 normal-case text-[11px] font-semibold leading-4 text-slate-700 sm:text-xs"
+                  style={{ textTransform: "none" }}
+                >
+                  {formatDashboardText(item.primarySpecification.value)}
                 </p>
               </div>
             </div>
@@ -90,8 +139,11 @@ export default function FleetCard({
                   Location
                 </p>
 
-                <p className="mt-0.5 line-clamp-2 text-[11px] font-semibold leading-4 text-slate-700 sm:text-xs">
-                  {item.location}
+                <p
+                  className="mt-0.5 line-clamp-2 normal-case text-[11px] font-semibold leading-4 text-slate-700 sm:text-xs"
+                  style={{ textTransform: "none" }}
+                >
+                  {formatDashboardText(item.location)}
                 </p>
               </div>
             </div>
@@ -104,6 +156,7 @@ export default function FleetCard({
             className="group/button mt-3 inline-flex h-9 w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-blue-01/15 bg-blue-01/5 px-3 text-[11px] font-bold text-blue-01 shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-blue-01/30 hover:bg-blue-01/10 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:translate-y-0"
           >
             Request Availability
+
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/button:translate-x-1" />
           </button>
         </div>

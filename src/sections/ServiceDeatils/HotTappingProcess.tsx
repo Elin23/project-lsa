@@ -46,15 +46,23 @@ export default function HotTappingProcess({
           />
         ) : (
           <Slider
-            items={steps}
-            renderItem={(item) => (
-              <DirectionCard
-                icon={getLucideIcon(item.icon)}
-                title={item.title}
-                description={item.description}
-              />
-            )}
-          />
+  items={steps}
+  renderItem={(item) => {
+    console.log("Icon from backend:", item.icon);
+
+    const resolvedIcon = getLucideIcon(item.icon);
+
+    console.log("Resolved icon:", resolvedIcon);
+
+    return (
+      <DirectionCard
+        icon={resolvedIcon}
+        title={item.title}
+        description={item.description}
+      />
+    );
+  }}
+/>
         )}
       </div>
 
@@ -66,14 +74,22 @@ export default function HotTappingProcess({
                 key={index}
               />
             ))
-          : steps.map((item, index) => (
-              <DirectionCard
-                key={`${item.title}-${index}`}
-                icon={getLucideIcon(item.icon)}
-                title={item.title}
-                description={item.description}
-              />
-            ))}
+          : steps.map((item, index) => {
+  console.log("Icon from backend:", item.icon);
+
+  const resolvedIcon = getLucideIcon(item.icon);
+
+  console.log("Resolved icon:", resolvedIcon);
+
+  return (
+    <DirectionCard
+      key={`${item.title}-${index}`}
+      icon={resolvedIcon}
+      title={item.title}
+      description={item.description}
+    />
+  );
+})}
       </div>
     </div>
   );

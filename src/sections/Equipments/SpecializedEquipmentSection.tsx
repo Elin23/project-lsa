@@ -61,7 +61,8 @@ export default function SpecializedEquipmentSection() {
     <section id="specialized-equipment-capabilities">
       <TitleComponent
         title="Specialized Equipment Capabilities"
-        description="At Loaloat Shatt Al-Arab (LSA), we deliver unmatched equipment strength and technical capacity to execute Iraq’s most complex EPC, pipeline, and oilfield infrastructure projects. Our fleet covers every critical discipline, ensuring nationwide reliability, rapid mobilization, and world‑class performance."
+description="LSA provides the equipment strength and technical capacity to execute complex EPC, pipeline, and oilfield infrastructure projects across Iraq with rapid mobilization, reliability, and high performance."
+
       />
 
       <div

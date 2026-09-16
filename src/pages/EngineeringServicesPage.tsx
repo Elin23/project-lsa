@@ -19,9 +19,8 @@ const EngineeringServicesPage = () => {
             <HeroSection
                 slides={ServicesHeroSlides}
                 title="Engineering Services"
-                description="Comprehensive EPC solutions for Iraq’s oil & gas sector. At Loaloat Shatt Al‑Arab (LSA), we deliver large‑scale mechanical, electrical, civil infrastructure, and pipeline projects with precision, scale, and uncompromising quality.
+description="Comprehensive EPC solutions for Iraq’s oil & gas sector, delivering mechanical, electrical, civil, and pipeline projects with precision, safety, and reliable performance for SOC and global oil majors."
 
-From pipeline construction and refinery upgrades to power systems and industrial facilities, our engineering services are trusted by SOC and global oil majors to meet the highest standards of safety, reliability, and performance."
             />
             <AdvantagesSection />
             <OurServices />

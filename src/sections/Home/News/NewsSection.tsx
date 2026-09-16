@@ -67,6 +67,9 @@ export default function NewsSection() {
         ITEMS_PER_PAGE,
     );
 
+  const currentItemsCount =
+    currentNewsItems.length;
+
   const featuredNews =
     currentNewsItems[0];
 
@@ -125,9 +128,7 @@ export default function NewsSection() {
 
         {isLoading ? (
           <div
-            ref={
-              contentRef
-            }
+            ref={contentRef}
             className="
               rounded-3xl
               bg-[#F7F8FD]
@@ -145,26 +146,19 @@ export default function NewsSection() {
                 grid-cols-1
                 gap-4
                 md:gap-5
-
                 xl:grid-cols-12
                 xl:items-stretch
                 xl:gap-6
               "
             >
               {/* Featured Skeleton */}
-              <div
-                className="
-                  min-w-0
-                  xl:col-span-8
-                "
-              >
+              <div className="min-w-0 xl:col-span-8">
                 <div
                   className="
                     h-105
                     animate-pulse
                     rounded-2xl
                     bg-slate-200
-
                     sm:h-115
                     md:h-120
                     lg:h-125
@@ -181,11 +175,8 @@ export default function NewsSection() {
                   min-w-0
                   grid-cols-1
                   gap-4
-
                   sm:grid-cols-2
-
                   md:gap-5
-
                   xl:col-span-4
                   xl:grid-cols-1
                   xl:grid-rows-2
@@ -198,11 +189,9 @@ export default function NewsSection() {
                     animate-pulse
                     rounded-2xl
                     bg-slate-200
-
                     sm:h-80
                     md:h-88
                     lg:h-96
-
                     xl:h-auto
                     xl:min-h-0
                   "
@@ -214,11 +203,9 @@ export default function NewsSection() {
                     animate-pulse
                     rounded-2xl
                     bg-slate-200
-
                     sm:h-80
                     md:h-88
                     lg:h-96
-
                     xl:h-auto
                     xl:min-h-0
                   "
@@ -246,75 +233,87 @@ export default function NewsSection() {
             message="There are no published news articles available right now."
           />
         ) : (
-          <>
+          <div
+            ref={contentRef}
+            className="
+              rounded-3xl
+              bg-[#F7F8FD]
+              p-3
+              sm:p-4
+              md:p-5
+              lg:p-6
+              xl:p-7
+            "
+          >
             <div
-              ref={
-                contentRef
+              key={
+                safeCurrentPage
               }
-              className="
-                rounded-3xl
-                bg-[#F7F8FD]
-                p-3
-                sm:p-4
-                md:p-5
-                lg:p-6
-                xl:p-7
-              "
-            >
-              <div
-                key={
-                  safeCurrentPage
-                }
-                className="
-                  grid
-                  min-w-0
-                  grid-cols-1
-                  gap-4
-
-                  md:gap-5
-
-                  xl:grid-cols-12
-                  xl:items-stretch
-                  xl:gap-6
-                "
-              >
-                {/* Featured News */}
-                {featuredNews && (
-                  <div
-                    data-aos="fade-up"
-                    data-aos-duration="550"
-                    className="
+              className={
+                currentItemsCount ===
+                3
+                  ? `
+                    grid
+                    min-w-0
+                    grid-cols-1
+                    gap-4
+                    md:gap-5
+                    xl:grid-cols-12
+                    xl:items-stretch
+                    xl:gap-6
+                  `
+                  : currentItemsCount ===
+                      2
+                    ? `
+                      grid
                       min-w-0
-                      xl:col-span-8
-                      xl:h-full
-                    "
-                  >
-                    <NewsCard
-                      news={
-                        featuredNews
-                      }
-                      variant="featured"
-                      onOpen={
-                        setSelectedNews
-                      }
-                    />
-                  </div>
-                )}
+                      grid-cols-1
+                      gap-4
+                      md:grid-cols-2
+                      md:gap-5
+                      xl:gap-6
+                    `
+                    : `
+                      grid
+                      min-w-0
+                      grid-cols-1
+                    `
+              }
+            >
+              {/* 3 Cards Layout */}
+              {currentItemsCount ===
+                3 && (
+                <>
+                  {featuredNews && (
+                    <div
+                      data-aos="fade-up"
+                      data-aos-duration="550"
+                      className="
+                        min-w-0
+                        xl:col-span-8
+                        xl:h-full
+                      "
+                    >
+                      <NewsCard
+                        news={
+                          featuredNews
+                        }
+                        variant="featured"
+                        onOpen={
+                          setSelectedNews
+                        }
+                      />
+                    </div>
+                  )}
 
-                {/* Secondary News */}
-                {secondaryNews.length >
-                  0 && (
                   <div
                     className="
                       grid
                       min-w-0
                       grid-cols-1
                       gap-4
-
                       sm:grid-cols-2
-
                       md:gap-5
-
                       xl:col-span-4
                       xl:h-full
                       xl:min-h-0
@@ -358,37 +357,97 @@ export default function NewsSection() {
                       ),
                     )}
                   </div>
-                )}
-              </div>
-
-              {/* Pagination */}
-              {totalPages >
-                1 && (
-                <div
-                  className="
-                    mt-6
-                    border-t
-                    border-slate-200/80
-                    pt-6
-                    md:mt-7
-                    md:pt-7
-                  "
-                >
-                  <Pagination
-                    currentPage={
-                      safeCurrentPage
-                    }
-                    totalPages={
-                      totalPages
-                    }
-                    onPageChange={
-                      handlePageChange
-                    }
-                  />
-                </div>
+                </>
               )}
+
+              {/* 2 Cards Layout */}
+              {currentItemsCount ===
+                2 &&
+                currentNewsItems.map(
+                  (
+                    news,
+                    index,
+                  ) => (
+                    <div
+                      key={
+                        news._id
+                      }
+                      data-aos="fade-up"
+                      data-aos-delay={
+                        index *
+                        70
+                      }
+                      data-aos-duration="550"
+                      className="
+                        min-w-0
+                        h-full
+                      "
+                    >
+                      <NewsCard
+                        news={news}
+                        variant="featured"
+                        onOpen={
+                          setSelectedNews
+                        }
+                      />
+                    </div>
+                  ),
+                )}
+
+              {/* 1 Card Layout */}
+              {currentItemsCount ===
+                1 &&
+                featuredNews && (
+                  <div
+                    data-aos="fade-up"
+                    data-aos-duration="550"
+                    className="
+                      mx-auto
+                      w-full
+                      max-w-5xl
+                      min-w-0
+                    "
+                  >
+                    <NewsCard
+                      news={
+                        featuredNews
+                      }
+                      variant="featured"
+                      onOpen={
+                        setSelectedNews
+                      }
+                    />
+                  </div>
+                )}
             </div>
-          </>
+
+            {/* Pagination */}
+            {totalPages >
+              1 && (
+              <div
+                className="
+                  mt-6
+                  border-t
+                  border-slate-200/80
+                  pt-6
+                  md:mt-7
+                  md:pt-7
+                "
+              >
+                <Pagination
+                  currentPage={
+                    safeCurrentPage
+                  }
+                  totalPages={
+                    totalPages
+                  }
+                  onPageChange={
+                    handlePageChange
+                  }
+                />
+              </div>
+            )}
+          </div>
         )}
       </section>
 
