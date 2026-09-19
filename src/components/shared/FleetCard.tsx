@@ -67,7 +67,7 @@ export default function FleetCard({
     >
       <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_5px_18px_rgba(31,63,147,0.05)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(31,63,147,0.15)]">
         {/* Image */}
-        <div className="relative h-36 shrink-0 overflow-hidden sm:h-38">
+        <div className="relative shrink-0 overflow-hidden h-48 sm:h-56 md:h-64 w-full">
           <img
             src={item.image.url}
             alt={item.image.alt || item.title}
@@ -83,11 +83,10 @@ export default function FleetCard({
 
           <div className="absolute right-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/95 px-2.5 py-1 text-[8px] font-semibold uppercase tracking-[0.04em] text-slate-600 shadow-sm">
             <Circle
-              className={`h-1.5 w-1.5 ${
-                isAvailable
+              className={`h-1.5 w-1.5 ${isAvailable
                   ? "fill-green-500 text-green-500"
                   : "fill-red-500 text-red-500"
-              }`}
+                }`}
             />
 
             {isAvailable ? "Ready to Mobilize" : "Currently Unavailable"}
