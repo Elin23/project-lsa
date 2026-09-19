@@ -72,7 +72,7 @@ const HotTappingBanner = ({ className = "" }: Props) => {
           {/* Action Callout Button Wrapper */}
           <div className="relative z-10 mt-8 flex shrink-0 justify-center transition-transform duration-700 group-hover:-translate-y-1 md:ml-8 md:mt-0 md:block">
             <ButtonComponent
-              to="/services/hot-tapping-stopple"
+              to="/services/hot-tapping-and-linestop-services"
               className="w-fit"
               bg="bg-white"
               hoverBg="hover:bg-red-600"
