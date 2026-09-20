@@ -15,44 +15,6 @@ export interface ServiceCardProps {
   animationDelay?: number;
 }
 
-const ACRONYMS = [
-  "EPC",
-  "EPCC",
-  "LSA",
-  "SOC",
-  "HSE",
-  "QA/QC",
-  "ISO",
-  "HVAC",
-  "NDT",
-  "E&I",
-  "MEP",
-  "API",
-];
-
-const formatDashboardText = (text?: string) => {
-  if (!text) return "";
-
-  let result = text.trim().toLowerCase();
-
-  // Capitalize first letter of each sentence
-  result = result.replace(
-    /(^\s*[a-z])|([.!?]\s+[a-z])/g,
-    (match) => match.toUpperCase(),
-  );
-
-  // Restore technical acronyms
-  ACRONYMS.forEach((acronym) => {
-    const escaped = acronym
-      .toLowerCase()
-      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-    result = result.replace(new RegExp(escaped, "gi"), acronym);
-  });
-
-  return result;
-};
-
 export default function ServiceCard({
   id,
   slug,
@@ -115,18 +77,12 @@ export default function ServiceCard({
               </span>
             </div>
 
-            <h3
-              className="mt-4 max-w-xl normal-case text-2xl font-extrabold leading-tight tracking-tight text-blue-01 sm:text-[28px] xl:text-[30px]"
-              style={{ textTransform: "none" }}
-            >
-              {formatDashboardText(title)}
+            <h3 className="mt-4 max-w-xl text-2xl font-extrabold leading-tight tracking-tight text-blue-01 sm:text-[28px] xl:text-[30px]">
+              {title}
             </h3>
 
-            <p
-              className="mt-3 max-w-2xl normal-case text-sm leading-6.5 text-muted-blue sm:text-[15px]"
-              style={{ textTransform: "none" }}
-            >
-              {formatDashboardText(description)}
+            <p className="mt-3 max-w-2xl text-sm leading-6.5 text-muted-blue sm:text-[15px]">
+              {description}
             </p>
 
             {features.length > 0 && (
@@ -140,11 +96,8 @@ export default function ServiceCard({
                       <Check size={11} strokeWidth={3} />
                     </span>
 
-                    <span
-                      className="normal-case leading-5"
-                      style={{ textTransform: "none" }}
-                    >
-                      {formatDashboardText(feature)}
+                    <span className="leading-5">
+                      {feature}
                     </span>
                   </li>
                 ))}
