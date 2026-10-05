@@ -32,10 +32,12 @@ export default function DetailedScope({ project }: DetailedScopeProps) {
       label: "LOCATION",
       value: project.projectDetails.location,
     },
-    {
-      label: "COMPLETION DATE",
-      value: project.projectDetails.completionDate,
-    },
+{
+  label: "COMPLETION DATE",
+  value: project.projectDetails.completionDate
+    ? new Date(project.projectDetails.completionDate).toLocaleDateString("en-GB")
+    : "",
+},
     {
       label: "DURATION",
       value: project.projectDetails.duration,
