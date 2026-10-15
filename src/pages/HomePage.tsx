@@ -90,8 +90,8 @@ const HomePage = () => {
         <AboutUsHomeSection />
         <OurCoreCapabilities />
         <WhyPartnerSection
-          title="Why Partner With Us?"
-          description="We deliver certainty in uncertain environments. Our integrated approach ensures that every project is completed on time, within budget, and to the highest safety standards."
+          title="Why Partner With LSA?"
+          description="LSA combines proven oil and gas experience, EPC expertise, specialized resources, and a strong commitment to quality and HSE to deliver reliable, safe, and efficient projects across Iraq."
           image={partnerImage}
           items={partnerItems}
         />

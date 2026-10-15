@@ -15,7 +15,7 @@ const FAQSection = ({ className = "" }: FAQSectionProps) => {
     <section className={className} id="faq">
       <TitleComponent
         title="Frequently Asked Questions"
-        description="Clarifying our processes and capabilities for prospective partners."
+        description="Explore LSA's EPC capabilities, specialized oil & gas services, project experience, and commitment to safe, high-quality execution in Iraq."
       />
 
       <div className="grid gap-6 md:grid-cols-2">

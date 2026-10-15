@@ -3,11 +3,6 @@ import { Link } from "react-router-dom";
 
 import img from "../../assets/AboutUsHomeImage.webp";
 
-/**
- * AboutUsHomeSection Component
- * Renders the homepage "About Us" section highlighting local roots & global standards.
- * Enhanced with smooth cinematic image hover effects.
- */
 export default function AboutUsHomeSection() {
   return (
     <section
@@ -15,7 +10,6 @@ export default function AboutUsHomeSection() {
       className="flex flex-col items-center justify-between gap-16 lg:flex-row"
       aria-labelledby="home-about-heading"
     >
-      {/* Visual Image Container with Enhanced Dynamic Hover Effect */}
       <div
         data-aos="zoom-in"
         data-aos-duration="650"
@@ -24,13 +18,11 @@ export default function AboutUsHomeSection() {
         data-aos-once="true"
         className="group relative h-max w-full lg:w-[47.29%] 2xl:w-[47.99%]"
       >
-        {/* Background Accent Card - Dynamic Rotation on Hover */}
         <div
           className="absolute inset-0 rotate-[1.5deg] rounded-2xl bg-white-gray-03 transition-transform duration-500 ease-out group-hover:rotate-[3.5deg] group-hover:scale-[1.02]"
           aria-hidden="true"
         />
 
-        {/* Image Mask Wrapper */}
         <div className="relative overflow-hidden rounded-2xl">
           <img
             src={img}
@@ -40,12 +32,10 @@ export default function AboutUsHomeSection() {
             className="relative h-auto w-full rounded-2xl object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
           />
 
-          {/* Light Sweep/Glow Effect on Hover */}
           <div className="pointer-events-none absolute -inset-full top-0 block h-full w-1/2 -skew-x-12 bg-linear-to-r from-transparent via-white/20 to-transparent transition-all duration-1000 ease-in-out group-hover:left-full" />
         </div>
       </div>
 
-      {/* Main Content Area */}
       <div
         data-aos="fade-up"
         data-aos-delay="120"
@@ -63,19 +53,19 @@ export default function AboutUsHomeSection() {
         </h2>
 
         <p className="font-normal text-muted-blue md:text-base 2xl:text-[18px]">
-          Loaloat Shatt Al-Arab (LSA) combines deep local knowledge with
-          uncompromising international quality standards. We are the trusted
-          partner for complex engineering challenges in Iraq&apos;s most
-          demanding environments.
+          Loaloat Shatt Al-Arab (LSA) is a Basra-based EPC contractor delivering
+          engineering, procurement, and construction solutions for Iraq&apos;s oil and
+          gas sector. With strong local experience, skilled teams, and specialized
+          equipment, we execute pipeline, hot tapping, mechanical, and infrastructure
+          projects with a focus on safety, quality, and international standards.
         </p>
-
         <Link
           to="/about"
           aria-label="Learn more about Loaloat Shatt Al-Arab"
           className="group/link relative mx-auto inline-flex items-center gap-2 text-base font-semibold text-red-01 md:text-lg lg:mx-0 2xl:text-xl"
         >
           <span className="relative after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-red-01 after:transition-all after:duration-300 group-hover/link:after:w-full">
-            Learn more about us
+            Learn More About Us
           </span>
 
           <GoArrowRight

@@ -1,42 +1,42 @@
 export const faqData = [
   {
-    question: "What is the typical timeline for an EPC project?",
+    question: "What EPC services does LSA provide for oil and gas projects in Iraq?",
     answer:
-      "Timelines vary depending on scope, procurement, approvals, and site conditions. After reviewing the project requirements, we provide a clear schedule with milestones.",
+      "LSA provides engineering, procurement, and construction (EPC) services for oil and gas facilities in Iraq, including pipeline construction, mechanical and piping works, wellhead and manifold hook-ups, civil and structural works, electrical and instrumentation installations, hydrotesting, and commissioning support.",
   },
   {
-    question: "Can you handle emergency Hot Tapping requests?",
+    question: "What experience does LSA have in oil and gas pipeline construction?",
     answer:
-      "Yes, urgent requests can be assessed and scheduled based on site readiness, safety requirements, and team availability.",
+      "LSA has experience in oil and gas pipeline construction, fabrication, installation, tie-ins, maintenance, pressure testing, and associated civil works. Our project capabilities cover both new installations and brownfield modifications in operating oilfield environments across southern Iraq.",
   },
   {
-    question: "What is your RFQ process for EPC contracts?",
+    question: "What are LSA’s hot tapping and line stop capabilities?",
     answer:
-      "We review the scope, drawings, technical requirements, and site details before preparing a commercial and technical proposal.",
+      "LSA provides specialized hot tapping and line stop services for live pipeline systems, including engineering and execution planning, fitting installation, testing, and controlled tie-in operations. Our hot tapping equipment portfolio includes TDW equipment supporting applications up to 42 inches, subject to configuration, operating conditions, and technical assessment.",
   },
   {
-    question: "How do you ensure safety on site in Iraq?",
+    question: "Can LSA execute wellhead hook-up and water injection projects?",
     answer:
-      "We follow strict safety procedures, risk assessments, toolbox talks, and supervision during all site activities.",
+      "Yes. LSA has executed oil well and water injection well hook-up works, including piping fabrication and installation, flowline connections, manifolds, pipe supports, welding, NDT, protective coating, pressure testing, and commissioning support. Our experience includes work on 38 oil wells and 15 water injection wells in the Zubair field.",
   },
   {
-    question: "Do you offer stand-alone procurement services?",
+    question: "Does LSA provide HDD, auger boring, and trenchless pipeline crossings?",
     answer:
-      "Yes, procurement can be offered as a separate service depending on the required materials, specifications, and delivery location.",
+      "LSA supports trenchless construction activities including horizontal directional drilling (HDD), auger boring, and thrust boring for pipeline and utility crossings. Solutions are selected according to ground conditions, crossing geometry, pipe dimensions, and project-specific engineering requirements.",
   },
   {
-    question: "What is your regional expertise in the Basra area?",
+    question: "What construction equipment and specialized resources does LSA have?",
     answer:
-      "Our team has experience supporting industrial, oil and gas, and infrastructure projects across the Basra region.",
+      "LSA maintains access to construction and specialized field equipment for pipeline and mechanical works, including TDW hot tapping machines and cutters, welding and fabrication equipment, blasting and painting equipment, lifting resources, and pressure-testing tools. Equipment deployment is determined by project scope, readiness, and availability.",
   },
   {
-    question: "Are your operations ISO and local law compliant?",
+    question: "How does LSA ensure quality and HSE compliance on oilfield projects?",
     answer:
-      "Operations are handled in accordance with applicable local requirements and recognized quality and safety standards.",
+      "LSA implements project-specific quality and HSE controls, including inspection and test plans (ITPs), welding and NDT inspections, permit-to-work arrangements, risk assessments, toolbox talks, equipment inspections, and construction supervision. Work is executed in accordance with applicable contractual requirements, approved procedures, and relevant industry standards.",
   },
   {
-    question: "What heavy machinery fleet do you currently own?",
+    question: "Where does LSA operate, and which oilfields has it worked in?",
     answer:
-      "The fleet depends on project needs and availability. Equipment details can be shared during the RFQ or project planning stage.",
+      "LSA is based in Basra, Iraq, and has experience supporting oil and gas projects in southern Iraq, including the Zubair, Majnoon, Ratawi, and Rumaila operational areas. Our services support oilfield operators, EPC contractors, and industrial infrastructure clients requiring local execution capability.",
   },
 ];
