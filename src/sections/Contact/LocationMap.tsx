@@ -14,20 +14,46 @@ const getGoogleMapsEmbedUrl = (mapUrl: string): string | null => {
 
     const query = url.searchParams.get("query") || url.searchParams.get("q");
 
-    if (!query) {
-      return null;
+    if (query) {
+      return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
     }
 
-    return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+const coordinates = url.pathname.match(
+  /@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/,
+);
+
+if (coordinates) {
+  const [, latitude, longitude] = coordinates;
+
+  return `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
+}
+
+const placeMatch = url.pathname.match(/\/place\/([^/]+)/);
+
+if (placeMatch) {
+  const placeName = decodeURIComponent(
+    placeMatch[1].replace(/\+/g, " "),
+  );
+
+  return `https://maps.google.com/maps?q=${encodeURIComponent(placeName)}&output=embed`;
+}
+
+return null;
   } catch {
-    return null;
-  }
+  return null;
+}
 };
 
 export default function LocationMap() {
   const [loaded, setLoaded] = useState(false);
 
-  const { data: contact, isLoading, isError, isFetching, refetch } = useContactInfo();
+  const {
+    data: contact,
+    isLoading,
+    isError,
+    isFetching,
+    refetch,
+  } = useContactInfo();
 
   // ======================================================
   // Map URL From Backend
@@ -95,7 +121,10 @@ export default function LocationMap() {
   // ======================================================
 
   return (
-    <section aria-label="Company location" className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden">
+    <section
+      aria-label="Company location"
+      className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden"
+    >
       <div className="relative h-80 w-full bg-[#ECEFF5] md:h-105 lg:h-130">
         {!loaded && <MapSkeleton />}
 
@@ -122,7 +151,10 @@ export default function LocationMap() {
 
 function MapSkeleton() {
   return (
-    <div aria-hidden="true" className="absolute inset-0 z-10 animate-pulse bg-[#ECEFF5]">
+    <div
+      aria-hidden="true"
+      className="absolute inset-0 z-10 animate-pulse bg-[#ECEFF5]"
+    >
       <div className="absolute inset-0 bg-[linear-gradient(35deg,transparent_48%,rgba(255,255,255,0.85)_49%,rgba(255,255,255,0.85)_51%,transparent_52%)] bg-size-[80px_80px]" />
 
       <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent" />
