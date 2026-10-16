@@ -7,7 +7,8 @@ import { partnerItems } from "../data/partnerData";
 import partnerImage from "../assets/imgs/Industrial_trunkline_construction.webp";
 import AboutUsHomeSection from "../sections/Home/AboutUsHomeSection";
 import HotTappingBanner from "../components/shared/CTA/HotTappingBanner";
-import heroVideo from "../assets/Images/Home/homeVideo.mp4";
+const heroVideo =
+  "https://res.cloudinary.com/zj7njgea/video/upload/f_auto,q_auto/v1792179145/homeVideo";
 import heroImageOne from "../assets/Images/Home/team.webp";
 import heroImageTwo from "../assets/Images/Home/team2.webp";
 import CounterSection from "../sections/Home/CounterSection";

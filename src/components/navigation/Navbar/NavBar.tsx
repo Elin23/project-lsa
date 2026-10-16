@@ -282,28 +282,66 @@ const Navbar = () => {
       >
         <div className="mx-auto flex h-full w-full max-w-[1920px] items-center justify-between px-container">
           {/* Logo */}
-          <NavLink
-            to="/"
-            onClick={closeAllMenus}
-            aria-label="Go to home page"
-            className="relative z-20 flex shrink-0 items-center gap-2"
-          >
-            <img
-              src={logo}
-              alt="LSA Logo"
-              className="h-11 w-auto object-contain transition-all duration-300 md:h-13 lg:h-14 2xl:h-16"
-            />
 
-            <span
-              className={`max-w-[220px] text-[10px] font-semibold leading-tight tracking-[0.08em] transition-colors duration-300 sm:text-[11px] md:text-xs lg:text-sm ${
-                useTransparentStyle
-                  ? "text-white/90 hover:text-white"
-                  : "text-blue-01 hover:text-red-01"
-              }`}
-            >
-              Loaloat Shatt Al-Arab
-            </span>
-          </NavLink>
+
+
+
+<NavLink
+  to="/"
+  onClick={closeAllMenus}
+  aria-label="Go to home page"
+  className="group relative z-20 flex shrink-0 items-center gap-2 md:gap-2.5"
+>
+  {/* ==================== Company Logo ==================== */}
+
+  <img
+    src={logo}
+    alt="LSA Logo"
+    className="h-9 w-auto shrink-0 object-contain transition-transform duration-300 group-hover:scale-[1.03] md:h-10 lg:h-11 2xl:h-12"
+  />
+
+  {/* ==================== Company Identity ==================== */}
+
+  <div className="flex min-w-0 flex-col items-center justify-center gap-[2px] text-center">
+
+    {/* ==================== Arabic Company Name ==================== */}
+
+    <span
+      lang="ar"
+      dir="rtl"
+      className={`whitespace-nowrap text-[7px] font-semibold leading-tight md:text-[8px] lg:text-[9px] 2xl:text-[10px] ${
+        useTransparentStyle ? "text-white/90" : "text-blue-01"
+      }`}
+    >
+      شركة لؤلؤة شط العرب للمقاولات العامة
+    </span>
+
+    {/* ==================== English Company Name ==================== */}
+
+    <span
+      className={`whitespace-nowrap font-serif text-[8px] font-bold leading-tight tracking-tight md:text-[9px] lg:text-[10px] 2xl:text-xs ${
+        useTransparentStyle ? "text-white" : "text-blue-01"
+      }`}
+    >
+      <span className="text-red-01">L</span>oaloat{" "}
+      <span className="text-red-01">S</span>hatt{" "}
+      <span className="text-red-01">A</span>l-Arab Company
+    </span>
+
+    {/* ==================== Company Description ==================== */}
+
+    <span
+      className={`whitespace-nowrap font-serif text-[7px] font-medium leading-tight md:text-[8px] lg:text-[9px] 2xl:text-[10px] ${
+        useTransparentStyle ? "text-white/70" : "text-blue-01/65"
+      }`}
+    >
+      For General Contracting LTD
+    </span>
+  </div>
+</NavLink>
+
+
+
 
           {/* Desktop Navigation */}
           <ul
