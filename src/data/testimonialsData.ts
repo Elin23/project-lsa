@@ -6,36 +6,47 @@ export interface Testimonial {
   image: string;
   quote: string;
 }
-import img1 from '../assets/Images/testimonials/person-1.webp'
-import img2 from '../assets/Images/testimonials/person-2.webp'
-import img3 from '../assets/Images/testimonials/person-3.webp'
+
+import img1 from '../assets/Images/testimonials/Hyder Kareem Malik.jpg';
+import img2 from '../assets/Images/testimonials/Mohammed Ewaid H.jpg';
+import img3 from '../assets/Images/testimonials/Ahmed Raad J.jpg';
+import img4 from '../assets/Images/testimonials/Mohammed Al-Zahid.jpg';
 
 export const testimonialsData: Testimonial[] = [
   {
     id: 1,
-    name: "Michael Anderson",
-    position: "Senior Project Manager",
-    company: "Major International Oil Company",
+    name: "Hyder Kareem Malik",
+    position: "Authorized Director",
+    company: "LSA",
     image: img1,
     quote:
-      "LSA consistently delivers on their promises. Their technical expertise on the Rumaila field was instrumental to the project's success, maintaining flawless safety records throughout.",
+      "At LSA, we combine local knowledge, experienced people, and dependable equipment to deliver safe, practical, and high-quality EPC solutions. Our commitment is to complete every project with integrity, technical excellence, and full focus on our clients’ objectives.",
   },
   {
     id: 2,
-    name: "David Richardson",
-    position: "Operations Director",
-    company: "Energy Services Company",
+    name: "Mohammed Ewaid H.",
+    position: "Deputy General Manager",
+    company: "LSA",
     image: img2,
     quote:
-      "The professionalism and responsiveness of the LSA team exceeded our expectations. Their ability to execute complex field operations while maintaining the highest safety standards was truly impressive.",
+      "Our commitment is to deliver every project with safety, quality, and accountability at its core. Through experienced teams, reliable resources, and disciplined execution, LSA provides practical EPC solutions that clients can depend on.",
   },
   {
     id: 3,
-    name: "James Carter",
-    position: "Engineering Manager",
-    company: "Regional Infrastructure Contractor",
+    name: "Ahmed Raad J.",
+    position: "Operations Manager",
+    company: "LSA",
     image: img3,
     quote:
-      "From planning to execution, LSA demonstrated exceptional engineering capabilities and a strong commitment to quality. Their support played a key role in delivering our project on time and within budget.",
+      "Our operations are built around safe execution, clear coordination, and dependable project delivery. We ensure that our teams, equipment, and resources are fully prepared to meet each client’s project requirements.",
+  },
+  {
+    id: 4,
+    name: "Mohammed Al-Zahid",
+    position: "Senior Technical Manager",
+    company: "LSA",
+    image: img4,
+    quote:
+      "LSA combines sound engineering practice with practical field experience to deliver reliable solutions. From planning and design through construction and commissioning, quality and technical integrity remain our priority.",
   },
 ];
