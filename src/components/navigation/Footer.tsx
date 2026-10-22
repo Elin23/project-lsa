@@ -1,25 +1,17 @@
-import type {
-  ElementType,
-} from "react";
+import type { ElementType } from "react";
 
 import {
   ArrowUpRight,
   ChevronRight,
 } from "lucide-react";
 
-import {
-  Link,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import logo from "../../assets/Logo2.webp";
 
-import {
-  footerData,
-} from "../../data/footerData";
+import { footerData } from "../../data/footerData";
 
-import {
-  useContactInfo,
-} from "../../hooks/queries/useContactInfo";
+import { useContactInfo } from "../../hooks/queries/useContactInfo";
 
 // ======================================================
 // Types
@@ -31,13 +23,8 @@ export interface FooterTitleProps {
 
 interface ResolvedContactItem {
   icon: ElementType;
-  value:
-    | string
-    | string[];
-  type:
-    | "address"
-    | "phone"
-    | "email";
+  value: string | string[];
+  type: "address" | "phone" | "email";
 }
 
 // ======================================================
@@ -51,7 +38,7 @@ const FooterTitle = ({
     <div>
       <h3
         className="
-          text-base
+          text-[15px]
           font-bold
           tracking-[-0.01em]
           text-white
@@ -61,9 +48,8 @@ const FooterTitle = ({
         {title}
       </h3>
 
-      <div className="mt-3 flex items-center gap-1.5">
-        <span className="h-0.5 w-8 rounded-full bg-red-01" />
-
+      <div className="mt-2.5 flex items-center gap-1.5 sm:mt-3">
+        <span className="h-0.5 w-7 rounded-full bg-red-01 sm:w-8" />
         <span className="h-0.5 w-2 rounded-full bg-white/20" />
       </div>
     </div>
@@ -75,8 +61,7 @@ const FooterTitle = ({
 // ======================================================
 
 const Footer = () => {
-  const currentYear =
-    new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
 
   const {
     data: contact,
@@ -97,88 +82,69 @@ const Footer = () => {
   // Social Links
   // ====================================================
 
-  const socialLinks =
-    footerData.socialLinks
-      .map((social) => {
-        let dynamicUrl =
-          social.url?.trim() ||
-          "";
+  const socialLinks = footerData.socialLinks
+    .map((social) => {
+      let dynamicUrl =
+        social.url?.trim() || "";
+
+      if (
+        !isError &&
+        contact?.socialLinks
+      ) {
+        const key = social.label
+          .toLowerCase()
+          .trim();
 
         if (
-          !isError &&
-          contact?.socialLinks
+          key === "facebook" &&
+          contact.socialLinks.facebook
         ) {
-          const key =
-            social.label
-              .toLowerCase()
-              .trim();
-
-          if (
-            key ===
-              "facebook" &&
-            contact.socialLinks
-              .facebook
-          ) {
-            dynamicUrl =
-              contact.socialLinks.facebook.trim();
-          }
-
-          if (
-            key ===
-              "instagram" &&
-            contact.socialLinks
-              .instagram
-          ) {
-            dynamicUrl =
-              contact.socialLinks.instagram.trim();
-          }
-
-          if (
-            key ===
-              "linkedin" &&
-            contact.socialLinks
-              .linkedin
-          ) {
-            dynamicUrl =
-              contact.socialLinks.linkedin.trim();
-          }
-
-          if (
-            key ===
-              "whatsapp" &&
-            contact.socialLinks
-              .whatsapp
-          ) {
-            const whatsapp =
-              contact.socialLinks.whatsapp.trim();
-
-            dynamicUrl =
-              whatsapp.startsWith(
-                "http://",
-              ) ||
-              whatsapp.startsWith(
-                "https://",
-              )
-                ? whatsapp
-                : `https://wa.me/${whatsapp.replace(
-                    /\D/g,
-                    "",
-                  )}`;
-          }
+          dynamicUrl =
+            contact.socialLinks.facebook.trim();
         }
 
-        return {
-          ...social,
-          url:
-            dynamicUrl,
-        };
-      })
-      .filter(
-        (social) =>
-          Boolean(
-            social.url,
-          ),
-      );
+        if (
+          key === "instagram" &&
+          contact.socialLinks.instagram
+        ) {
+          dynamicUrl =
+            contact.socialLinks.instagram.trim();
+        }
+
+        if (
+          key === "linkedin" &&
+          contact.socialLinks.linkedin
+        ) {
+          dynamicUrl =
+            contact.socialLinks.linkedin.trim();
+        }
+
+        if (
+          key === "whatsapp" &&
+          contact.socialLinks.whatsapp
+        ) {
+          const whatsapp =
+            contact.socialLinks.whatsapp.trim();
+
+          dynamicUrl =
+            whatsapp.startsWith("http://") ||
+            whatsapp.startsWith("https://")
+              ? whatsapp
+              : `https://wa.me/${whatsapp.replace(
+                  /\D/g,
+                  "",
+                )}`;
+        }
+      }
+
+      return {
+        ...social,
+        url: dynamicUrl,
+      };
+    })
+    .filter((social) =>
+      Boolean(social.url),
+    );
 
   // ====================================================
   // Contact Items
@@ -200,103 +166,71 @@ const Footer = () => {
     !isError &&
     contact?.location?.address?.trim()
       ? contact.location.address
-      : typeof fallbackAddress
-            ?.value ===
+      : typeof fallbackAddress?.value ===
           "string"
         ? fallbackAddress.value
         : "";
 
-  if (
-    addressValue
-  ) {
-    resolvedContactItems.push(
-      {
-        icon:
-          fallbackAddress.icon as ElementType,
+  if (addressValue) {
+    resolvedContactItems.push({
+      icon:
+        fallbackAddress.icon as ElementType,
 
-        value:
-          addressValue,
+      value: addressValue,
 
-        type:
-          "address",
-      },
-    );
+      type: "address",
+    });
   }
 
   const phoneValues =
     !isError &&
-    Array.isArray(
-      contact?.phones,
-    ) &&
-    contact.phones.length >
-      0
-      ? contact.phones.filter(
-          (phone) =>
-            Boolean(
-              phone?.trim(),
-            ),
+    Array.isArray(contact?.phones) &&
+    contact.phones.length > 0
+      ? contact.phones.filter((phone) =>
+          Boolean(phone?.trim()),
         )
       : Array.isArray(
             fallbackPhone?.value,
           )
         ? fallbackPhone.value.filter(
             (phone) =>
-              Boolean(
-                phone?.trim(),
-              ),
+              Boolean(phone?.trim()),
           )
-        : typeof fallbackPhone
-              ?.value ===
-            "string" &&
-          fallbackPhone.value.trim()
-          ? [
-              fallbackPhone.value,
-            ]
+        : typeof fallbackPhone?.value ===
+              "string" &&
+            fallbackPhone.value.trim()
+          ? [fallbackPhone.value]
           : [];
 
-  if (
-    phoneValues.length >
-    0
-  ) {
-    resolvedContactItems.push(
-      {
-        icon:
-          fallbackPhone.icon as ElementType,
+  if (phoneValues.length > 0) {
+    resolvedContactItems.push({
+      icon:
+        fallbackPhone.icon as ElementType,
 
-        value:
-          phoneValues,
+      value: phoneValues,
 
-        type:
-          "phone",
-      },
-    );
+      type: "phone",
+    });
   }
 
   const emailValue =
     !isError &&
     contact?.email?.trim()
       ? contact.email
-      : typeof fallbackEmail
-            ?.value ===
+      : typeof fallbackEmail?.value ===
           "string"
         ? fallbackEmail.value
         : "";
 
-  if (
-    emailValue
-  ) {
-    resolvedContactItems.push(
-      {
-        icon:
-          fallbackEmail.icon as ElementType,
+  if (emailValue) {
+    resolvedContactItems.push({
+      icon:
+        fallbackEmail.icon as ElementType,
 
-        value:
-          emailValue,
+      value: emailValue,
 
-        type:
-          "email",
-      },
-    );
+      type: "email",
+    });
   }
 
   // ====================================================
@@ -398,22 +332,26 @@ const Footer = () => {
         <div
           className="
             grid
-            grid-cols-1
-            gap-x-8
-            gap-y-12
-            py-14
-            sm:grid-cols-2
-            sm:py-16
+            grid-cols-2
+            gap-x-6
+            gap-y-9
+            py-10
+
+            sm:gap-x-8
+            sm:gap-y-10
+            sm:py-14
+
             lg:grid-cols-[1.25fr_0.72fr_0.95fr_1.25fr]
             lg:gap-x-10
             lg:gap-y-0
             lg:py-18
+
             xl:grid-cols-[1.35fr_0.7fr_0.95fr_1.35fr]
             xl:gap-x-16
           "
         >
           {/* Company Column */}
-          <div className="sm:col-span-2 lg:col-span-1">
+          <div className="col-span-2 lg:col-span-1">
             <Link
               to="/"
               aria-label="Go to home page"
@@ -423,7 +361,7 @@ const Footer = () => {
                 src={logo}
                 alt="LSA Logo"
                 className="
-                  w-28
+                  w-24
                   object-contain
                   sm:w-32
                 "
@@ -432,26 +370,27 @@ const Footer = () => {
 
             <p
               className="
-                mt-7
+                mt-4
                 max-w-md
-                text-sm
-                leading-7
+                text-[13px]
+                leading-6
                 text-white/55
+
+                sm:mt-6
+                sm:text-sm
+                sm:leading-7
+
+                lg:mt-7
                 lg:max-w-sm
               "
             >
-              {
-                companyDescription
-              }
+              {companyDescription}
             </p>
 
-            {socialLinks.length >
-              0 && (
-              <div className="mt-7 flex flex-wrap items-center gap-3">
+            {socialLinks.length > 0 && (
+              <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:mt-7 sm:gap-3">
                 {socialLinks.map(
-                  (
-                    social,
-                  ) => {
+                  (social) => {
                     const Icon =
                       social.icon as ElementType;
 
@@ -487,8 +426,8 @@ const Footer = () => {
                         className={`
                           group
                           flex
-                          h-10
-                          w-10
+                          h-9
+                          w-9
                           items-center
                           justify-center
                           rounded-lg
@@ -500,13 +439,15 @@ const Footer = () => {
                           duration-300
                           hover:-translate-y-1
                           hover:text-white
+
+                          sm:h-10
+                          sm:w-10
+
                           ${social.hoverClass}
                         `}
                       >
                         <Icon
-                          size={
-                            17
-                          }
+                          size={16}
                           className="
                             transition-transform
                             duration-300
@@ -522,10 +463,10 @@ const Footer = () => {
           </div>
 
           {/* Quick Links Column */}
-          <div>
+          <div className="min-w-0">
             <FooterTitle title="Quick Links" />
 
-            <ul className="mt-7 space-y-3.5">
+            <ul className="mt-5 space-y-2.5 sm:mt-7 sm:space-y-3.5">
               {footerData.quickLinks.map(
                 (link) => (
                   <li
@@ -541,28 +482,32 @@ const Footer = () => {
                         group
                         inline-flex
                         items-center
-                        gap-1.5
-                        text-sm
+                        gap-1
+                        text-[13px]
                         font-medium
                         text-white/55
                         transition-colors
                         duration-300
                         hover:text-white
+
+                        sm:gap-1.5
+                        sm:text-sm
                       "
                     >
                       <ChevronRight
-                        size={
-                          14
-                        }
+                        size={13}
                         className="
-                          -ml-2
+                          hidden
                           shrink-0
                           text-red-01
-                          opacity-0
                           transition-all
                           duration-300
-                          group-hover:ml-0
-                          group-hover:opacity-100
+
+                          sm:block
+                          sm:-ml-2
+                          sm:opacity-0
+                          sm:group-hover:ml-0
+                          sm:group-hover:opacity-100
                         "
                       />
 
@@ -585,14 +530,12 @@ const Footer = () => {
           </div>
 
           {/* Services Column */}
-          <div>
+          <div className="min-w-0">
             <FooterTitle title="Our Services" />
 
-            <ul className="mt-7 space-y-3.5">
+            <ul className="mt-5 space-y-2.5 sm:mt-7 sm:space-y-3.5">
               {footerData.services.map(
-                (
-                  service,
-                ) => (
+                (service) => (
                   <li
                     key={
                       service.label
@@ -606,28 +549,32 @@ const Footer = () => {
                         group
                         inline-flex
                         items-center
-                        gap-1.5
-                        text-sm
+                        gap-1
+                        text-[13px]
                         font-medium
                         text-white/55
                         transition-colors
                         duration-300
                         hover:text-white
+
+                        sm:gap-1.5
+                        sm:text-sm
                       "
                     >
                       <ChevronRight
-                        size={
-                          14
-                        }
+                        size={13}
                         className="
-                          -ml-2
+                          hidden
                           shrink-0
                           text-red-01
-                          opacity-0
                           transition-all
                           duration-300
-                          group-hover:ml-0
-                          group-hover:opacity-100
+
+                          sm:block
+                          sm:-ml-2
+                          sm:opacity-0
+                          sm:group-hover:ml-0
+                          sm:group-hover:opacity-100
                         "
                       />
 
@@ -652,25 +599,31 @@ const Footer = () => {
               to="/services"
               className="
                 group
-                mt-7
+                mt-5
                 inline-flex
                 items-center
-                gap-2
-                text-xs
+                gap-1.5
+                text-[10px]
                 font-bold
                 uppercase
-                tracking-[0.14em]
+                tracking-[0.1em]
                 text-red-01
                 transition-colors
                 duration-300
                 hover:text-white
+
+                sm:mt-7
+                sm:gap-2
+                sm:text-xs
+                sm:tracking-[0.14em]
               "
             >
               View all services
 
               <ArrowUpRight
-                size={15}
+                size={14}
                 className="
+                  shrink-0
                   transition-transform
                   duration-300
                   group-hover:-translate-y-0.5
@@ -683,10 +636,25 @@ const Footer = () => {
           {/* Contact Column */}
           {resolvedContactItems.length >
             0 && (
-            <div>
+            <div className="col-span-2 lg:col-span-1">
               <FooterTitle title="Contact" />
 
-              <ul className="mt-7 space-y-4">
+              <ul
+                className="
+                  mt-5
+                  grid
+                  grid-cols-1
+                  gap-3
+
+                  sm:mt-7
+                  sm:grid-cols-2
+                  sm:gap-x-6
+                  sm:gap-y-4
+
+                  lg:grid-cols-1
+                  lg:gap-4
+                "
+              >
                 {resolvedContactItems.map(
                   (
                     item,
@@ -701,15 +669,17 @@ const Footer = () => {
                         className="
                           flex
                           items-start
-                          gap-3
+                          gap-2.5
+
+                          sm:gap-3
                         "
                       >
                         <span
                           className="
                             mt-0.5
                             flex
-                            h-8
-                            w-8
+                            h-7
+                            w-7
                             shrink-0
                             items-center
                             justify-center
@@ -720,21 +690,29 @@ const Footer = () => {
                             duration-300
                             hover:bg-red-01
                             hover:text-white
+
+                            sm:h-8
+                            sm:w-8
                           "
                         >
                           <Icon
                             size={
-                              16
+                              15
                             }
                           />
                         </span>
 
                         <div
                           className="
+                            min-w-0
                             whitespace-pre-line
-                            text-sm
-                            leading-6
+                            break-words
+                            text-[13px]
+                            leading-5.5
                             text-white/55
+
+                            sm:text-sm
+                            sm:leading-6
                           "
                         >
                           {item.type ===
@@ -774,6 +752,7 @@ const Footer = () => {
                               href={`mailto:${item.value}`}
                               className="
                                 block
+                                break-all
                                 transition-colors
                                 hover:text-white
                               "
@@ -800,24 +779,27 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 py-6">
+        <div className="border-t border-white/10 py-4 sm:py-6">
           <div
             className="
               flex
               flex-col
-              gap-5
+              gap-3
+
+              sm:gap-4
+
               md:flex-row
               md:items-center
               md:justify-between
             "
           >
-            <p className="text-xs leading-6 text-white/40">
+            <p className="text-[11px] leading-5 text-white/40 sm:text-xs sm:leading-6">
               {footerData.company
                 .copyright ||
                 `© ${currentYear} LSA. All rights reserved.`}
             </p>
 
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-6 sm:gap-y-3">
               {footerData.bottomLinks.map(
                 (link) => (
                   <Link
@@ -829,12 +811,13 @@ const Footer = () => {
                     }
                     className="
                       relative
-                      text-xs
+                      text-[11px]
                       font-medium
                       text-white/40
                       transition-colors
                       duration-300
                       hover:text-white
+
                       after:absolute
                       after:-bottom-1
                       after:left-0
@@ -844,6 +827,8 @@ const Footer = () => {
                       after:transition-all
                       after:duration-300
                       hover:after:w-full
+
+                      sm:text-xs
                     "
                   >
                     {
