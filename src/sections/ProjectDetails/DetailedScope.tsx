@@ -23,30 +23,36 @@ export default function DetailedScope({ project }: DetailedScopeProps) {
     return <DetailedScopeSkeleton />;
   }
 
-  const details = [
-    {
-      label: "CLIENT",
-      value: project.projectDetails.client,
-    },
-    {
-      label: "LOCATION",
-      value: project.projectDetails.location,
-    },
-    {
-      label: "COMPLETION DATE",
-      value: project.projectDetails.completionDate
-        ? new Date(project.projectDetails.completionDate).toLocaleDateString("en-GB")
-        : "",
-    },
-    {
-      label: "DURATION",
-      value: project.projectDetails.duration,
-    },
-    {
-      label: "STATUS",
-      value: project.projectDetails.status,
-    },
-  ].filter((item) => item.value);
+const details = [
+  {
+    label: "CLIENT",
+    value: project.projectDetails.client,
+  },
+  {
+    label: "CONTRACTOR",
+    value: project.projectDetails.Contractor,
+  },
+  {
+    label: "LOCATION",
+    value: project.projectDetails.location,
+  },
+  {
+    label: "COMPLETION YEAR",
+    value: project.projectDetails.completionDate
+      ? new Date(project.projectDetails.completionDate)
+          .getUTCFullYear()
+          .toString()
+      : "",
+  },
+  {
+    label: "DURATION",
+    value: project.projectDetails.duration,
+  },
+  {
+    label: "STATUS",
+    value: project.projectDetails.status,
+  },
+].filter((item) => item.value);
 
   return (
     <section data-aos="fade-up" data-aos-duration="800" className="flex flex-col justify-between gap-8 lg:flex-row">
@@ -80,7 +86,7 @@ export default function DetailedScope({ project }: DetailedScopeProps) {
         <h4 className="text-2xl font-bold text-blue-01 sm:text-[40px]">{project.detailedScope.title}</h4>
 
         {project.detailedScope.description && (
-          <p className="mt-3.5 text-lg font-light text-[#444651E5]">{project.detailedScope.description}</p>
+          <p className="mt-3.5 text-lg font-light text-[#444651E5] whitespace-pre-line leading-relaxed">{project.detailedScope.description}</p>
         )}
 
         {project.detailedScope.items.length > 0 && (
