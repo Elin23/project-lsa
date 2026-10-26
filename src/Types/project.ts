@@ -21,6 +21,7 @@ export interface ProjectService {
 
 export interface ProjectDetails {
     client: string | null;
+    Contractor?: string | null;
     location: string | null;
     completionDate: string | null;
     duration: string | null;
